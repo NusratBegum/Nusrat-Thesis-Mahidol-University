@@ -6,10 +6,15 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{url}
+\urlstyle{same} % Make URLs use the same font as surrounding text
 \usepackage{textcomp}
 
 \usepackage{caption,setspace}
 \captionsetup{font={stretch=1.5}} % make the table,figure captions also have 1.5 linespacing
+
+\usepackage{microtype} % Better typography and line breaking
+\usepackage{hyphenat} % For \hyp command to allow hyphenation
+\emergencystretch=1em % Allow slightly looser spacing to prevent overflow
 
 \usepackage[flushleft]{threeparttable}
 %\usepackage{notoccite}
@@ -22,9 +27,9 @@
 \makeatother
 
 % title of thesis -- nouns and stressed words should begin
-\title{Thesis title}
+\title{Feature Drift Detection Techniques via Adversarial Approach}
 
-\author{Firstname Lastname}
+\author{Nusrat Begum}
 
 \input{preamble}
 

@@ -1,0 +1,4 @@
+ \contentsline {chapter}{Figure}{\textbf {Page}}{}
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Illustration of feature drift.}}{5}{figure.caption.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Overview of the proposed adversarial validation framework for feature drift detection.}}{14}{figure.caption.2}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Detailed steps of the proposed adversarial validation framework for feature drift detection.}}{15}{figure.caption.3}%
