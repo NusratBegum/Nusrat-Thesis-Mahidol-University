@@ -3,6 +3,7 @@ Student ID: G6638009
 Faculty of Information and Communication Technology (ICT), Mahidol University
 
 Title: Feature Drift Detection Techniques via Adversarial Approach
+
 Chapter I: Introduction
 1.1 Motivation
 In real-world AI deployments, models often face data drift or concept drift—gradual or abrupt changes in the data distribution or in the relationship between features and target labels over time (Lu et al., 2018; Gama et al., 2014). If unchecked, such drift can severely degrade a model’s performance on new data (Montiel et al., 2021; Zhang et al., 2021). Failing to detect drift leads to stale models and accumulating technical debt in production systems (Breck et al., 2017; Sculley et al., 2015). It is therefore crucial to detect drift early so that practitioners can retrain or update the model before users are affected (Gama et al., 2014; Mallick et al., 2023). Indeed, waiting until the model’s accuracy drops to react is considered suboptimal, as it means the system has already suffered from poor predictions on new data (Lu et al., 2018; Montiel et al., 2021). Early drift detection is key to maintaining high-quality machine learning services in changing environments (Sculley et al., 2015; Zhang et al., 2021). 
@@ -164,8 +165,6 @@ a target window containing the most recent data.
 As new instances arrive, the windows slide forward in time, discarding outdated samples to prevent obsolete distributions from influencing drift detection. This design allows continuous monitoring while controlling memory usage and reducing false alarms caused by stale data. The window sizes and step intervals are kept consistent with the PU framework to ensure methodological comparability.
 3.2.4 Model Adaptation Strategies
 Following the PU paper, two learning strategies are evaluated to study the interaction between drift detection and model updating:
-Incremental Training
- The predictive model is continuously updated as new data arrive, allowing it to gradually adapt to evolving feature distributions.
 
 
 Training Only at Initialization or After Drift Detection
@@ -175,8 +174,6 @@ Training Only at Initialization or After Drift Detection
 By combining these strategies with adversarial validation–based drift signals, the experiments examine how early feature drift detection influences downstream model performance under different adaptation regimes.
 3.3 Evaluation
 The proposed approach is evaluated using standard drift detection and performance metrics, following the PU evaluation protocol to enable direct comparison.
-Drift Detection Metrics:
- Detection delay, false alarm rate, and detection frequency are used to assess how quickly and reliably feature drift is identified.
 
 
 Predictive Performance Metrics:

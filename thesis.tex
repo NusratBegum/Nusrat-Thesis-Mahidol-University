@@ -187,8 +187,6 @@ As new instances arrive, the windows slide forward in time, discarding outdated 
 \subsection{Model Adaptation Strategies}
 Following the PU paper, two learning strategies are evaluated to study the interaction between drift detection and model updating:
 
-\textbf{Incremental Training:} The predictive model is continuously updated as new data arrive, allowing it to gradually adapt to evolving feature distributions.
-
 \textbf{Training Only at Initialization or After Drift Detection:} The model is trained once at initialization and is only retrained when a drift alarm is triggered. This setup highlights the practical value of early drift detection by limiting unnecessary retraining.
 
 By combining these strategies with adversarial validation–based drift signals, the experiments examine how early feature drift detection influences downstream model performance under different adaptation regimes.
@@ -196,11 +194,9 @@ By combining these strategies with adversarial validation–based drift signals,
 \section{Evaluation}
 The proposed approach is evaluated using standard drift detection and performance metrics, following the PU evaluation protocol to enable direct comparison.
 
-\textbf{Drift Detection Metrics:} Detection delay, false alarm rate, and detection frequency are used to assess how quickly and reliably feature drift is identified.
-
 \textbf{Predictive Performance Metrics:} Classification or regression performance metrics (e.g., accuracy, F1-score, RMSE) are computed using ground-truth labels to evaluate the impact of drift detection on model effectiveness.
 
-\textbf{Comparative Analysis:} The adversarial validation--based method is compared against baseline drift detection approaches, including statistical tests and uncertainty-based proxy methods, under identical conditions.
+\textbf{Comparative Analysis:} The adversarial validation–based method is compared against baseline drift detection approaches, including statistical tests and uncertainty-based proxy methods, under identical experimental conditions.
 
 This evaluation framework enables systematic analysis of early detection capability, robustness, and practical utility, demonstrating the effectiveness of adversarial validation for feature drift detection in streaming machine learning systems.
 
