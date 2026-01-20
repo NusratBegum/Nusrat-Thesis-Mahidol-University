@@ -2,7 +2,7 @@ PWD /Users/nusratbegum/Documents/GitHub/Nusrat-Thesis-Mahidol-University
 INPUT /usr/local/texlive/2025/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/nusratbegum/Documents/GitHub/Nusrat-Thesis-Mahidol-University/main.tex
+INPUT main.tex
 OUTPUT main.log
 INPUT ./muthesis2021.cls
 INPUT muthesis2021.cls
@@ -235,27 +235,33 @@ INPUT ./figures/figure-1.png
 INPUT ./figures/figure-1.png
 INPUT ./figures/figure-1.png
 INPUT ./figures/figure-1.png
-INPUT ./figures/figure-2.pdf
-INPUT ./figures/figure-2.pdf
-INPUT ./figures/figure-2.pdf
-INPUT ./figures/figure-2.pdf
-INPUT ./figures/figure-2.pdf
-INPUT ./figures/figure-3.pdf
-INPUT ./figures/figure-3.pdf
-INPUT ./figures/figure-3.pdf
-INPUT ./figures/figure-3.pdf
-INPUT ./figures/figure-3.pdf
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT ./figures/Final Diagram Methodology.png
+INPUT ./figures/Final Diagram Methodology.png
+INPUT ./figures/Final Diagram Methodology.png
+INPUT ./figures/Final Diagram Methodology.png
+INPUT ./figures/Final Diagram Methodology.png
 INPUT ./main.bbl
 INPUT ./main.bbl
 INPUT main.bbl
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
-INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT main.aux
 INPUT ./main.out
 INPUT ./main.out
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
+INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb

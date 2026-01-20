@@ -1,6 +1,8 @@
 Student Name: Nusrat Begum
 Student ID: G6638009
+Advisor: Thanapon Noraset
 Faculty of Information and Communication Technology (ICT), Mahidol University
+Mahidol University
 
 Title: Feature Drift Detection Techniques via Adversarial Approach
 
