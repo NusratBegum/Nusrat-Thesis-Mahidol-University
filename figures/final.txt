@@ -1,550 +1,457 @@
-# Feature Drift Detection Techniques via Adversarial Approach
+Feature Drift Detection Techniques via Adversarial Validation
+THESIS PROPOSAL
+Student: Nusrat Begum
+Student ID: 6638009
+Advisor: Dr. Thanapon Noraset
+Institution: Mahidol University, Faculty of ICT
+Program: Master of Science in Computer Science
 
-## THESIS PROPOSAL
-
-**Student:** Nusrat Begum  
-**Student ID:** 6638009  
-**Advisor:** Dr. Thanapon Noraset  
-**Institution:** Mahidol University, Faculty of ICT  
-**Program:** Master of Science in Computer Science
-
----
-
-## Abstract
-
+Abstract
 This thesis proposes investigating adversarial validation as an unsupervised feature (covariate) drift detection technique for machine learning models deployed in dynamic environments. Adversarial validation recasts drift detection as a discriminative learning problem, training a classifier to distinguish between historical reference data and newly arriving observations. High discriminative performance indicates significant distributional shift. This approach is label-independent, model-agnostic, and capable of detecting complex high-dimensional distributional changes that traditional statistical tests may miss. The research will benchmark adversarial validation against established drift detection methods across synthetic and real-world datasets, quantify detection performance characteristics, and provide practical guidance for deployment in production machine learning systems.
+Keywords: drift detection, adversarial validation, covariate drift, machine learning operations, distribution shift
 
-**Keywords:** drift detection, adversarial validation, covariate drift, machine learning operations, distribution shift
-
----
-
-## Chapter I: Introduction
-
-### 1.1 Motivation
-
-Machine learning models deployed in real-world environments frequently encounter evolving data distributions over time. According to Lu et al. (2019) and Gama et al. (2014), these changes—collectively referred to as *distribution shift* or *drift*—can manifest as changes in input features (covariate drift) or in the relationship between inputs and labels (concept drift), causing model performance to deteriorate if left unmanaged. Lu et al. (2019) and Widmer and Kubat (1996) emphasize that detecting such changes early is essential for maintaining reliable model performance, reducing operational risk, and avoiding accumulating technical debt in production systems (Bayram et al., 2022; Sculley et al., 2015).
-
+Chapter I: Introduction
+1.1 Motivation
+Machine learning models deployed in real-world environments frequently encounter evolving data distributions over time. According to Lu et al. (2019) and Gama et al. (2014), these changes—collectively referred to as distribution shift or drift—can manifest as changes in input features (covariate drift) or in the relationship between inputs and labels (concept drift), causing model performance to deteriorate if left unmanaged. Lu et al. (2019) and Widmer and Kubat (1996) emphasize that detecting such changes early is essential for maintaining reliable model performance, reducing operational risk, and avoiding accumulating technical debt in production systems (Bayram et al., 2022; Sculley et al., 2015).
 Conventional model monitoring strategies react to drift only after observable performance degradation, which by design means that the system has already suffered from poor predictions on new data (Widmer & Kubat, 1996). In production contexts where ground-truth labels may be delayed, unavailable, or costly to obtain, this post-hoc reactionary approach is often inadequate (Lu et al., 2019; Souza et al., 2020). According to Lu et al. (2019) and Bayram et al. (2022), early drift detection that anticipates distribution changes before significant performance loss is therefore a practical priority in dynamic machine learning systems.
-
 Current drift detection methods are varied. Traditional statistical methods employ hypothesis tests—such as the Kolmogorov–Smirnov test, chi-squared test, or Kullback–Leibler divergence—to detect distribution changes by comparing incoming and reference data (Rabanser et al., 2019; Raab et al., 2020). Bifet and Gavaldà (2007) developed adaptive windowing methods like ADWIN that dynamically adjust how much historical data is retained for comparison. Supervised error-based detectors like DDM and EDDM monitor model performance metrics over time, but require access to ground-truth labels (Gama et al., 2004; Baena-García et al., 2006). Prediction-based detectors track model outputs for changes in confidence, entropy, or prediction distributions without necessarily requiring labels (Sethi & Kantardzic, 2017). Despite this diversity, several challenges remain: statistical tests can be sensitive to noise and may struggle in high-dimensional settings; supervised methods depend on label availability; prediction-based methods may be confounded by model calibration issues; and hybrid approaches often require engineered context variables that may not generalize across domains (Lu et al., 2019; Webb et al., 2016).
-
-To address these gaps, we propose recasting feature drift detection as a discriminative learning problem: treating the comparison between historical and newly arriving data as a binary classification task. If an auxiliary classifier can reliably separate data from the two time periods based solely on features, it indicates a meaningful distributional change. This approach, known as *adversarial validation*, has been used in data science to detect and quantify dataset shift (Pan et al., 2020; Qian et al., 2021) but has not been systematically developed into a general feature drift detector for streaming or window-based data monitoring.
-
+To address these gaps, we propose recasting feature drift detection as a discriminative learning problem: treating the comparison between historical and newly arriving data as a binary classification task. If an auxiliary classifier can reliably separate data from the two time periods based solely on features, it indicates a meaningful distributional change. This approach, known as adversarial validation, has been used in data science to detect and quantify dataset shift (Pan et al., 2020; Qian et al., 2021) but has not been systematically developed into a general feature drift detector for streaming or window-based data monitoring.
 According to Lopez-Paz and Oquab (2017), this approach offers several key advantages for drift detection: it is label-independent (does not require ground-truth labels for new data), model-agnostic (can be applied regardless of the primary prediction model), makes no assumptions about which features or contexts are important, and can detect complex high-dimensional, non-linear distributional shifts that may evade univariate or marginal statistical tests.
-
-### 1.2 Objectives
-
+1.2 Objectives
 The primary objective of this thesis is to investigate adversarial validation as a feature (covariate) drift detection technique for machine learning models deployed in dynamic environments. Specifically, this work aims to:
+Formulate feature drift detection as a discriminative learning problem by reframing the comparison between historical and incoming data distributions as a binary classification task using adversarial validation.
 
-1. **Formalize feature drift detection as a discriminative two-sample learning problem** by reframing the comparison between historical and incoming data distributions as a binary classification task using adversarial validation.
 
-2. **Develop streaming and sliding window procedures** for applying adversarial validation in practical drift detection settings without relying on immediate access to ground-truth labels or predefined context variables.
+Evaluate the effectiveness of adversarial validation for early feature drift detection under streaming and window-based settings, without relying on ground-truth labels, predefined context variables, or calibrated prediction uncertainties.
 
-3. **Systematically benchmark adversarial validation** against established drift detection methods—including statistical tests such as ADWIN (Bifet & Gavaldà, 2007) and KSWIN (Raab et al., 2020), error-based supervised detectors such as DDM (Gama et al., 2004) and EDDM (Baena-García et al., 2006), and distribution-based methods—across synthetic and real-world datasets exhibiting different types of drift.
 
-4. **Quantify detection performance characteristics** including detection delay (lead time), false positive rate, true positive rate, sensitivity, and stability under various drift patterns (abrupt, gradual, incremental, recurring).
+Systematically benchmark adversarial validation against established drift detection methods, including statistical tests and uncertainty-based proxy metrics, across synthetic and real-world datasets exhibiting different types of drift.
 
-5. **Evaluate practical applicability and scalability** in realistic MLOps settings, including hyperparameter sensitivity (window sizes, classifier choices, thresholds), computational efficiency, and integration with model retraining strategies.
 
-### 1.3 Expected Contributions
+Analyze the sensitivity and lead time of detection to determine whether adversarial validation can signal distributional change earlier than baseline approaches.
 
-This thesis seeks to contribute:
 
-1. **A formal adversarial validation framework for unsupervised feature drift detection** that directly assesses distributional separability between reference and current data, enabling label-free and model-agnostic monitoring.
+Assess the robustness and practical applicability of the proposed approach in realistic MLOps scenarios, considering factors such as high-dimensional feature spaces, evolving data distributions, and delayed or unavailable labels.
 
-2. **A systematic benchmark evaluation** of adversarial validation as a drift detector, situating it within the established taxonomy of drift detection methods and assessing its performance across controlled synthetic and realistic environments—an aspect not explored in prior work.
 
-3. **Empirical comparison with established drift detection methods**, including statistical tests, error-based approaches, and distribution-based methods, highlighting differences in sensitivity, robustness, detection behavior, and computational requirements.
 
-4. **Analysis of lead time and stability** of adversarial validation–based drift signals, demonstrating its potential to provide earlier and more reliable warnings of distributional change than methods that rely on delayed labels or calibrated prediction uncertainty.
+1.3 Expected Contributions
+In this thesis, our expected contributions are as follows:
+Adversarial validation is adaptive as a feature (covariate) drift detection framework by casting drift detection as a discriminative task between historical and incoming data distributions, enabling label-free and model-agnostic monitoring.
 
-5. **Practical guidance for deployment** in MLOps pipelines, including recommendations for windowing strategies, classifier selection, threshold determination, and interpretability of drift signals in high-dimensional feature spaces.
 
----
+A systematic benchmark evaluation of adversarial validation for drift detection is conducted, assessing its performance across synthetic and real-world datasets under different drift characteristics and streaming settings—an aspect that has not been explored in prior work.
 
-## Chapter II: Literature Review
 
-### 2.1 Overview
+The proposed approach is empirically compared with established drift detection methods, including statistical tests and uncertainty-based proxy metrics, highlighting differences in sensitivity, robustness, and detection behavior.
 
+
+The lead time and stability of adversarial validation–based drift signals are analyzed, demonstrating its potential to provide earlier and more reliable warnings of distributional change than methods that rely on delayed labels or calibrated prediction uncertainty.
+
+
+Practical insights are provided for deploying adversarial validation in MLOps pipelines, including guidance on windowing strategies, threshold selection, and interpretability of drift signals in high-dimensional feature spaces.
+
+
+
+Chapter II: Literature Review
+
+(Figure 1: Overview of drift detection approaches comparing label-dependent and label-independent methods across synthetic, real, and image datasets.)
+
+2.1 Overview
 Drift detection addresses the challenge that arises when the statistical characteristics of data evolve over time in a manner that impacts the validity of a machine learning model (Lu et al., 2019; Gama et al., 2014). According to Bayram et al. (2022), when users, environments, data sources, or the relationships between labels and features change, model accuracy can diminish. Gama et al. (2014) and Sculley et al. (2015) emphasize that drift detection identifies this modification early, allowing practitioners to adapt, retrain, or update the model accordingly. A robust understanding of drift types and detection methods is essential for designing effective monitoring systems.
-
-### 2.2 Types of Drift
-
+2.2 Types of Drift
 According to Lu et al. (2019) and Gama et al. (2014), drift can be categorized along two main dimensions: by the nature of the change (what component of the data-generating process is affected) and by the temporal pattern of the change (how the drift manifests over time).
-
-#### 2.2.1 Drift by Nature of Change
-
+2.2.1 Drift by Nature of Change
 Based on which component of the joint distribution P(X, y) changes, Lu et al. (2019), Gama et al. (2014), and Tsymbal (2004) classify drift into the following types:
 
-**Concept Drift (Real Drift):** According to Lu et al. (2019) and Žliobaitė (2010), the conditional distribution P(y|X) changes over time while the feature distribution P(X) may or may not change. This represents a change in the underlying relationship between inputs and outputs—the "concept" the model has learned becomes invalid. For example, Gama et al. (2014) note that the factors that determine creditworthiness may evolve due to economic shifts, even if the applicant characteristics (features) remain similar. Lu et al. (2019) emphasize that concept drift directly degrades model performance because the learned decision boundaries no longer reflect the true input-output relationship.
 
-**Covariate Drift (Feature Drift / Virtual Drift):** According to Tsymbal (2004) and Shimodaira (2000), the marginal distribution of input features P(X) changes over time while the conditional relationship P(y|X) remains stable. The ground-truth concept does not change, but the model may encounter inputs outside its training distribution. Tsymbal (2004) provides an example: a fraud detection model trained on transaction patterns from one demographic may receive data from a different user population, even though the definition of fraud remains unchanged. Shimodaira (2000) explains that covariate drift can degrade model performance because the model is exposed to feature regions where it may not generalize well.
+Concept Drift (Real Drift): According to Lu et al. (2019) and Žliobaitė (2010), the conditional distribution P(y|X) changes over time while the feature distribution P(X) may or may not change. This represents a change in the underlying relationship between inputs and outputs—the "concept" the model has learned becomes invalid. For example, Gama et al. (2014) note that the factors that determine creditworthiness may evolve due to economic shifts, even if the applicant characteristics (features) remain similar. Lu et al. (2019) emphasize that concept drift directly degrades model performance because the learned decision boundaries no longer reflect the true input-output relationship.
+Covariate Drift (Feature Drift / Virtual Drift): According to Tsymbal (2004) and Shimodaira (2000), the marginal distribution of input features P(X) changes over time while the conditional relationship P(y|X) remains stable. The ground-truth concept does not change, but the model may encounter inputs outside its training distribution. Tsymbal (2004) provides an example: a fraud detection model trained on transaction patterns from one demographic may receive data from a different user population, even though the definition of fraud remains unchanged. Shimodaira (2000) explains that covariate drift can degrade model performance because the model is exposed to feature regions where it may not generalize well.
+Prior Probability Drift (Label Shift): According to Tsymbal (2004), the marginal distribution of labels P(y) changes over time while P(X|y) remains stable. This occurs when the prevalence of different classes changes—for instance, a seasonal increase in a particular disease affecting the class balance in medical diagnosis. Lu et al. (2019) note this is sometimes called class imbalance shift.
 
-**Prior Probability Drift (Label Shift):** According to Tsymbal (2004), the marginal distribution of labels P(y) changes over time while P(X|y) remains stable. This occurs when the prevalence of different classes changes—for instance, a seasonal increase in a particular disease affecting the class balance in medical diagnosis. Lu et al. (2019) note this is sometimes called class imbalance shift.
 
-**Note on Terminology:** Lu et al. (2019) observe that the literature uses varied terminology. According to Gama et al. (2014), "concept drift" is sometimes used as an umbrella term for any distribution change affecting model performance, while Tsymbal (2004) reserves it specifically for changes in P(y|X). This thesis focuses primarily on covariate (feature) drift detection, as it enables early warning without requiring labels.
-
-#### 2.2.2 Drift by Temporal Pattern
-
+Note on Terminology: Lu et al. (2019) observe that the literature uses varied terminology. According to Gama et al. (2014), "concept drift" is sometimes used as an umbrella term for any distribution change affecting model performance, while Tsymbal (2004) reserves it specifically for changes in P(y|X). This thesis focuses primarily on covariate (feature) drift detection, as it enables early warning without requiring labels.
+2.2.2 Drift by Temporal Pattern
 Based on how drift manifests over time, Lu et al. (2019), Gama et al. (2014), and Žliobaitė (2010) categorize drift as follows:
 
-- **Abrupt (Sudden) Drift:** According to Gama et al. (2014), this is a rapid, discrete change where the data distribution shifts quickly from one state to another within a short time period.
+Abrupt (Sudden) Drift: According to Gama et al. (2014), this is a rapid, discrete change where the data distribution shifts quickly from one state to another within a short time period.
+Gradual Drift: Lu et al. (2019) describe this as a new distribution progressively replacing the old one over an extended duration, with samples from both distributions interleaved during the transition period.
+Incremental Drift: According to Žliobaitė (2010), small but continuous changes accumulate over time, eventually resulting in a significant distributional shift.
+Recurring (Seasonal) Drift: Lu et al. (2019) and Gama et al. (2014) describe this as previously observed distributions reappearing periodically due to cyclical patterns, such as seasonal effects in retail or recurring user behavior patterns.
 
-- **Gradual Drift:** Lu et al. (2019) describe this as a new distribution progressively replacing the old one over an extended duration, with samples from both distributions interleaved during the transition period.
-
-- **Incremental Drift:** According to Žliobaitė (2010), small but continuous changes accumulate over time, eventually resulting in a significant distributional shift.
-
-- **Recurring (Seasonal) Drift:** Lu et al. (2019) and Gama et al. (2014) describe this as previously observed distributions reappearing periodically due to cyclical patterns, such as seasonal effects in retail or recurring user behavior patterns.
 
 According to Gama et al. (2014), understanding drift patterns is important for detector design: abrupt drift requires rapid response, gradual drift requires sustained sensitivity, and recurring drift benefits from mechanisms that can recognize previously seen distributions.
 
-### 2.3 Classification of Drift Detection Methods
-
-Based on comprehensive surveys of drift detection literature (Lu et al., 2019; Gama et al., 2014; Tsymbal, 2004; Hinder et al., 2024), drift detection methods can be classified by multiple dimensions. According to Lu et al. (2019), the most fundamental distinction is based on **label availability**: whether the method requires access to ground-truth labels (supervised) or operates without them (unsupervised).
-
-#### 2.3.1 Supervised Drift Detection Methods
-
+2.3 Classification of Drift Detection Methods
+Based on comprehensive surveys of drift detection literature (Lu et al., 2019; Gama et al., 2014; Tsymbal, 2004; Hinder et al., 2024), drift detection methods can be classified by multiple dimensions. According to Lu et al. (2019), the most fundamental distinction is based on label availability: whether the method requires access to ground-truth labels (supervised) or operates without them (unsupervised).
+2.3.1 Supervised Drift Detection Methods
 According to Gama et al. (2014) and Gama et al. (2004), supervised drift detection methods require access to ground-truth labels and primarily monitor model performance or prediction errors to detect distributional changes. Gama et al. (2004) and Baena-García et al. (2006) explain that these methods operate under the assumption that unexpected changes in error characteristics—such as increases in error rate, loss magnitude, variance, or cumulative deviation—are indicative of underlying drift.
 
-**Key supervised drift detection algorithms include:**
+Key supervised drift detection algorithms include:
 
-- **Drift Detection Method (DDM):** According to Gama et al. (2004), DDM monitors the online error rate and its standard deviation. When these statistics exceed predefined thresholds derived from binomial distribution bounds, DDM signals a warning or drift state. Gama et al. (2004) note that DDM is effective for abrupt drift but may be slow to detect gradual changes.
+Drift Detection Method (DDM): According to Gama et al. (2004), DDM monitors the online error rate and its standard deviation. When these statistics exceed predefined thresholds derived from binomial distribution bounds, DDM signals a warning or drift state. Gama et al. (2004) note that DDM is effective for abrupt drift but may be slow to detect gradual changes.
+Early Drift Detection Method (EDDM): Baena-García et al. (2006) extend DDM by tracking the distance between consecutive classification errors rather than just the error rate. According to Baena-García et al. (2006), this modification improves sensitivity to gradual drift by detecting when errors cluster more closely together.
+Page–Hinkley Test: Page (1954) developed this sequential analysis technique using cumulative sums to detect changes in the mean of a monitored signal. When cumulative deviation exceeds a threshold, drift is indicated.
+Hoeffding Drift Detection Methods (HDDM-A, HDDM-W): According to Frias-Blanco et al. (2015), these methods use Hoeffding's inequality to provide statistically grounded drift decisions with theoretical guarantees. HDDM-A detects abrupt changes using moving averages, while HDDM-W is designed for gradual drift using window-based statistics.
 
-- **Early Drift Detection Method (EDDM):** Baena-García et al. (2006) extend DDM by tracking the distance between consecutive classification errors rather than just the error rate. According to Baena-García et al. (2006), this modification improves sensitivity to gradual drift by detecting when errors cluster more closely together.
 
-- **Page–Hinkley Test:** Page (1954) developed this sequential analysis technique using cumulative sums to detect changes in the mean of a monitored signal. When cumulative deviation exceeds a threshold, drift is indicated.
 
-- **Hoeffding Drift Detection Methods (HDDM-A, HDDM-W):** According to Frias-Blanco et al. (2015), these methods use Hoeffding's inequality to provide statistically grounded drift decisions with theoretical guarantees. HDDM-A detects abrupt changes using moving averages, while HDDM-W is designed for gradual drift using window-based statistics.
 
-**Limitations:** According to Lu et al. (2019) and Sethi and Kantardzic (2017), supervised methods fundamentally require labeled data, which may be delayed, expensive, or unavailable in many production scenarios. Sethi and Kantardzic (2017) note that they also react to drift *after* it has already caused performance degradation, rather than detecting distributional change proactively.
 
-#### 2.3.2 Unsupervised Drift Detection Methods
 
+2.3.2 Unsupervised Drift Detection Methods
 According to Tsymbal (2004) and Hinder et al. (2024), unsupervised drift detection methods do not require ground-truth labels and instead monitor changes in data distribution, model outputs, or internal representations. Sethi and Kantardzic (2017) emphasize that these methods enable earlier detection of distributional shifts—before performance degradation becomes observable—making them particularly valuable in production environments with label delays.
 
-##### 2.3.2.1 Statistical Distribution-Based Methods
+2.3.2.1 Statistical Distribution-Based Methods
 
 According to Rabanser et al. (2019) and Raab et al. (2020), statistical test–based methods detect drift by directly examining changes in data distributions through hypothesis testing or distance-based measures. Bifet and Gavaldà (2007) describe a common strategy that compares a reference data window against a current data window to test whether they originate from the same distribution.
 
-**Key statistical drift detection methods include:**
 
-- **Adaptive Windowing (ADWIN):** According to Bifet and Gavaldà (2007), ADWIN dynamically maintains a sliding window and automatically shrinks it when statistically significant distributional change is detected. Bifet and Gavaldà (2007) emphasize that ADWIN provides theoretical guarantees on false positive and false negative rates and adapts its window size based on observed change.
+Key statistical drift detection methods include:
 
-- **KSWIN:** Raab et al. (2020) developed this method that applies the Kolmogorov–Smirnov two-sample test over sliding windows to detect changes in one-dimensional feature distributions. According to Raab et al. (2020), KSWIN is non-parametric and makes minimal assumptions about the data distribution.
+Adaptive Windowing (ADWIN): According to Bifet and Gavaldà (2007), ADWIN dynamically maintains a sliding window and automatically shrinks it when statistically significant distributional change is detected. Bifet and Gavaldà (2007) emphasize that ADWIN provides theoretical guarantees on false positive and false negative rates and adapts its window size based on observed change.
+KSWIN: Raab et al. (2020) developed this method that applies the Kolmogorov–Smirnov two-sample test over sliding windows to detect changes in one-dimensional feature distributions. According to Raab et al. (2020), KSWIN is non-parametric and makes minimal assumptions about the data distribution.
+Chi-Squared Test-Based Detectors: According to Lu et al. (2019), these use the chi-squared test to compare categorical feature distributions or discretized continuous features between time periods.
+Kullback–Leibler (KL) Divergence and Other Divergence Measures: Dasu et al. (2006) describe methods that quantify the "distance" between probability distributions. KL divergence, Jensen–Shannon divergence, and Hellinger distance can all be used to measure distributional shift.
+Maximum Mean Discrepancy (MMD): According to Gretton et al. (2012), MMD is a kernel-based two-sample test that compares distributions by mapping them into a reproducing kernel Hilbert space. Gretton et al. (2012) note that MMD can capture complex multivariate distributional differences.
 
-- **Chi-Squared Test-Based Detectors:** According to Lu et al. (2019), these use the chi-squared test to compare categorical feature distributions or discretized continuous features between time periods.
+2.3.2.2 Model-Based Discriminative Methods
+According to Pan et al. (2020), Lopez-Paz and Oquab (2017), and Sethi and Kantardzic (2017), discriminative drift detection methods train an auxiliary model to distinguish between reference and current data distributions. Lopez-Paz and Oquab (2017) explain that the core idea is to frame drift detection as a classification problem: if a classifier can accurately predict whether each instance originates from the reference or current distribution, the distributions must be distinguishably different. Key approaches include:
 
-- **Kullback–Leibler (KL) Divergence and Other Divergence Measures:** Dasu et al. (2006) describe methods that quantify the "distance" between probability distributions. KL divergence, Jensen–Shannon divergence, and Hellinger distance can all be used to measure distributional shift.
+Discriminative Drift Detector (D3): Sethi and Kantardzic (2017) developed this unsupervised method that uses discriminative classifiers trained on data subsets to detect concept drift without access to true labels.
+Margin-Based and Density-Based Discriminators: According to Ditzler and Polikar (2011), these methods monitor changes in classifier margin densities or decision boundary proximity to detect distributional shifts.
 
-- **Maximum Mean Discrepancy (MMD):** According to Gretton et al. (2012), MMD is a kernel-based two-sample test that compares distributions by mapping them into a reproducing kernel Hilbert space. Gretton et al. (2012) note that MMD can capture complex multivariate distributional differences.
-
-**Strengths and Limitations:** According to Rabanser et al. (2019), statistical tests are interpretable, theoretically grounded, and label-free. However, Lu et al. (2019) and Webb et al. (2016) note that they can be sensitive to noise (causing false alarms), may struggle in high-dimensional spaces due to the curse of dimensionality, and typically test marginal distributions rather than joint distributions.
-
-##### 2.3.2.2 Model-Based Discriminative Methods
-
-According to Pan et al. (2020), Lopez-Paz and Oquab (2017), and Sethi and Kantardzic (2017), discriminative drift detection methods train an auxiliary model to distinguish between reference and current data distributions. Lopez-Paz and Oquab (2017) explain that the core idea is to frame drift detection as a classification problem: if a classifier can accurately predict whether each instance originates from the reference or current distribution, the distributions must be distinguishably different.
-
-**Key approaches include:**
-
-- **Domain Classifier / Adversarial Validation:** According to Pan et al. (2020) and Qian et al. (2021), this approach trains a binary classifier (e.g., logistic regression, random forest, gradient boosting) to discriminate samples from reference vs. current windows. Pan et al. (2020) note that high discriminative performance (measured by accuracy, AUC, or similar metrics) indicates significant distributional shift.
-
-- **Discriminative Drift Detector (D3):** Sethi and Kantardzic (2017) developed this unsupervised method that uses discriminative classifiers trained on data subsets to detect concept drift without access to true labels.
-
-- **Margin-Based and Density-Based Discriminators:** According to Ditzler and Polikar (2011), these methods monitor changes in classifier margin densities or decision boundary proximity to detect distributional shifts.
-
-**Strengths:** According to Lopez-Paz and Oquab (2017), discriminative methods can capture high-dimensional, non-linear distributional shifts that marginal univariate tests may miss. They require no labels for the drift detection task itself (only pseudo-labels indicating data source). Pan et al. (2020) note that they naturally aggregate information across all features. **Limitations:** According to Sethi and Kantardzic (2017), they require training a classifier at each monitoring step, which has computational cost; performance depends on classifier choice and hyperparameters; and interpretation of drift signals may be less intuitive than statistical test p-values.
-
-##### 2.3.2.3 Representation-Based Methods
-
+2.3.2.3 Representation-Based Methods
 According to Rabanser et al. (2019) and Liu et al. (2020), representation-based methods detect drift by monitoring changes in learned representations or embeddings rather than raw feature distributions:
 
-- **Embedding Distribution Shift:** Rabanser et al. (2019) describe computing statistical distances (cosine similarity, Wasserstein distance, MMD) between reference and current embedding distributions derived from neural network intermediate layers.
-
-- **Deep Learning Representation Monitoring:** According to Long et al. (2016), this approach tracks stability of learned representations across time, leveraging insights from domain adaptation and transfer learning literature.
+Embedding Distribution Shift: Rabanser et al. (2019) describe computing statistical distances (cosine similarity, Wasserstein distance, MMD) between reference and current embedding distributions derived from neural network intermediate layers.
+Deep Learning Representation Monitoring: According to Long et al. (2016), this approach tracks stability of learned representations across time, leveraging insights from domain adaptation and transfer learning literature.
 
 Liu et al. (2020) note that these methods are particularly relevant for deep learning systems where raw feature distributions may not reflect semantically meaningful changes.
-
-##### 2.3.2.4 Prediction-Based / Output-Based Methods
-
+2.3.2.4 Prediction-Based / Output-Based Methods
 According to Sethi and Kantardzic (2017) and Gözüaçık et al. (2019), prediction-based methods detect drift by monitoring changes in model outputs over time without requiring evaluation of prediction correctness:
-
-- **Prediction Distribution Shift:** Gözüaçık et al. (2019) describe monitoring changes in the distribution of model predictions (class probabilities, regression outputs) over time.
-
-- **Uncertainty / Entropy Monitoring:** According to Guo et al. (2017), this approach tracks prediction entropy or uncertainty scores under the assumption that rising uncertainty reflects exposure to out-of-distribution data.
-
-- **Confidence Monitoring:** Guo et al. (2017) also describe tracking changes in model confidence levels and softmax output distributions.
-
-**Limitations:** According to Guo et al. (2017), these methods depend on model calibration. If the model is poorly calibrated—which is common for modern deep learning models—Ovadia et al. (2019) note that changes in confidence may not reliably indicate drift.
-
-#### 2.3.3 Hybrid and Ensemble Methods
-
+Prediction Distribution Shift: Gözüaçık et al. (2019) describe monitoring changes in the distribution of model predictions (class probabilities, regression outputs) over time.
+Uncertainty / Entropy Monitoring: According to Guo et al. (2017), this approach tracks prediction entropy or uncertainty scores under the assumption that rising uncertainty reflects exposure to out-of-distribution data.
+Confidence Monitoring: Guo et al. (2017) also describe tracking changes in model confidence levels and softmax output distributions.
+2.3.3 Hybrid and Ensemble Methods
 According to Gama et al. (2014) and Krawczyk et al. (2017), hybrid approaches integrate multiple sources of information—both supervised and unsupervised signals—to improve drift detection robustness:
 
-- **Context-Aware Drift Detection:** Krawczyk et al. (2017) describe combining model predictions, user context, operational signals, and metadata to compute context-weighted drift scores.
+Context-Aware Drift Detection: Krawczyk et al. (2017) describe combining model predictions, user context, operational signals, and metadata to compute context-weighted drift scores.
+Multi-Signal Ensemble Methods: According to Krawczyk et al. (2017), these integrate predictions, embeddings, operational KPIs, and metadata into a unified drift score.
+Drift Detection Ensembles: Krawczyk et al. (2017) note that these combine multiple base detectors using voting, weighting, or meta-learning to reduce both false alarms and missed detections.
 
-- **Multi-Signal Ensemble Methods:** According to Krawczyk et al. (2017), these integrate predictions, embeddings, operational KPIs, and metadata into a unified drift score.
 
-- **Drift Detection Ensembles:** Krawczyk et al. (2017) note that these combine multiple base detectors using voting, weighting, or meta-learning to reduce both false alarms and missed detections.
-
-### 2.4 Limitations of Existing Methods
-
+2.4 Limitations of Existing Methods
 While the drift detection literature offers diverse approaches, each category has characteristic limitations:
+Supervised Methods (DDM, EDDM, HDDM): According to Lu et al. (2019), these require timely labeled data, which is often delayed or unavailable in production. Sethi and Kantardzic (2017) emphasize that they detect drift reactively—only after performance degradation has already occurred.
 
-**Supervised Methods (DDM, EDDM, HDDM):** According to Lu et al. (2019), these require timely labeled data, which is often delayed or unavailable in production. Sethi and Kantardzic (2017) emphasize that they detect drift reactively—only after performance degradation has already occurred.
 
-**Statistical Distribution Methods (ADWIN, KSWIN, KL-Divergence):** According to Rabanser et al. (2019), these can be sensitive to noise, leading to false alarms. Lu et al. (2019) note they may struggle in high-dimensional or correlated feature spaces. Webb et al. (2016) observe that they typically test marginal distributions, potentially missing joint distribution changes.
+Statistical Distribution Methods (ADWIN, KSWIN, KL-Divergence): According to Rabanser et al. (2019), these can be sensitive to noise, leading to false alarms. Lu et al. (2019) note they may struggle in high-dimensional or correlated feature spaces. Webb et al. (2016) observe that they typically test marginal distributions, potentially missing joint distribution changes.
+Prediction/Uncertainty-Based Methods: According to Guo et al. (2017), these rely on model calibration. Ovadia et al. (2019) emphasize that modern ML models are often poorly calibrated, especially under distribution shift, causing these signals to be unreliable.
 
-**Prediction/Uncertainty-Based Methods:** According to Guo et al. (2017), these rely on model calibration. Ovadia et al. (2019) emphasize that modern ML models are often poorly calibrated, especially under distribution shift, causing these signals to be unreliable.
 
-**Context-Aware Methods:** According to Krawczyk et al. (2017), these require pre-specification of relevant context variables, which may be incomplete, noisy, or themselves drift over time. Misspecified context can cause missed detections or spurious alarms.
+Context-Aware Methods: According to Krawczyk et al. (2017), these require pre-specification of relevant context variables, which may be incomplete, noisy, or themselves drift over time. Misspecified context can cause missed detections or spurious alarms.
+Crucially, neither context-aware nor uncertainty-based approaches explicitly test whether new data is statistically distinguishable from historical data. That is, they do not directly assess the separability between reference and current data distributions. This omission is significant from a practical MLOps perspective: the ability to discriminate between “old” and “new” data provides a general, model-agnostic signal of drift that does not depend on predefined context variables, ground-truth labels, or calibrated confidence estimates. Discriminative tests capture high-dimensional, non-linear shifts that are common in modern ML pipelines but difficult to detect using marginal statistics or proxy metrics alone. Despite its conceptual simplicity and industrial relevance, this discriminative perspective on drift detection has received limited attention in the drift detection literature. Addressing this gap motivates the adversarial validation framework proposed in this thesis, which reframes drift detection as a direct test of separability between past and current data distributions.
+Our proposed adversarial validation framework is designed to fill this gap by directly measuring how well one can differentiate new data from old – a capability that sidesteps the above limitations and provides a more flexible detection criterion.Detecting changes can be complicated. High-dimensional, non-linear feature discrepancies without requiring predefined context variables, error-rate changes, or model-dependent uncertainty estimates.
 
-**Fundamental Gap:** According to Lopez-Paz and Oquab (2017), critically, most existing methods do not directly test whether new data is *statistically distinguishable* from historical data in the original feature space. Pan et al. (2020) note that discriminative approaches offer a natural, model-agnostic signal of drift that does not depend on predefined contexts, labels, or calibrated uncertainties—yet this perspective has received limited systematic attention in the drift detection literature.
-
-### 2.5 Related Work: Adversarial Validation
-
-#### 2.5.1 Concept and Origins
-
+2.5 Related Work: Adversarial Validation
+2.5.1 Concept and Origins
 According to Pan et al. (2020), adversarial validation was originally proposed as a practical technique for diagnosing dataset shift between training and evaluation data. Pan et al. (2020) and Qian et al. (2021) explain that the approach reframes the comparison of two datasets as a binary classification problem: train a classifier to predict whether each instance originates from the reference distribution (e.g., training data) or the target distribution (e.g., test or new data). Lopez-Paz and Oquab (2017) note that high discriminative performance indicates statistical separability—hence significant distributional shift—while near-random performance suggests the datasets are largely indistinguishable.
-
 According to Pan et al. (2020), the term "adversarial" reflects the insight that if an adversary (the classifier) cannot distinguish the data sources, the distributions must be similar. Lopez-Paz and Oquab (2017) note this is related to the discriminator component in Generative Adversarial Networks (GANs), though applied here for diagnostic rather than generative purposes.
+2.5.2 Industrial Applications
+Uber's MaLTA System: Pan et al. (2020) presented adversarial validation at Uber for their MaLTA (Machine Learning Targeting Automation) user targeting system. They trained a classifier to distinguish historical training data from newly observed targeting data. When the adversarial classifier exhibited strong separability, it signaled train-deployment mismatch, prompting feature filtering and retraining adjustments before deployment. According to Pan et al. (2020), their results demonstrated improved robustness compared to naive retraining strategies that react only after observable performance degradation.
+Credit Scoring: Qian et al. (2021) applied adversarial validation to manage dataset shift in credit scoring. They trained an adversarial classifier to distinguish historical credit applications from recent ones, using the classifier's predictions to filter training samples—keeping only those most similar to the current deployment distribution for model training.
+Image Classification and Operations: According to Renza and Moya-Albor (2021), additional applications include using adversarial validation to quantify dataset complexity in image classification. Senoner et al. (2022) describe detecting when historical data is no longer representative in manufacturing/operations settings.
+2.6 Gap in the Literature
+Although adversarial validation has been successfully applied to measure dataset shift in specific industrial settings, according to Pan et al. (2020), it has not been developed into a general, systematic feature drift detection framework. Specifically:
 
-#### 2.5.2 Industrial Applications
+Benchmark evaluation: According to Pan et al. (2020), adversarial validation has not been systematically evaluated as a drift detector on standard drift benchmark datasets under streaming or window-based protocols.
 
-**Uber's MaLTA System:** Pan et al. (2020) presented adversarial validation at Uber for their MaLTA (Machine Learning Targeting Automation) user targeting system. They trained a classifier to distinguish historical training data from newly observed targeting data. When the adversarial classifier exhibited strong separability, it signaled train-deployment mismatch, prompting feature filtering and retraining adjustments before deployment. According to Pan et al. (2020), their results demonstrated improved robustness compared to naive retraining strategies that react only after observable performance degradation.
+Formal framework: Qian et al. (2021) note that existing uses are embedded within domain-specific pipelines rather than framed as general-purpose drift monitoring techniques with clear decision rules and theoretical justification.
 
-**Credit Scoring:** Qian et al. (2021) applied adversarial validation to manage dataset shift in credit scoring. They trained an adversarial classifier to distinguish historical credit applications from recent ones, using the classifier's predictions to filter training samples—keeping only those most similar to the current deployment distribution for model training.
+Comparative analysis: There is no systematic comparison of adversarial validation against established drift detection methods such as DDM (Gama et al., 2004), EDDM (Baena-García et al., 2006), ADWIN (Bifet & Gavaldà, 2007), and KSWIN (Raab et al., 2020) across multiple drift scenarios.
 
-**Image Classification and Operations:** According to Renza and Moya-Albor (2021), additional applications include using adversarial validation to quantify dataset complexity in image classification. Senoner et al. (2022) describe detecting when historical data is no longer representative in manufacturing/operations settings.
+Practical guidance: According to Pan et al. (2020), limited guidance exists on classifier selection, window sizing, threshold calibration, and deployment considerations for adversarial validation as a drift monitor.
 
-### 2.6 Gap in the Literature
 
-Although adversarial validation has been successfully applied to measure dataset shift in specific industrial settings, according to Pan et al. (2020), it has **not** been developed into a general, systematic feature drift detection framework. Specifically:
+According to Lopez-Paz and Oquab (2017), this gap is particularly significant given that adversarial validation is fundamentally an unsupervised, discriminative drift detection method that directly tests distributional separability—addressing key limitations of both statistical tests (which may miss high-dimensional shifts) and prediction-based methods (which rely on calibration assumptions).
 
-1. **No benchmark evaluation:** According to Pan et al. (2020), adversarial validation has not been systematically evaluated as a drift detector on standard drift benchmark datasets under streaming or window-based protocols.
-
-2. **No formal framework:** Qian et al. (2021) note that existing uses are embedded within domain-specific pipelines rather than framed as general-purpose drift monitoring techniques with clear decision rules and theoretical justification.
-
-3. **No comparative analysis:** There is no systematic comparison of adversarial validation against established drift detection methods such as DDM (Gama et al., 2004), EDDM (Baena-García et al., 2006), ADWIN (Bifet & Gavaldà, 2007), and KSWIN (Raab et al., 2020) across multiple drift scenarios.
-
-4. **No practical guidance:** According to Pan et al. (2020), limited guidance exists on classifier selection, window sizing, threshold calibration, and deployment considerations for adversarial validation as a drift monitor.
-
-According to Lopez-Paz and Oquab (2017), this gap is particularly significant given that adversarial validation is fundamentally an **unsupervised, discriminative drift detection method** that directly tests distributional separability—addressing key limitations of both statistical tests (which may miss high-dimensional shifts) and prediction-based methods (which rely on calibration assumptions).
 
 This thesis aims to bridge this gap by establishing adversarial validation as a viable, general-purpose drift detection technique through rigorous empirical evaluation and practical methodology development.
 
----
 
-## Chapter III: Methodology
+Chapter III: Methodology
 
-### 3.1 Problem Formulation
+(Figure 2: Detailed methodology diagram showing the experimental pipeline and evaluation framework.)
 
-According to Pan et al. (2020) and Lopez-Paz and Oquab (2017), this research formalizes **feature (covariate) drift detection** as a problem of discriminating between historical reference data and newly arriving observations in a streaming or windowed setting. Shimodaira (2000) explains that the objective is to detect when the underlying feature distribution P(X) changes substantially over time, providing an early indication of distributional drift *before* observable degradation in task performance occurs.
+3.1 Problem Formulation
+According to Pan et al. (2020) and Lopez-Paz and Oquab (2017), this research formalizes feature (covariate) drift detection as a problem of discriminating between historical reference data and newly arriving observations in a streaming or windowed setting. Shimodaira (2000) explains that the objective is to detect when the underlying feature distribution P(X) changes substantially over time, providing an early indication of distributional drift before observable degradation in task performance occurs.
 
-**Formal Definition:** Let {x_t}_{t=1}^{T} denote a stream of feature vectors arriving over time. At each monitoring point t, a drift detector produces a binary decision d_t ∈ {no-drift, drift} based on comparison between:
-- A **reference window** W_ref containing historical samples presumed to represent the stable/baseline distribution
-- A **current window** W_cur containing the most recent observations under test
+Formal Definition: Let denote a stream of feature vectors arriving over time. At each monitoring point t, a drift detector produces a binary decision d_t ∈ {no-drift, drift} based on comparison between:
+
+
+A reference window containing historical samples presumed to represent the stable/baseline distribution
+
+
+A current window containing the most recent observations under test
 
 According to Lu et al. (2019) and Gama et al. (2014), the detection task must balance:
-- **Promptness:** Low detection delay (lag between true drift and detection)
-- **Reliability:** Low false positive rate (false alarms when no drift exists)
-- **Sensitivity:** High true positive rate (detecting drift when it occurs)
-- **Efficiency:** Bounded computational and memory requirements suitable for production
-
-### 3.2 Core Components of the Framework
+Promptness: Low detection delay (lag between true drift and detection)
+Reliability: Low false positive rate (false alarms when no drift exists)
+Sensitivity: High true positive rate (detecting drift when it occurs)
+Efficiency: Bounded computational and memory requirements suitable for production
+3.2 Core Components of the Framework
+(Figure 2: Overview of the proposed adversarial validation framework for feature drift detection.)
 
 The proposed methodology consists of five core components:
+Windowing Strategy: Managing data streams via sliding or adaptive windows
+Adversarial Classifier: Training a discriminative model between reference and current distributions
+Detection Statistic and Decision Rule: Quantifying separability to generate drift signals
+Model Adaptation Strategy: Triggering retraining or updates upon drift detection
+Evaluation Protocol: Systematic metrics and benchmarks for assessment
 
-1. **Windowing Strategy:** Managing data streams via sliding or adaptive windows
-2. **Adversarial Classifier:** Training a discriminative model between reference and current distributions
-3. **Detection Statistic and Decision Rule:** Quantifying separability to generate drift signals
-4. **Model Adaptation Strategy:** Triggering retraining or updates upon drift detection
-5. **Evaluation Protocol:** Systematic metrics and benchmarks for assessment
 
-#### 3.2.1 Streaming Window Management
 
+
+(Figure 3: Detailed steps of the proposed adversarial validation framework for feature drift
+detection.)
+
+3.2.1 Streaming Window Management
 Consistent with established streaming drift detection methodologies (Bifet & Gavaldà, 2007; Tsymbal, 2004), a sliding window mechanism manages the data stream:
 
-**Reference Window (W_ref):** A buffer containing N_ref historical samples representing the stable distribution. This window may be:
-- Fixed to initial training data
-- Periodically updated with a sliding approach
-- Adaptively resized based on detection signals (Bifet & Gavaldà, 2007)
+Reference Window (W_ref): A buffer containing N_ref historical samples representing the stable distribution. This window may be: Fixed to initial training data
+Periodically updated with a sliding approach Adaptively resized based on detection signals (Bifet & Gavaldà, 2007)
 
-**Current Window (W_cur):** According to Bifet and Gavaldà (2007), a buffer containing the N_cur most recent observations under test. As new data arrives, older samples are discarded to maintain responsiveness.
 
-**Update Mechanism:** At each monitoring step, windows slide forward:
-- New samples enter W_cur
-- Oldest samples exit W_cur (optionally entering W_ref if using sliding reference)
-- Upon drift detection, W_ref may be reset to current data
+Current Window (W_cur): According to Bifet and Gavaldà (2007), a buffer containing the N_cur most recent observations under test. As new data arrives, older samples are discarded to maintain responsiveness.
+
+
+Update Mechanism: At each monitoring step, windows slide forward:
+
+New samples enter W_cur
+Oldest samples exit W_cur (optionally entering W_ref if using sliding reference)
+Upon drift detection, W_ref may be reset to current data
 
 According to Lu et al. (2019), window sizes represent a bias-variance tradeoff: larger windows provide more stable estimates but slower response; smaller windows enable faster detection but higher variance.
-
-#### 3.2.2 Adversarial Validation as Discriminative Drift Detector
-
+3.2.2 Adversarial Validation as Discriminative Drift Detector
 According to Pan et al. (2020), the core contribution is adapting adversarial validation to drift detection:
 
-**Step 1: Construct Binary Classification Dataset**
-- Label all samples from W_ref as class 0 (reference)
-- Label all samples from W_cur as class 1 (current)
-- Combined dataset: X = W_ref ∪ W_cur, y = {0}^{N_ref} ∪ {1}^{N_cur}
+Step 1: Construct Binary Classification Dataset
 
-**Step 2: Train Discriminative Classifier**
+Label all samples from W_ref as class 0 (reference)
+Label all samples from W_cur as class 1 (current)
+Combined dataset: X = W_ref ∪ W_cur, y = {0}^{N_ref} ∪ {1}^{N_cur}
+
+Step 2: Train Discriminative Classifier
 According to Lopez-Paz and Oquab (2017), train a binary classifier f_θ to predict data source from features alone. Candidate classifiers include:
-- Logistic regression (interpretable, fast)
-- Random forest (handles non-linearity, feature interactions)
-- Gradient boosting (XGBoost, LightGBM—high accuracy)
-- Neural network (for high-dimensional data)
 
-**Step 3: Measure Discriminative Performance**
+Logistic regression (interpretable, fast)
+Random forest (handles non-linearity, feature interactions)
+Gradient boosting (XGBoost, LightGBM—high accuracy)
+Neural network (for high-dimensional data)
+
+Step 3: Measure Discriminative Performance
 According to Pan et al. (2020), evaluate classifier performance using held-out validation or cross-validation:
-- **AUC-ROC:** Area under the ROC curve (recommended primary metric)
-- **Accuracy:** Classification accuracy
-- **AUC-PR:** Area under the precision-recall curve (for imbalanced windows)
 
-**Interpretation:** According to Lopez-Paz and Oquab (2017):
-- AUC ≈ 0.5: Classifier cannot distinguish sources → distributions are similar → no drift
-- AUC >> 0.5: Classifier distinguishes sources well → distributions differ → drift detected
-- The magnitude of AUC indicates drift severity
+AUC-ROC: Area under the ROC curve (recommended primary metric)
+Accuracy: Classification accuracy
+AUC-PR: Area under the precision-recall curve (for imbalanced windows)
 
-#### 3.2.3 Detection Statistic and Decision Rules
+Interpretation: According to Lopez-Paz and Oquab (2017):
+AUC ≈ 0.5: Classifier cannot distinguish sources → distributions are similar → no drift
+AUC >> 0.5: Classifier distinguishes sources well → distributions differ → drift detected
 
+The magnitude of AUC indicates drift severity
+
+3.2.3 Detection Statistic and Decision Rules
 The separation score serves as the drift statistic. Let:
-- S_t = AUC(f_θ, W_ref, W_cur) at monitoring time t
 
-**Simple Threshold Rule:**
+S_t = AUC(f_θ, W_ref, W_cur) at monitoring time t
+
+Simple Threshold Rule:
 According to Pan et al. (2020), raise drift alarm at time t if: S_t > T_drift, where T_drift is a threshold chosen based on desired sensitivity and false alarm rate.
-
-**Permutation Test for Statistical Significance:**
+Permutation Test for Statistical Significance:
 According to Lopez-Paz and Oquab (2017), to obtain principled thresholds:
-1. Shuffle source labels randomly B times (e.g., B=100)
-2. Retrain classifier and compute AUC for each permutation
-3. Construct empirical null distribution of AUC under no-drift hypothesis
-4. Set threshold at (1-α) quantile for significance level α
 
-**Consecutive Confirmation:**
+Shuffle source labels randomly B times (e.g., B=100)
+Retrain classifier and compute AUC for each permutation
+Construct empirical null distribution of AUC under no-drift hypothesis
+Set threshold at (1-α) quantile for significance level α
+
+Consecutive Confirmation:
 According to Gama et al. (2004), to reduce false alarms, require drift signal to persist:
-- Raise alarm only if S_t > T_drift for k consecutive monitoring steps
 
-#### 3.2.4 Model Adaptation Strategies
+Raise alarm only if S_t > T_drift for k consecutive monitoring steps
 
+3.2.4 Model Adaptation Strategies
 According to Gama et al. (2014), upon drift detection, the primary prediction model can be adapted:
 
-**Strategy 1: Drift-Triggered Retraining**
-- Model is trained at initialization
-- Retraining occurs only when drift alarm is raised
-- Reference window resets to current data after retraining
-- According to Pan et al. (2020), advantage: Conserves resources; exploits early detection for timely updates
+Strategy 1: Drift-Triggered Retraining
 
-**Strategy 2: Periodic Retraining (Baseline)**
-- Model is retrained at fixed intervals regardless of drift signals
-- Advantage: Simple; does not depend on detector reliability
-- According to Gama et al. (2014), disadvantage: May retrain unnecessarily or too late
+Model is trained at initialization
+Retraining occurs only when drift alarm is raised
+Reference window resets to current data after retraining
+According to Pan et al. (2020), advantage: Conserves resources; exploits early detection for timely updates
 
-**Strategy 3: Continuous Update with Drift Weighting**
-- Online learning with sample weighting based on drift score
-- According to Krawczyk et al. (2017), recent samples receive higher weights when drift is detected
+Strategy 2: Periodic Retraining (Baseline)
 
-### 3.3 Datasets
+Model is retrained at fixed intervals regardless of drift signals
+Advantage: Simple; does not depend on detector reliability
+According to Gama et al. (2014), disadvantage: May retrain unnecessarily or too late
 
+
+
+
+Strategy 3: Continuous Update with Drift Weighting
+
+Online learning with sample weighting based on drift score. According to Krawczyk et al. (2017), recent samples receive higher weights when drift is detected
+
+3.3 Datasets
 According to Souza et al. (2020), experiments will use both synthetic and real-world benchmark datasets commonly employed in drift detection research:
 
-**Synthetic Datasets:**
-- **SEA Concepts** (Street & Kim, 2001): Classic drift benchmark with abrupt concept drift
-- **Rotating Hyperplane:** According to Lu et al. (2019), incremental drift through gradual rotation
-- **STAGGER Concepts:** According to Gama et al. (2014), abrupt drift between different rule sets
-- **Sine/Circle generators:** According to Souza et al. (2020), controlled covariate drift scenarios
-- **Custom synthetic data:** Controlled P(X) shifts with known ground truth
+Synthetic Datasets:
 
-**Real-World Benchmark Datasets:**
-- **Electricity (Elec2)** (Harries, 1999): Electricity price prediction with natural drift
-- **Airline:** According to Souza et al. (2020), flight delay prediction with temporal drift
-- **Forest Covertype:** Land cover classification with spatial/temporal variation
-- **Credit Card Fraud:** Transaction data with evolving fraud patterns
-- **Gas Sensor Array Drift** (Vergara et al., 2012): Sensor readings with documented drift
+SEA Concepts (Street & Kim, 2001): Classic drift benchmark with abrupt concept drift
+Rotating Hyperplane: According to Lu et al. (2019), incremental drift through gradual rotation
+STAGGER Concepts: According to Gama et al. (2014), abrupt drift between different rule sets
+Sine/Circle generators: According to Souza et al. (2020), controlled covariate drift scenarios
+Custom synthetic data: Controlled P(X) shifts with known ground truth
+
+Real-World Benchmark Datasets:
+
+Electricity (Elec2) (Harries, 1999): Electricity price prediction with natural drift
+Airline: According to Souza et al. (2020), flight delay prediction with temporal drift
+Forest Covertype: Land cover classification with spatial/temporal variation
+Credit Card Fraud: Transaction data with evolving fraud patterns
+Gas Sensor Array Drift (Vergara et al., 2012): Sensor readings with documented drift
 
 According to Souza et al. (2020), datasets will be processed in streaming fashion with features used for drift detection and labels reserved for downstream performance evaluation.
 
-### 3.4 Baseline Drift Detectors
-
+3.4 Baseline Drift Detectors
 Adversarial validation will be compared against established baselines:
 
-**Supervised Baselines:**
-- DDM (Drift Detection Method) (Gama et al., 2004)
-- EDDM (Early Drift Detection Method) (Baena-García et al., 2006)
-- HDDM-A/W (Hoeffding Drift Detection Method) (Frias-Blanco et al., 2015)
-- Page-Hinkley Test (Page, 1954)
+Supervised Baselines:
 
-**Unsupervised Statistical Baselines:**
-- ADWIN (Adaptive Windowing) (Bifet & Gavaldà, 2007)
-- KSWIN (Kolmogorov-Smirnov Windowing) (Raab et al., 2020)
-- MMD (Maximum Mean Discrepancy) two-sample test (Gretton et al., 2012)
-- Chi-squared test on discretized features
+DDM (Drift Detection Method) (Gama et al., 2004)
+EDDM (Early Drift Detection Method) (Baena-García et al., 2006)
+HDDM-A/W (Hoeffding Drift Detection Method) (Frias-Blanco et al., 2015)
+Page-Hinkley Test (Page, 1954)
 
-**Unsupervised Model-Based Baselines:**
-- D3 (Discriminative Drift Detector) (Sethi & Kantardzic, 2017) if implementation available
-- Margin density-based detectors (Ditzler & Polikar, 2011)
+Unsupervised Statistical Baselines:
 
-### 3.5 Evaluation Metrics
+ADWIN (Adaptive Windowing) (Bifet & Gavaldà, 2007)
+KSWIN (Kolmogorov-Smirnov Windowing) (Raab et al., 2020)
+MMD (Maximum Mean Discrepancy) two-sample test (Gretton et al., 2012)
+Chi-squared test on discretized features
 
-**Drift Detection Performance** (Lu et al., 2019; Souza et al., 2020):
-- **Detection Delay:** Time between true drift occurrence and detection
-- **False Positive Rate (FPR):** Proportion of alarms when no drift exists
-- **True Positive Rate (TPR) / Sensitivity:** Proportion of true drifts detected
-- **Precision:** Proportion of alarms that are true drifts
-- **F1-Score:** Harmonic mean of precision and recall
-- **AUC of Detection:** Summary measure of detection performance
+Unsupervised Model-Based Baselines:
 
-**Model Performance Impact:**
-- **Prequential Accuracy/F1:** According to Gama et al. (2014), online accuracy using test-then-train protocol
-- **Recovery Time:** Time to restore model performance after drift
-- **Mean Squared Error / RMSE:** For regression tasks
+D3 (Discriminative Drift Detector) (Sethi & Kantardzic, 2017) if implementation available
+Margin density-based detectors (Ditzler & Polikar, 2011)
 
-### 3.6 Experimental Design
+3.5 Evaluation Metrics
+Drift Detection Performance (Lu et al., 2019; Souza et al., 2020):
+Detection Delay: Time between true drift occurrence and detection
+False Positive Rate (FPR): Proportion of alarms when no drift exists
+True Positive Rate (TPR) / Sensitivity: Proportion of true drifts detected
+Precision: Proportion of alarms that are true drifts
+F1-Score: Harmonic mean of precision and recall
+AUC of Detection: Summary measure of detection performance
 
-**Experiment 1: Sensitivity to Drift Types**
+Model Performance Impact:
+
+Prequential Accuracy/F1: According to Gama et al. (2014), online accuracy using test-then-train protocol
+Recovery Time: Time to restore model performance after drift
+Mean Squared Error / RMSE: For regression tasks
+
+3.6 Experimental Design
+Experiment 1: Sensitivity to Drift Types
 According to Lu et al. (2019), evaluate detection performance across abrupt, gradual, incremental, and recurring drift patterns on synthetic data with known drift points.
-
-**Experiment 2: Real-World Benchmark Comparison**
+Experiment 2: Real-World Benchmark Comparison
 According to Souza et al. (2020), compare detection timeliness and model performance across real-world datasets against all baseline methods.
+Experiment 3: Hyperparameter Sensitivity Analyze impact of:
 
-**Experiment 3: Hyperparameter Sensitivity**
-Analyze impact of:
-- Window sizes (N_ref, N_cur)
-- Classifier choice (logistic regression, random forest, XGBoost)
-- Detection threshold (T_drift)
-- Monitoring frequency
+Window sizes (N_ref, N_cur)
+Classifier choice (logistic regression, random forest, XGBoost)
+Detection threshold (T_drift)
+Monitoring frequency
 
-**Experiment 4: Scalability and Efficiency**
+Experiment 4: Scalability and Efficiency
 Measure computational time and memory usage across varying data dimensionality and stream length.
-
-**Experiment 5: Adaptation Strategy Comparison**
+Experiment 5: Adaptation Strategy Comparison
 According to Gama et al. (2014), compare drift-triggered retraining vs. periodic retraining vs. no retraining in terms of downstream model performance.
+3.7 Practical Considerations
+Class Imbalance: According to Lopez-Paz and Oquab (2017), when |W_ref| ≠ |W_cur|, use:
 
-### 3.7 Practical Considerations
+Stratified cross-validation
+Class-weighted classifiers
+AUC-ROC rather than accuracy
 
-**Class Imbalance:** According to Lopez-Paz and Oquab (2017), when |W_ref| ≠ |W_cur|, use:
-- Stratified cross-validation
-- Class-weighted classifiers
-- AUC-ROC rather than accuracy
-
-**Computational Efficiency:**
+Computational Efficiency:
 According to Pan et al. (2020):
-- Use efficient classifiers (logistic regression, small random forests)
-- Consider approximate methods for large windows
-- Implement incremental training where possible
 
-**Temporal Leakage Prevention:**
+
+Use efficient classifiers (logistic regression, small random forests)
+Consider approximate methods for large windows
+Implement incremental training where possible
+
+Temporal Leakage Prevention:
 According to Souza et al. (2020):
-- Use purged cross-validation to avoid temporal overlap between folds
-- Ensure strict temporal ordering in train/test splits
 
-**Threshold Calibration:**
+Use purged cross-validation to avoid temporal overlap between folds
+Ensure strict temporal ordering in train/test splits
+
+Threshold Calibration:
 According to Pan et al. (2020):
-- Use validation data with known drift to tune T_drift
-- Consider adaptive thresholds based on baseline variance
 
----
+Use validation data with known drift to tune T_drift
+Consider adaptive thresholds based on baseline variance
 
-## Chapter IV: Expected Results and Timeline
 
-### 4.1 Expected Results
 
-Based on the theoretical properties of adversarial validation and preliminary understanding, we expect:
 
-1. **Effective detection of covariate drift:** According to Lopez-Paz and Oquab (2017), adversarial validation should successfully detect feature distribution changes, particularly high-dimensional and multivariate shifts that univariate statistical tests may miss.
 
-2. **Competitive detection timeliness:** According to Sethi and Kantardzic (2017), by monitoring features directly rather than waiting for label-dependent error signals, adversarial validation should detect drift earlier than supervised methods in scenarios with label delay.
 
-3. **Robustness to noise:** According to Pan et al. (2020), the discriminative learning approach may be more robust to noise than simple statistical tests, as classifiers can learn to focus on systematic differences rather than random variation.
 
-4. **Trade-offs with computational cost:** The need to train a classifier at each monitoring step will incur computational overhead compared to lightweight statistical tests—quantifying this trade-off is an important empirical contribution.
 
-5. **Classifier and hyperparameter sensitivity:** Detection performance will depend on classifier choice and window sizes; practical guidance will emerge from systematic evaluation.
 
-### 4.2 Proposed Timeline
 
-| Phase | Activities | Duration |
-|-------|-----------|----------|
-| Phase 1 | Literature review completion, methodology refinement | Months 1-2 |
-| Phase 2 | Implementation of adversarial validation framework | Months 2-3 |
-| Phase 3 | Baseline implementation and synthetic experiments | Months 3-5 |
-| Phase 4 | Real-world dataset experiments | Months 5-7 |
-| Phase 5 | Analysis, ablation studies, practical guidelines | Months 7-9 |
-| Phase 6 | Thesis writing and revision | Months 9-12 |
+References
+Baena-García, M., del Campo-Ávila, J., Fidalgo, R., Bifet, A., Gavaldà, R., & Morales-Bueno, R. (2006). Early drift detection method. In Fourth International Workshop on Knowledge Discovery from Data Streams (pp. 77-86).https://www.cs.upc.edu/~abifet/EDDM.pdf
 
----
 
-## References
-
-Baena-García, M., del Campo-Ávila, J., Fidalgo, R., Bifet, A., Gavaldà, R., & Morales-Bueno, R. (2006). Early drift detection method. In *Fourth International Workshop on Knowledge Discovery from Data Streams* (pp. 77-86). https://www.cs.upc.edu/~abifet/EDDM.pdf
-
-Bayram, F., Ahmed, B. S., & Kassler, A. (2022). From concept drift to model degradation: An overview on performance-aware drift detectors. *Knowledge-Based Systems*, *245*, 108632. https://doi.org/10.1016/j.knosys.2022.108632
-
-Bifet, A., & Gavaldà, R. (2007). Learning from time-changing data with adaptive windowing. In *Proceedings of the 2007 SIAM International Conference on Data Mining* (pp. 443-448). SIAM. https://doi.org/10.1137/1.9781611972771.42
-
-Dasu, T., Krishnan, S., Venkatasubramanian, S., & Yi, K. (2006). An information-theoretic approach to detecting changes in multi-dimensional data streams. In *Proceedings of Symposium on the Interface of Statistics, Computing Science, and Applications*. https://www.stat.rutgers.edu/home/tamira/html/Papers/dasuinterface06.pdf
-
-Ditzler, G., & Polikar, R. (2011). Hellinger distance based drift detection for nonstationary environments. In *IEEE Symposium on Computational Intelligence in Dynamic and Uncertain Environments (CIDUE)* (pp. 41-48). IEEE. https://doi.org/10.1109/CIDUE.2011.5948491
-
-Frias-Blanco, I., del Campo-Ávila, J., Ramos-Jiménez, G., Morales-Bueno, R., Ortiz-Díaz, A., & Caballero-Mota, Y. (2015). Online and non-parametric drift detection methods based on Hoeffding's bounds. *IEEE Transactions on Knowledge and Data Engineering*, *27*(3), 810-823. https://doi.org/10.1109/TKDE.2014.2345382
-
-Gama, J., Medas, P., Castillo, G., & Rodrigues, P. (2004). Learning with drift detection. In *Advances in Artificial Intelligence – SBIA 2004*, Lecture Notes in Computer Science (Vol. 3171, pp. 286-295). Springer. https://doi.org/10.1007/978-3-540-28645-5_29
-
-Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M., & Bouchachia, A. (2014). A survey on concept drift adaptation. *ACM Computing Surveys*, *46*(4), 1-37. https://doi.org/10.1145/2523813
-
-Gözüaçık, Ö., Büyükçakır, A., Bonab, H., & Can, F. (2019). Unsupervised concept drift detection with a discriminative classifier. In *Proceedings of the 28th ACM International Conference on Information and Knowledge Management* (pp. 2365-2368). ACM. https://doi.org/10.1145/3357384.3358144
-
-Gretton, A., Borgwardt, K. M., Rasch, M. J., Schölkopf, B., & Smola, A. (2012). A kernel two-sample test. *Journal of Machine Learning Research*, *13*, 723-773. https://jmlr.org/papers/v13/gretton12a.html
-
-Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In *International Conference on Machine Learning* (pp. 1321-1330). PMLR. https://proceedings.mlr.press/v70/guo17a.html
-
-Harries, M. (1999). *Splice-2 comparative evaluation: Electricity pricing* (Technical Report). University of New South Wales. https://www.openml.org/d/151
-
-Hinder, F., Vaquet, V., Brinkrolf, J., & Hammer, B. (2024). One or two things we know about concept drift—A survey on monitoring in evolving environments. *Frontiers in Artificial Intelligence*, *7*, 1330257. https://doi.org/10.3389/frai.2024.1330257
-
-Krawczyk, B., Minku, L. L., Gama, J., Stefanowski, J., & Woźniak, M. (2017). Ensemble learning for data stream analysis: A survey. *Information Fusion*, *37*, 132-156. https://doi.org/10.1016/j.inffus.2017.02.004
-
-Liu, F., Xu, W., Lu, J., Zhang, G., Gretton, A., & Sutherland, D. J. (2020). Learning deep kernels for non-parametric two-sample tests. In *International Conference on Machine Learning* (pp. 6316-6326). PMLR. https://proceedings.mlr.press/v119/liu20m.html
-
-Long, M., Zhu, H., Wang, J., & Jordan, M. I. (2016). Unsupervised domain adaptation with residual transfer networks. In *Advances in Neural Information Processing Systems* (Vol. 29). NeurIPS. https://proceedings.neurips.cc/paper/2016/hash/ac627ab1ccbdb62ec96e702f07f6425b-Abstract.html
-
-Lopez-Paz, D., & Oquab, M. (2017). Revisiting classifier two-sample tests. In *International Conference on Learning Representations*. OpenReview. https://openreview.net/forum?id=SJkXfE5xx
-
-Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under concept drift: A review. *IEEE Transactions on Knowledge and Data Engineering*, *31*(12), 2346-2363. https://doi.org/10.1109/TKDE.2018.2876857
-
-Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon, J. V., Lakshminarayanan, B., & Snoek, J. (2019). Can you trust your model's uncertainty? Evaluating predictive uncertainty under dataset shift. In *Advances in Neural Information Processing Systems* (Vol. 32). NeurIPS. https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html
-
-Page, E. S. (1954). Continuous inspection schemes. *Biometrika*, *41*(1/2), 100-115. https://doi.org/10.2307/2333009
-
-Pan, J., Pham, V., Dorairaj, M., Chen, H., & Lee, J. Y. (2020). Adversarial validation approach to concept drift problem in user targeting automation systems at Uber. *arXiv preprint arXiv:2004.03045*. https://arxiv.org/abs/2004.03045
-
-Qian, H., Wang, B., Ma, P., Peng, L., Gao, S., & Song, Y. (2021). Managing dataset shift by adversarial validation for credit scoring. *arXiv preprint arXiv:2112.08138*. https://arxiv.org/abs/2112.08138
-
-Raab, C., Heusinger, M., & Schleif, F. M. (2020). Reactive soft prototype computing for concept drift streams. *Neurocomputing*, *416*, 340-351. https://doi.org/10.1016/j.neucom.2019.11.111
-
-Rabanser, S., Günnemann, S., & Lipton, Z. C. (2019). Failing loudly: An empirical study of methods for detecting dataset shift. In *Advances in Neural Information Processing Systems* (Vol. 32). NeurIPS. https://proceedings.neurips.cc/paper/2019/hash/846c260d715e5b854ffad5f70a516c88-Abstract.html
-
-Renza, D., & Moya-Albor, E. (2021). Adversarial validation for dataset shift assessment. *Applied Sciences*, *11*(12), 5586. https://doi.org/10.3390/app11125586
-
-Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J. F., & Dennison, D. (2015). Hidden technical debt in machine learning systems. In *Advances in Neural Information Processing Systems* (Vol. 28). NeurIPS. https://proceedings.neurips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html
-
-Senoner, J., Netland, T., & Feuerriegel, S. (2022). Using explainable artificial intelligence to improve process quality: Evidence from semiconductor manufacturing. *Management Science*, *68*(8), 5704-5723. https://doi.org/10.1287/mnsc.2021.4190
-
-Sethi, T. S., & Kantardzic, M. (2017). On the reliable detection of concept drift from streaming unlabeled data. *Expert Systems with Applications*, *82*, 77-99. https://doi.org/10.1016/j.eswa.2017.04.008
-
-Shimodaira, H. (2000). Improving predictive inference under covariate shift by weighting the log-likelihood function. *Journal of Statistical Planning and Inference*, *90*(2), 227-244. https://doi.org/10.1016/S0378-3758(00)00115-4
-
-Souza, V. M. A., Reis, D. M., Maletzke, A. G., & Batista, G. E. A. P. A. (2020). Challenges in benchmarking stream learning algorithms with real-world data. *Data Mining and Knowledge Discovery*, *34*(6), 1805-1858. https://doi.org/10.1007/s10618-020-00698-5
-
-Street, W. N., & Kim, Y. (2001). A streaming ensemble algorithm (SEA) for large-scale classification. In *Proceedings of the Seventh ACM SIGKDD International Conference on Knowledge Discovery and Data Mining* (pp. 377-382). ACM. https://doi.org/10.1145/502512.502568
-
-Tsymbal, A. (2004). *The problem of concept drift: Definitions and related work* (Technical Report TCD-CS-2004-15). Trinity College Dublin, Department of Computer Science. https://www.cs.tcd.ie/publications/tech-reports/reports.04/TCD-CS-2004-15.pdf
-
-Vergara, A., Vembu, S., Ayber, T., Ryan, M. A., Homer, M. L., & Huerta, R. (2012). Chemical gas sensor drift compensation using classifier ensembles. *Sensors and Actuators B: Chemical*, *166*, 320-329. https://doi.org/10.1016/j.snb.2012.01.074
-
-Webb, G. I., Hyde, R., Cao, H., Nguyen, H. L., & Petitjean, F. (2016). Characterizing concept drift. *Data Mining and Knowledge Discovery*, *30*(4), 964-994. https://doi.org/10.1007/s10618-015-0448-4
-
-Widmer, G., & Kubat, M. (1996). Learning in the presence of concept drift and hidden contexts. *Machine Learning*, *23*(1), 69-101. https://doi.org/10.1007/BF00116900
-
-Žliobaitė, I. (2010). Learning under concept drift: An overview. *arXiv preprint arXiv:1010.4784*. https://arxiv.org/abs/1010.4784
-
----
+Bayram, F., Ahmed, B. S., & Kassler, A. (2022). From concept drift to model degradation: An overview on performance-aware drift detectors. Knowledge-Based Systems, 245, 108632. https://doi.org/10.1016/j.knosys.2022.108632 
+Bifet, A., & Gavaldà, R. (2007). Learning from time-changing data with adaptive windowing. In Proceedings of the 2007 SIAM International Conference on Data Mining (pp. 443-448). SIAM. https://doi.org/10.1137/1.9781611972771.42 
+Dasu, T., Krishnan, S., Venkatasubramanian, S., & Yi, K. (2006). An information-theoretic approach to detecting changes in multi-dimensional data streams. In Proceedings of Symposium on the Interface of Statistics, Computing Science, and Applications. https://www.stat.rutgers.edu/home/tamira/html/Papers/dasuinterface06.pdf 
+Ditzler, G., & Polikar, R. (2011). Hellinger distance based drift detection for nonstationary environments. In IEEE Symposium on Computational Intelligence in Dynamic and Uncertain Environments (CIDUE) (pp. 41-48). IEEE. https://doi.org/10.1109/CIDUE.2011.5948491 
+Frias-Blanco, I., del Campo-Ávila, J., Ramos-Jiménez, G., Morales-Bueno, R., Ortiz-Díaz, A., & Caballero-Mota, Y. (2015). Online and non-parametric drift detection methods based on Hoeffding's bounds. IEEE Transactions on Knowledge and Data Engineering, 27(3), 810-823. https://doi.org/10.1109/TKDE.2014.2345382 
+Gama, J., Medas, P., Castillo, G., & Rodrigues, P. (2004). Learning with drift detection. In Advances in Artificial Intelligence – SBIA 2004, Lecture Notes in Computer Science (Vol. 3171, pp. 286-295). Springer. https://doi.org/10.1007/978-3-540-28645-5_29 
+Gama, J., Žliobaitė, I., Bifet, A., Pechenizkiy, M., & Bouchachia, A. (2014). A survey on concept drift adaptation. ACM Computing Surveys, 46(4), 1-37. https://doi.org/10.1145/2523813 
+Gözüaçık, Ö., Büyükçakır, A., Bonab, H., & Can, F. (2019). Unsupervised concept drift detection with a discriminative classifier. In Proceedings of the 28th ACM International Conference on Information and Knowledge Management (pp. 2365-2368). ACM. https://doi.org/10.1145/3357384.3358144 
+Gretton, A., Borgwardt, K. M., Rasch, M. J., Schölkopf, B., & Smola, A. (2012). A kernel two-sample test. Journal of Machine Learning Research, 13, 723-773. https://jmlr.org/papers/v13/gretton12a.html 
+Guo, C., Pleiss, G., Sun, Y., & Weinberger, K. Q. (2017). On calibration of modern neural networks. In International Conference on Machine Learning (pp. 1321-1330). PMLR. https://proceedings.mlr.press/v70/guo17a.html 
+Harries, M. (1999). Splice-2 comparative evaluation: Electricity pricing (Technical Report). University of New South Wales. https://www.openml.org/d/151 
+Hinder, F., Vaquet, V., Brinkrolf, J., & Hammer, B. (2024). One or two things we know about concept drift—A survey on monitoring in evolving environments. Frontiers in Artificial Intelligence, 7, 1330257. https://doi.org/10.3389/frai.2024.1330257 
+Krawczyk, B., Minku, L. L., Gama, J., Stefanowski, J., & Woźniak, M. (2017). Ensemble learning for data stream analysis: A survey. Information Fusion, 37, 132-156. https://doi.org/10.1016/j.inffus.2017.02.004 
+Liu, F., Xu, W., Lu, J., Zhang, G., Gretton, A., & Sutherland, D. J. (2020). Learning deep kernels for non-parametric two-sample tests. In International Conference on Machine Learning (pp. 6316-6326). PMLR. https://proceedings.mlr.press/v119/liu20m.html
+Long, M., Zhu, H., Wang, J., & Jordan, M. I. (2016). Unsupervised domain adaptation with residual transfer networks. In Advances in Neural Information Processing Systems (Vol. 29). NeurIPS.  https://proceedings.neurips.cc/paper/2016/hash/ac627ab1ccbdb62ec96e702f07f6425b-Abstract.html 
+Lopez-Paz, D., & Oquab, M. (2017). Revisiting classifier two-sample tests. In International Conference on Learning Representations. OpenReview. https://openreview.net/forum?id=SJkXfE5xx 
+Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., & Zhang, G. (2019). Learning under concept drift: A review. IEEE Transactions on Knowledge and Data Engineering, 31(12), 2346-2363. https://doi.org/10.1109/TKDE.2018.2876857 
+Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon, J. V., Lakshminarayanan, B., & Snoek, J. (2019). Can you trust your model's uncertainty? Evaluating predictive uncertainty under dataset shift. In Advances in Neural Information Processing Systems (Vol. 32). NeurIPS. https://proceedings.neurips.cc/paper/2019/hash/8558cb408c1d76621371888657d2eb1d-Abstract.html 
+Page, E. S. (1954). Continuous inspection schemes. Biometrika, 41(1/2), 100-115. https://doi.org/10.2307/2333009 
+Pan, J., Pham, V., Dorairaj, M., Chen, H., & Lee, J. Y. (2020). Adversarial validation approach to concept drift problem in user targeting automation systems at Uber. arXiv preprint arXiv:2004.03045. https://arxiv.org/abs/2004.03045 
+Qian, H., Wang, B., Ma, P., Peng, L., Gao, S., & Song, Y. (2021). Managing dataset shift by adversarial validation for credit scoring. arXiv preprint arXiv:2112.08138. https://arxiv.org/abs/2112.08138 
+Raab, C., Heusinger, M., & Schleif, F. M. (2020). Reactive soft prototype computing for concept drift streams. Neurocomputing, 416, 340-351.   https://doi.org/10.1016/j.neucom.2019.11.111 
+Rabanser, S., Günnemann, S., & Lipton, Z. C. (2019). Failing loudly: An empirical study of methods for detecting dataset shift. In Advances in Neural Information Processing Systems (Vol. 32). NeurIPS. https://proceedings.neurips.cc/paper/2019/hash/846c260d715e5b854ffad5f70a516c88-Abstract.html 
+Renza, D., & Moya-Albor, E. (2021). Adversarial validation for dataset shift assessment. Applied Sciences, 11(12), 5586. https://doi.org/10.3390/app11125586 
+Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J. F., & Dennison, D. (2015). Hidden technical debt in machine learning systems. In Advances in Neural Information Processing Systems (Vol. 28). NeurIPS. https://proceedings.neurips.cc/paper/2015/hash/86df7dcfd896fcaf2674f757a2463eba-Abstract.html 
+Senoner, J., Netland, T., & Feuerriegel, S. (2022). Using explainable artificial intelligence to improve process quality: Evidence from semiconductor manufacturing. Management Science, 68(8), 5704-5723. https://doi.org/10.1287/mnsc.2021.4190 
+Sethi, T. S., & Kantardzic, M. (2017). On the reliable detection of concept drift from streaming unlabeled data. Expert Systems with Applications, 82, 77-99. https://doi.org/10.1016/j.eswa.2017.04.008 
+Shimodaira, H. (2000). Improving predictive inference under covariate shift by weighting the log-likelihood function. Journal of Statistical Planning and Inference, 90(2), 227-244. https://doi.org/10.1016/S0378-3758(00)00115-4 
+Souza, V. M. A., Reis, D. M., Maletzke, A. G., & Batista, G. E. A. P. A. (2020). Challenges in benchmarking stream learning algorithms with real-world data. Data Mining and Knowledge Discovery, 34(6), 1805-1858. https://doi.org/10.1007/s10618-020-00698-5 
+Street, W. N., & Kim, Y. (2001). A streaming ensemble algorithm (SEA) for large-scale classification. In Proceedings of the Seventh ACM SIGKDD International Conference on Knowledge Discovery and Data Mining (pp. 377-382). ACM. https://doi.org/10.1145/502512.502568 
+Tsymbal, A. (2004). The problem of concept drift: Definitions and related work (Technical Report TCD-CS-2004-15). Trinity College Dublin, Department of Computer Science. https://www.cs.tcd.ie/publications/tech-reports/reports.04/TCD-CS-2004-15.pdf 
+Vergara, A., Vembu, S., Ayber, T., Ryan, M. A., Homer, M. L., & Huerta, R. (2012). Chemical gas sensor drift compensation using classifier ensembles. Sensors and Actuators B: Chemical, 166, 320-329. https://doi.org/10.1016/j.snb.2012.01.074 
+Webb, G. I., Hyde, R., Cao, H., Nguyen, H. L., & Petitjean, F. (2016). Characterizing concept drift. Data Mining and Knowledge Discovery, 30(4), 964-994. https://doi.org/10.1007/s10618-015-0448-4 
+Widmer, G., & Kubat, M. (1996). Learning in the presence of concept drift and hidden contexts. Machine Learning, 23(1), 69-101. https://doi.org/10.1007/BF00116900 
+Žliobaitė, I. (2010). Learning under concept drift: An overview. arXiv preprint arXiv:1010.4784. https://arxiv.org/abs/1010.4784
