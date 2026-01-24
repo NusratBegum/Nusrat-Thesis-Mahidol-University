@@ -214,6 +214,13 @@ This thesis aims to bridge this gap by establishing adversarial validation as a 
 
 \chapter{Methodology} \label{chap:methodology}
 
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=.95\textwidth,keepaspectratio]{figures/figure-2.pdf}
+    \caption{Overview of the methodology for feature drift detection via adversarial validation.}
+    \label{fig:methodology-overview}
+\end{figure}
+
 \section{Problem Formulation}
 According to \citet{Pan2020} and \citet{LopezPazOquab2017}, this research formalizes feature (covariate) drift detection as a problem of discriminating between historical reference data and newly arriving observations in a streaming or windowed setting. \citet{Shimodaira2000} explains that the objective is to detect when the underlying feature distribution $P(X)$ changes substantially over time, providing an early indication of distributional drift before observable degradation in task performance occurs.
 
