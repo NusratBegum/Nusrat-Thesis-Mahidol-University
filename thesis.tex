@@ -475,28 +475,14 @@ According to \citet{Gama2014}, compare drift-triggered retraining vs. periodic r
 
 \chapter{Results} \label{chap:results}
 
-% Results chapter content will be added here
+% Content removed pending confirmation.
 
 
 \chapter{Discussion} \label{chap:discussion}
 
-% Discussion chapter content will be added here
+% Content removed pending confirmation.
 
 
 \chapter{Conclusion} \label{chap:conclusion}
-To ensure empirical reproducibility and practical adoption, all experiments, data preprocessing scripts, synthetic data generators, and evaluation harnesses will be published in a public repository (GitHub) alongside a versioned environment specification (e.g., \texttt{requirements.txt} or \texttt{pyproject.toml}). Experiments will include fixed random seeds, explicit train/validation/test splits, and a short README that documents how to reproduce each experiment and the compute resources used. Where public benchmark datasets require licensing or restricted access, the repository will include instructions and pointers rather than redistributing raw data.
 
-Ethical considerations are important for drift detection research: (1) monitor and report any privacy-sensitive features used in experiments and remove or mask personally identifiable information (PII) from shared artifacts; (2) analyze potential harms from automated retraining decisions (e.g., model bias amplification) and recommend safe human-in-the-loop review for high-risk applications (credit, healthcare); (3) document limitations of detectors (false positives/negatives) and provide operational guidance for threshold selection and escalation policies.
-
-\section*{Conclusion and Timeline}
-This thesis develops adversarial validation into a systematic, practical framework for feature (covariate) drift detection in streaming and windowed settings. Contributions include (a) a reproducible adversarial-validation detector that combines ROC-AUC effect-size with permutation-test p-values for robust decisions; (b) a comprehensive benchmark against supervised and unsupervised baselines across synthetic and real-world datasets; and (c) practical deployment guidance for MLOps pipelines.
-
-Proposed timeline (high-level):
-\begin{itemize}
-\item Months 1--2: finalize dataset selection, implement streaming harness and baseline detectors.
-\item Months 3--5: implement adversarial-validation detector, tune hyperparameters, and run synthetic experiments.
-\item Months 6--8: run real-world benchmarks, analyze detection delay and model recovery, perform ablations.
-\item Months 9--10: write up results, prepare reproducible code release, and draft thesis chapters.
-\end{itemize}
-
-Deliverables: reproducible code repository, benchmark results, and the thesis document with practical recommendations for deploying adversarial validation in production.
+% Conclusion intentionally left blank per request.

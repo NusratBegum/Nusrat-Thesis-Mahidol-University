@@ -40,4 +40,4 @@
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Results}}{26}{chapter.4}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{27}{chapter.5}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{28}{chapter.6}%
-\contentsline {chapter}{BIOGRAPHY}{34}{section*.3}%
+\contentsline {chapter}{BIOGRAPHY}{33}{chapter.6}%
