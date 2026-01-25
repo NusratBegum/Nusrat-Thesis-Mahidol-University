@@ -29,15 +29,15 @@
 \contentsline {section}{\numberline {3.1}Problem Formulation}{17}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Core Components of the Framework}{18}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Streaming Window Management}{18}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Adversarial Validation as Discriminative Drift Detector}{20}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Detection Statistic and Decision Rules}{21}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.2}Adversarial Validation as Discriminative Drift Detector}{19}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Detection Statistic and Decision Rules}{20}{subsection.3.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Model Adaptation Strategies}{21}{subsection.3.2.4}%
 \contentsline {section}{\numberline {3.3}Datasets}{22}{section.3.3}%
 \contentsline {section}{\numberline {3.4}Baseline Drift Detectors}{23}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Evaluation Metrics}{24}{section.3.5}%
+\contentsline {section}{\numberline {3.5}Evaluation Metrics}{23}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Experimental Design}{24}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Practical Considerations}{25}{section.3.7}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Results}}{27}{chapter.4}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{28}{chapter.5}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{29}{chapter.6}%
-\contentsline {chapter}{BIOGRAPHY}{34}{chapter.6}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Results}}{26}{chapter.4}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{27}{chapter.5}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{28}{chapter.6}%
+\contentsline {chapter}{BIOGRAPHY}{34}{section*.3}%
