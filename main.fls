@@ -240,13 +240,13 @@ INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
+INPUT ./figures/figure-2.pdf
+INPUT ./figures/figure-2.pdf
+INPUT ./figures/figure-2.pdf
+INPUT ./figures/figure-2.pdf
+INPUT ./figures/figure-2.pdf
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT /usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
-INPUT ./figures/Final Diagram Methodology.png
-INPUT ./figures/Final Diagram Methodology.png
-INPUT ./figures/Final Diagram Methodology.png
-INPUT ./figures/Final Diagram Methodology.png
-INPUT ./figures/Final Diagram Methodology.png
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT /usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd

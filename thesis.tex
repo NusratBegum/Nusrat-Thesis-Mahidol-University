@@ -214,7 +214,12 @@ This thesis aims to bridge this gap by establishing adversarial validation as a 
 
 \chapter{Methodology} \label{chap:methodology}
 
-% Figure-2 removed per author request
+\begin{figure}[!htpb]
+    \centering
+    \includegraphics[width=.95\textwidth,keepaspectratio]{figures/figure-2.pdf}
+    \caption{Overview of the methodology for feature drift detection via adversarial validation.}
+    \label{fig:methodology-overview}
+\end{figure}
 
 \section{Problem Formulation}
 According to \citet{Pan2020} and \citet{LopezPazOquab2017}, this research formalizes feature (covariate) drift detection as a problem of discriminating between historical reference data and newly arriving observations in a streaming or windowed setting. \citet{Shimodaira2000} explains that the objective is to detect when the underlying feature distribution $P(X)$ changes substantially over time, providing an early indication of distributional drift before observable degradation in task performance occurs.
@@ -243,12 +248,7 @@ The proposed methodology consists of five core components:
     \item Evaluation Protocol: Systematic metrics and benchmarks for assessment
 \end{enumerate}
 
-\begin{figure}[!htpb]
-    \centering
-    \includegraphics[width=.95\textwidth,keepaspectratio]{figures/Final Diagram Methodology.png}
-    \caption{Overview of the proposed adversarial validation framework for feature drift detection.}
-    \label{fig:framework-overview}
-\end{figure}
+% Figure removed per author request (previously Final Diagram Methodology.png)
 
 \subsection{Streaming Window Management}
 Consistent with established streaming drift detection methodologies \citep{BifetGavalda2007, Tsymbal2004}, a sliding window mechanism manages the data stream:

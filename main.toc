@@ -32,8 +32,8 @@
 \contentsline {subsection}{\numberline {3.2.2}Adversarial Validation as Discriminative Drift Detector}{19}{subsection.3.2.2}%
 \contentsline {subsection}{\numberline {3.2.3}Detection Statistic and Decision Rules}{20}{subsection.3.2.3}%
 \contentsline {subsection}{\numberline {3.2.4}Model Adaptation Strategies}{21}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Datasets}{22}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Baseline Drift Detectors}{23}{section.3.4}%
+\contentsline {section}{\numberline {3.3}Datasets}{21}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Baseline Drift Detectors}{22}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Evaluation Metrics}{23}{section.3.5}%
 \contentsline {section}{\numberline {3.6}Experimental Design}{24}{section.3.6}%
 \contentsline {section}{\numberline {3.7}Practical Considerations}{25}{section.3.7}%
