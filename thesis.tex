@@ -55,33 +55,33 @@ This thesis seeks to contribute:
 Drift detection addresses the challenge that arises when the statistical characteristics of data evolve over time in a manner that impacts the validity of a machine learning model \citep{Lu2018, Gama2014}. According to \citet{Bayram2022}, when users, environments, data sources, or the relationships between labels and features change, model accuracy can diminish. \citet{Gama2014} and \citet{Sculley2015} emphasize that drift detection identifies this modification early, allowing practitioners to adapt, retrain, or update the model accordingly. A robust understanding of drift types and detection methods is essential for designing effective monitoring systems.
 
 \section{Types of Drift}
-According to \citet{Lu2018} and \citet{Gama2014}, drift can be categorized along two main dimensions: by the nature of the change (what component of the data-generating process is affected) and by the temporal pattern of the change (how the drift manifests over time).
+Drift can be categorized along two main dimensions: by the nature of the change (what component of the data-generating process is affected) and by the temporal pattern of the change (how the drift manifests over time) \citep{Lu2018, Gama2014}.
 
 \subsection{Drift by Nature of Change}
-Based on which component of the joint distribution $P(X, y)$ changes, \citet{Lu2018}, \citet{Gama2014}, and \citet{Tsymbal2004} classify drift into the following types:
+Based on which component of the joint distribution $P(X, y)$ changes, the literature \citep{Lu2018, Gama2014, Tsymbal2004} classifies drift into the following types:
 
-\textbf{Concept Drift (Real Drift):} According to \citet{Lu2018} and \citet{Zliobaite2010}, the conditional distribution $P(y|X)$ changes over time while the feature distribution $P(X)$ may or may not change. This represents a change in the underlying relationship between inputs and outputs---the ``concept'' the model has learned becomes invalid. For example, \citet{Gama2014} note that the factors that determine creditworthiness may evolve due to economic shifts, even if the applicant characteristics (features) remain similar. \citet{Lu2018} emphasize that concept drift directly degrades model performance because the learned decision boundaries no longer reflect the true input-output relationship.
+\textbf{Concept Drift (Real Drift):} The conditional distribution $P(y|X)$ changes over time while the feature distribution $P(X)$ may or may not change \citep{Lu2018, Zliobaite2010}. This represents a change in the underlying relationship between inputs and outputs---the ``concept'' the model has learned becomes invalid. For example, the factors that determine creditworthiness may evolve due to economic shifts, even if the applicant characteristics (features) remain similar \citep{Gama2014}. Concept drift directly degrades model performance because the learned decision boundaries no longer reflect the true input-output relationship \citep{Lu2018}.
 
-\textbf{Covariate Drift (Feature Drift / Virtual Drift):} According to \citet{Tsymbal2004} and \citet{Shimodaira2000}, the marginal distribution of input features $P(X)$ changes over time while the conditional relationship $P(y|X)$ remains stable. The ground-truth concept does not change, but the model may encounter inputs outside its training distribution. \citet{Tsymbal2004} provides an example: a fraud detection model trained on transaction patterns from one demographic may receive data from a different user population, even though the definition of fraud remains unchanged. \citet{Shimodaira2000} explains that covariate drift can degrade model performance because the model is exposed to feature regions where it may not generalize well.
+\textbf{Covariate Drift (Feature Drift / Virtual Drift):} The marginal distribution of input features $P(X)$ changes over time while the conditional relationship $P(y|X)$ remains stable \citep{Tsymbal2004, Shimodaira2000}. The ground-truth concept does not change, but the model may encounter inputs outside its training distribution. For example, a fraud detection model trained on transaction patterns from one demographic may receive data from a different user population, even though the definition of fraud remains unchanged \citep{Tsymbal2004}. Covariate drift can degrade model performance because the model is exposed to feature regions where it may not generalize well \citep{Shimodaira2000}.
 
-\textbf{Prior Probability Drift (Label Shift):} According to \citet{Tsymbal2004}, the marginal distribution of labels $P(y)$ changes over time while $P(X|y)$ remains stable. This occurs when the prevalence of different classes changes---for instance, a seasonal increase in a particular disease affecting the class balance in medical diagnosis. \citet{Lu2018} note this is sometimes called class imbalance shift.
+\textbf{Prior Probability Drift (Label Shift):} The marginal distribution of labels $P(y)$ changes over time while $P(X|y)$ remains stable \citep{Tsymbal2004}. This occurs when the prevalence of different classes changes---for instance, a seasonal increase in a particular disease affecting the class balance in medical diagnosis. This is sometimes called class imbalance shift \citep{Lu2018}.
 
-\textbf{Note on Terminology:} \citet{Lu2018} observe that the literature uses varied terminology. According to \citet{Gama2014}, ``concept drift'' is sometimes used as an umbrella term for any distribution change affecting model performance, while \citet{Tsymbal2004} reserves it specifically for changes in $P(y|X)$. This thesis focuses primarily on covariate (feature) drift detection, as it enables early warning without requiring labels.
+\textbf{Note on Terminology:} The literature uses varied terminology \citep{Lu2018}. The term ``concept drift'' is sometimes used as an umbrella term for any distribution change affecting model performance \citep{Gama2014}, while some reserve it specifically for changes in $P(y|X)$ \citep{Tsymbal2004}. This thesis focuses primarily on covariate (feature) drift detection, as it enables early warning without requiring labels.
 
 \subsection{Drift by Temporal Pattern}
-Based on how drift manifests over time, \citet{Lu2018}, \citet{Gama2014}, and \citet{Zliobaite2010} categorize drift as follows:
+Based on how drift manifests over time, the literature \citep{Lu2018, Gama2014, Zliobaite2010} categorizes drift as follows:
 
 \begin{itemize}
-    \item \textbf{Abrupt (Sudden) Drift:} According to \citet{Gama2014}, this is a rapid, discrete change where the data distribution shifts quickly from one state to another within a short time period.
+    \item \textbf{Abrupt (Sudden) Drift:} A rapid, discrete change where the data distribution shifts quickly from one state to another within a short time period \citep{Gama2014}.
     
-    \item \textbf{Gradual Drift:} \citet{Lu2018} describe this as a new distribution progressively replacing the old one over an extended duration, with samples from both distributions interleaved during the transition period.
+    \item \textbf{Gradual Drift:} A new distribution progressively replacing the old one over an extended duration, with samples from both distributions interleaved during the transition period \citep{Lu2018}.
     
-    \item \textbf{Incremental Drift:} According to \citet{Zliobaite2010}, small but continuous changes accumulate over time, eventually resulting in a significant distributional shift.
+    \item \textbf{Incremental Drift:} Small but continuous changes accumulating over time, eventually resulting in a significant distributional shift \citep{Zliobaite2010}.
     
-    \item \textbf{Recurring (Seasonal) Drift:} \citet{Lu2018} and \citet{Gama2014} describe this as previously observed distributions reappearing periodically due to cyclical patterns, such as seasonal effects in retail or recurring user behavior patterns.
+    \item \textbf{Recurring (Seasonal) Drift:} Previously observed distributions reappearing periodically due to cyclical patterns, such as seasonal effects in retail or recurring user behavior patterns \citep{Lu2018, Gama2014}.
 \end{itemize}
 
-According to \citet{Gama2014}, understanding drift patterns is important for detector design: abrupt drift requires rapid response, gradual drift requires sustained sensitivity, and recurring drift benefits from mechanisms that can recognize previously seen distributions.
+Understanding drift patterns is important for detector design: abrupt drift requires rapid response, gradual drift requires sustained sensitivity, and recurring drift benefits from mechanisms that can recognize previously seen distributions \citep{Gama2014}.
 
 \section{Classification of Drift Detection Methods}
 Based on comprehensive surveys of drift detection literature \citep{Lu2018, Gama2014, Tsymbal2004, Hinder2024}, drift detection methods can be classified by multiple dimensions. According to \citet{Lu2018}, the most fundamental distinction is based on label availability: whether the method requires access to ground-truth labels (supervised) or operates without them (unsupervised).
@@ -93,33 +93,33 @@ Key supervised drift detection algorithms include:
 
 \textbf{Drift Detection Method (DDM):} According to \citet{Gama2004}, DDM monitors the online error rate and its standard deviation. When these statistics exceed predefined thresholds derived from binomial distribution bounds, DDM signals a warning or drift state. \citet{Gama2004} note that DDM is effective for abrupt drift but may be slow to detect gradual changes.
 
-\textbf{Early Drift Detection Method (EDDM):} \citet{BaenaGarcia2006} extend DDM by tracking the distance between consecutive classification errors rather than just the error rate. According to \citet{BaenaGarcia2006}, this modification improves sensitivity to gradual drift by detecting when errors cluster more closely together.
+\textbf{Early Drift Detection Method (EDDM):} EDDM extends DDM by tracking the distance between consecutive classification errors rather than just the error rate \citep{BaenaGarcia2006}. This modification improves sensitivity to gradual drift by detecting when errors cluster more closely together.
 
-\textbf{Page--Hinkley Test:} \citet{Page1954} developed this sequential analysis technique using cumulative sums to detect changes in the mean of a monitored signal. When cumulative deviation exceeds a threshold, drift is indicated.
+\textbf{Page--Hinkley Test:} This sequential analysis technique uses cumulative sums to detect changes in the mean of a monitored signal \citep{Page1954}. When cumulative deviation exceeds a threshold, drift is indicated.
 
-\textbf{Hoeffding Drift Detection Methods (HDDM-A, HDDM-W):} According to \citet{FriasBlanco2015}, these methods use Hoeffding's inequality to provide statistically grounded drift decisions with theoretical guarantees. HDDM-A detects abrupt changes using moving averages, while HDDM-W is designed for gradual drift using window-based statistics.
+\textbf{Hoeffding Drift Detection Methods (HDDM-A, HDDM-W):} These methods use Hoeffding's inequality to provide statistically grounded drift decisions with theoretical guarantees \citep{FriasBlanco2015}. HDDM-A detects abrupt changes using moving averages, while HDDM-W is designed for gradual drift using window-based statistics.
 
-\textbf{Limitations:} According to \citet{Lu2018} and \citet{Sethi2017}, supervised methods fundamentally require labeled data, which may be delayed, expensive, or unavailable in many production scenarios. \citet{Sethi2017} notes that they also react to drift after it has already caused performance degradation, rather than detecting distributional change proactively.
+\textbf{Limitations:} Supervised methods fundamentally require labeled data, which may be delayed, expensive, or unavailable in many production scenarios \citep{Lu2018, Sethi2017}. They also react to drift after it has already caused performance degradation, rather than detecting distributional change proactively.
 
 \subsection{Unsupervised Drift Detection Methods}
-According to \citet{Tsymbal2004} and \citet{Hinder2024}, unsupervised drift detection methods do not require ground-truth labels and instead monitor changes in data distribution, model outputs, or internal representations. \citet{Sethi2017} emphasizes that these methods enable earlier detection of distributional shifts---before performance degradation becomes observable---making them particularly valuable in production environments with label delays.
+Unsupervised drift detection methods do not require ground-truth labels and instead monitor changes in data distribution, model outputs, or internal representations \citep{Tsymbal2004, Hinder2024}. These methods enable earlier detection of distributional shifts---before performance degradation becomes observable---making them particularly valuable in production environments with label delays \citep{Sethi2017}.
 
 \subsubsection{Statistical Distribution-Based Methods}
-According to \citet{Rabanser2019} and \citet{Raab2020}, statistical test--based methods detect drift by directly examining changes in data distributions through hypothesis testing or distance-based measures. \citet{BifetGavalda2007} describe a common strategy that compares a reference data window against a current data window to test whether they originate from the same distribution.
+Statistical test--based methods detect drift by directly examining changes in data distributions through hypothesis testing or distance-based measures \citep{Rabanser2019, Raab2020}. A common strategy compares a reference data window against a current data window to test whether they originate from the same distribution \citep{BifetGavalda2007}.
 
 Key statistical drift detection methods include:
 
-\textbf{Adaptive Windowing (ADWIN):} According to \citet{BifetGavalda2007}, ADWIN dynamically maintains a sliding window and automatically shrinks it when statistically significant distributional change is detected. \citet{BifetGavalda2007} emphasize that ADWIN provides theoretical guarantees on false positive and false negative rates and adapts its window size based on observed change.
+\textbf{Adaptive Windowing (ADWIN):} ADWIN dynamically maintains a sliding window and automatically shrinks it when statistically significant distributional change is detected \citep{BifetGavalda2007}. It provides theoretical guarantees on false positive and false negative rates and adapts its window size based on observed change.
 
-\textbf{KSWIN:} \citet{Raab2020} developed this method that applies the Kolmogorov--Smirnov two-sample test over sliding windows to detect changes in one-dimensional feature distributions. According to \citet{Raab2020}, KSWIN is non-parametric and makes minimal assumptions about the data distribution.
+\textbf{KSWIN:} This method applies the Kolmogorov--Smirnov two-sample test over sliding windows to detect changes in one-dimensional feature distributions \citep{Raab2020}. KSWIN is non-parametric and makes minimal assumptions about the data distribution.
 
-\textbf{Chi-Squared Test-Based Detectors:} According to \citet{Lu2018}, these use the chi-squared test to compare categorical feature distributions or discretized continuous features between time periods.
+\textbf{Chi-Squared Test-Based Detectors:} These use the chi-squared test to compare categorical feature distributions or discretized continuous features between time periods \citep{Lu2018}.
 
-\textbf{Kullback--Leibler (KL) Divergence and Other Divergence Measures:} \citet{Dasu2006} describe methods that quantify the ``distance'' between probability distributions. KL divergence, Jensen--Shannon divergence, and Hellinger distance can all be used to measure distributional shift.
+\textbf{Kullback--Leibler (KL) Divergence and Other Divergence Measures:} Methods that quantify the ``distance'' between probability distributions, including KL divergence, Jensen--Shannon divergence, and Hellinger distance, can all be used to measure distributional shift \citep{Dasu2006}.
 
-\textbf{Maximum Mean Discrepancy (MMD):} According to \citet{Gretton2012}, MMD is a kernel-based two-sample test that compares distributions by mapping them into a reproducing kernel Hilbert space. \citet{Gretton2012} note that MMD can capture complex multivariate distributional differences.
+\textbf{Maximum Mean Discrepancy (MMD):} MMD is a kernel-based two-sample test that compares distributions by mapping them into a reproducing kernel Hilbert space, capable of capturing complex multivariate distributional differences \citep{Gretton2012}.
 
-\textbf{Strengths and Limitations:} According to \citet{Rabanser2019}, statistical tests are interpretable, theoretically grounded, and label-free. However, \citet{Lu2018} and \citet{Webb2016} note that they can be sensitive to noise (causing false alarms), may struggle in high-dimensional spaces due to the curse of dimensionality, and typically test marginal distributions rather than joint distributions.
+\textbf{Strengths and Limitations:} Statistical tests are interpretable, theoretically grounded, and label-free \citep{Rabanser2019}. However, they can be sensitive to noise (causing false alarms), may struggle in high-dimensional spaces due to the curse of dimensionality, and typically test marginal distributions rather than joint distributions \citep{Lu2018, Webb2016}.
 
 \subsubsection{Model-Based Discriminative Methods}
 According to \citet{Pan2020}, \citet{LopezPazOquab2017}, and \citet{Sethi2017}, discriminative drift detection methods train an auxiliary model to distinguish between reference and current data distributions. \citet{LopezPazOquab2017} explain that the core idea is to frame drift detection as a classification problem: if a classifier can accurately predict whether each instance originates from the reference or current distribution, the distributions must be distinguishably different.
@@ -132,51 +132,51 @@ Key approaches include:
 
 \textbf{Margin-Based and Density-Based Discriminators:} According to \citet{DitzlerPolikar2011}, these methods monitor changes in classifier margin densities or decision boundary proximity to detect distributional shifts.
 
-\textbf{Strengths:} According to \citet{LopezPazOquab2017}, discriminative methods can capture high-dimensional, non-linear distributional shifts that marginal univariate tests may miss. They require no labels for the drift detection task itself (only pseudo-labels indicating data source). \citet{Pan2020} note that they naturally aggregate information across all features.
+\textbf{Strengths:} Discriminative methods can capture high-dimensional, non-linear distributional shifts that marginal univariate tests may miss \citep{LopezPazOquab2017}. They require no labels for the drift detection task itself (only pseudo-labels indicating data source) and naturally aggregate information across all features \citep{Pan2020}.
 
-\textbf{Limitations:} According to \citet{Sethi2017}, they require training a classifier at each monitoring step, which has computational cost; performance depends on classifier choice and hyperparameters; and interpretation of drift signals may be less intuitive than statistical test p-values.
+\textbf{Limitations:} These methods require training a classifier at each monitoring step, which has computational cost; performance depends on classifier choice and hyperparameters; and interpretation of drift signals may be less intuitive than statistical test p-values \citep{Sethi2017}.
 
 \subsubsection{Representation-Based Methods}
-According to \citet{Rabanser2019} and \citet{Liu2020}, representation-based methods detect drift by monitoring changes in learned representations or embeddings rather than raw feature distributions:
+Representation-based methods detect drift by monitoring changes in learned representations or embeddings rather than raw feature distributions \citep{Rabanser2019, Liu2020}:
 
-\textbf{Embedding Distribution Shift:} \citet{Rabanser2019} describe computing statistical distances (cosine similarity, Wasserstein distance, MMD) between reference and current embedding distributions derived from neural network intermediate layers.
+\textbf{Embedding Distribution Shift:} Computing statistical distances (cosine similarity, Wasserstein distance, MMD) between reference and current embedding distributions derived from neural network intermediate layers \citep{Rabanser2019}.
 
-\textbf{Deep Learning Representation Monitoring:} According to \citet{Long2016}, this approach tracks stability of learned representations across time, leveraging insights from domain adaptation and transfer learning literature.
+\textbf{Deep Learning Representation Monitoring:} This approach tracks stability of learned representations across time, leveraging insights from domain adaptation and transfer learning literature \citep{Long2016}.
 
-\citet{Liu2020} note that these methods are particularly relevant for deep learning systems where raw feature distributions may not reflect semantically meaningful changes.
+These methods are particularly relevant for deep learning systems where raw feature distributions may not reflect semantically meaningful changes \citep{Liu2020}.
 
 \subsubsection{Prediction-Based / Output-Based Methods}
-According to \citet{Sethi2017} and \citet{Gozuacik2019}, prediction-based methods detect drift by monitoring changes in model outputs over time without requiring evaluation of prediction correctness:
+Prediction-based methods detect drift by monitoring changes in model outputs over time without requiring evaluation of prediction correctness \citep{Sethi2017, Gozuacik2019}:
 
-\textbf{Prediction Distribution Shift:} \citet{Gozuacik2019} describe monitoring changes in the distribution of model predictions (class probabilities, regression outputs) over time.
+\textbf{Prediction Distribution Shift:} Monitoring changes in the distribution of model predictions (class probabilities, regression outputs) over time \citep{Gozuacik2019}.
 
-\textbf{Uncertainty / Entropy Monitoring:} According to \citet{Guo2017}, this approach tracks prediction entropy or uncertainty scores under the assumption that rising uncertainty reflects exposure to out-of-distribution data.
+\textbf{Uncertainty / Entropy Monitoring:} Tracking prediction entropy or uncertainty scores under the assumption that rising uncertainty reflects exposure to out-of-distribution data \citep{Guo2017}.
 
-\textbf{Confidence Monitoring:} \citet{Guo2017} also describe tracking changes in model confidence levels and softmax output distributions.
+\textbf{Confidence Monitoring:} Tracking changes in model confidence levels and softmax output distributions \citep{Guo2017}.
 
-\textbf{Limitations:} According to \citet{Guo2017}, these methods depend on model calibration. If the model is poorly calibrated---which is common for modern deep learning models---\citet{Ovadia2019} note that changes in confidence may not reliably indicate drift.
+\textbf{Limitations:} These methods depend on model calibration. If the model is poorly calibrated---which is common for modern deep learning models---changes in confidence may not reliably indicate drift \citep{Guo2017, Ovadia2019}.
 
 \subsection{Hybrid and Ensemble Methods}
-According to \citet{Gama2014} and \citet{Krawczyk2017}, hybrid approaches integrate multiple sources of information---both supervised and unsupervised signals---to improve drift detection robustness:
+Hybrid approaches integrate multiple sources of information---both supervised and unsupervised signals---to improve drift detection robustness \citep{Gama2014, Krawczyk2017}:
 
-\textbf{Context-Aware Drift Detection:} \citet{Krawczyk2017} describe combining model predictions, user context, operational signals, and metadata to compute context-weighted drift scores.
+\textbf{Context-Aware Drift Detection:} Combining model predictions, user context, operational signals, and metadata to compute context-weighted drift scores \citep{Krawczyk2017}.
 
-\textbf{Multi-Signal Ensemble Methods:} According to \citet{Krawczyk2017}, these integrate predictions, embeddings, operational KPIs, and metadata into a unified drift score.
+\textbf{Multi-Signal Ensemble Methods:} Integrating predictions, embeddings, operational KPIs, and metadata into a unified drift score \citep{Krawczyk2017}.
 
-\textbf{Drift Detection Ensembles:} \citet{Krawczyk2017} note that these combine multiple base detectors using voting, weighting, or meta-learning to reduce both false alarms and missed detections.
+\textbf{Drift Detection Ensembles:} Combining multiple base detectors using voting, weighting, or meta-learning to reduce both false alarms and missed detections \citep{Krawczyk2017}.
 
 \section{Limitations of Existing Methods}
 While the drift detection literature offers diverse approaches, each category has characteristic limitations:
 
-\textbf{Supervised Methods (DDM, EDDM, HDDM):} According to \citet{Lu2018}, these require timely labeled data, which is often delayed or unavailable in production. \citet{Sethi2017} emphasizes that they detect drift reactively---only after performance degradation has already occurred.
+\textbf{Supervised Methods (DDM, EDDM, HDDM):} These require timely labeled data, which is often delayed or unavailable in production \citep{Lu2018}. They detect drift reactively---only after performance degradation has already occurred \citep{Sethi2017}.
 
-\textbf{Statistical Distribution Methods (ADWIN, KSWIN, KL-Divergence):} According to \citet{Rabanser2019}, these can be sensitive to noise, leading to false alarms. \citet{Lu2018} note they may struggle in high-dimensional or correlated feature spaces. \citet{Webb2016} observe that they typically test marginal distributions, potentially missing joint distribution changes.
+\textbf{Statistical Distribution Methods (ADWIN, KSWIN, KL-Divergence):} These can be sensitive to noise, leading to false alarms \citep{Rabanser2019}. They may struggle in high-dimensional or correlated feature spaces and typically test marginal distributions, potentially missing joint distribution changes \citep{Lu2018, Webb2016}.
 
-\textbf{Prediction/Uncertainty-Based Methods:} According to \citet{Guo2017}, these rely on model calibration. \citet{Ovadia2019} emphasize that modern ML models are often poorly calibrated, especially under distribution shift, causing these signals to be unreliable.
+\textbf{Prediction/Uncertainty-Based Methods:} These rely on model calibration. Modern ML models are often poorly calibrated, especially under distribution shift, causing these signals to be unreliable \citep{Guo2017, Ovadia2019}.
 
-\textbf{Context-Aware Methods:} According to \citet{Krawczyk2017}, these require pre-specification of relevant context variables, which may be incomplete, noisy, or themselves drift over time. Misspecified context can cause missed detections or spurious alarms.
+\textbf{Context-Aware Methods:} These require pre-specification of relevant context variables, which may be incomplete, noisy, or themselves drift over time \citep{Krawczyk2017}. Misspecified context can cause missed detections or spurious alarms.
 
-\textbf{Fundamental Gap:} According to \citet{LopezPazOquab2017}, critically, most existing methods do not directly test whether new data is statistically distinguishable from historical data in the original feature space. \citet{Pan2020} note that discriminative approaches offer a natural, model-agnostic signal of drift that does not depend on predefined contexts, labels, or calibrated uncertainties---yet this perspective has received limited systematic attention in the drift detection literature.
+\textbf{Fundamental Gap:} Critically, most existing methods do not directly test whether new data is statistically distinguishable from historical data in the original feature space \citep{LopezPazOquab2017}. Discriminative approaches offer a natural, model-agnostic signal of drift that does not depend on predefined contexts, labels, or calibrated uncertainties---yet this perspective has received limited systematic attention in the drift detection literature \citep{Pan2020}.
 
 This thesis aims to bridge this gap by establishing adversarial validation as a viable, general-purpose drift detection technique through rigorous empirical evaluation and practical methodology development.
 

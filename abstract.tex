@@ -1,6 +1,13 @@
 \abstract{%
 \linespacing{1.2} % change the linespacing to fit the abstract in the allotted space
 
+Machine learning models deployed in production environments frequently experience distribution drift---changes in input feature distributions over time that can degrade model performance. Detecting such drift early, before significant performance loss occurs, is critical for maintaining reliable ML systems. However, most existing drift detection methods either require ground-truth labels (which are often delayed or unavailable) or rely on statistical tests that struggle with high-dimensional, complex distributional changes.
+
+This thesis proposes a novel methodology that reframes drift detection as a discriminative learning problem: an auxiliary classifier is trained to distinguish between historical reference data and incoming observations, where high discriminative performance indicates distribution shift. Unlike conventional approaches, this method requires no ground-truth labels and makes no assumptions about specific drift patterns, enabling detection of complex high-dimensional distribution changes across all temporal drift patterns (abrupt, gradual, incremental, and recurring).
+
+The main contributions are: (1) a streaming adversarial validation framework with automatic window management and statistical rigor through permutation testing; (2) the first systematic benchmark evaluation of adversarial validation as a drift detection method across diverse datasets and drift scenarios; (3) comprehensive comparison with state-of-the-art methods (DDM, EDDM, ADWIN, KSWIN, MMD) demonstrating superior performance on high-dimensional nonlinear distribution changes; (4) empirical validation of universal applicability across all temporal drift patterns; and (5) practical implementation guidelines addressing computational efficiency, threshold calibration, and MLOps deployment.
+
+This work establishes adversarial validation as a principled, mature drift detection methodology with strong theoretical foundations and empirical support, advancing the field from fragmented industrial applications to a systematic academic framework.
 }
 {
 \linespacing{1.2} % change the linespacing to fit the abstract in the allotted space
