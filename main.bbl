@@ -61,6 +61,12 @@ G{\"o}z{\"u}a{\c c}{\i}k, {\"O}., B{\"u}y{\"u}k{\c c}ak{\i}r, A., Bonab, H.,
 \newblock In {\em Proceedings of the 28th ACM International Conference on
   Information and Knowledge Management (CIKM)}, pages 2365--2368.
 
+\bibitem[G{\"o}z{\"u}a{\c c}{\i}k and Can, 2021]{OCDD2021}
+G{\"o}z{\"u}a{\c c}{\i}k, {\"O}. and Can, F. (2021).
+\newblock Concept learning using one-class classifiers for implicit drift
+  detection in evolving data streams.
+\newblock {\em Artificial Intelligence Review}, 54(5):3725--3747.
+
 \bibitem[Gretton et~al., 2012]{Gretton2012}
 Gretton, A., Borgwardt, K.~M., Rasch, M.~J., Sch{\"o}lkopf, B., and Smola, A.
   (2012).
@@ -84,11 +90,30 @@ Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024).
   monitoring in evolving environments.
 \newblock {\em Frontiers in Artificial Intelligence}, 7:1330257.
 
+\bibitem[Hsieh et~al., 2021]{CSDDM2021}
+Hsieh, C.-H., Li, M.-C., and Lee, S.-J. (2021).
+\newblock Concept drift detection based on pre-clustering and statistical
+  testing.
+\newblock {\em Journal of Internet Technology}, 22(2):287--296.
+
 \bibitem[Krawczyk et~al., 2017]{Krawczyk2017}
 Krawczyk, B., Minku, L.~L., Gama, J., Stefanowski, J., and Wo{\'z}niak, M.
   (2017).
 \newblock Ensemble learning for data stream analysis: A survey.
 \newblock {\em Information Fusion}, 37:132--156.
+
+\bibitem[Kuncheva, 2013]{SPLL2013}
+Kuncheva, L.~I. (2013).
+\newblock Change detection in streaming multivariate data using likelihood
+  detectors.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  25(5):1175--1180.
+
+\bibitem[Liu et~al., 2018]{NNDVI2018}
+Liu, A., Song, Y., Zhang, G., and Lu, J. (2018).
+\newblock Accumulating regional density dissimilarity for concept drift
+  detection in data streams.
+\newblock {\em Pattern Recognition}, 76:256--272.
 
 \bibitem[Liu et~al., 2020]{Liu2020}
 Liu, F., Xu, W., Lu, J., Zhang, G., Gretton, A., and Sutherland, D.~J. (2020).
@@ -112,6 +137,18 @@ Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., and Zhang, G. (2018).
 \newblock Learning under concept drift: A review.
 \newblock {\em IEEE Transactions on Knowledge and Data Engineering},
   31(12):2346--2363.
+
+\bibitem[Lukats et~al., 2025]{Lukats2025}
+Lukats, D., Zielinski, O., Hahn, A., and Stahl, F.~T. (2025).
+\newblock A benchmark and survey of fully unsupervised concept drift detectors
+  on real-world data streams.
+\newblock {\em International Journal of Data Science and Analytics}, 19:1--31.
+
+\bibitem[Lundberg and Lee, 2017]{Lundberg2017}
+Lundberg, S.~M. and Lee, S.-I. (2017).
+\newblock A unified approach to interpreting model predictions.
+\newblock In {\em Advances in Neural Information Processing Systems 30 (NIPS)},
+  pages 4765--4774.
 
 \bibitem[Ovadia et~al., 2019]{Ovadia2019}
 Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon,
@@ -175,18 +212,31 @@ Sethi, T.~S. and Kantardzic, M. (2017).
   data.
 \newblock {\em Expert Systems with Applications}, 82:77--99.
 
+\bibitem[Shang et~al., 2020]{UCDD2020}
+Shang, D., Zhang, G., and Lu, J. (2020).
+\newblock Fast concept drift detection using unlabeled data.
+\newblock In {\em Developments of Artificial Intelligence Technologies in
+  Computation and Robotics}, pages 1053--1060. World Scientific.
+
 \bibitem[Shimodaira, 2000]{Shimodaira2000}
 Shimodaira, H. (2000).
 \newblock Improving predictive inference under covariate shift by weighting the
   log-likelihood function.
 \newblock {\em Journal of Statistical Planning and Inference}, 90(2):227--244.
 
-\bibitem[Souza et~al., 2020]{Souza2020}
+\bibitem[Souza et~al., 2020a]{Souza2020}
 Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
-  (2020).
+  (2020a).
 \newblock Challenges in benchmarking stream learning algorithms with real-world
   data.
 \newblock {\em Data Mining and Knowledge Discovery}, 34(6):1805--1858.
+
+\bibitem[Souza et~al., 2020b]{IBDD2020}
+Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
+  (2020b).
+\newblock Efficient unsupervised drift detector for fast and high-dimensional
+  data streams.
+\newblock {\em Knowledge and Information Systems}, 62(4):1357--1385.
 
 \bibitem[Street and Kim, 2001]{Street2001}
 Street, W.~N. and Kim, Y. (2001).
@@ -206,6 +256,11 @@ Vergara, A., Vembu, S., Ayhan, T., Ryan, M.~A., Homer, M.~L., and Huerta, R.
   (2012).
 \newblock Chemical gas sensor drift compensation using classifier ensembles.
 \newblock {\em Sensors and Actuators B: Chemical}, 166:320--329.
+
+\bibitem[Vitter, 1985]{Vitter1985}
+Vitter, J.~S. (1985).
+\newblock Random sampling with a reservoir.
+\newblock {\em ACM Transactions on Mathematical Software}, 11(1):37--57.
 
 \bibitem[Webb et~al., 2016]{Webb2016}
 Webb, G.~I., Hyde, R., Cao, H., Nguyen, H.~L., and Petitjean, F. (2016).

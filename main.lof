@@ -1,3 +1,3 @@
  \contentsline {chapter}{Figure}{\textbf {Page}}{}
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Comparison of no drift versus drift scenarios. Left: When distributions overlap, the adversarial classifier cannot distinguish data sources (AUC $\approx $ 0.5). Right: When drift occurs, distributions shift and the classifier can distinguish sources (AUC $>>$ 0.5).}}{5}{figure.caption.1}%
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Overview of the methodology for feature drift detection via adversarial validation.}}{16}{figure.caption.2}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Overview of Explainable Adversarial Drift Detection (EADD) methodology. The framework extends adversarial validation with SHAP-based root cause analysis and automated prescriptions.}}{18}{figure.caption.2}%
