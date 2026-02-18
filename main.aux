@@ -256,32 +256,54 @@
 \@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Detection Delay by Temporal Pattern (Lower is Better)}}{31}{table.caption.4}\protected@file@percent }
 \newlabel{tab:temporal-results}{{4.1}{31}{Detection Delay by Temporal Pattern (Lower is Better)}{table.caption.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4.3}Experiment 2: Real-World Benchmark (Lukats et al., 2025)}{31}{section.4.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Real-World Performance Comparison}}{32}{table.caption.5}\protected@file@percent }
-\newlabel{tab:realworld-results}{{4.2}{32}{Real-World Performance Comparison}{table.caption.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.4}Experiment 3: The ``Explainability'' Case Study}{32}{section.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {4.5}Experiment 4: Robustness to Stable Data}{33}{section.4.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces False Alarm Count on Stable Data (Lower is Better)}}{33}{table.caption.6}\protected@file@percent }
-\newlabel{tab:stable-results}{{4.3}{33}{False Alarm Count on Stable Data (Lower is Better)}{table.caption.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary of Results}{34}{section.4.6}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Summary: EADD vs. Baselines}}{34}{table.caption.7}\protected@file@percent }
-\newlabel{tab:summary-results}{{4.4}{34}{Summary: EADD vs. Baselines}{table.caption.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.1}{\ignorespaces Detection Delay Comparison by Temporal Drift Pattern. Lower values indicate faster detection. ``Failed'' cases are shown as 400 samples (maximum). EADD consistently achieves the lowest detection delay across all patterns.}}{32}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:detection-delay}{{4.1}{32}{Detection Delay Comparison by Temporal Drift Pattern. Lower values indicate faster detection. ``Failed'' cases are shown as 400 samples (maximum). EADD consistently achieves the lowest detection delay across all patterns}{figure.caption.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Real-World Performance Comparison}}{32}{table.caption.6}\protected@file@percent }
+\newlabel{tab:realworld-results}{{4.2}{32}{Real-World Performance Comparison}{table.caption.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}Experiment 3: The ``Explainability'' Case Study}{33}{section.4.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces SHAP Feature Importance Summary for Explainability Case Study. Feature F3* (Income) dominates with 55\% contribution, correctly identifying it as the sole drifting feature. This diagnostic output is unique to EADD---D3 and other methods provide no feature-level attribution.}}{34}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:shap-summary}{{4.2}{34}{SHAP Feature Importance Summary for Explainability Case Study. Feature F3* (Income) dominates with 55\% contribution, correctly identifying it as the sole drifting feature. This diagnostic output is unique to EADD---D3 and other methods provide no feature-level attribution}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}Experiment 4: Robustness to Stable Data}{35}{section.4.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces False Alarm Count on Stable Data (Lower is Better)}}{35}{table.caption.8}\protected@file@percent }
+\newlabel{tab:stable-results}{{4.3}{35}{False Alarm Count on Stable Data (Lower is Better)}{table.caption.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}Summary of Results}{35}{section.4.6}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Summary: EADD vs. Baselines}}{35}{table.caption.9}\protected@file@percent }
+\newlabel{tab:summary-results}{{4.4}{35}{Summary: EADD vs. Baselines}{table.caption.9}{}}
 \citation{Lukats2025}
-\@writefile{toc}{\contentsline {chapter}{\numberline {\MakeTextUppercase  {Chapter}\ V}\MakeTextUppercase  {Discussion}}{35}{chapter.5}\protected@file@percent }
-\newlabel{chap:discussion}{{5}{35}{Summary of Results}{chapter.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{35}{section.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}RQ1: How Does EADD Handle ``Unknown'' or ``Real'' Data?}{35}{subsection.5.1.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}RQ2: How Do We Distinguish Drift Types?}{35}{subsection.5.1.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\numberline {\MakeTextUppercase  {Chapter}\ V}\MakeTextUppercase  {Discussion}}{36}{chapter.5}\protected@file@percent }
+\newlabel{chap:discussion}{{5}{36}{Summary of Results}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{36}{section.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}RQ1: How Does EADD Handle ``Unknown'' or ``Real'' Data?}{36}{subsection.5.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}RQ2: How Do We Distinguish Drift Types?}{36}{subsection.5.1.2}\protected@file@percent }
 \citation{Gozuacik2019}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}RQ3: How Is EADD Better Than Existing Methods?}{36}{subsection.5.1.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.2}MLOps Prescription Framework}{36}{section.5.2}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces MLOps Prescription Framework Based on Drift Diagnosis}}{36}{table.caption.8}\protected@file@percent }
-\newlabel{tab:mlops-prescriptions}{{5.1}{36}{MLOps Prescription Framework Based on Drift Diagnosis}{table.caption.8}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5.3}Limitations and Future Work}{37}{section.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5.4}Conclusion}{37}{section.5.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}RQ3: How Is EADD Better Than Existing Methods?}{37}{subsection.5.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}MLOps Prescription Framework}{37}{section.5.2}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces MLOps Prescription Framework Based on Drift Diagnosis}}{37}{table.caption.10}\protected@file@percent }
+\newlabel{tab:mlops-prescriptions}{{5.1}{37}{MLOps Prescription Framework Based on Drift Diagnosis}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}Limitations}{38}{section.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}Chapter Summary}{38}{section.5.4}\protected@file@percent }
+\citation{Gozuacik2019}
+\citation{Lukats2025}
+\citation{Lundberg2017}
+\@writefile{toc}{\contentsline {chapter}{\numberline {\MakeTextUppercase  {Chapter}\ VI}\MakeTextUppercase  {Conclusion}}{39}{chapter.6}\protected@file@percent }
+\newlabel{chap:conclusion}{{6}{39}{Chapter Summary}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Summary of Contributions}{39}{section.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Implications for MLOps}{40}{section.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Limitations}{40}{section.6.3}\protected@file@percent }
+\citation{Gama2004}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Future Work}{41}{section.6.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Concluding Remarks}{41}{section.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{APPENDIX}{42}{section.6.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {chapter}{\hspace  {1.5em} \numberline {\MakeTextUppercase  {Appendix}\ A}\MakeTextUppercase  {Implementation Details}}{43}{chapter.1}\protected@file@percent }
+\newlabel{app:implementation}{{A}{43}{Concluding Remarks}{chapter.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.1}Adversarial Classifier (LightGBM)}{43}{section.1.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {A.1}{\ignorespaces LightGBM Hyperparameters}}{43}{table.caption.11}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.2}Windowing Strategy}{43}{section.1.2}\protected@file@percent }
 \bibstyle{apalike}
 \bibdata{references}
-\@writefile{toc}{\contentsline {chapter}{\numberline {\MakeTextUppercase  {Chapter}\ VI}\MakeTextUppercase  {Conclusion}}{38}{chapter.6}\protected@file@percent }
-\newlabel{chap:conclusion}{{6}{38}{Conclusion}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {A.3}Permutation Test}{44}{section.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.4}SHAP Configuration}{44}{section.1.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {A.5}Computational Environment}{44}{section.1.5}\protected@file@percent }
 \bibcite{BaenaGarcia2006}{{1}{2006}{{Baena-Garc{\'i}a et~al.}}{{}}}
 \bibcite{Bayram2022}{{2}{2022}{{Bayram et~al.}}{{}}}
 \bibcite{BifetGavalda2007}{{3}{2007}{{Bifet and Gavald{\`a}}}{{}}}
@@ -327,6 +349,6 @@
 \bibcite{Webb2016}{{43}{2016}{{Webb et~al.}}{{}}}
 \bibcite{WidmerKubat1996}{{44}{1996}{{Widmer and Kubat}}{{}}}
 \bibcite{Zliobaite2010}{{45}{2010}{{{\v Z}liobait{\.e}}}{{}}}
-\newlabel{biography}{{6}{44}{Conclusion}{chapter.6}{}}
-\@writefile{toc}{\contentsline {chapter}{BIOGRAPHY}{44}{chapter.6}\protected@file@percent }
-\gdef \@abspage@last{56}
+\newlabel{biography}{{A.5}{50}{Computational Environment}{section.1.5}{}}
+\@writefile{toc}{\contentsline {chapter}{BIOGRAPHY}{50}{section.1.5}\protected@file@percent }
+\gdef \@abspage@last{62}
