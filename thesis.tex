@@ -406,7 +406,7 @@ This step implements the core \textbf{Adversarial Validation} logic that forms t
 \end{itemize}
 
 \textbf{Train Adversarial Classifier:}
-Train a binary classifier $f_\theta$ to predict data source from features alone. EADD uses \textbf{LightGBM} as the default classifier.
+Train a binary classifier $f_\theta$ to predict data source from features alone. EADD uses \textbf{LightGBM} \citep{Ke2017} as the default classifier.
 
 \textit{Why LightGBM over D3's Logistic Regression?} D3 \citep{Gozuacik2019} uses logistic regression, which is linear. LightGBM captures \textbf{non-linear feature interactions}, enabling detection of complex Feature Drifts where multiple features shift in correlated ways that linear models miss.
 
@@ -655,7 +655,7 @@ To validate the robustness and explainability of Explainable Adversarial Drift D
 
 \section{Experimental Setup}
 
-\textbf{Environment:} All experiments were conducted in Python 3.10 using LightGBM for the adversarial classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}. Window sizes were set to $N_{ref} = 500$ and $N_{cur} = 200$ samples.
+\textbf{Environment:} All experiments were conducted in Python 3.10 using LightGBM \citep{Ke2017} for the adversarial classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}. Window sizes were set to $N_{ref} = 500$ and $N_{cur} = 200$ samples.
 
 \textbf{Baselines:} We compared EADD against state-of-the-art methods:
 \begin{itemize}

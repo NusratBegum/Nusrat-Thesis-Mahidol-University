@@ -96,6 +96,13 @@ Hsieh, C.-H., Li, M.-C., and Lee, S.-J. (2021).
   testing.
 \newblock {\em Journal of Internet Technology}, 22(2):287--296.
 
+\bibitem[Ke et~al., 2017]{Ke2017}
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu,
+  T.-Y. (2017).
+\newblock {LightGBM}: A highly efficient gradient boosting decision tree.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)},
+  volume~30, pages 3146--3154.
+
 \bibitem[Krawczyk et~al., 2017]{Krawczyk2017}
 Krawczyk, B., Minku, L.~L., Gama, J., Stefanowski, J., and Wo{\'z}niak, M.
   (2017).
