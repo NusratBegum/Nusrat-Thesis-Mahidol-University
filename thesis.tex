@@ -175,6 +175,10 @@ Recent benchmarking by \citet{Lukats2025} provides a systematic evaluation of fu
 
 \textbf{UCDD (Unsupervised Concept Drift Detection):} \citet{UCDD2020} developed a clustering-based approach that assigns pseudo-labels based on cluster membership and monitors boundary shifts. It serves as a reliable baseline in unsupervised drift detection.
 
+\textbf{BNDM (Bayesian Non-parametric Drift Monitor):} This method uses a Pólya tree test to detect distributional changes without parametric assumptions. However, \citet{Lukats2025} report that BNDM struggled with small sample sizes in their benchmark, limiting its practical applicability in streaming scenarios where window sizes are constrained.
+
+\textbf{UDetect (Univariate Detection):} This approach monitors standard deviation changes using Shewhart control charts. While simple and computationally efficient, \citet{Lukats2025} found it had a high failure rate (45\%) in their benchmark, making it unreliable for production deployment.
+
 \textbf{Industrial Drift Detection Libraries:}
 Beyond research algorithms, several industrial libraries provide production-ready drift detection:
 \begin{itemize}

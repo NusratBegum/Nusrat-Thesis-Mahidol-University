@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  18 FEB 2026 19:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  18 FEB 2026 19:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -572,10 +572,10 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 
 [17]
 Chapter 3.
-<figures/figure-2.pdf, id=753, 633.86812pt x 242.40562pt>
+<figures/figure-2.pdf, id=757, 633.86812pt x 242.40562pt>
 File: figures/figure-2.pdf Graphic file (type pdf)
 <use figures/figure-2.pdf>
-Package pdftex.def Info: figures/figure-2.pdf  used on input line 249.
+Package pdftex.def Info: figures/figure-2.pdf  used on input line 253.
 (pdftex.def)             Requested size: 398.69295pt x 152.47221pt.
 
 
@@ -584,7 +584,7 @@ Package pdftex.def Info: figures/figure-2.pdf  used on input line 249.
  <./figures/figure-2.pdf>]
 
 [19]
-Underfull \hbox (badness 10000) in paragraph at lines 303--303
+Underfull \hbox (badness 10000) in paragraph at lines 307--307
 []\OT1/ptm/m/n/12 (+20) ``Based on Per-mu-ta-tion
  []
 
@@ -595,7 +595,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 303--303
 [21]
 
 [22]
-Overfull \hbox (42.62334pt too wide) in paragraph at lines 388--389
+Overfull \hbox (42.62334pt too wide) in paragraph at lines 392--393
  []\OT1/ptm/m/n/12 (-20) Calculate mean ab-so-lute SHAP value per fea-ture: $[]
 [] \OT1/cmr/m/n/12 = [] [][] \OMS/cmsy/m/n/12 j[][]j$ 
  []
@@ -656,17 +656,17 @@ L3 programming layer <2025-01-18>
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 0AE6948C34DBC8B686623191F4F9E04E;7386.
  )
-(\end occurred when \iffalse on line 601 was incomplete)
-(\end occurred when \iffalse on line 596 was incomplete)
-(\end occurred when \iffalse on line 591 was incomplete)
-(\end occurred when \iffalse on line 245 was incomplete)
+(\end occurred when \iffalse on line 605 was incomplete)
+(\end occurred when \iffalse on line 600 was incomplete)
+(\end occurred when \iffalse on line 595 was incomplete)
+(\end occurred when \iffalse on line 249 was incomplete)
 (\end occurred when \iffalse on line 45 was incomplete)
 (\end occurred when \iffalse on line 1 was incomplete) 
 Here is how much of TeX's memory you used:
- 14267 strings out of 473190
- 226763 string characters out of 5715799
+ 14268 strings out of 473190
+ 226771 string characters out of 5715799
  650039 words of memory out of 5000000
- 36876 multiletter control sequences out of 15000+600000
+ 36877 multiletter control sequences out of 15000+600000
  588057 words of font info for 263 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,12n,93p,1265b,641s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -683,10 +683,10 @@ t/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/
 fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
 1/urw/times/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
 s/utmri8a.pfb>
-Output written on main.pdf (48 pages, 590638 bytes).
+Output written on main.pdf (48 pages, 591425 bytes).
 PDF statistics:
- 1110 PDF objects out of 1200 (max. 8388607)
- 997 compressed objects within 10 object streams
+ 1115 PDF objects out of 1200 (max. 8388607)
+ 1001 compressed objects within 11 object streams
  163 named destinations out of 1000 (max. 500000)
  34131 words of extra memory for PDF output out of 35830 (max. 10000000)
 
