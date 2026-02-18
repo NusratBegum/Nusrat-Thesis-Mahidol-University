@@ -250,8 +250,65 @@ This thesis aims to bridge this explainability gap by developing a framework tha
 
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=.95\textwidth,keepaspectratio]{figures/figure-2.pdf}
-    \caption{Overview of Explainable Adversarial Drift Detection (EADD) methodology. The framework extends adversarial validation with SHAP-based root cause analysis and automated prescriptions.}
+    \begin{tikzpicture}[
+        node distance=1.2cm and 0.8cm,
+        box/.style={rectangle, draw, rounded corners, minimum width=2.8cm, minimum height=0.9cm, align=center, font=\small},
+        decision/.style={diamond, draw, aspect=2.5, minimum width=2cm, align=center, font=\small},
+        arrow/.style={-{Stealth[scale=0.8]}, thick},
+        novel/.style={box, fill=blue!15, draw=blue!60},
+        standard/.style={box, fill=gray!10}
+    ]
+    
+    % Step 1: Data Stream
+    \node[standard] (stream) {Data Stream\\$\{x_t\}$};
+    
+    % Step 2: Windowing
+    \node[standard, right=of stream] (window) {Step 1:\\Windowing\\(Reservoir)};
+    
+    % Step 3: Adversarial Classifier
+    \node[standard, right=of window] (adv) {Step 2:\\Adversarial\\Validation};
+    
+    % Decision 1: AUC High?
+    \node[decision, right=of adv] (dec1) {AUC\\High?};
+    
+    % Step 4: Permutation Test (Novel)
+    \node[novel, right=of dec1] (perm) {Step 3:\\Permutation\\Test};
+    
+    % Decision 2: p < 0.01?
+    \node[decision, below=1.5cm of perm] (dec2) {$p < 0.01$?};
+    
+    % Step 5: SHAP (Novel)
+    \node[novel, left=of dec2] (shap) {Step 4:\\SHAP Feature\\Attribution};
+    
+    % Output
+    \node[novel, left=of shap] (output) {Drift Report:\\Features +\\Prescription};
+    
+    % No Drift
+    \node[standard, below=1.5cm of dec1] (nodrift) {No Drift\\(Continue)};
+    
+    % Arrows
+    \draw[arrow] (stream) -- (window);
+    \draw[arrow] (window) -- (adv);
+    \draw[arrow] (adv) -- (dec1);
+    \draw[arrow] (dec1) -- node[above, font=\scriptsize] {Yes} (perm);
+    \draw[arrow] (dec1) -- node[right, font=\scriptsize] {No} (nodrift);
+    \draw[arrow] (perm) -- (dec2);
+    \draw[arrow] (dec2) -- node[above, font=\scriptsize] {Yes} (shap);
+    \draw[arrow] (dec2.south) -- ++(0,-0.5) -| node[near start, right, font=\scriptsize] {No} (nodrift.south);
+    \draw[arrow] (shap) -- (output);
+    
+    % Loop back
+    \draw[arrow] (nodrift.west) -- ++(-0.5,0) |- (stream.south);
+    \draw[arrow] (output.south) -- ++(0,-0.5) -| (stream.south west);
+    
+    % Legend
+    \node[standard, minimum width=1.5cm, minimum height=0.5cm] at ($(stream.south)+(0,-2.5)$) (leg1) {};
+    \node[right=0.1cm of leg1, font=\scriptsize] {Standard};
+    \node[novel, minimum width=1.5cm, minimum height=0.5cm, right=2cm of leg1] (leg2) {};
+    \node[right=0.1cm of leg2, font=\scriptsize] {Novel (EADD)};
+    
+    \end{tikzpicture}
+    \caption{Overview of Explainable Adversarial Drift Detection (EADD) methodology. Blue boxes indicate novel contributions: Permutation Test (Step 3) and SHAP Feature Attribution (Step 4). The framework extends D3's adversarial validation with statistical rigor and root cause analysis.}
     \label{fig:methodology-overview}
 \end{figure}
 
