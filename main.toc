@@ -1,8 +1,8 @@
  \contentsline {chapter}{}{\textbf {Page}}{}
 \contentsline {chapter}{ACKNOWLEDGEMENTS}{iii}{Doc-Start}%
 \contentsline {chapter}{ABSTRACT}{iv}{Doc-Start}%
-\contentsline {chapter}{LIST OF TABLES}{viii}{Doc-Start}%
-\contentsline {chapter}{LIST OF FIGURES}{ix}{Doc-Start}%
+\contentsline {chapter}{LIST OF TABLES}{ix}{Doc-Start}%
+\contentsline {chapter}{LIST OF FIGURES}{x}{Doc-Start}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ I}\MakeTextUppercase {Introduction}}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
 \contentsline {section}{\numberline {1.2}Objectives}{2}{section.1.2}%
@@ -42,6 +42,19 @@
 \contentsline {section}{\numberline {3.7}Experimental Design}{28}{section.3.7}%
 \contentsline {section}{\numberline {3.8}Practical Considerations}{29}{section.3.8}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Results}}{30}{chapter.4}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{31}{chapter.5}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{32}{chapter.6}%
-\contentsline {chapter}{BIOGRAPHY}{38}{chapter.6}%
+\contentsline {section}{\numberline {4.1}Experimental Setup}{30}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Experiment 1: Sensitivity to Temporal Drift Patterns}{30}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Experiment 2: Real-World Benchmark (Lukats et al., 2025)}{31}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Experiment 3: The ``Explainability'' Case Study}{32}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Experiment 4: Robustness to Stable Data}{33}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Summary of Results}{34}{section.4.6}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{35}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{35}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}RQ1: How Does EADD Handle ``Unknown'' or ``Real'' Data?}{35}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}RQ2: How Do We Distinguish Drift Types?}{35}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}RQ3: How Is EADD Better Than Existing Methods?}{36}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}MLOps Prescription Framework}{36}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Limitations and Future Work}{37}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Conclusion}{37}{section.5.4}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{38}{chapter.6}%
+\contentsline {chapter}{BIOGRAPHY}{44}{chapter.6}%

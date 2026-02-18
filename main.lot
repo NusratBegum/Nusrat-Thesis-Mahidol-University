@@ -1,2 +1,7 @@
  \contentsline {chapter}{Table}{\textbf {Page}}{}
 \contentsline {table}{\numberline {3.1}{\ignorespaces Alignment of EADD Components with Research Requirements}}{20}{table.caption.3}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Detection Delay by Temporal Pattern (Lower is Better)}}{31}{table.caption.4}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Real-World Performance Comparison}}{32}{table.caption.5}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces False Alarm Count on Stable Data (Lower is Better)}}{33}{table.caption.6}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Summary: EADD vs. Baselines}}{34}{table.caption.7}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces MLOps Prescription Framework Based on Drift Diagnosis}}{36}{table.caption.8}%
