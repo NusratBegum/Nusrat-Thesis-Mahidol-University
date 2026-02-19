@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  19 FEB 2026 06:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  20 FEB 2026 06:23
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1015,7 +1015,7 @@ ent rec-om-men-da-tions for MLOps pipelines,
 
 [4]
 Chapter 2.
-<figures/figure-1.png, id=523, 858.0858pt x 352.1958pt>
+<figures/figure-1.png, id=531, 858.0858pt x 352.1958pt>
 File: figures/figure-1.png Graphic file (type png)
 <use figures/figure-1.png>
 Package pdftex.def Info: figures/figure-1.png  used on input line 49.
@@ -1038,6 +1038,101 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [8]
 
 [9]
+Underfull \hbox (badness 4569) in paragraph at lines 136--136
+[]\OT1/ptm/b/n/12 (+20) PSI (Pop-u-la-
+ []
+
+
+Underfull \hbox (badness 1043) in paragraph at lines 136--136
+\OT1/ptm/b/n/12 (+20) tion Sta-bil-ity
+ []
+
+
+Underfull \hbox (badness 1248) in paragraph at lines 136--136
+\OT1/ptm/m/n/12 (+20) bu-tions of sin-gle fea-
+ []
+
+
+Underfull \hbox (badness 7851) in paragraph at lines 136--136
+[]\OT1/ptm/m/n/12 (+20) Simple, in-ter-pretable,
+ []
+
+
+Underfull \hbox (badness 6188) in paragraph at lines 136--137
+[]\OT1/ptm/m/n/12 (+20) Univariate only;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+[]\OT1/ptm/b/n/12 (+20) KS Test
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+\OT1/ptm/b/n/12 (+20) (Kolmogorov-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+[]\OT1/ptm/m/n/12 (+20) Non-parametric test
+ []
+
+
+Underfull \hbox (badness 1609) in paragraph at lines 138--138
+\OT1/ptm/m/n/12 (+20) com-par-ing cu-mu-la-tive
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+[]\OT1/ptm/m/n/12 (+20) No dis-tri-bu-tional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--138
+\OT1/ptm/m/n/12 (+20) as-sump-tions; ex-act
+ []
+
+
+Underfull \hbox (badness 6188) in paragraph at lines 138--139
+[]\OT1/ptm/m/n/12 (+20) Univariate only;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+\OT1/ptm/m/n/12 (+20) mul-ti-ple test-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+\OT1/ptm/m/n/12 (+20) prob-lem with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+[]\OT1/ptm/b/n/12 (+20) Adversarial
+ []
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 140--140
+[]\OT1/ptm/m/n/12 (+20) Multivariate; cap-tures
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+[]\OT1/ptm/m/n/12 (+20) Requires clas-si-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\OT1/ptm/m/n/12 (+20) built-in ex-plain-
+ []
+
+
+Overfull \hbox (12.43404pt too wide) in paragraph at lines 132--143
+ [][] 
+ []
+
+
 
 [10]
 
@@ -1054,38 +1149,38 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [16]
 
 [17]
+
+[18]
 Chapter 3.
 
-Overfull \hbox (115.67322pt too wide) in paragraph at lines 310--311
+Overfull \hbox (115.67322pt too wide) in paragraph at lines 333--334
  [][] 
  []
 
 
 
-[18
+[19
 
 ]
 
-[19]
-Underfull \hbox (badness 10000) in paragraph at lines 364--364
+[20]
+Underfull \hbox (badness 10000) in paragraph at lines 387--387
 []\OT1/ptm/m/n/12 (+20) ``Based on Per-mu-ta-tion
  []
 
 
 
-[20]
-
 [21]
 
 [22]
-Overfull \hbox (42.62334pt too wide) in paragraph at lines 449--450
+
+[23]
+Overfull \hbox (42.62334pt too wide) in paragraph at lines 472--473
  []\OT1/ptm/m/n/12 (-20) Calculate mean ab-so-lute SHAP value per fea-ture: $[]
 [] \OT1/cmr/m/n/12 = [] [][] \OMS/cmsy/m/n/12 j[][]j$ 
  []
 
 
-
-[23]
 
 [24]
 
@@ -1098,21 +1193,22 @@ Overfull \hbox (42.62334pt too wide) in paragraph at lines 449--450
 [28]
 
 [29]
+
+[30]
 Chapter 4.
 
 
-[30
+[31
 
 ]
-Package pgfplots info on input line 719: Using 'lua backend=false' for axis: x 
-coord trafo unsupported.
-
-
-[31]
 
 [32]
+
+[33]
+
+[34]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 7
-80.
+91.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -1120,69 +1216,120 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `pcr' (encoding: OT1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package pgfplots info on input line 816: Using 'lua backend=false' for axis: x 
-coord trafo unsupported.
+
+Overfull \hbox (46.59106pt too wide) in paragraph at lines 791--798
+\OT1/pcr/m/n/12 Recommendation: Retrain or investigate F3 data source.'' 
+ []
 
 
-[33]
-
-[34]
 
 [35]
+Overfull \hbox (58.73943pt too wide) in paragraph at lines 856--866
+ [][] 
+ []
+
+
+
+[36]
+
+[37]
 Chapter 5.
 
 
-[36
+[38
 
 ]
-Underfull \hbox (badness 3668) in paragraph at lines 920--920
+Underfull \hbox (badness 2261) in paragraph at lines 925--925
+[]\OT1/ptm/m/n/12 (+20) Larger datasets al-low
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 926--926
+[]\OT1/ptm/m/n/12 (+20) Expected Drift
+ []
+
+
+Underfull \hbox (badness 1383) in paragraph at lines 926--926
+[]\OT1/ptm/m/n/12 (+20) Abrupt: smaller win-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 927--927
+[]\OT1/ptm/m/n/12 (+20) Detection La-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 927--927
+[]\OT1/ptm/m/n/12 (+20) Smaller win-dows =
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 927--928
+[]\OT1/ptm/m/n/12 (+20) Trade-off with sta-tis-ti-cal
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 928--928
+[]\OT1/ptm/m/n/12 (+20) Computational
+ []
+
+
+
+[39]
+
+[40]
+
+[41]
+Underfull \hbox (badness 3668) in paragraph at lines 1036--1036
 []\OT1/ptm/m/n/12 (+20) Single fea-ture $\OML/cmm/m/it/12 >$\OT1/ptm/m/n/12 (+2
 0) 50%
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 922--922
+Underfull \hbox (badness 2698) in paragraph at lines 1038--1038
 []\OT1/ptm/m/n/12 (+20) 2--5 fea-tures to-gether
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 924--924
+Underfull \hbox (badness 10000) in paragraph at lines 1040--1040
 []\OT1/ptm/b/n/12 (+20) Multivariate
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 926--926
+Underfull \hbox (badness 3668) in paragraph at lines 1042--1042
 []\OT1/ptm/m/n/12 (+20) Single fea-ture $\OML/cmm/m/it/12 >$\OT1/ptm/m/n/12 (+2
 0) 80%
  []
 
 
-Underfull \hbox (badness 1715) in paragraph at lines 926--926
+Underfull \hbox (badness 1715) in paragraph at lines 1042--1042
 \OT1/ptm/m/n/12 (+20) + tem-po-ral pat-tern is
  []
 
 
-Overfull \hbox (13.29526pt too wide) in paragraph at lines 928--928
+Overfull \hbox (13.29526pt too wide) in paragraph at lines 1044--1044
 []\OT1/ptm/b/n/12 (-20) Seasonal/Recurring| 
  []
 
 
 
-[37]
+[42]
 
-[38]
+[43]
 Chapter 6.
 
 
-[39
+[44
 
 ]
 
-[40])
+[45])
 
-[41]
+[46]
 
-[42]
+[47]
+
+[48]
 pdfTeX warning (ext4): destination with the same identifier (name{chapter.1}) h
 as been already used, duplicate ignored
 <to be read again> 
@@ -1210,29 +1357,29 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1.3})
 l.102 \section{Permutation Test}
                                 
 
-[43
+[49
 
 ] (./main.bbl
 
-[44]
-
-[45
-
-]
-
-[46]
-
-[47]
-
-[48])
-
-[49]
-
-[50
-
-]
+[50]
 
 [51
+
+]
+
+[52]
+
+[53]
+
+[54])
+
+[55]
+
+[56
+
+]
+
+[57
 
 ] (./main.aux)
  ***********
@@ -1240,23 +1387,23 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 7B57B3706CF7C36B76EBB1CBE488278A;12410.
+(rerunfilecheck)             Checksum: 86A8E6F6053897055FA751E31180C2D5;13460.
  )
 (\end occurred when \iffalse on line 64 was incomplete)
-(\end occurred when \iffalse on line 946 was incomplete)
-(\end occurred when \iffalse on line 870 was incomplete)
-(\end occurred when \iffalse on line 652 was incomplete)
-(\end occurred when \iffalse on line 249 was incomplete)
+(\end occurred when \iffalse on line 1062 was incomplete)
+(\end occurred when \iffalse on line 879 was incomplete)
+(\end occurred when \iffalse on line 675 was incomplete)
+(\end occurred when \iffalse on line 272 was incomplete)
 (\end occurred when \iffalse on line 45 was incomplete)
 (\end occurred when \iffalse on line 1 was incomplete) 
 Here is how much of TeX's memory you used:
- 37083 strings out of 473190
- 843622 string characters out of 5715799
- 1354552 words of memory out of 5000000
- 59209 multiletter control sequences out of 15000+600000
- 596170 words of font info for 308 fonts, out of 8000000 for 9000
+ 36556 strings out of 473190
+ 828514 string characters out of 5715799
+ 1322379 words of memory out of 5000000
+ 58651 multiletter control sequences out of 15000+600000
+ 595999 words of font info for 314 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,19n,93p,1265b,2399s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,12n,93p,1265b,879s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2025/t
 exmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr/local/texlive/202
@@ -1266,19 +1413,17 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2025/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2025/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2025/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2025/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2025/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/font
-s/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fonts/
-type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025/texmf-dist/fo
-nts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type
-1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/time
-s/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.
-pfb>
-Output written on main.pdf (62 pages, 593398 bytes).
+st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2025/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2025/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2025/texmf-dist/fon
+ts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1
+/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times
+/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on main.pdf (68 pages, 581710 bytes).
 PDF statistics:
- 1347 PDF objects out of 1440 (max. 8388607)
- 1234 compressed objects within 13 object streams
- 216 named destinations out of 1000 (max. 500000)
- 39970 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 1390 PDF objects out of 1440 (max. 8388607)
+ 1275 compressed objects within 13 object streams
+ 235 named destinations out of 1000 (max. 500000)
+ 39490 words of extra memory for PDF output out of 42996 (max. 10000000)
 

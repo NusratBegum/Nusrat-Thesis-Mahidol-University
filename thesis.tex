@@ -121,6 +121,29 @@ Key statistical drift detection methods include:
 
 \textbf{Strengths and Limitations:} Statistical tests are interpretable, theoretically grounded, and label-free \citep{Rabanser2019}. However, they can be sensitive to noise (causing false alarms), may struggle in high-dimensional spaces due to the curse of dimensionality, and typically test marginal distributions rather than joint distributions \citep{Lu2018, Webb2016}.
 
+\textbf{Comparison of Statistical Methods with Adversarial Validation:}
+
+Table~\ref{tab:method-comparison} compares popular univariate statistical methods (PSI, KS) with the multivariate Adversarial Validation approach used in this thesis.
+
+\begin{table}[!htbp]
+\centering
+\caption{Comparison of Drift Detection Approaches}
+\label{tab:method-comparison}
+\begin{tabular}{p{2.5cm}p{4cm}p{4cm}p{3cm}}
+\hline
+\textbf{Method} & \textbf{Approach} & \textbf{Strengths} & \textbf{Limitations} \\
+\hline
+\textbf{PSI (Population Stability Index)} & Compares binned distributions of single features; PSI $> 0.25$ indicates significant drift & Simple, interpretable, industry standard & Univariate only; requires binning; misses feature correlations \\
+\hline
+\textbf{KS Test (Kolmogorov-Smirnov)} & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
+\hline
+\textbf{Adversarial Validation} & Trains classifier to distinguish old vs. new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; no built-in explainability (addressed by EADD) \\
+\hline
+\end{tabular}
+\end{table}
+
+The key distinction is that PSI and KS are \textbf{univariate} methods---they test each feature independently. When monitoring $d$ features, this requires $d$ separate tests, leading to the ``false alarm storm'' problem where the probability of at least one false positive increases with $d$. Adversarial Validation is inherently \textbf{multivariate}, testing the joint distribution $P(X_1, X_2, \ldots, X_d)$ in a single unified check.
+
 \subsubsection{Model-Based Discriminative Methods}
 According to \citet{Pan2020}, \citet{LopezPazOquab2017}, and \citet{Sethi2017}, discriminative drift detection methods train an auxiliary model to distinguish between reference and current data distributions. \citet{LopezPazOquab2017} explain that the core idea is to frame drift detection as a classification problem: if a classifier can accurately predict whether each instance originates from the reference or current distribution, the distributions must be distinguishably different.
 
@@ -649,15 +672,42 @@ According to \citet{Gama2014}, compare drift-triggered retraining vs. periodic r
 \end{itemize}
 
 
-\chapter{Results} \label{chap:results}
+\chapter{Experimental Design} \label{chap:results}
 
-To validate the robustness and explainability of Explainable Adversarial Drift Detection (EADD), we conducted four distinct experiments addressing temporal sensitivity, real-world performance, diagnostic capability, and noise robustness.
+This chapter presents the experimental design for validating the robustness and explainability of Explainable Adversarial Drift Detection (EADD). We describe four planned experiments addressing temporal sensitivity, real-world performance, diagnostic capability, and noise robustness.
 
 \section{Experimental Setup}
 
-\textbf{Environment:} All experiments were conducted in Python 3.10 using LightGBM \citep{Ke2017} for the adversarial classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}. Window sizes were set to $N_{ref} = 500$ and $N_{cur} = 200$ samples.
+\textbf{Environment:} Experiments will be conducted in Python 3.10 using LightGBM \citep{Ke2017} for the adversarial classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}.
 
-\textbf{Baselines:} We compared EADD against state-of-the-art methods:
+\textbf{Window Size Configuration:}
+\begin{itemize}
+    \item \textbf{Reference Window ($N_{ref}$):} 500 samples
+    \item \textbf{Current Window / Step Size ($N_{cur}$):} 200 samples
+\end{itemize}
+
+\textbf{Rationale for Window Sizes:} The choice of $N_{ref} = 500$ and $N_{cur} = 200$ is dataset-dependent:
+\begin{itemize}
+    \item For a synthetic stream of 10,000 samples with drift at $t=5000$, a reference window of 500 provides sufficient baseline variance while remaining sensitive to sudden changes.
+    \item The step size of 200 introduces randomness in detection timing, avoiding overfitting to fixed intervals.
+    \item For real-world data, these parameters should be tuned based on: (1) expected drift frequency, (2) computational budget, and (3) acceptable detection latency.
+\end{itemize}
+
+\textbf{Cross-Validation Configuration:}
+\begin{itemize}
+    \item \textbf{CV Folds:} Stratified 5-fold cross-validation within each detection cycle
+    \item \textbf{Purpose:} Compute robust AUC estimates by averaging across folds, reducing variance from single train/test splits
+    \item \textbf{Temporal Purging:} Ensure no temporal overlap between folds to avoid data leakage
+\end{itemize}
+
+\textbf{AUC Threshold Selection:}
+\begin{itemize}
+    \item \textbf{Default Threshold:} AUC $> 0.7$ (adapted from industry practice \citep{Pan2020})
+    \item \textbf{Rationale:} This threshold represents a classifier performing meaningfully better than random chance (AUC = 0.5). Values of 0.7--0.8 are commonly used in adversarial validation for dataset shift detection.
+    \item \textbf{Note:} EADD's permutation test provides statistical validation ($p < 0.01$), making the exact threshold less critical than in D3.
+\end{itemize}
+
+\textbf{Baselines:} EADD will be compared against state-of-the-art methods:
 \begin{itemize}
     \item \textbf{D3 (Discriminative Drift Detector):} The current state-of-the-art discriminative method \citep{Gozuacik2019}, using logistic regression with AUC threshold of 0.7.
     \item \textbf{ADWIN (Adaptive Windowing):} The standard-bearer for statistical change detection \citep{BifetGavalda2007}.
@@ -668,227 +718,293 @@ To validate the robustness and explainability of Explainable Adversarial Drift D
 
 \textbf{Objective:} To verify that EADD can detect all four major temporal drift patterns (Abrupt, Gradual, Incremental, Recurring) as defined in Chapter 2.
 
-\textbf{Data:} We generated synthetic data streams ($n=10000$ samples, $d=5$ features) with controlled feature drift injections ($P(X)$ shift) at index $t=5000$.
-
-\textbf{Results:} Table~\ref{tab:temporal-results} summarizes the Detection Delay (number of samples between drift start and detection) for each method.
-
-\begin{table}[!htbp]
-\centering
-\caption{Detection Delay by Temporal Pattern (Lower is Better)}
-\label{tab:temporal-results}
-\begin{tabular}{lcccc}
-\hline
-\textbf{Drift Type} & \textbf{EADD (Ours)} & \textbf{D3} & \textbf{ADWIN} & \textbf{KSWIN} \\
-\hline
-Abrupt (Sudden Shift) & \textbf{50} & 55 & 120 & 95 \\
-Gradual (Slow Transition) & \textbf{180} & 210 & Failed & 400 \\
-Incremental (Continuous) & \textbf{200} & 225 & Failed & Failed \\
-Recurring (Seasonal) & \textbf{45} & 60 & 110 & 80 \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Analysis:}
+\textbf{Data Generation:}
 \begin{itemize}
-    \item \textbf{Abrupt Drift:} EADD detected sudden shifts fastest because the LightGBM classifier rapidly achieves high AUC (0.95+) when distributions separate cleanly.
-    \item \textbf{Gradual/Incremental:} Statistical methods like ADWIN often failed (False Negatives) because the change per-window was too small to trigger the statistical bound. EADD succeeded because the \textbf{Reservoir Sampling} in the Reference Window ($W_{ref}$) maintained a memory of the \textit{original} state, allowing the contrast with $W_{cur}$ to grow until statistically significant.
-    \item \textbf{Recurring:} EADD's permutation test correctly identified the return to a previous distribution state.
+    \item Generate synthetic data streams ($n=10000$ samples, $d=5$ features)
+    \item Inject controlled feature drift ($P(X)$ shift) at index $t=5000$
+    \item Create 4 variants for each temporal pattern
 \end{itemize}
 
-\textbf{Conclusion:} EADD successfully covers all temporal patterns, outperforming statistical baselines on slow-moving drift.
+\textbf{Evaluation Metrics:}
+\begin{itemize}
+    \item \textbf{Detection Delay:} Number of samples between drift start ($t=5000$) and first detection alarm. \textit{Lower is better.}
+    \item \textbf{Detection Success Rate:} Percentage of runs where drift was successfully detected within 1000 samples.
+\end{itemize}
 
-Figure~\ref{fig:detection-delay} visualizes the detection delay comparison across methods.
-
-\begin{figure}[!htbp]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            ybar,
-            bar width=12pt,
-            width=0.95\textwidth,
-            height=7cm,
-            ylabel={Detection Delay (samples)},
-            symbolic x coords={Abrupt, Gradual, Incremental, Recurring},
-            xtick=data,
-            ymin=0,
-            ymax=450,
-            legend style={at={(0.5,-0.15)}, anchor=north, legend columns=4},
-            nodes near coords,
-            nodes near coords align={vertical},
-            every node near coord/.append style={font=\tiny},
-        ]
-        \addplot coordinates {(Abrupt,50) (Gradual,180) (Incremental,200) (Recurring,45)};
-        \addplot coordinates {(Abrupt,55) (Gradual,210) (Incremental,225) (Recurring,60)};
-        \addplot coordinates {(Abrupt,120) (Gradual,400) (Incremental,400) (Recurring,110)};
-        \addplot coordinates {(Abrupt,95) (Gradual,400) (Incremental,400) (Recurring,80)};
-        \legend{EADD (Ours), D3, ADWIN, KSWIN}
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Detection Delay Comparison by Temporal Drift Pattern. Lower values indicate faster detection. ``Failed'' cases are shown as 400 samples (maximum). EADD consistently achieves the lowest detection delay across all patterns.}
-    \label{fig:detection-delay}
-\end{figure}
-
-\section{Experiment 2: Real-World Benchmark (Lukats et al., 2025)}
-
-\textbf{Objective:} To demonstrate performance on ``Unknown'' and ``Real'' data where drift is complex and noisy.
-
-\textbf{Data:} We used three benchmark datasets from the \citet{Lukats2025} survey:
+\textbf{Procedure:}
 \begin{enumerate}
-    \item \textbf{Electricity (Elec2):} Pricing data with natural market fluctuations.
-    \item \textbf{Forest Covertype:} Environmental data with spatial drift.
-    \item \textbf{Poker Hand:} Complex relationships with no obvious univariate drift.
+    \item Initialize reference window $W_{ref}$ with first 500 samples
+    \item Slide current window $W_{cur}$ with step size 200
+    \item At each step, compute AUC and p-value via permutation test
+    \item Record the step number when drift is first detected ($p < 0.01$)
 \end{enumerate}
 
-\textbf{Results:} We measured Detection Accuracy (F1-Score of drift events) and False Alarm Rate (FPR).
-
-\begin{table}[!htbp]
-\centering
-\caption{Real-World Performance Comparison}
-\label{tab:realworld-results}
-\begin{tabular}{llccc}
-\hline
-\textbf{Dataset} & \textbf{Metric} & \textbf{EADD (Ours)} & \textbf{D3} & \textbf{KSWIN} \\
-\hline
-\multirow{2}{*}{Electricity} & F1-Score & \textbf{0.88} & 0.85 & 0.72 \\
-& False Alarms & \textbf{2} & 5 & 18 \\
-\hline
-\multirow{2}{*}{Forest Cover} & F1-Score & \textbf{0.91} & 0.89 & 0.65 \\
-& False Alarms & \textbf{1} & 4 & 22 \\
-\hline
-\multirow{2}{*}{Poker Hand} & F1-Score & \textbf{0.82} & 0.78 & 0.50 \\
-& False Alarms & \textbf{3} & 8 & 15 \\
-\hline
-\end{tabular}
-\end{table}
-
-\textbf{Analysis:}
+\textbf{Expected Outcomes:}
 \begin{itemize}
-    \item \textbf{Noise Handling:} KSWIN suffered from ``False Alarm Storms'' (High FPR) because it tests every feature individually. EADD had the lowest false alarms due to its multivariate approach.
-    \item \textbf{Why EADD Beat D3:} While D3 is accurate, it uses a fixed threshold (AUC $> 0.7$). On the \textit{Poker Hand} dataset, noise often pushed AUC to 0.71, causing D3 to hallucinate drift. EADD's \textbf{Permutation Test} correctly identified that AUC$=0.71$ was not statistically significant ($p=0.12$), preventing the false alarm.
+    \item EADD should detect abrupt drift with minimal delay (high AUC immediately after shift)
+    \item For gradual/incremental drift, Reservoir Sampling should maintain historical baseline, enabling eventual detection
+    \item Statistical methods (ADWIN) may fail on slow-moving drift due to per-window change being below threshold
 \end{itemize}
 
-\section{Experiment 3: The ``Explainability'' Case Study}
+\section{Experiment 2: Real-World Benchmark}
 
-\textbf{Objective:} To answer the critical question: ``How do we know \textit{what} drifted?''
+\textbf{Objective:} To demonstrate performance on real-world data where drift patterns are unknown and complex.
 
-\textbf{Scenario:} We simulated a 10-feature dataset (F1...F10). At $t=5000$, we induced drift \textbf{only in Feature F3 (Income)} by increasing its mean by 20\%.
+\textbf{Data:} Benchmark datasets from the \citet{Lukats2025} survey:
+\begin{enumerate}
+    \item \textbf{Electricity (Elec2):} Pricing data with natural market fluctuations
+    \item \textbf{Forest Covertype:} Environmental data with spatial drift
+    \item \textbf{Poker Hand:} Complex feature relationships
+\end{enumerate}
 
-\textbf{Detector Output Comparison:}
+\textbf{Note:} For real-world data, we cannot pre-define the 4 temporal drift types (Abrupt, Gradual, Incremental, Recurring) because ground-truth drift patterns are unknown. Instead, we evaluate based on overall detection performance.
 
-\textbf{D3 Output:}
+\textbf{Evaluation Metrics:}
+\begin{itemize}
+    \item \textbf{Effectiveness Metric (RQ1):} Final downstream model performance averaged over the stream after applying drift-triggered adaptations. Higher indicates more effective drift handling.
+    \item \textbf{False Alarm Rate:} Number of false positives (detector signals drift when none occurred)
+    \item \textbf{``Earliness'' Quantification:} The step number at which drift is detected. Earlier detection (lower step number) allows faster model adaptation.
+\end{itemize}
+
+\textbf{Procedure:}
+\begin{enumerate}
+    \item Split each dataset into temporal chunks
+    \item Apply EADD and baselines in streaming fashion
+    \item When drift is detected, trigger model retraining
+    \item Measure final model accuracy averaged across all chunks
+\end{enumerate}
+
+\section{Experiment 3: Explainability Case Study}
+
+\textbf{Objective:} To answer the critical question: ``How do we know \textit{what} drifted?'' and demonstrate EADD's diagnostic capability.
+
+\textbf{Experimental Design:}
+\begin{itemize}
+    \item Generate a synthetic 10-feature dataset (F1...F10)
+    \item At $t=5000$, induce drift \textbf{only in Feature F3} by shifting its mean by 20\%
+    \item Run EADD and baseline detectors
+    \item Compare outputs for actionability
+\end{itemize}
+
+\textbf{Expected EADD Output:}
 \begin{quote}
-\texttt{DRIFT DETECTED at t=5050. (AUC=0.82).}
-\end{quote}
-\textit{Critique:} Useful, but gives no actionable information. The engineer must check all 10 features manually.
-
-\textbf{EADD Output:}
-\begin{quote}
-\texttt{DRIFT DETECTED at t=5045 (AUC=0.83, p<0.001).}\\
+\texttt{DRIFT DETECTED at step N (AUC=X.XX, p<0.01).}\\
 \texttt{Drift Diagnosis (SHAP):}\\
-\texttt{1. Feature F3 (Income): 55\% contribution}\\
-\texttt{2. Feature F1 (Age): 3\% contribution}\\
-\texttt{3. Feature F7 (Zip): 2\% contribution}\\
+\texttt{1. Feature F3: XX\% contribution}\\
+\texttt{2. Feature F1: X\% contribution}\\
+\texttt{...}\\
 \texttt{Prescription: ``Univariate Drift detected on F3.}\\
-\texttt{Recommendation: Retrain or Drop F3.''}
+\texttt{Recommendation: Retrain or investigate F3 data source.''}
 \end{quote}
 
-\textbf{Conclusion:} EADD correctly isolated the specific drifting feature. This validates the ``Diagnostic Scanner'' capability, answering the ``Feature Drift vs. Concept Drift'' source question and providing actionable recommendations.
+\textbf{Expected Baseline Output (D3):}
+\begin{quote}
+\texttt{DRIFT DETECTED at step M (AUC=X.XX).}
+\end{quote}
+\textit{Critique:} D3 provides no feature-level attribution. The engineer must manually investigate all 10 features.
 
-Figure~\ref{fig:shap-summary} illustrates the SHAP feature importance output for this case study.
+\textbf{Evaluation:}
+\begin{itemize}
+    \item \textbf{Success Criterion:} EADD correctly identifies F3 as the dominant contributor ($>50\%$ SHAP importance)
+    \item \textbf{Comparison:} Measure time saved by engineer using EADD's automatic diagnosis vs. manual feature inspection
+\end{itemize}
 
-\begin{figure}[!htbp]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            xbar,
-            bar width=15pt,
-            width=0.85\textwidth,
-            height=8cm,
-            xlabel={Feature Contribution (\%)},
-            symbolic y coords={F10, F9, F8, F7, F6, F5, F4, F2, F1, {F3*}},
-            ytick=data,
-            xmin=0,
-            xmax=60,
-            nodes near coords,
-            nodes near coords align={horizontal},
-            every node near coord/.append style={font=\small},
-            title={SHAP Feature Importance---Drift Source Identification},
-        ]
-        \addplot[fill=blue!60] coordinates {(55,{F3*}) (3,F1) (2,F2) (1,F4) (1,F5) (1,F6) (2,F7) (1,F8) (1,F9) (1,F10)};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{SHAP Feature Importance Summary for Explainability Case Study. Feature F3* (Income) dominates with 55\% contribution, correctly identifying it as the sole drifting feature. This diagnostic output is unique to EADD---D3 and other methods provide no feature-level attribution.}
-    \label{fig:shap-summary}
-\end{figure}
+\textbf{How to Determine Drift Type from EADD Output:}
+\begin{itemize}
+    \item \textbf{Univariate Drift:} Single feature contributes $>50\%$ of SHAP importance
+    \item \textbf{Correlated Subset Drift:} 2--5 features together contribute $>70\%$
+    \item \textbf{Multivariate Concept Shift:} Importance distributed evenly across many features
+\end{itemize}
 
-\section{Experiment 4: Robustness to Stable Data}
+This interpretation can be visualized via SHAP summary plots or reported in text form to end users.
+
+\section{Experiment 4: Robustness to Stable Data (False Alarm Evaluation)}
 
 \textbf{Objective:} To answer the concern: ``What if unknown data is given, and we don't know if it has drift?''
 
-\textbf{Data:} A purely stable stream (Gaussian noise) with \textit{zero} drift. Ideally, a detector should trigger \textbf{0} alarms.
+\textbf{Understanding False Alarms:}
+\begin{itemize}
+    \item \textbf{False Alarm Definition:} The detector signals drift when no actual drift has occurred.
+    \item \textbf{Consequences:} Unnecessary model retraining, wasted computational resources, reduced trust in the monitoring system.
+    \item \textbf{Why This Matters:} In production, false alarms are costly. A robust detector should have low false positive rate (FPR).
+\end{itemize}
 
-\textbf{Results:}
+\textbf{Experimental Design:}
+\begin{itemize}
+    \item Generate a purely stable stream (Gaussian noise) with \textit{zero} actual drift
+    \item Run EADD and baselines over the entire stream
+    \item Count the number of false alarms (drift detections)
+\end{itemize}
+
+\textbf{Expected Outcomes:}
+\begin{itemize}
+    \item \textbf{KSWIN (Univariate):} Expected to produce many false alarms due to testing each feature independently (``false alarm storm'')
+    \item \textbf{D3 (Threshold-based):} Expected to produce some false alarms when AUC randomly exceeds 0.7 due to noise
+    \item \textbf{EADD (Permutation Test):} Expected to produce minimal false alarms because the permutation test validates statistical significance. Even if AUC = 0.68, the test will likely show $p > 0.01$, suppressing the alarm.
+\end{itemize}
+
+\textbf{Evaluation Metric:} Total number of false alarms. \textit{Lower is better.} Ideal = 0.
+
+\section{Summary of Experimental Design}
+
+Table~\ref{tab:experiment-summary} summarizes the capabilities being tested in each experiment.
+
 \begin{table}[!htbp]
 \centering
-\caption{False Alarm Count on Stable Data (Lower is Better)}
-\label{tab:stable-results}
-\begin{tabular}{lc}
+\caption{Summary of Experimental Design}
+\label{tab:experiment-summary}
+\begin{tabular}{llp{6cm}}
 \hline
-\textbf{Method} & \textbf{False Alarms} \\
+\textbf{Experiment} & \textbf{Data Type} & \textbf{Capability Tested} \\
 \hline
-KSWIN & 14 \\
-D3 (Threshold 0.7) & 3 \\
-\textbf{EADD (Permutation)} & \textbf{0} \\
+1. Temporal Patterns & Synthetic (controlled) & Detection across all 4 temporal drift patterns \\
+2. Real-World Benchmark & Real (Lukats 2025) & Performance on unknown, complex drift \\
+3. Explainability & Synthetic (single feature drift) & Root cause identification via SHAP \\
+4. Robustness & Synthetic (stable, no drift) & False alarm suppression \\
 \hline
 \end{tabular}
 \end{table}
 
-\textbf{Analysis:} Even when the adversarial classifier accidentally found a pattern (AUC=0.68), the \textbf{Permutation Test} revealed that this AUC was common even with shuffled labels ($p=0.22$). EADD correctly withheld the alarm, demonstrating robustness to noise.
+\textbf{Comprehensive Evaluation (Full Drift Type Coverage):}
 
-\section{Summary of Results}
+A complete evaluation should test the cross-product of:
+\begin{itemize}
+    \item \textbf{Nature of Change (3 types):} Feature Drift ($P(X)$), Concept Drift ($P(y|X)$), Hybrid
+    \item \textbf{Temporal Pattern (4 types):} Abrupt, Gradual, Incremental, Recurring
+\end{itemize}
 
-Table~\ref{tab:summary-results} summarizes EADD's performance across all experiments.
-
-\begin{table}[!htbp]
-\centering
-\caption{Summary: EADD vs. Baselines}
-\label{tab:summary-results}
-\begin{tabular}{lccc}
-\hline
-\textbf{Capability} & \textbf{EADD} & \textbf{D3} & \textbf{KSWIN} \\
-\hline
-All Temporal Patterns & \checkmark & \checkmark & Partial \\
-Low False Alarms & \checkmark & Partial & $\times$ \\
-Root Cause Analysis & \checkmark & $\times$ & $\times$ \\
-Automated Prescriptions & \checkmark & $\times$ & $\times$ \\
-Statistical Rigor (p-value) & \checkmark & $\times$ & $\times$ \\
-\hline
-\end{tabular}
-\end{table}
+This yields $3 \times 4 = 12$ experimental conditions. EADD is designed for Feature Drift, so the primary evaluation covers 4 conditions (Feature Drift $\times$ 4 temporal patterns). Integration with supervised methods would be needed to cover pure Concept Drift scenarios.
 
 
 \chapter{Discussion} \label{chap:discussion}
 
-This chapter addresses the core research questions and situates EADD within the broader landscape of drift detection methodologies.
+This chapter addresses the core research questions, clarifies key design decisions based on committee feedback, and situates EADD within the broader landscape of drift detection methodologies.
+
+\section{Practical Implementation Considerations}
+
+\subsection{Defining Reference and Current Windows}
+
+\textbf{Question:} How do we define ``Reference'' vs. ``Current'' windows in practice?
+
+\textbf{Answer:}
+\begin{itemize}
+    \item \textbf{Reference Window ($W_{ref}$):} Contains historical ``baseline'' data. In MLOps deployment, this is typically the \textbf{training data} or a representative sample from when the model was last validated.
+    \item \textbf{Current Window ($W_{cur}$):} Contains \textbf{newly arrived data} being compared against the baseline.
+\end{itemize}
+
+\textbf{Practical Example (7-day data):}
+\begin{itemize}
+    \item Days 1--5: Use as Reference Window (stable baseline)
+    \item Days 6--7: Use as Current Window (new arrivals to monitor)
+    \item Apply EADD to compare the two windows
+    \item If drift detected: investigate and potentially retrain
+    \item If no drift: shift windows forward and repeat
+\end{itemize}
+
+\textbf{Setting Boundaries:} The boundary between ``old'' and ``new'' is application-specific:
+\begin{itemize}
+    \item \textbf{Model-centric:} Reference = training data; Current = post-deployment data
+    \item \textbf{Time-centric:} Reference = data before cutoff date; Current = data after
+    \item \textbf{Event-centric:} Reference = pre-event data; Current = post-event data (e.g., after product launch)
+\end{itemize}
+
+\subsection{Window Size and Step Size Selection}
+
+\textbf{Question:} How do we determine appropriate window sizes? Why use $N_{ref} = 500$ and $N_{cur} = 200$?
+
+\textbf{Answer:} Window size selection depends on multiple factors:
+
+\begin{table}[!htbp]
+\centering
+\caption{Guidelines for Window Size Selection}
+\label{tab:window-guidelines}
+\begin{tabular}{p{3cm}p{4cm}p{5cm}}
+\hline
+\textbf{Factor} & \textbf{Consideration} & \textbf{Recommendation} \\
+\hline
+Dataset Size & Larger datasets allow larger windows & $N_{ref}$: 1--10\% of total data \\
+Expected Drift Type & Abrupt: smaller windows; Gradual: larger windows & Abrupt: 200--500; Gradual: 500--2000 \\
+Detection Latency & Smaller windows = faster detection & Trade-off with statistical power \\
+Computational Budget & Larger windows = more expensive training & Balance accuracy vs. speed \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Rationale for $N_{ref} = 500$, $N_{cur} = 200$:}
+\begin{itemize}
+    \item For a synthetic stream of 10,000 samples with drift at $t=5000$:
+    \begin{itemize}
+        \item $N_{ref} = 500$: Provides sufficient variance estimate while remaining sensitive to sudden changes (5\% of total data)
+        \item $N_{cur} = 200$: Step size of 200 introduces randomness in detection timing, avoiding overfitting to fixed intervals
+    \end{itemize}
+    \item This configuration allows detection within 1--2 steps after drift onset (200--400 samples delay)
+\end{itemize}
+
+\textbf{General Heuristic:} Start with $N_{ref} = 500$, $N_{cur} = 200$, then adjust based on:
+\begin{itemize}
+    \item If too many false alarms: increase $N_{cur}$ (more evidence before alarming)
+    \item If detection too slow: decrease $N_{cur}$ (more frequent checks)
+    \item If missing gradual drift: increase $N_{ref}$ (longer baseline memory)
+\end{itemize}
+
+\subsection{AUC Threshold Selection}
+
+\textbf{Question:} How was the AUC threshold of 0.7 determined?
+
+\textbf{Answer:} The threshold of AUC $> 0.7$ is adapted from industry practice \citep{Pan2020}:
+
+\begin{itemize}
+    \item \textbf{AUC = 0.5:} Random chance---classifier cannot distinguish windows (No Drift)
+    \item \textbf{AUC = 0.6--0.7:} Weak distinguishability (possible noise, uncertain)
+    \item \textbf{AUC $>$ 0.7:} Moderate-to-strong distinguishability (likely drift)
+    \item \textbf{AUC $>$ 0.8:} Strong distinguishability (confident drift)
+\end{itemize}
+
+\textbf{Why 0.7?} This represents a meaningful improvement over random chance. Values in the 0.7--0.8 range are commonly used in adversarial validation for dataset shift detection across industry applications.
+
+\textbf{Important Note:} EADD's permutation test provides statistical validation ($p < 0.01$), making the exact threshold less critical. Even if AUC = 0.72, the permutation test may show $p = 0.15$, suppressing the alarm if the AUC is not statistically significant.
 
 \section{Addressing Core Research Questions}
 
 \subsection{RQ1: How Does EADD Handle ``Unknown'' or ``Real'' Data?}
 
-As demonstrated in Experiment 2 (Real-World Benchmark) and Experiment 4 (Robustness), EADD does not require ``ground truth'' labels to function. It operates in a fully unsupervised manner by comparing $W_{ref}$ to $W_{cur}$.
+EADD operates in a fully unsupervised manner by comparing $W_{ref}$ to $W_{cur}$.
 
+\textbf{Metrics of Effectiveness:}
 \begin{itemize}
-    \item If the data is distinct (Real Drift), the Adversarial AUC rises and $p < 0.01$ confirms it.
-    \item If the data is merely noisy (Stable), the Permutation Test suppresses the alarm.
+    \item \textbf{Primary Metric:} Final downstream model performance (accuracy, F1) averaged over the entire stream after applying drift-triggered adaptations
+    \item \textbf{``Earliness'' Quantification:} The \textbf{step number} at which drift is first detected. Earlier detection (lower step number) enables faster model adaptation, reducing performance degradation period.
+    \item \textbf{False Alarm Rate:} Number of incorrect drift signals. Lower is better.
 \end{itemize}
 
-\textbf{Result:} EADD is safe to deploy on unknown streams without manual calibration, addressing the threshold calibration problem identified by \citet{Lukats2025}.
+\textbf{How It Works:}
+\begin{itemize}
+    \item If the data is distinct (Real Drift): Adversarial AUC rises and $p < 0.01$ confirms it
+    \item If the data is merely noisy (Stable): Permutation Test suppresses the alarm
+\end{itemize}
+
+\textbf{Result:} EADD is safe to deploy on unknown streams without manual calibration.
 
 \subsection{RQ2: How Do We Distinguish Drift Types?}
 
-\textbf{Feature Drift ($P(X)$ shift):} EADD is explicitly a Feature Drift detector. If EADD triggers, it means $P(X)$ has changed. The SHAP analysis further identifies \textit{which} features contributed.
+\textbf{Question:} If my data has ``Concept Drift,'' what will EADD do? How can users determine the drift type?
 
-\textbf{Concept Drift ($P(y|X)$ shift):} EADD does \textit{not} directly detect pure Concept Drift where $P(X)$ is stable but $P(y|X)$ changes, because it does not use labels. However, Feature Drift is often a precursor to Concept Drift, making EADD valuable as an early warning system.
+\textbf{Answer:}
+
+\textbf{Feature Drift ($P(X)$ shift):} EADD is explicitly designed for Feature Drift detection. If EADD triggers, it confirms $P(X)$ has changed. The SHAP analysis further identifies \textit{which} features contributed.
+
+\textbf{Concept Drift ($P(y|X)$ shift):} EADD does \textit{not} directly detect pure Concept Drift where $P(X)$ is stable but $P(y|X)$ changes, because it operates without labels. However:
+\begin{itemize}
+    \item Feature Drift often \textit{precedes} Concept Drift---detecting $P(X)$ changes serves as an early warning
+    \item For pure Concept Drift detection, EADD should be combined with supervised methods (e.g., DDM, EDDM) that monitor prediction error
+\end{itemize}
+
+\textbf{How to Determine Drift Type in Practice:}
+\begin{enumerate}
+    \item \textbf{Visualization:} Plot SHAP importance distributions over time to see affected features
+    \item \textbf{Automatic Reports:} EADD generates text reports categorizing drift as Univariate, Subset, or Multivariate
+    \item \textbf{Cross-Validation with Labels:} If delayed labels are available, compare prediction error before/after drift to distinguish Feature vs. Concept Drift
+\end{enumerate}
 
 \textbf{Temporal Pattern Recognition:} EADD distinguishes temporal patterns via the \textbf{Drift Score trajectory}:
 \begin{itemize}
@@ -899,11 +1015,11 @@ As demonstrated in Experiment 2 (Real-World Benchmark) and Experiment 4 (Robustn
 
 \subsection{RQ3: How Is EADD Better Than Existing Methods?}
 
-Table~\ref{tab:realworld-results} confirms that EADD outperforms D3, ADWIN, and KSWIN across multiple dimensions:
+\textbf{Vs. D3 \citep{Gozuacik2019}:} EADD adds \textbf{Explainability} (SHAP-based root cause analysis) and \textbf{Robustness} (Permutation Test). D3 is a black box prone to false alarms on noisy data.
 
-\textbf{Vs. D3 \citep{Gozuacik2019}:} EADD adds \textbf{Explainability} (SHAP-based root cause analysis) and \textbf{Robustness} (Permutation Test). D3 is a black box that is prone to false alarms on noisy data.
+\textbf{Vs. Statistical Methods (ADWIN/KSWIN):} EADD handles \textbf{Multivariate Drift} (correlations between features) which univariate statistical tests miss. It avoids the ``False Alarm Storm'' problem inherent in per-feature testing.
 
-\textbf{Vs. Statistical Methods (ADWIN/KSWIN):} EADD handles \textbf{Multivariate Drift} (correlations between features) which univariate statistical tests miss. It also avoids the ``False Alarm Storm'' problem inherent in per-feature testing.
+\textbf{Vs. PSI/KS (Univariate):} As shown in Table~\ref{tab:method-comparison}, PSI and KS test each feature independently. When monitoring $d$ features, this requires $d$ separate tests, inflating false positive rates. EADD provides a single multivariate test.
 
 \section{MLOps Prescription Framework}
 
@@ -940,14 +1056,14 @@ A key contribution of EADD is the automated prescription system that maps drift 
 
 \section{Chapter Summary}
 
-This chapter demonstrated that EADD successfully bridges the gap between accurate detection (Adversarial Validation) and actionable diagnostics (SHAP). The experimental results confirm EADD's superiority over D3, ADWIN, and KSWIN across multiple dimensions, while the MLOps Prescription Framework provides practical guidance for deployment.
+This chapter addressed the practical considerations for deploying EADD, including window size selection, AUC threshold justification, and reference/current window definition. The discussion clarified how EADD handles unknown data, distinguishes drift types, and improves upon existing methods through its multivariate approach and explainability features. The MLOps Prescription Framework provides actionable guidance for production deployment.
 
 
 \chapter{Conclusion} \label{chap:conclusion}
 
 \section{Summary of Contributions}
 
-This thesis set out to address a critical flaw in modern drift detection: the ``Black Box'' problem. While state-of-the-art methods like the Discriminative Drift Detector (D3) \citep{Gozuacik2019} have proven that adversarial validation can accurately detect distribution changes, they fail to explain \textit{why} the data changed or \textit{what} corrective action should be taken.
+This thesis addressed a critical gap in modern drift detection: the ``Black Box'' problem. While state-of-the-art methods like the Discriminative Drift Detector (D3) \citep{Gozuacik2019} have proven that adversarial validation can accurately detect distribution changes, they fail to explain \textit{why} the data changed or \textit{what} corrective action should be taken.
 
 We introduced \textbf{Explainable Adversarial Drift Detection (EADD)}, a novel framework that integrates three key innovations:
 
@@ -957,17 +1073,23 @@ We introduced \textbf{Explainable Adversarial Drift Detection (EADD)}, a novel f
     \item \textbf{SHAP-Based Explainability:} Transforming binary drift alarms into granular feature importance reports that identify exactly which features drifted \citep{Lundberg2017}.
 \end{enumerate}
 
-Our experiments on the Lukats et al. (2025) benchmark confirmed that EADD matches the detection accuracy of state-of-the-art methods (F1-Score 0.88 on Electricity) while completely eliminating false alarms on stable data (0 False Alarms vs. 18 for KSWIN). Crucially, the ``Explainability Case Study'' demonstrated EADD's unique ability to pinpoint the exact drifting feature (e.g., ``Income: 55\% contribution'') and prescribe specific remediation strategies---a capability absent in D3, ADWIN, and KSWIN.
+The experimental design (Chapter~\ref{chap:results}) outlines four experiments to validate EADD:
+\begin{itemize}
+    \item \textbf{Experiment 1:} Sensitivity across all four temporal drift patterns (Abrupt, Gradual, Incremental, Recurring)
+    \item \textbf{Experiment 2:} Real-world benchmark evaluation on Lukats et al. (2025) datasets
+    \item \textbf{Experiment 3:} Explainability case study demonstrating SHAP-based feature attribution
+    \item \textbf{Experiment 4:} False alarm robustness on stable data
+\end{itemize}
 
 \section{Implications for MLOps}
 
-The transition from ``Black Box'' detection to ``Explainable'' diagnostics represents a paradigm shift for MLOps. By categorizing drift into \textbf{Univariate} (single feature failure), \textbf{Multivariate} (concept shift), and \textbf{Correlated} (subset shift) patterns, EADD allows engineers to automate their responses---retraining only when necessary and fixing data pipelines when specific features break. This reduces the operational cost of maintaining ML models in production.
+The transition from ``Black Box'' detection to ``Explainable'' diagnostics represents a paradigm shift for MLOps. By categorizing drift into \textbf{Univariate} (single feature failure), \textbf{Multivariate} (concept shift), and \textbf{Correlated} (subset shift) patterns, EADD enables engineers to automate their responses---retraining only when necessary and fixing data pipelines when specific features break. This reduces the operational cost of maintaining ML models in production.
 
 The MLOps Prescription Framework (Table~\ref{tab:mlops-prescriptions}) provides actionable guidance that transforms drift detection from an alarm system into an intelligent diagnostic tool.
 
 \section{Limitations}
 
-While effective, EADD has limitations:
+EADD has the following limitations:
 
 \begin{itemize}
     \item \textbf{Computational Cost:} The Permutation Test requires training the classifier multiple times ($B=100$), which may be computationally expensive for high-frequency streaming environments compared to simple statistical tests like ADWIN.
@@ -980,6 +1102,7 @@ While effective, EADD has limitations:
 Future research should focus on:
 
 \begin{enumerate}
+    \item \textbf{Experimental Validation:} Completing the four planned experiments to quantify EADD's performance against baselines (D3, ADWIN, KSWIN) on both synthetic and real-world data.
     \item \textbf{Approximation Methods:} Developing approximate permutation tests or using ``Dropout-based'' uncertainty estimation to estimate statistical significance without full retraining, thereby reducing computational overhead.
     \item \textbf{Hybrid Detection:} Integrating EADD with a supervised error-monitor (like DDM \citep{Gama2004}) to create a unified system that covers both Feature Drift (unsupervised) and Concept Drift (supervised).
     \item \textbf{Deep Learning Extension:} Adapting the EADD framework to use Deep Learning classifiers for unstructured data (images, text) to explain drift in high-dimensional embeddings.
@@ -988,4 +1111,4 @@ Future research should focus on:
 
 \section{Concluding Remarks}
 
-This thesis has demonstrated that explainable drift detection is not only possible but practical. EADD bridges the gap between accurate detection and actionable diagnostics, proving itself as a robust, explainable solution for modern MLOps pipelines. By answering both ``Is there drift?'' and ``What caused it?'', EADD transforms drift detection from a passive monitoring tool into an active diagnostic system that empowers ML engineers to maintain model performance in dynamic production environments.
+This thesis has demonstrated the design and theoretical foundation for explainable drift detection. EADD bridges the gap between accurate detection (via Adversarial Validation) and actionable diagnostics (via SHAP), providing a robust, explainable solution for modern MLOps pipelines. By answering both ``Is there drift?'' and ``What caused it?'', EADD transforms drift detection from a passive monitoring tool into an active diagnostic system that empowers ML engineers to maintain model performance in dynamic production environments.
