@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  21 FEB 2026 12:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.15)  25 FEB 2026 20:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -973,19 +973,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--50
 
 ]
 
-[7])
+[7]
+
+[8])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
 
 
-[8] (./main.lot)
+[9] (./main.lot)
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
 
 
-[9
+[10
 
 ] (./main.lof)
 \tf@lof=\write7
@@ -993,7 +995,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--50
 
  (./thesis.tex
 
-[10
+[11
 
 ]
 Chapter 1.
@@ -1006,7 +1008,7 @@ Chapter 1.
 [2]
 
 [3]
-Overfull \hbox (5.54063pt too wide) in paragraph at lines 41--42
+Overfull \hbox (5.54063pt too wide) in paragraph at lines 43--44
  []\OT1/ptm/b/n/12 (-20) Practical Guide-lines: \OT1/ptm/m/n/12 (-20) De-ploy-m
 ent rec-om-men-da-tions for MLOps pipelines,
  []
@@ -1015,10 +1017,10 @@ ent rec-om-men-da-tions for MLOps pipelines,
 
 [4]
 Chapter 2.
-<figures/figure-1.png, id=570, 858.0858pt x 352.1958pt>
+<figures/figure-1.png, id=582, 858.0858pt x 352.1958pt>
 File: figures/figure-1.png Graphic file (type png)
 <use figures/figure-1.png>
-Package pdftex.def Info: figures/figure-1.png  used on input line 49.
+Package pdftex.def Info: figures/figure-1.png  used on input line 51.
 (pdftex.def)             Requested size: 398.69295pt x 163.64038pt.
 
 
@@ -1028,7 +1030,7 @@ Package pdftex.def Info: figures/figure-1.png  used on input line 49.
 
 [6]
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 7
-5.
+7.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
@@ -1038,58 +1040,23 @@ File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 [8]
 
 [9]
-Underfull \hbox (badness 4569) in paragraph at lines 136--136
+Underfull \hbox (badness 4569) in paragraph at lines 138--138
 []\OT1/ptm/b/n/12 (+20) PSI (Pop-u-la-
  []
 
 
-Underfull \hbox (badness 1043) in paragraph at lines 136--136
+Underfull \hbox (badness 1043) in paragraph at lines 138--138
 \OT1/ptm/b/n/12 (+20) tion Sta-bil-ity
  []
 
 
-Underfull \hbox (badness 1248) in paragraph at lines 136--136
+Underfull \hbox (badness 1248) in paragraph at lines 138--138
 \OT1/ptm/m/n/12 (+20) bu-tions of sin-gle fea-
  []
 
 
-Underfull \hbox (badness 7851) in paragraph at lines 136--136
+Underfull \hbox (badness 7851) in paragraph at lines 138--138
 []\OT1/ptm/m/n/12 (+20) Simple, in-ter-pretable,
- []
-
-
-Underfull \hbox (badness 6188) in paragraph at lines 136--137
-[]\OT1/ptm/m/n/12 (+20) Univariate only;
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--138
-[]\OT1/ptm/b/n/12 (+20) KS Test
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--138
-\OT1/ptm/b/n/12 (+20) (Kolmogorov-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--138
-[]\OT1/ptm/m/n/12 (+20) Non-parametric test
- []
-
-
-Underfull \hbox (badness 1609) in paragraph at lines 138--138
-\OT1/ptm/m/n/12 (+20) com-par-ing cu-mu-la-tive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--138
-[]\OT1/ptm/m/n/12 (+20) No dis-tri-bu-tional
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--138
-\OT1/ptm/m/n/12 (+20) as-sump-tions; ex-act
  []
 
 
@@ -1098,37 +1065,72 @@ Underfull \hbox (badness 6188) in paragraph at lines 138--139
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
-\OT1/ptm/m/n/12 (+20) mul-ti-ple test-ing
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
-\OT1/ptm/m/n/12 (+20) prob-lem with
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+[]\OT1/ptm/b/n/12 (+20) KS Test
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 140--140
+\OT1/ptm/b/n/12 (+20) (Kolmogorov-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+[]\OT1/ptm/m/n/12 (+20) Non-parametric test
+ []
+
+
+Underfull \hbox (badness 1609) in paragraph at lines 140--140
+\OT1/ptm/m/n/12 (+20) com-par-ing cu-mu-la-tive
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+[]\OT1/ptm/m/n/12 (+20) No dis-tri-bu-tional
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--140
+\OT1/ptm/m/n/12 (+20) as-sump-tions; ex-act
+ []
+
+
+Underfull \hbox (badness 6188) in paragraph at lines 140--141
+[]\OT1/ptm/m/n/12 (+20) Univariate only;
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\OT1/ptm/m/n/12 (+20) mul-ti-ple test-ing
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
+\OT1/ptm/m/n/12 (+20) prob-lem with
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 142--142
 []\OT1/ptm/b/n/12 (+20) Adversarial
  []
 
 
-Underfull \hbox (badness 1533) in paragraph at lines 140--140
+Underfull \hbox (badness 1533) in paragraph at lines 142--142
 []\OT1/ptm/m/n/12 (+20) Multivariate; cap-tures
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 []\OT1/ptm/m/n/12 (+20) Requires clas-si-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 140--141
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 \OT1/ptm/m/n/12 (+20) built-in ex-plain-
  []
 
 
-Overfull \hbox (12.43404pt too wide) in paragraph at lines 132--143
+Overfull \hbox (12.43404pt too wide) in paragraph at lines 134--145
  [][] 
  []
 
@@ -1151,38 +1153,38 @@ Overfull \hbox (12.43404pt too wide) in paragraph at lines 132--143
 [17]
 
 [18]
+
+[19]
 Chapter 3.
 
-Overfull \hbox (115.67322pt too wide) in paragraph at lines 333--334
+Overfull \hbox (115.67322pt too wide) in paragraph at lines 339--340
  [][] 
  []
 
 
 
-[19
+[20
 
 ]
 
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 387--387
+[21]
+Underfull \hbox (badness 10000) in paragraph at lines 393--393
 []\OT1/ptm/m/n/12 (+20) ``Based on Per-mu-ta-tion
  []
 
 
 
-[21]
-
 [22]
 
 [23]
-Overfull \hbox (42.62334pt too wide) in paragraph at lines 472--473
+
+[24]
+Overfull \hbox (42.62334pt too wide) in paragraph at lines 478--479
  []\OT1/ptm/m/n/12 (-20) Calculate mean ab-so-lute SHAP value per fea-ture: $[]
 [] \OT1/cmr/m/n/12 = [] [][] \OMS/cmsy/m/n/12 j[][]j$ 
  []
 
 
-
-[24]
 
 [25]
 
@@ -1197,14 +1199,18 @@ Overfull \hbox (42.62334pt too wide) in paragraph at lines 472--473
 [30]
 
 [31]
+
+[32]
+
+[33]
 Chapter 4.
 
 
-[32
+[34
 
 ]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 6
-92.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 7
+06.
  (/usr/local/texlive/2025/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -1214,195 +1220,197 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 
 
-[33]
-! Undefined control sequence.
-<recently read> \cmidrule 
-                          
-l.740 \cmidrule
-               (lr){2-3} \cmidrule(lr){4-5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.740 \cmidrule(lr){2-3} \cmidrule
-                                  (lr){4-5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-
-[34]
-! Undefined control sequence.
-<recently read> \cmidrule 
-                          
-l.774 \cmidrule
-               (lr){2-3} \cmidrule(lr){4-5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-l.774 \cmidrule(lr){2-3} \cmidrule
-                                  (lr){4-5}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
-
 [35]
+! Undefined control sequence.
+<recently read> \cmidrule 
+                          
+l.754 \cmidrule
+               (lr){2-3} \cmidrule(lr){4-5}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+l.754 \cmidrule(lr){2-3} \cmidrule
+                                  (lr){4-5}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+
 
 [36]
-Overfull \hbox (66.41818pt too wide) in paragraph at lines 833--842
- [][] 
- []
+! Undefined control sequence.
+<recently read> \cmidrule 
+                          
+l.788 \cmidrule
+               (lr){2-3} \cmidrule(lr){4-5}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-
-Overfull \hbox (10.59108pt too wide) in paragraph at lines 846--853
-\OT1/pcr/m/n/12 Recommendation: Investigate data pipeline for F3.'' 
- []
+! Undefined control sequence.
+l.788 \cmidrule(lr){2-3} \cmidrule
+                                  (lr){4-5}
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
 
 
 [37]
 
 [38]
-Overfull \hbox (63.41946pt too wide) in paragraph at lines 932--942
+Overfull \hbox (66.41818pt too wide) in paragraph at lines 847--856
  [][] 
+ []
+
+
+Overfull \hbox (10.59108pt too wide) in paragraph at lines 860--867
+\OT1/pcr/m/n/12 Recommendation: Investigate data pipeline for F3.'' 
  []
 
 
 
 [39]
-Overfull \hbox (28.02525pt too wide) in paragraph at lines 950--959
+
+[40]
+Overfull \hbox (63.41946pt too wide) in paragraph at lines 946--956
  [][] 
  []
 
 
 
-[40]
+[41]
+Overfull \hbox (28.02525pt too wide) in paragraph at lines 964--973
+ [][] 
+ []
+
+
+
+[42]
 Chapter 5.
 
 
-[41
+[43
 
 ]
 
-[42]
-Underfull \hbox (badness 2261) in paragraph at lines 1030--1030
+[44]
+Underfull \hbox (badness 2261) in paragraph at lines 1044--1044
 []\OT1/ptm/m/n/12 (+20) Larger datasets al-low
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1031--1031
+Underfull \hbox (badness 10000) in paragraph at lines 1045--1045
 []\OT1/ptm/m/n/12 (+20) Expected Drift
  []
 
 
-Underfull \hbox (badness 1383) in paragraph at lines 1031--1031
+Underfull \hbox (badness 1383) in paragraph at lines 1045--1045
 []\OT1/ptm/m/n/12 (+20) Abrupt: smaller win-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1032--1032
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1046
 []\OT1/ptm/m/n/12 (+20) Detection La-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1032--1032
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1046
 []\OT1/ptm/m/n/12 (+20) Smaller win-dows =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1032--1033
+Underfull \hbox (badness 10000) in paragraph at lines 1046--1047
 []\OT1/ptm/m/n/12 (+20) Trade-off with sta-tis-ti-cal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1033--1033
+Underfull \hbox (badness 10000) in paragraph at lines 1047--1047
 []\OT1/ptm/m/n/12 (+20) Computational
  []
 
 
 
-[43]
-Overfull \hbox (0.51978pt too wide) in paragraph at lines 1046--1047
+[45]
+Overfull \hbox (0.51978pt too wide) in paragraph at lines 1060--1061
  []\OT1/ptm/b/n/12 (-20) Subset Drift: \OT1/ptm/m/n/12 (-20) 2--5 fea-tures to-
 gether $\OML/cmm/m/it/12 > \OT1/cmr/m/n/12 70%$ $\OMS/cmsy/m/n/12 !$ \OT1/ptm/m
 /n/12 (-20) Check shared data pipelines
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 1069--1069
+
+[46]
+Underfull \hbox (badness 3668) in paragraph at lines 1095--1095
 []\OT1/ptm/m/n/12 (+20) Single fea-ture $\OML/cmm/m/it/12 >$\OT1/ptm/m/n/12 (+2
 0) 50%
  []
 
 
-Underfull \hbox (badness 2698) in paragraph at lines 1071--1071
+Underfull \hbox (badness 2698) in paragraph at lines 1097--1097
 []\OT1/ptm/m/n/12 (+20) 2--5 fea-tures to-gether
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1073--1073
+Underfull \hbox (badness 10000) in paragraph at lines 1099--1099
 []\OT1/ptm/b/n/12 (+20) Multivariate
  []
 
 
-Underfull \hbox (badness 3668) in paragraph at lines 1075--1075
+Underfull \hbox (badness 3668) in paragraph at lines 1101--1101
 []\OT1/ptm/m/n/12 (+20) Single fea-ture $\OML/cmm/m/it/12 >$\OT1/ptm/m/n/12 (+2
 0) 80%
  []
 
 
-Underfull \hbox (badness 1715) in paragraph at lines 1075--1075
+Underfull \hbox (badness 1715) in paragraph at lines 1101--1101
 \OT1/ptm/m/n/12 (+20) + tem-po-ral pat-tern is
  []
 
 
-Overfull \hbox (13.29526pt too wide) in paragraph at lines 1077--1077
+Overfull \hbox (13.29526pt too wide) in paragraph at lines 1103--1103
 []\OT1/ptm/b/n/12 (-20) Seasonal/Recurring| 
  []
 
 
 
-[44]
+[47]
 
-[45]
+[48]
 
-[46]
+[49]
 Chapter 6.
 
 
-[47
+[50
 
 ]
-Overfull \hbox (2.28166pt too wide) in paragraph at lines 1117--1118
+Overfull \hbox (2.28166pt too wide) in paragraph at lines 1149--1150
  []\OT1/ptm/b/n/12 (-20) Experiment 3: \OT1/ptm/m/n/12 (-20) SHAP-based fea-tur
 e at-tri-bu-tion cor-rectly iden-ti-fied ground-
  []
 
 
 
-[48]
-
-[49])
-
-[50]
-
 [51]
 
 [52]
+
+[53])
+
+[54]
+
+[55]
 pdfTeX warning (ext4): destination with the same identifier (name{chapter.1}) h
 as been already used, duplicate ignored
 <to be read again> 
@@ -1430,54 +1438,58 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1.3})
 l.102 \section{Permutation Test}
                                 
 
-[53
+[56
 
 ] (./main.bbl
 
-[54]
-
-[55
-
-]
-
-[56]
-
 [57]
 
-[58])
+[58
+
+]
 
 [59]
 
-[60
+[60]
+
+[61]
+Overfull \hbox (23.44904pt too wide) in paragraph at lines 274--279
+\OT1/ptm/m/n/12 (-20) monitoring-[]feature-[]attributions-[]how-[]google-[]save
+d-[]one-[]of-[]the-[]largest-[]ml-[]services-[]in-[]crisis$[]. 
+ []
+
+
+
+[62])
+
+[63]
+
+[64
 
 ]
 
-[61
+[65
 
 ] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: F8D31521C96E9AF2D66E52C9319F83F7;14303.
+(rerunfilecheck)             Checksum: CEB672588ACE5DA82F47F78BD9400206;14564.
  )
 (\end occurred when \iffalse on line 64 was incomplete)
-(\end occurred when \iffalse on line 1099 was incomplete)
-(\end occurred when \iffalse on line 962 was incomplete)
-(\end occurred when \iffalse on line 662 was incomplete)
-(\end occurred when \iffalse on line 272 was incomplete)
-(\end occurred when \iffalse on line 45 was incomplete)
+(\end occurred when \iffalse on line 1131 was incomplete)
+(\end occurred when \iffalse on line 976 was incomplete)
+(\end occurred when \iffalse on line 676 was incomplete)
+(\end occurred when \iffalse on line 278 was incomplete)
+(\end occurred when \iffalse on line 47 was incomplete)
 (\end occurred when \iffalse on line 1 was incomplete) 
 Here is how much of TeX's memory you used:
- 36581 strings out of 473190
- 828916 string characters out of 5715799
- 1322923 words of memory out of 5000000
- 58669 multiletter control sequences out of 15000+600000
+ 36611 strings out of 473190
+ 829423 string characters out of 5715799
+ 1323090 words of memory out of 5000000
+ 58685 multiletter control sequences out of 15000+600000
  596549 words of font info for 316 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  90i,15n,93p,1265b,879s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1498,10 +1510,10 @@ ts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2025/texmf-dist
 ype1/urw/times/utmb8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/t
 imes/utmr8a.pfb></usr/local/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on main.pdf (72 pages, 604004 bytes).
+Output written on main.pdf (77 pages, 616367 bytes).
 PDF statistics:
- 1429 PDF objects out of 1440 (max. 8388607)
- 1307 compressed objects within 14 object streams
- 242 named destinations out of 1000 (max. 500000)
- 40042 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 1487 PDF objects out of 1728 (max. 8388607)
+ 1360 compressed objects within 14 object streams
+ 256 named destinations out of 1000 (max. 500000)
+ 40050 words of extra memory for PDF output out of 42996 (max. 10000000)
 

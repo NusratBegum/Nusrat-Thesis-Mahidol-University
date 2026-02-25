@@ -1,11 +1,11 @@
  \contentsline {chapter}{}{\textbf {Page}}{}
 \contentsline {chapter}{ACKNOWLEDGEMENTS}{iii}{Doc-Start}%
 \contentsline {chapter}{ABSTRACT}{iv}{Doc-Start}%
-\contentsline {chapter}{LIST OF TABLES}{ix}{Doc-Start}%
-\contentsline {chapter}{LIST OF FIGURES}{x}{Doc-Start}%
+\contentsline {chapter}{LIST OF TABLES}{x}{Doc-Start}%
+\contentsline {chapter}{LIST OF FIGURES}{xi}{Doc-Start}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ I}\MakeTextUppercase {Introduction}}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Objectives}{2}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Objectives}{3}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Expected Contributions}{3}{section.1.3}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ II}\MakeTextUppercase {Literature Review}}{5}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Overview}{5}{section.2.1}%
@@ -25,57 +25,59 @@
 \contentsline {section}{\numberline {2.5}Related Work: Adversarial Validation}{16}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Concept and Origins}{16}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}Industrial Applications}{16}{subsection.2.5.2}%
-\contentsline {section}{\numberline {2.6}Gap in the Literature}{17}{section.2.6}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ III}\MakeTextUppercase {Methodology}}{19}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Overview: Explainable Adversarial Drift Detection (EADD)}{19}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Problem Formulation}{20}{section.3.2}%
-\contentsline {section}{\numberline {3.3}EADD Framework Components}{21}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Step 1: Adaptive Reference Windowing}{22}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Step 2: Adversarial Validation (The Detector)}{22}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Step 3: Statistical Significance via Permutation Test}{23}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Step 4: Feature Drift Explainability via SHAP (Novel Contribution)}{24}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Automated Drift Prescription (Novel Contribution)}{25}{subsection.3.3.5}%
-\contentsline {subsection}{\numberline {3.3.6}Model Adaptation Strategies}{26}{subsection.3.3.6}%
-\contentsline {section}{\numberline {3.4}Datasets}{27}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Baseline Drift Detectors}{28}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Evaluation Metrics}{29}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Experimental Design}{30}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Practical Considerations}{31}{section.3.8}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Experiments and Results}}{32}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Research Questions}{32}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Hypotheses}{32}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Experimental Setup}{33}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Experiment 1: Sensitivity to Temporal Drift Patterns}{34}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Experiment 2: Real-World Benchmark}{35}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Experiment 3: Explainability Case Study}{36}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Experiment 4: Robustness to Stable Data (False Alarm Evaluation)}{38}{section.4.7}%
-\contentsline {section}{\numberline {4.8}Statistical Hypothesis Testing}{39}{section.4.8}%
-\contentsline {subsection}{\numberline {4.8.1}H1: Detection Parity (Wilcoxon Signed-Rank Test)}{39}{subsection.4.8.1}%
-\contentsline {subsection}{\numberline {4.8.2}H2: False Alarm Reduction (Mann--Whitney U Test)}{39}{subsection.4.8.2}%
-\contentsline {subsection}{\numberline {4.8.3}H3: Explainability Accuracy (Binomial Test)}{39}{subsection.4.8.3}%
-\contentsline {section}{\numberline {4.9}Summary of Experimental Results}{40}{section.4.9}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{41}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{41}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}RQ1: Detection Accuracy}{41}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}RQ2: Explainability}{42}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}RQ3: Robustness}{42}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Practical Implementation Considerations}{43}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Window Size and Threshold Selection}{43}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Drift Type Interpretation}{44}{subsection.5.2.2}%
-\contentsline {section}{\numberline {5.3}MLOps Prescription Framework}{44}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Limitations and Threats to Validity}{44}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Chapter Summary}{46}{section.5.5}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{47}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Contributions}{47}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Implications for MLOps}{48}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Limitations}{49}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Future Work}{49}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Concluding Remarks}{50}{section.6.5}%
-\contentsline {chapter}{APPENDIX}{52}{section.6.5}%
-\contentsline {chapter}{\hspace {1.5em} \numberline {\MakeTextUppercase {Appendix}\ A}\MakeTextUppercase {Implementation Details}}{53}{chapter.1}%
-\contentsline {section}{\numberline {A.1}Adversarial Classifier (LightGBM)}{53}{section.1.1}%
-\contentsline {section}{\numberline {A.2}Windowing Strategy}{53}{section.1.2}%
-\contentsline {section}{\numberline {A.3}Permutation Test}{54}{section.1.3}%
-\contentsline {section}{\numberline {A.4}SHAP Configuration}{54}{section.1.4}%
-\contentsline {section}{\numberline {A.5}Computational Environment}{54}{section.1.5}%
-\contentsline {chapter}{BIOGRAPHY}{60}{section.1.5}%
+\contentsline {section}{\numberline {2.6}Gap in the Literature}{18}{section.2.6}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ III}\MakeTextUppercase {Methodology}}{20}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Overview: Explainable Adversarial Drift Detection (EADD)}{20}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Problem Formulation}{21}{section.3.2}%
+\contentsline {section}{\numberline {3.3}EADD Framework Components}{22}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Step 1: Adaptive Reference Windowing}{23}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Step 2: Adversarial Validation (The Detector)}{23}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Step 3: Statistical Significance via Permutation Test}{24}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Step 4: Feature Drift Explainability via SHAP (Novel Contribution)}{25}{subsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.3.5}Automated Drift Prescription (Novel Contribution)}{26}{subsection.3.3.5}%
+\contentsline {subsection}{\numberline {3.3.6}Model Adaptation Strategies}{27}{subsection.3.3.6}%
+\contentsline {section}{\numberline {3.4}Datasets}{28}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Baseline Drift Detectors}{29}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Evaluation Metrics}{30}{section.3.6}%
+\contentsline {section}{\numberline {3.7}Experimental Design}{31}{section.3.7}%
+\contentsline {section}{\numberline {3.8}Practical Considerations}{32}{section.3.8}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Experiments and Results}}{34}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Research Questions}{34}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Hypotheses}{34}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Experimental Setup}{35}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Experiment 1: Sensitivity to Temporal Drift Patterns}{36}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Experiment 2: Real-World Benchmark}{37}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Experiment 3: Explainability Case Study}{38}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Experiment 4: Robustness to Stable Data (False Alarm Evaluation)}{40}{section.4.7}%
+\contentsline {section}{\numberline {4.8}Statistical Hypothesis Testing}{41}{section.4.8}%
+\contentsline {subsection}{\numberline {4.8.1}H1: Detection Parity (Wilcoxon Signed-Rank Test)}{41}{subsection.4.8.1}%
+\contentsline {subsection}{\numberline {4.8.2}H2: False Alarm Reduction (Mann--Whitney U Test)}{41}{subsection.4.8.2}%
+\contentsline {subsection}{\numberline {4.8.3}H3: Explainability Accuracy (Binomial Test)}{41}{subsection.4.8.3}%
+\contentsline {section}{\numberline {4.9}Summary of Experimental Results}{42}{section.4.9}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{43}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{43}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}RQ1: Detection Accuracy}{43}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}RQ2: Explainability}{44}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}RQ3: Robustness}{44}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Practical Implementation Considerations}{45}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Window Size and Threshold Selection}{45}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Drift Type Interpretation}{46}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Proposed MLOps Deployment Architecture}{46}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}MLOps Prescription Framework}{47}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Limitations and Threats to Validity}{48}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Chapter Summary}{49}{section.5.5}%
+\newpage 
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{50}{chapter.6}%
+\contentsline {section}{\numberline {6.1}Summary of Contributions}{50}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Implications for MLOps}{51}{section.6.2}%
+\contentsline {section}{\numberline {6.3}Limitations}{52}{section.6.3}%
+\contentsline {section}{\numberline {6.4}Future Work}{53}{section.6.4}%
+\contentsline {section}{\numberline {6.5}Concluding Remarks}{54}{section.6.5}%
+\contentsline {chapter}{APPENDIX}{55}{section.6.5}%
+\contentsline {chapter}{\hspace {1.5em} \numberline {\MakeTextUppercase {Appendix}\ A}\MakeTextUppercase {Implementation Details}}{56}{chapter.1}%
+\contentsline {section}{\numberline {A.1}Adversarial Classifier (LightGBM)}{56}{section.1.1}%
+\contentsline {section}{\numberline {A.2}Windowing Strategy}{56}{section.1.2}%
+\contentsline {section}{\numberline {A.3}Permutation Test}{57}{section.1.3}%
+\contentsline {section}{\numberline {A.4}SHAP Configuration}{57}{section.1.4}%
+\contentsline {section}{\numberline {A.5}Computational Environment}{57}{section.1.5}%
+\contentsline {chapter}{BIOGRAPHY}{64}{section.1.5}%

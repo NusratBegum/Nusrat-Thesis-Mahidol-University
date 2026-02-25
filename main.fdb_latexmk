@@ -1,14 +1,13 @@
 # Fdb version 4
-["bibtex main"] 1771546469.15703 "main.aux" "main.bbl" "main" 1771546469.25579 2
-  "./references.bib" 1771544652.29511 19043 db68c9427421024cc727a707476017a3 ""
+["bibtex main"] 1772024457.8833 "main.aux" "main.bbl" "main" 1772024459.20655 0
+  "./references.bib" 1772024393.51278 20736 20c158ab472bb1a0fff14ebcf7aa8236 ""
   "/usr/local/texlive/2025/texmf-dist/bibtex/bst/base/apalike.bst" 1292289607 24635 604dafcc79f521a11ea73e506e1fbd98 ""
-  "main.aux" 1771546469.15535 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.aux" 1772024458.99507 24311 aa3d3da1fe0fe1a5a441a2d6975bdafa "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1771546464.89784 "/Users/nusratbegum/Documents/GitHub/Final/Nusrat-Thesis-Mahidol-University/main.tex" "main.pdf" "main" 1771546466.20456 2
-  "/Users/nusratbegum/Documents/GitHub/Final/Nusrat-Thesis-Mahidol-University/main.tex" 1771544652.29292 4226 8cae750589b9111c39cc380517c8d4c0 ""
+["pdflatex"] 1772024457.95665 "main.tex" "main.pdf" "main" 1772024459.20668 2
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -260,16 +259,16 @@
   "acknowledgements.tex" 1771544652.28552 19 053d6936af9092d54b67ab8e1b2da200 ""
   "dbtt.tfm" 1771544652.28573 1432 d35c389e707bf33d254dfa8862ccd211 ""
   "figures/figure-1.png" 1771544652.28775 292407 a644894a60c1709c842510222a3c13df ""
-  "main.aux" 1771546469.15535 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "main.bbl" 1771546469.25508 0 d41d8cd98f00b204e9800998ecf8427e "bibtex main"
-  "main.lof" 0 -1 0 "pdflatex"
-  "main.lot" 0 -1 0 "pdflatex"
-  "main.out" 0 -1 0 "pdflatex"
+  "main.aux" 1772024458.99507 24311 aa3d3da1fe0fe1a5a441a2d6975bdafa "pdflatex"
+  "main.bbl" 1772024457.9534 13029 86458f93a713a2c7715c044a410bba6e "bibtex main"
+  "main.lof" 1772024458.9968 753 ff940df39c6f363fefbefc1d8f11b5bc "pdflatex"
+  "main.lot" 1772024458.99678 1656 140dd938d31039f5fae5f01f33989bb6 "pdflatex"
+  "main.out" 1772024458.99651 14564 ceb672588ace5da82f47f78bd9400206 "pdflatex"
   "main.tex" 1771544652.29292 4226 8cae750589b9111c39cc380517c8d4c0 ""
-  "main.toc" 0 -1 0 "pdflatex"
+  "main.toc" 1772024458.99673 7698 86f6225b82c9fd1faf7e04d28c70c0fa "pdflatex"
   "muthesis2021.cls" 1771544652.29483 34847 23df6631918456fa8dc8a4a8d8fb9396 ""
   "preamble.tex" 1771544652.29499 6275 9cd698652dc89431e9d94b00fc23e956 ""
-  "thesis.tex" 1771546463.1567 93667 7a6a166a774b15833ec1279a7ae8bd77 ""
+  "thesis.tex" 1772024385.091 102357 ecde92ff2ed294e020d7e7c1f0985a5c ""
   (generated)
   "main.aux"
   "main.lof"
