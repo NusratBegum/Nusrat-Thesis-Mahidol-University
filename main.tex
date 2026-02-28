@@ -17,6 +17,7 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
+\usepackage{booktabs} % For \cmidrule and other professional table rules
 \usepackage{multirow} % For tables with merged rows
 \usepackage{amssymb} % For checkmark symbol
 
@@ -104,7 +105,7 @@ The windowing parameters are set as follows:
 The statistical validation uses:
 
 \begin{itemize}
-    \item \textbf{Number of Permutations ($B$):} 100
+    \item \textbf{Number of Permutations ($B$):} 50
     \item \textbf{Significance Level ($\alpha$):} 0.01 (99\% Confidence)
     \item \textbf{Drift Condition:} $p < \alpha$ where $p = \frac{\#\{\text{AUC}_{perm} \geq \text{AUC}_{actual}\}}{B}$
 \end{itemize}

@@ -1,0 +1,49 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: output.aux
+The style file: apalike.bst
+Database file #1: references.bib
+Warning--empty journal in DriftGuard2026
+Warning--empty journal in Hattatoglu2026
+You've used 49 entries,
+            1935 wiz_defined-function locations,
+            807 strings with 13539 characters,
+and the built_in function-call counts, 22539 in all, are:
+= -- 2246
+> -- 956
+< -- 41
++ -- 341
+- -- 328
+* -- 1881
+:= -- 3746
+add.period$ -- 151
+call.type$ -- 49
+change.case$ -- 410
+chr.to.int$ -- 48
+cite$ -- 51
+duplicate$ -- 883
+empty$ -- 1552
+format.name$ -- 397
+if$ -- 4518
+int.to.chr$ -- 2
+int.to.str$ -- 0
+missing$ -- 45
+newline$ -- 249
+num.names$ -- 147
+pop$ -- 400
+preamble$ -- 1
+purify$ -- 409
+quote$ -- 0
+skip$ -- 680
+stack$ -- 0
+substring$ -- 1674
+swap$ -- 196
+text.length$ -- 20
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 294
+warning$ -- 2
+while$ -- 183
+width$ -- 0
+write$ -- 639
+(There were 2 warnings)
