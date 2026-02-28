@@ -8,12 +8,6 @@
   \url{https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-model-monitor-feature-attribution-drift.html}.
 \newblock Accessed: 2026-02-25.
 
-\bibitem[{arXiv:2601.08928}, 2026]{DriftGuard2026}
-{arXiv:2601.08928} (2026).
-\newblock {DriftGuard}: A hierarchical framework for concept drift detection
-  and remediation in supply chain forecasting.
-\newblock arXiv preprint arXiv:2601.08928.
-
 \bibitem[Baena-Garc{\'i}a et~al., 2006]{BaenaGarcia2006}
 Baena-Garc{\'i}a, M., del Campo-{\'A}vila, J., Fidalgo, R., Bifet, A.,
   Gavald{\`a}, R., and Morales-Bueno, R. (2006).
@@ -46,6 +40,12 @@ Ditzler, G. and Polikar, R. (2011).
   environments.
 \newblock In {\em IEEE Symposium on Computational Intelligence in Dynamic and
   Uncertain Environments (CIDUE)}, pages 41--48.
+
+\bibitem[{DriftGuard Authors}, 2026]{DriftGuard2026}
+{DriftGuard Authors} (2026).
+\newblock {DriftGuard}: A hierarchical framework for concept drift detection
+  and remediation in supply chain forecasting.
+\newblock arXiv preprint arXiv:2601.08928.
 
 \bibitem[Frias-Blanco et~al., 2015]{FriasBlanco2015}
 Frias-Blanco, I., del Campo-{\'A}vila, J., Ramos-Jim{\'e}nez, G.,
@@ -101,6 +101,7 @@ Harries, M. (1999).
 \bibitem[Hattatoglu, 2026]{Hattatoglu2026}
 Hattatoglu, F. (2026).
 \newblock {MLOps}-driven fraud detection: A comprehensive end-to-end journey.
+\newblock Preprint.
 
 \bibitem[Hinder et~al., 2024]{Hinder2024}
 Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024).

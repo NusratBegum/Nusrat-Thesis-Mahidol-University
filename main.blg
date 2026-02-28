@@ -3,38 +3,36 @@ Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: apalike.bst
 Database file #1: references.bib
-Warning--empty journal in DriftGuard2026
-Warning--empty journal in Hattatoglu2026
 You've used 49 entries,
             1935 wiz_defined-function locations,
-            808 strings with 13541 characters,
-and the built_in function-call counts, 22539 in all, are:
-= -- 2246
+            809 strings with 13551 characters,
+and the built_in function-call counts, 22492 in all, are:
+= -- 2248
 > -- 956
 < -- 41
 + -- 341
 - -- 328
-* -- 1881
-:= -- 3746
-add.period$ -- 151
+* -- 1875
+:= -- 3742
+add.period$ -- 152
 call.type$ -- 49
 change.case$ -- 410
 chr.to.int$ -- 48
-cite$ -- 51
-duplicate$ -- 883
-empty$ -- 1552
+cite$ -- 49
+duplicate$ -- 877
+empty$ -- 1542
 format.name$ -- 397
-if$ -- 4518
+if$ -- 4508
 int.to.chr$ -- 2
 int.to.str$ -- 0
-missing$ -- 45
-newline$ -- 249
+missing$ -- 43
+newline$ -- 250
 num.names$ -- 147
-pop$ -- 400
+pop$ -- 393
 preamble$ -- 1
 purify$ -- 409
 quote$ -- 0
-skip$ -- 680
+skip$ -- 676
 stack$ -- 0
 substring$ -- 1674
 swap$ -- 196
@@ -42,8 +40,7 @@ text.length$ -- 20
 text.prefix$ -- 0
 top$ -- 0
 type$ -- 294
-warning$ -- 2
+warning$ -- 0
 while$ -- 183
 width$ -- 0
-write$ -- 639
-(There were 2 warnings)
+write$ -- 641
