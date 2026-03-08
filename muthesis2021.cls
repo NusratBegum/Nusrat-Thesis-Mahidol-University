@@ -122,7 +122,7 @@
 \def\tfontsize{\spsizenormal pt}
 \def\huispace{ }
 \def\settfont{\font\utfont = \tfontname\huispace  at \tfontsize}
-\settfont % initialize thai font and size
+%\settfont % initialize thai font and size -- disabled: TFM file not available
 
 \renewcommand\bibname{References}
 

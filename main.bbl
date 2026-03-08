@@ -1,5 +1,12 @@
 \begin{thebibliography}{}
 
+\bibitem[Abdi et~al., 2024]{CDSeer2024}
+Abdi, A., Soleymani, R., and K{\"a}m{\"a}r{\"a}inen, J. (2024).
+\newblock {CDSeer}: A model-agnostic semi-supervised concept drift detection
+  technique.
+\newblock {\em arXiv preprint arXiv:2410.09190}.
+\newblock \url{https://arxiv.org/abs/2410.09190}.
+
 \bibitem[Alam et~al., 2026]{DriftGuard2026}
 Alam, S., Rahman, M.~A., and Sadeqa, B. (2026).
 \newblock {DriftGuard}: A hierarchical framework for concept drift detection
@@ -32,6 +39,12 @@ Bifet, A. and Gavald{\`a}, R. (2007).
 \newblock Learning from time-changing data with adaptive windowing.
 \newblock In {\em Proceedings of the 2007 SIAM International Conference on Data
   Mining (SDM)}, pages 443--448. SIAM.
+
+\bibitem[Cerqueira et~al., 2022]{STUDD2022}
+Cerqueira, V., Gomes, H.~M., and Bifet, A. (2022).
+\newblock {STUDD}: A student--teacher method for unsupervised concept drift
+  detection.
+\newblock {\em Machine Learning}, 112:4351--4378.
 
 \bibitem[Dasu et~al., 2006]{Dasu2006}
 Dasu, T., Krishnan, S., Venkatasubramanian, S., and Yi, K. (2006).
@@ -96,6 +109,13 @@ G{\"o}z{\"u}a{\c c}{\i}k, {\"O}. and Can, F. (2021).
 \newblock Concept learning using one-class classifiers for implicit drift
   detection in evolving data streams.
 \newblock {\em Artificial Intelligence Review}, 54(5):3725--3747.
+
+\bibitem[Greco et~al., 2024]{DriftLens2024}
+Greco, S., Vacchetti, B., Apiletti, D., and Cerquitelli, T. (2024).
+\newblock {DriftLens}: Real-time unsupervised concept drift detection by
+  evaluating per-label embedding distributions.
+\newblock {\em arXiv preprint arXiv:2406.17813}.
+\newblock \url{https://arxiv.org/abs/2406.17813}.
 
 \bibitem[Gretton et~al., 2012]{Gretton2012}
 Gretton, A., Borgwardt, K.~M., Rasch, M.~J., Sch{\"o}lkopf, B., and Smola, A.
@@ -269,6 +289,12 @@ Shimodaira, H. (2000).
   log-likelihood function.
 \newblock {\em Journal of Statistical Planning and Inference}, 90(2):227--244.
 
+\bibitem[Song et~al., 2022]{ADDM2022}
+Song, L., Bian, Y., Zhang, G., Lu, J., and Renders, J.-M. (2022).
+\newblock An autoregressive drift detection method.
+\newblock {\em arXiv preprint arXiv:2203.04769}.
+\newblock \url{https://arxiv.org/abs/2203.04769}.
+
 \bibitem[Souza et~al., 2020a]{Souza2020}
 Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
   (2020a).
@@ -295,6 +321,13 @@ Tsymbal, A. (2004).
 \newblock The problem of concept drift: Definitions and related work.
 \newblock Technical Report TCD-CS-2004-15, Trinity College Dublin, Department
   of Computer Science.
+
+\bibitem[Turrini et~al., 2025]{TRIPODD2025}
+Turrini, E., Facchinetti, A., and Sparacino, G. (2025).
+\newblock {TRIPODD}: A holistic framework for interpretable model drift
+  detection via feature-interaction aware hypothesis testing.
+\newblock {\em arXiv preprint arXiv:2503.06606}.
+\newblock \url{https://arxiv.org/abs/2503.06606}.
 
 \bibitem[Vela et~al., 2022]{Vela2022}
 Vela, D., Sharp, A., Zhang, R., Nguyen, T., Hoang, A., and Pianykh, O.~N.
