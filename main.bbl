@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[Alam et~al., 2026]{DriftGuard2026}
+Alam, S., Rahman, M.~A., and Sadeqa, B. (2026).
+\newblock {DriftGuard}: A hierarchical framework for concept drift detection
+  and remediation in supply chain forecasting.
+\newblock arXiv preprint arXiv:2601.08928.
+
 \bibitem[{Amazon Web Services}, 2025]{AWSSageMaker2025}
 {Amazon Web Services} (2025).
 \newblock Feature attribution drift for models in production -- {Amazon
@@ -41,11 +47,10 @@ Ditzler, G. and Polikar, R. (2011).
 \newblock In {\em IEEE Symposium on Computational Intelligence in Dynamic and
   Uncertain Environments (CIDUE)}, pages 41--48.
 
-\bibitem[{DriftGuard Authors}, 2026]{DriftGuard2026}
-{DriftGuard Authors} (2026).
-\newblock {DriftGuard}: A hierarchical framework for concept drift detection
-  and remediation in supply chain forecasting.
-\newblock arXiv preprint arXiv:2601.08928.
+\bibitem[Ditzler et~al., 2015]{Ditzler2015}
+Ditzler, G., Roveri, M., Alippi, C., and Polikar, R. (2015).
+\newblock Learning in nonstationary environments: A survey.
+\newblock {\em IEEE Computational Intelligence Magazine}, 10(4):12--25.
 
 \bibitem[Frias-Blanco et~al., 2015]{FriasBlanco2015}
 Frias-Blanco, I., del Campo-{\'A}vila, J., Ramos-Jim{\'e}nez, G.,
@@ -66,6 +71,17 @@ Gama, J., {\v Z}liobait{\.e}, I., Bifet, A., Pechenizkiy, M., and Bouchachia,
   A. (2014).
 \newblock A survey on concept drift adaptation.
 \newblock {\em ACM Computing Surveys}, 46(4):1--37.
+
+\bibitem[Gemaque et~al., 2020]{Gemaque2020}
+Gemaque, R.~N., Costa, A. J.~F., Giusti, R., and dos Santos, E.~M. (2020).
+\newblock An overview of unsupervised drift detection methods.
+\newblock {\em WIREs Data Mining and Knowledge Discovery}, 10(6):e1381.
+
+\bibitem[Goodman and Flaxman, 2017]{GoodmanFlaxman2017}
+Goodman, B. and Flaxman, S. (2017).
+\newblock European union regulations on algorithmic decision making and a
+  ``right to explanation''.
+\newblock {\em AI Magazine}, 38(3):50--57.
 
 \bibitem[G{\"o}z{\"u}a{\c c}{\i}k et~al., 2019]{Gozuacik2019}
 G{\"o}z{\"u}a{\c c}{\i}k, {\"O}., B{\"u}y{\"u}k{\c c}ak{\i}r, A., Bonab, H.,
@@ -97,11 +113,6 @@ Guo, C., Pleiss, G., Sun, Y., and Weinberger, K.~Q. (2017).
 Harries, M. (1999).
 \newblock Splice-2 comparative evaluation: Electricity pricing.
 \newblock Technical report, University of New South Wales.
-
-\bibitem[Hattatoglu, 2026]{Hattatoglu2026}
-Hattatoglu, F. (2026).
-\newblock {MLOps}-driven fraud detection: A comprehensive end-to-end journey.
-\newblock Preprint.
 
 \bibitem[Hinder et~al., 2024]{Hinder2024}
 Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024).
@@ -176,12 +187,13 @@ Lundberg, S.~M. and Lee, S.-I. (2017).
 \newblock In {\em Advances in Neural Information Processing Systems 30 (NIPS)},
   pages 4765--4774.
 
-\bibitem[Mannapur, 2025]{Mannapur2025}
-Mannapur, S.~B. (2025).
-\newblock Understanding data drift and concept drift in machine learning
-  systems.
-\newblock {\em International Journal of Scientific Research in Computer
-  Science, Engineering and Information Technology}.
+\bibitem[Nestor et~al., 2019]{NestorEtAl2019}
+Nestor, B., McDermott, M. B.~A., Boag, W., Berner, G., Naumann, T., Hughes,
+  M.~C., Goldenberg, A., and Ghassemi, M. (2019).
+\newblock Feature robustness in non-stationary health records: Caveats to
+  deployable model performance in common clinical machine learning tasks.
+\newblock {\em Proceedings of Machine Learning Research (ML4H at NeurIPS)},
+  106:1--23.
 
 \bibitem[Ovadia et~al., 2019]{Ovadia2019}
 Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon,
@@ -275,14 +287,20 @@ Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
 Taly, A. and Sato, K. (2021).
 \newblock Feature attributions -- monitoring machine learning models.
 \newblock Google Cloud Blog.
-\newblock
-  \url{https://cloud.google.com/blog/products/ai-machine-learning/monitoring-feature-attributions-how-google-saved-one-of-the-largest-ml-services-in-crisis}.
+\newblock Archived at
+  \url{https://web.archive.org/web/2024/https://cloud.google.com/blog/products/ai-machine-learning/monitoring-feature-attributions-how-google-saved-one-of-the-largest-ml-services-in-crisis}.
 
 \bibitem[Tsymbal, 2004]{Tsymbal2004}
 Tsymbal, A. (2004).
 \newblock The problem of concept drift: Definitions and related work.
 \newblock Technical Report TCD-CS-2004-15, Trinity College Dublin, Department
   of Computer Science.
+
+\bibitem[Vela et~al., 2022]{Vela2022}
+Vela, D., Sharp, A., Zhang, R., Nguyen, T., Hoang, A., and Pianykh, O.~N.
+  (2022).
+\newblock Temporal quality degradation in {AI} models.
+\newblock {\em Scientific Reports}, 12(1):11654.
 
 \bibitem[Vitter, 1985]{Vitter1985}
 Vitter, J.~S. (1985).
