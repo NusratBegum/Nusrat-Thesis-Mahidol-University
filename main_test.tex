@@ -1,0 +1,109 @@
+\documentclass{muthesis2021}
+\usepackage[authoryear,round]{natbib}
+\setcounter{secnumdepth}{4}
+\usepackage{graphicx}
+\usepackage{latexsym}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{url}
+\urlstyle{same}
+\usepackage{textcomp}
+
+\usepackage{caption,setspace}
+\captionsetup{font={stretch=1.5}}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amssymb}
+
+\usepackage{microtype}
+\usepackage{hyphenat}
+\emergencystretch=1em
+
+\usepackage[flushleft]{threeparttable}
+\newcommand\mathplus{+}
+
+\makeatletter
+\renewcommand{\@dotsep}{10000}
+\setlength{\@fptop}{0pt}
+\setlength{\@fpbot}{0pt plus 1fil}
+\makeatother
+
+\title{Explainable Feature Drift Detection for MLOps Monitoring}
+\author{Nusrat Begum}
+
+\input{preamble}
+
+\begin{document}
+
+\maketitle
+
+\linespacing{1.5}
+\input{acknowledgements}
+\input{abstract}
+
+\tableofcontents
+\listoftables
+\listoffigures
+
+%\input{thesis}
+
+\appendix
+
+\chapter{Implementation Details} \label{app:implementation}
+
+To ensure reproducibility, the specific hyperparameters and algorithmic configurations used for the EADD framework are detailed below.
+
+\section{Adversarial Classifier (LightGBM)}
+The adversarial classifier utilizes LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration:
+
+\begin{table}[!htbp]
+\centering
+\caption{LightGBM Hyperparameters}
+\begin{tabular}{ll}
+\hline
+\textbf{Parameter} & \textbf{Value} \\
+\hline
+Boosting Type & gbdt \\
+Number of Estimators & 50 \\
+Learning Rate & 0.1 \\
+Max Depth & -1 \\
+Num Leaves & 31 \\
+Objective & Binary Classification \\
+Metric & AUC \\
+Verbosity & -1 \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Windowing and Monitoring}
+\begin{itemize}
+    \item \textbf{Reference Window ($W_{ref}$):} 500 samples, maintained via Reservoir Sampling \citep{Vitter1985}.
+    \item \textbf{Current Window ($W_{cur}$):} 200 samples, sliding window.
+    \item \textbf{Monitoring Frequency:} Every 50 samples.
+\end{itemize}
+
+\section{Uncertainty and Statistical Testing}
+\begin{itemize}
+    \item \textbf{Prediction Uncertainty Index (PUI):} Entropy-based warning.
+    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} Max 50 perms, $\alpha=0.01$.
+\end{itemize}
+
+\section{Drift Severity Index (DSI) Tiers}
+\begin{itemize}
+    \item \textbf{Critical (DSI $> 0.6$):} concentrated univariate.
+    \item \textbf{Moderate (DSI $0.3$--$0.6$):} subset drift.
+    \item \textbf{Low (DSI $< 0.3$):} diffuse shift.
+\end{itemize}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\biography
+
+\end{document}

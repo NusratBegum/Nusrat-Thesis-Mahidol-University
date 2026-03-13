@@ -2,15 +2,16 @@
 \contentsline {table}{\numberline {2.1}{\ignorespaces Historical evolution of drift detection research.}}{6}{table.caption.2}%
 \contentsline {table}{\numberline {2.2}{\ignorespaces Taxonomy of drift types referenced in this thesis.}}{9}{table.caption.3}%
 \contentsline {table}{\numberline {2.3}{\ignorespaces Comparison of Drift Detection Approaches}}{12}{table.caption.4}%
-\contentsline {table}{\numberline {3.1}{\ignorespaces Alignment of EADD Components with Research Requirements}}{27}{table.caption.6}%
-\contentsline {table}{\numberline {4.1}{\ignorespaces Experiment 1: Multi-Detector Comparison on Synthetic Drift Patterns. MTD = Mean Time to Detection (samples); MDR = Missed Detection Rate; FA = False Alarms. ``---'' indicates the detector missed all drift points.}}{42}{table.caption.7}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Experiment 2: Multi-Detector Benchmark on Datasets with Known Drift Points. MTD = Mean Time to Detection; MDR = Missed Detection Rate. Bold indicates best MTD among detectors with MDR = 0. ``---'' indicates detector missed all drifts or timed out.}}{45}{table.caption.11}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Experiment 2: Detection Counts on Datasets Without Ground Truth (lower is generally preferred, as excessive detections suggest false alarms). ``TO'' = timed out.}}{45}{table.caption.12}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Experiment 3: SHAP Feature Attribution Accuracy. P@k = Precision at $k$ (fraction of top-$k$ features that are truly drifted); R@k = Recall at $k$ (fraction of drifted features in top-$k$); F1@k = harmonic mean.}}{48}{table.caption.16}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Experiment 4: Mean False Alarm Counts on Stable Data (Zero Actual Drift, 5 runs)}}{51}{table.caption.19}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Drift Type Coverage Summary (out of 4 types: Abrupt, Gradual, Incremental, Recurring)}}{52}{table.caption.20}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Summary of Experimental Results}}{54}{table.caption.22}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces Summary of Hypothesis Testing}}{55}{table.caption.23}%
-\contentsline {table}{\numberline {5.1}{\ignorespaces Guidelines for Window Size Selection Based on Experimental Evidence}}{59}{table.caption.24}%
-\contentsline {table}{\numberline {5.2}{\ignorespaces MLOps Prescription Framework Based on Drift Diagnosis}}{61}{table.caption.25}%
-\contentsline {table}{\numberline {A.1}{\ignorespaces LightGBM Hyperparameters}}{71}{table.caption.26}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Alignment of EADD Components with Research Requirements and Literature Gaps}}{29}{table.caption.6}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Drift Severity Index (DSI) Tiers and Automated Prescriptions}}{36}{table.caption.7}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Experiment 1: Multi-Detector Comparison on Synthetic Drift Patterns. MTD = Mean Time to Detection (samples); MDR = Missed Detection Rate; FA = False Alarms. ``---'' indicates the detector missed all drift points.}}{47}{table.caption.8}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Experiment 2: Multi-Detector Benchmark on Datasets with Known Drift Points. MTD = Mean Time to Detection; MDR = Missed Detection Rate. Bold indicates best MTD among detectors with MDR = 0. ``---'' indicates detector missed all drifts or timed out.}}{50}{table.caption.12}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Experiment 2: Detection Counts on Datasets Without Ground Truth (lower is generally preferred, as excessive detections suggest false alarms). ``TO'' = timed out.}}{50}{table.caption.13}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Experiment 3: SHAP Feature Attribution Accuracy. P@k = Precision at $k$ (fraction of top-$k$ features that are truly drifted); R@k = Recall at $k$ (fraction of drifted features in top-$k$); F1@k = harmonic mean.}}{53}{table.caption.17}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Experiment 4: Mean False Alarm Counts on Stable Data (Zero Actual Drift, 5 runs)}}{56}{table.caption.20}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Drift Type Coverage Summary (out of 4 types: Abrupt, Gradual, Incremental, Recurring)}}{57}{table.caption.21}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Summary of Experimental Results}}{59}{table.caption.23}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Summary of Hypothesis Testing}}{60}{table.caption.24}%
+\contentsline {table}{\numberline {5.1}{\ignorespaces Guidelines for Window Size Selection Based on Experimental Evidence}}{64}{table.caption.25}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces MLOps Prescription Framework Based on DSI and SHAP Attribution}}{67}{table.caption.26}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces LightGBM Hyperparameters}}{78}{table.caption.27}%

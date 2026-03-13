@@ -1,43 +1,40 @@
 \documentclass{muthesis2021}
 \usepackage[authoryear,round]{natbib}
-\setcounter{secnumdepth}{4} % make subsubsection have numberings
+\setcounter{secnumdepth}{4}
 \usepackage{graphicx}
 \usepackage{latexsym}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{url}
-\urlstyle{same} % Make URLs use the same font as surrounding text
+\urlstyle{same}
 \usepackage{textcomp}
 
 \usepackage{caption,setspace}
-\captionsetup{font={stretch=1.5}} % make the table,figure captions also have 1.5 linespacing
+\captionsetup{font={stretch=1.5}}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
-\usepackage{booktabs} % For \cmidrule and other professional table rules
-\usepackage{multirow} % For tables with merged rows
-\usepackage{amssymb} % For checkmark symbol
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{amssymb}
 
-\usepackage{microtype} % Better typography and line breaking
-\usepackage{hyphenat} % For \hyp command to allow hyphenation
-\emergencystretch=1em % Allow slightly looser spacing to prevent overflow
+\usepackage{microtype}
+\usepackage{hyphenat}
+\emergencystretch=1em
 
 \usepackage[flushleft]{threeparttable}
-%\usepackage{notoccite}
 \newcommand\mathplus{+}
 
 \makeatletter
-\renewcommand{\@dotsep}{10000} % set distance between dots to make it disappear in the table of contents
+\renewcommand{\@dotsep}{10000}
 \setlength{\@fptop}{0pt}
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatother
 
-% title of thesis -- nouns and stressed words should begin
 \title{Explainable Feature Drift Detection for MLOps Monitoring}
-
 \author{Nusrat Begum}
 
 \input{preamble}
@@ -48,98 +45,19 @@
 
 \linespacing{1.5}
 \input{acknowledgements}
-
-\input{abstract} % point to english abstract.tex
-% \thaiabstract{ภาษาไทย} % the Thai abstract doesn't work. Have to manually do it in Word. But leave this here so that the page number runs correctly.
+\input{abstract}
 
 \tableofcontents
 \listoftables
 \listoffigures
 
-% your thesis goes here!
-\input{thesis} % you can also have one input per chapter
-
+\input{thesis}
 
 \appendix
+\input{appendix_impl}
 
-\chapter{Implementation Details} \label{app:implementation}
-
-To ensure reproducibility, the specific hyperparameters used for the EADD experiments are listed below.
-
-\section{Adversarial Classifier (LightGBM)}
-
-The adversarial classifier uses LightGBM \citep{Ke2017} with the following configuration:
-
-\begin{table}[!htbp]
-\centering
-\caption{LightGBM Hyperparameters}
-\begin{tabular}{ll}
-\hline
-\textbf{Parameter} & \textbf{Value} \\
-\hline
-Boosting Type & gbdt (Gradient Boosting Decision Tree) \\
-Number of Estimators & 30 \\
-Learning Rate & 0.1 \\
-Max Depth & -1 (No limit) \\
-Num Leaves & 31 \\
-Objective & Binary Classification \\
-Metric & AUC \\
-Verbosity & -1 (Silent) \\
-\hline
-\end{tabular}
-\end{table}
-
-\section{Windowing Strategy}
-
-The windowing parameters are set as follows:
-
-\begin{itemize}
-    \item \textbf{Reference Window ($W_{ref}$):} 500 samples, maintained via Reservoir Sampling
-    \item \textbf{Current Window ($W_{cur}$):} 200 samples, sliding window
-    \item \textbf{Reservoir Probability:} $p = k/n$ where $n$ is total stream length seen
-    \item \textbf{Monitoring Frequency:} Every 50 samples
-\end{itemize}
-
-\section{Permutation Test}
-
-The statistical validation uses:
-
-\begin{itemize}
-    \item \textbf{Number of Permutations ($B$):} 50
-    \item \textbf{Significance Level ($\alpha$):} 0.01 (99\% Confidence)
-    \item \textbf{Drift Condition:} $p < \alpha$ where $p = \frac{\#\{\text{AUC}_{perm} \geq \text{AUC}_{actual}\}}{B}$
-\end{itemize}
-
-\section{SHAP Configuration}
-
-\begin{itemize}
-    \item \textbf{Explainer:} TreeExplainer (optimized for tree-based models)
-    \item \textbf{Feature Importance:} Mean absolute SHAP value per feature
-    \item \textbf{Prescription Thresholds:}
-    \begin{itemize}
-        \item Univariate Drift: Single feature $>$50\% importance
-        \item Subset Drift: 2--5 features together $>$70\% importance
-        \item Multivariate Shift: No single feature $>$30\% importance
-    \end{itemize}
-\end{itemize}
-
-\section{Computational Environment}
-
-All experiments were conducted on:
-
-\begin{itemize}
-    \item \textbf{Hardware:} Apple M1 Pro, 16GB RAM
-    \item \textbf{Software:} Python 3.10, LightGBM 4.1.0, SHAP 0.42.1
-    \item \textbf{OS:} macOS Ventura 13.0
-\end{itemize}
-
-
-% file containing refs if you are not using bibtex
-% \bibliographystyle{muthesis2021}
 \bibliographystyle{apalike}
-
 \bibliography{references}
 
-\biography % use this to get the biography at the end of the thesis
-
+\biography
 \end{document}
