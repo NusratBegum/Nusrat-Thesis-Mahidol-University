@@ -7,17 +7,17 @@ The practical consequences are well documented. \citet{Vela2022} demonstrated th
 
 The drift detection landscape has matured considerably. Statistical methods employ hypothesis tests such as the Kolmogorov--Smirnov test or Maximum Mean Discrepancy to compare reference and current distributions \citep{Rabanser2019, Gretton2012}. Adaptive windowing methods like ADWIN dynamically adjust historical baselines \citep{BifetGavalda2007}. Supervised error-based detectors (DDM, EDDM) monitor model error rates but require ground-truth labels \citep{Gama2004, BaenaGarcia2006}. Prediction-based methods track model outputs but depend on calibration quality \citep{Sethi2017, Guo2017}. Despite this diversity, fundamental challenges persist: univariate statistical tests suffer from false alarm storms in high-dimensional settings; supervised methods cannot operate when labels are delayed or unavailable; and no existing method provides integrated root-cause diagnostics \citep{Lu2018, Webb2016}.
 
-The discriminative paradigm---recasting distribution comparison as a classification problem---offers a principled alternative. \citet{LopezPazOquab2017} formalised this as the \textit{classifier two-sample test} (C2ST): if an auxiliary classifier can reliably separate reference from current data based solely on features, the distributions differ significantly. \citet{Gozuacik2019} adapted this principle for streaming drift detection as the Discriminative Drift Detector (D3), which \citet{Lukats2025} identified as the most robust unsupervised detector in their comprehensive benchmark. However, D3 and all existing discriminative implementations share three critical limitations: (1) they provide only binary detection signals without feature-level attribution, (2) they rely on fixed thresholds lacking statistical justification, and (3) they discard the trained discriminative model without extracting diagnostic value from it.
+The discriminative paradigm---recasting distribution comparison as a classification problem---offers a principled alternative. \citet{LopezPazOquab2017} formalised this as the \textit{classifier two-sample test} (C2ST): if an auxiliary classifier can reliably separate reference from current data based solely on features, the distributions differ significantly. \citet{Gozuacik2019} adapted this principle for streaming drift detection as the Discriminative Drift Detector (D3), which \citet{Lukats2024} identified as the most robust unsupervised detector in their comprehensive benchmark. However, D3 and all existing discriminative implementations share three critical limitations: (1) they provide only binary detection signals without feature-level attribution, (2) they rely on fixed thresholds lacking statistical justification, and (3) they discard the trained discriminative model without extracting diagnostic value from it.
 
-Recent work has begun addressing the explainability gap. \citet{TRIPODD2025} proposed feature-interaction aware hypothesis testing, and \citet{HinderFeature2024} formalised feature-wise drift notions. \citet{EC2ST2024} demonstrated that e-values can replace p-values in classifier two-sample tests for anytime-valid sequential monitoring. \citet{HDPD2024} introduced hierarchical decomposition of performance discrepancies with nonparametric guarantees. However, no existing framework integrates statistically rigorous multivariate detection with quantitative feature-level and interaction-level attribution alongside automated remediation prescriptions in a unified streaming pipeline.
+Recent work has begun addressing the explainability gap. \citet{TRIPODD2024} proposed feature-interaction aware hypothesis testing, and \citet{HinderFeature2024} formalised feature-wise drift notions. \citet{EC2ST2024} demonstrated that e-values can replace p-values in classifier two-sample tests for anytime-valid sequential monitoring. \citet{HDPD2024} introduced hierarchical decomposition of performance discrepancies with nonparametric guarantees. However, no existing framework integrates statistically rigorous multivariate detection with quantitative feature-level and interaction-level attribution alongside automated remediation prescriptions in a unified streaming pipeline.
 
 \section{Objectives}
 The primary objective of this thesis is to develop \textbf{Explainable Adversarial Drift Detection (EADD)}, a framework that advances the discriminative drift detection paradigm through four methodological contributions---uncertainty-aware monitoring, adaptive sequential permutation testing, interaction-aware feature attribution, and a novel drift severity metric---integrated into a unified streaming pipeline capable of detecting, diagnosing, and prescribing remediation for distribution drift. Specifically, this work aims to:
 
 \begin{enumerate}
-    \item Extend the discriminative drift detection approach of D3 \citep{Gozuacik2019} with a non-linear classifier (LightGBM) and \textbf{reservoir sampling} for representative reference windows, broadening detection coverage to gradual and incremental drift patterns where linear classifiers fail.
+    \item Extend the discriminative drift detection approach of D3 \citep{Gozuacik2019} with a non-linear classifier (LightGBM; \citealp{Ke2017}) and \textbf{reservoir sampling} \citep{Vitter1985} for representative reference windows, broadening detection coverage to gradual and incremental drift patterns where linear classifiers fail.
 
-    \item Introduce the \textbf{Prediction Uncertainty Index (PUI)}, a novel early-warning metric derived from the entropy of the adversarial discriminator, capable of flagging subtle distributional instabilities before they pass statistical significance thresholds.
+    \item Introduce the \textbf{Prediction Uncertainty Index (PUI)}, a novel early-warning metric derived from the Shannon entropy \citep{Shannon1948} of the discriminative classifier's predictions, capable of flagging subtle distributional instabilities before they pass statistical significance thresholds.
 
     \item Develop an \textbf{adaptive sequential permutation test (ASPT)} that calibrates the number of permutations based on accumulated evidence strength, reducing computational overhead by up to 70\% compared to fixed-budget approaches while maintaining Type~I error control below the nominal level \citep{Gandy2009}.
 
@@ -25,14 +25,14 @@ The primary objective of this thesis is to develop \textbf{Explainable Adversari
 
     \item Introduce the \textbf{Drift Severity Index (DSI)}, a novel composite metric that combines discriminative power (AUC) with attribution concentration (normalised SHAP entropy) to produce a continuous, theoretically motivated drift severity score, replacing the heuristic thresholds used in prior work.
 
-    \item Systematically benchmark EADD against seven state-of-the-art unsupervised drift detectors on real-world datasets from the \citet{Lukats2025} benchmark, evaluating detection accuracy, false alarm control, and the practical value of explainability.
+    \item Systematically benchmark EADD against seven state-of-the-art unsupervised drift detectors on real-world datasets from the \citet{Lukats2024} benchmark, evaluating detection accuracy, false alarm control, and the practical value of explainability.
 \end{enumerate}
 
 \section{Expected Contributions}
 This thesis makes the following contributions:
 
 \begin{enumerate}
-    \item \textbf{Prediction Uncertainty Index (PUI):} A novel uncertainty-aware monitoring signal that tracks the entropy of the adversarial discriminator's predictions. PUI provides a continuous measure of distributional instability, serving as an ``early warning'' for subtle shifts that have not yet reached statistical significance ($p < 0.01$) but indicate increasing system entropy.
+    \item \textbf{Prediction Uncertainty Index (PUI):} A novel uncertainty-aware monitoring signal that tracks the entropy of the discriminative classifier's predictions. PUI provides a continuous measure of distributional instability, serving as an ``early warning'' for subtle shifts that have not yet reached statistical significance ($p < 0.01$) but indicate increasing system entropy.
 
     \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} A novel early-stopping permutation test for the classifier two-sample test that monitors evidence accumulation and terminates when statistical significance is established or refuted, reducing computational cost by up to 70\% compared to fixed-budget permutation testing while preserving Type~I error guarantees \citep{Gandy2009}. 
 
@@ -49,7 +49,7 @@ This thesis makes the following contributions:
 \begin{figure}[!htpb]
     \centering
     \includegraphics[width=.95\textwidth,keepaspectratio]{figures/figure-1.png}
-    \caption{Comparison of no drift versus drift scenarios. Left: When distributions overlap, the adversarial classifier cannot distinguish data sources (AUC $\approx$ 0.5). Right: When drift occurs, distributions shift and the classifier can distinguish sources (AUC $>>$ 0.5).}
+    \caption{Comparison of no drift versus drift scenarios. Left: When distributions overlap, the discriminative classifier cannot distinguish data sources (AUC $\approx$ 0.5). Right: When drift occurs, distributions shift and the classifier can distinguish sources (AUC $>>$ 0.5).}
     \label{fig:feature-drift}
 \end{figure}
 
@@ -75,7 +75,7 @@ Windowing \& Statistical Tests (2007--2015) & \citet{BifetGavalda2007} proposed 
 \hline
 Deep Learning \& High-Dimensionality (2018--2023) & As models moved to unstructured data, detection shifted toward monitoring internal latent representations \citep{Rabanser2019, Liu2020}. \citet{Gozuacik2019} introduced D3, demonstrating that discriminative classifiers could serve as powerful multivariate drift detectors. \citet{LopezPazOquab2017} formalised the classifier two-sample test (C2ST), providing theoretical backing for this approach. \\
 \hline
-Governance \& Explainability Era (2024--2026) & Drift detection became embedded in AI governance frameworks. The focus shifted toward interpretable, statistically rigorous detection: TRIPODD \citep{TRIPODD2025} introduced feature-interaction hypothesis testing; E-C2ST \citep{EC2ST2024} enabled anytime-valid sequential testing via e-values; HDPD \citep{HDPD2024} decomposed performance gaps into $P(X)$ and $P(y|X)$ components with attributions. Cloud platforms standardised SHAP-based feature attribution monitoring \citep{TalySato2021, AWSSageMaker2025}. \citet{AdvAttackDrift2024} exposed vulnerabilities in discriminative detectors to adversarial evasion. \\
+Governance \& Explainability Era (2024--2026) & Drift detection became embedded in AI governance frameworks. The focus shifted toward interpretable, statistically rigorous detection: TRIPODD \citep{TRIPODD2024} introduced feature-interaction hypothesis testing; E-C2ST \citep{EC2ST2024} enabled anytime-valid sequential testing via e-values; HDPD \citep{HDPD2024} decomposed performance gaps into $P(X)$ and $P(y|X)$ components with attributions. Cloud platforms standardised SHAP-based feature attribution monitoring \citep{TalySato2021, AWSSageMaker2025}. \citet{AdvAttackDrift2024} exposed vulnerabilities in discriminative detectors to adversarial evasion. \\
 \hline
 \end{tabular}
 \end{table}
@@ -206,7 +206,7 @@ Key approaches include:
 
 \textbf{Domain Classifier / Discriminative Distribution Testing:} According to \citet{Pan2020} and \citet{Qian2021}, this approach trains a binary classifier (e.g., logistic regression, random forest, gradient boosting) to discriminate samples from reference vs. current windows. \citet{Pan2020} note that high discriminative performance (measured by accuracy, AUC, or similar metrics) indicates significant distributional shift. The technique is sometimes called ``adversarial validation'' in industry practice \citep{Pan2020}.
 
-\textbf{Discriminative Drift Detector (D3):} \citet{Gozuacik2019} developed this unsupervised method that trains a classifier (logistic regression) to distinguish between old and new data windows, using AUC as the drift signal. D3 has demonstrated strong performance in recent benchmarks \citep{Lukats2025} and represents the state-of-the-art in discriminative drift detection.
+\textbf{Discriminative Drift Detector (D3):} \citet{Gozuacik2019} developed this unsupervised method that trains a classifier (logistic regression) to distinguish between old and new data windows, using AUC as the drift signal. D3 has demonstrated strong performance in recent benchmarks \citep{Lukats2024} and represents the state-of-the-art in discriminative drift detection.
 
 \textbf{Margin Density Drift Detection (MD3):} \citet{Sethi2017} proposed an alternative approach that monitors margin density---the proportion of samples near the decision boundary---to detect drift without requiring true labels.
 
@@ -237,25 +237,25 @@ Prediction-based methods detect drift by monitoring changes in model outputs ove
 \textbf{Limitations:} These methods depend on model calibration. If the model is poorly calibrated---which is common for modern deep learning models---changes in confidence may not reliably indicate drift \citep{Guo2017, Ovadia2019}.
 
 \subsubsection{State-of-the-Art Unsupervised Detectors (2019--2025)}
-Recent benchmarking by \citet{Lukats2025} provides a systematic evaluation of fully unsupervised drift detectors on real-world data streams. Their study tested numerous algorithms and identified seven that function reliably on messy, real-world data. This survey represents a critical ``reality check'' for the field, demonstrating that detecting change without ground-truth labels is possible but fragile.
+Recent benchmarking by \citet{Lukats2024} provides a systematic evaluation of fully unsupervised drift detectors on real-world data streams. Their study tested numerous algorithms and identified seven that function reliably on messy, real-world data. This survey represents a critical ``reality check'' for the field, demonstrating that detecting change without ground-truth labels is possible but fragile.
 
-\textbf{D3 (Discriminative Drift Detector):} According to \citet{Gozuacik2019}, D3 trains a logistic regression classifier to distinguish between old and new data windows, using AUC as the drift signal. \citet{Lukats2025} found D3 to be the overall winner---the most robust and accurate across different data types. However, D3 remains a ``black box'': it signals \textit{that} drift occurred but provides no insight into \textit{which} features drifted or \textit{why}.
+\textbf{D3 (Discriminative Drift Detector):} According to \citet{Gozuacik2019}, D3 trains a logistic regression classifier to distinguish between old and new data windows, using AUC as the drift signal. \citet{Lukats2024} found D3 to be the overall winner---the most robust and accurate across different data types. However, D3 remains a ``black box'': it signals \textit{that} drift occurred but provides no insight into \textit{which} features drifted or \textit{why}.
 
-\textbf{CSDDM (Clustered Statistical Drift Detection Method):} According to \citet{CSDDM2021}, this method uses PCA for dimensionality reduction followed by K-Means clustering, then applies statistical tests to detect cluster shifts. \citet{Lukats2025} report it performed exceptionally well on the ``lift-per-drift'' metric, catching drifts with minimal false alarms.
+\textbf{CSDDM (Clustered Statistical Drift Detection Method):} According to \citet{CSDDM2021}, this method uses PCA for dimensionality reduction followed by K-Means clustering, then applies statistical tests to detect cluster shifts. \citet{Lukats2024} report it performed exceptionally well on the ``lift-per-drift'' metric, catching drifts with minimal false alarms.
 
 \textbf{SPLL (Semi-Parametric Log-Likelihood):} \citet{SPLL2013} developed this approach that fits probability density models to reference data and detects drift when new observations have anomalously low likelihood under the learned distribution. It is effective for sudden drift patterns.
 
-\textbf{IBDD (Image-Based Drift Detector):} According to \citet{IBDD2020}, this creative approach converts numerical data streams into images and applies image comparison techniques to detect distributional changes. While highly accurate, \citet{Lukats2025} note it can be biased by its frequent reset strategy.
+\textbf{IBDD (Image-Based Drift Detector):} According to \citet{IBDD2021}, this creative approach converts numerical data streams into images and applies image comparison techniques to detect distributional changes. While highly accurate, \citet{Lukats2024} note it can be biased by its frequent reset strategy.
 
-\textbf{OCDD (One-Class Drift Detector):} \citet{OCDD2021} proposed using one-class SVMs to define ``normal'' data boundaries and flag drift when incoming data falls outside these boundaries. While sound in principle, D3 generally outperformed OCDD in benchmarks \citep{Lukats2025}.
+\textbf{OCDD (One-Class Drift Detector):} \citet{OCDD2021} proposed using one-class SVMs to define ``normal'' data boundaries and flag drift when incoming data falls outside these boundaries. While sound in principle, D3 generally outperformed OCDD in benchmarks \citep{Lukats2024}.
 
 \textbf{NN-DVI (Nearest Neighbor Density Variation):} According to \citet{NNDVI2018}, this method monitors changes in local data density by tracking nearest-neighbor distances. Drift is signaled when density patterns shift significantly. It performs well for gradual density changes but can be sensitive to noise.
 
 \textbf{UCDD (Unsupervised Concept Drift Detection):} \citet{UCDD2020} developed a clustering-based approach that assigns pseudo-labels based on cluster membership and monitors boundary shifts. It serves as a reliable baseline in unsupervised drift detection.
 
-\textbf{BNDM (Bayesian Non-parametric Drift Monitor):} This method uses a Pólya tree test to detect distributional changes without parametric assumptions. However, \citet{Lukats2025} report that BNDM struggled with small sample sizes in their benchmark, limiting its practical applicability in streaming scenarios where window sizes are constrained.
+\textbf{BNDM (Bayesian Non-parametric Drift Monitor):} This method uses a Pólya tree test to detect distributional changes without parametric assumptions. However, \citet{Lukats2024} report that BNDM struggled with small sample sizes in their benchmark, limiting its practical applicability in streaming scenarios where window sizes are constrained.
 
-\textbf{UDetect (Univariate Detection):} This approach monitors standard deviation changes using Shewhart control charts. While simple and computationally efficient, \citet{Lukats2025} found it had a high failure rate (45\%) in their benchmark, making it unreliable for production deployment.
+\textbf{UDetect (Univariate Detection):} This approach monitors standard deviation changes using Shewhart control charts. While simple and computationally efficient, \citet{Lukats2024} found it had a high failure rate (45\%) in their benchmark, making it unreliable for production deployment.
 
 \textbf{Industrial Drift Detection Libraries:}
 Beyond research algorithms, several industrial libraries provide production-ready drift detection:
@@ -265,7 +265,7 @@ Beyond research algorithms, several industrial libraries provide production-read
     \item \textbf{Evidently AI}: Open-source ML monitoring framework with built-in statistical drift tests for tabular data.
 \end{itemize}
 
-\textbf{Gap Identified from Benchmark Analysis:} While these libraries and algorithms exist, according to \citet{Lukats2025}, they share a common limitation: they typically report only \textit{whether} drift occurred, not \textit{where} or \textit{why}. Statistical libraries often run separate univariate tests for each feature, causing ``false alarm storms'' when many features are monitored simultaneously. Although \citet{LopezPazOquab2017} proposed the classifier two-sample test (C2ST) framework with principled significance testing, existing streaming implementations such as D3 \citep{Gozuacik2019} use only fixed AUC thresholds and discard the learned classifier without exploiting it for explainability. The field lacks an integrated method that combines a statistically rigorous multivariate check with granular, feature-level explanations of drift sources.
+\textbf{Gap Identified from Benchmark Analysis:} While these libraries and algorithms exist, according to \citet{Lukats2024}, they share a common limitation: they typically report only \textit{whether} drift occurred, not \textit{where} or \textit{why}. Statistical libraries often run separate univariate tests for each feature, causing ``false alarm storms'' when many features are monitored simultaneously. Although \citet{LopezPazOquab2017} proposed the classifier two-sample test (C2ST) framework with principled significance testing, existing streaming implementations such as D3 \citep{Gozuacik2019} use only fixed AUC thresholds and discard the learned classifier without exploiting it for explainability. The field lacks an integrated method that combines a statistically rigorous multivariate check with granular, feature-level explanations of drift sources.
 
 \subsection{Hybrid and Ensemble Methods}
 Hybrid approaches integrate multiple sources of information---both supervised and unsupervised signals---to improve drift detection robustness \citep{Gama2014, Krawczyk2017}:
@@ -344,7 +344,7 @@ The drift detection landscape has evolved rapidly along three axes: statistical 
 
 \textbf{Statistical Testing Advances.} \citet{EC2ST2024} proposed E-C2ST, which replaces p-values with e-values in classifier two-sample tests, enabling anytime-valid sequential monitoring without multiple testing penalties. This represents a strictly superior alternative to fixed-budget permutation testing for sequential settings. \citet{MCD2024} introduced Maximum Concept Discrepancy for online drift detection using contrastive learning, offering an alternative to the discriminative paradigm.
 
-\textbf{Explainability and Attribution.} \citet{TRIPODD2025} proposed feature-interaction aware hypothesis testing with formal power guarantees, enabling identification of which specific feature interactions drive detected drift. \citet{HDPD2024} introduced a hierarchical nonparametric decomposition at NeurIPS 2024 that separates covariate shift ($P(X)$) from concept shift ($P(y|X)$) with per-feature Shapley attributions and confidence intervals. \citet{DBShap2024} decomposed performance drift into virtual and real drift components using distributional Shapley values. \citet{XPE2024} combined optimal transport with Shapley values to attribute performance degradation to specific feature shifts. \citet{SGShift2025} proposed GAM-based concept shift characterisation with knockoff-based false discovery rate control, achieving inherently interpretable shift explanations. \citet{CausalDrift2025} argued that only causal (not correlational) drift explanations are truly actionable, introducing causal attribution methods for drift remediation.
+\textbf{Explainability and Attribution.} \citet{TRIPODD2024} proposed feature-interaction aware hypothesis testing with formal power guarantees, enabling identification of which specific feature interactions drive detected drift. \citet{HDPD2024} introduced a hierarchical nonparametric decomposition at NeurIPS 2024 that separates covariate shift ($P(X)$) from concept shift ($P(y|X)$) with per-feature Shapley attributions and confidence intervals. \citet{DBShap2024} decomposed performance drift into virtual and real drift components using distributional Shapley values. \citet{XPE2024} combined optimal transport with Shapley values to attribute performance degradation to specific feature shifts. \citet{SGShift2025} proposed GAM-based concept shift characterisation with knockoff-based false discovery rate control, achieving inherently interpretable shift explanations. \citet{CausalDrift2025} argued that only causal (not correlational) drift explanations are truly actionable, introducing causal attribution methods for drift remediation.
 
 \textbf{Formal Frameworks.} \citet{HinderFeature2024} formalised a rigorous mathematical definition of feature-wise drift, enabling detector-agnostic feature selection for drift localisation. A systematic literature review by \citet{XAIDriftSurvey2025} confirmed that while the intersection of XAI and drift detection is rapidly growing, most existing approaches adapt static XAI methods to streaming settings without addressing the fundamental challenges of scalability and interaction-level analysis.
 
@@ -355,10 +355,10 @@ The drift detection landscape has evolved rapidly along three axes: statistical 
 \textbf{Key Observation:} While these advances have substantially improved individual aspects of drift detection, a critical gap persists: no existing framework integrates (1) computationally efficient, statistically rigorous multivariate detection with (2) interaction-aware feature-level attribution and (3) automated, severity-calibrated remediation prescriptions in a unified streaming pipeline. The closest approaches---TRIPODD for interaction-aware testing, E-C2ST for sequential statistical rigour, and HDPD for attribution decomposition---each address only one dimension of this triad.
 
 \section{Gap in the Literature}
-The preceding review reveals a progressive evolution from supervised error monitoring toward unsupervised, interpretable drift detection. Recent advances---TRIPODD's interaction-aware testing \citep{TRIPODD2025}, E-C2ST's sequential e-value testing \citep{EC2ST2024}, HDPD's hierarchical decomposition \citep{HDPD2024}, and CDSeer's label-efficient detection \citep{CDSeer2024}---have substantially advanced individual aspects. However, five critical gaps persist:
+The preceding review reveals a progressive evolution from supervised error monitoring toward unsupervised, interpretable drift detection. Recent advances---TRIPODD's interaction-aware testing \citep{TRIPODD2024}, E-C2ST's sequential e-value testing \citep{EC2ST2024}, HDPD's hierarchical decomposition \citep{HDPD2024}, and CDSeer's label-efficient detection \citep{CDSeer2024}---have substantially advanced individual aspects. However, five critical gaps persist:
 
 \begin{enumerate}
-    \item \textbf{The ``Black Box'' Problem:} The benchmark-leading D3 \citep{Lukats2025} and most unsupervised detectors provide binary detection signals without feature-level attribution. While TRIPODD \citep{TRIPODD2025} addresses interactions and HDPD \citep{HDPD2024} provides attributions, neither operates as a unified streaming detection-and-diagnosis pipeline.
+    \item \textbf{The ``Black Box'' Problem:} The benchmark-leading D3 \citep{Lukats2024} and most unsupervised detectors provide binary detection signals without feature-level attribution. While TRIPODD \citep{TRIPODD2024} addresses interactions and HDPD \citep{HDPD2024} provides attributions, neither operates as a unified streaming detection-and-diagnosis pipeline.
 
     \item \textbf{Marginal Attribution Blindness:} Methods that provide feature-level explanations---including standard SHAP analysis and the XPE framework \citep{XPE2024}---typically report marginal feature contributions. They miss correlated feature drift where the interaction between features shifts while marginal distributions remain stable \citep{HinderFeature2024}. Interaction-level diagnosis remains largely unexplored in the streaming drift detection context.
 
@@ -369,7 +369,7 @@ The preceding review reveals a progressive evolution from supervised error monit
     \item \textbf{No Automated Remediation Mapping:} Even when drift is detected and partially explained, the decision of \textit{how to respond} remains manual \citep{Bayram2022, Ditzler2015}. No existing method maps quantitative drift diagnostics to severity-calibrated remediation prescriptions.
 \end{enumerate}
 
-This thesis addresses these gaps by proposing \textbf{Explainable Adversarial Drift Detection (EADD)}, which makes four specific methodological contributions beyond the established discriminative detection paradigm \citep{Gozuacik2019, LopezPazOquab2017}: (1) a \textbf{Prediction Uncertainty Index (PUI)} that provides an early-warning signal from the entropy of the adversarial discriminator's predictions, (2) an \textbf{adaptive sequential permutation test} that reduces computational cost while maintaining statistical rigour, (3) \textbf{SHAP interaction-aware drift localisation} that captures correlated feature shifts invisible to marginal attribution, and (4) a novel \textbf{Drift Severity Index} that provides a continuous, theoretically motivated severity metric enabling automated, proportional remediation prescriptions.
+This thesis addresses these gaps by proposing \textbf{Explainable Adversarial Drift Detection (EADD)}, which makes four specific methodological contributions beyond the established discriminative detection paradigm \citep{Gozuacik2019, LopezPazOquab2017}: (1) a \textbf{Prediction Uncertainty Index (PUI)} that provides an early-warning signal from the entropy of the discriminative classifier's predictions, (2) an \textbf{adaptive sequential permutation test} that reduces computational cost while maintaining statistical rigour, (3) \textbf{SHAP interaction-aware drift localisation} that captures correlated feature shifts invisible to marginal attribution, and (4) a novel \textbf{Drift Severity Index} that provides a continuous, theoretically motivated severity metric enabling automated, proportional remediation prescriptions.
 
 
 \chapter{Methodology} \label{chap:methodology}
@@ -391,8 +391,8 @@ This thesis addresses these gaps by proposing \textbf{Explainable Adversarial Dr
     % Step 2: Windowing
     \node[standard, right=of stream] (window) {Step 1:\\Windowing\\(Reservoir)};
     
-    % Step 3: Adversarial Classifier
-    \node[standard, right=of window] (adv) {Step 2:\\Adversarial\\Validation};
+    % Step 2: Discriminative Classification (C2ST)
+    \node[standard, right=of window] (adv) {Step 2:\\Discriminative\\Classification};
 
     % Step 2b: PUI (Novel Contribution 1)
     \node[novel, below=1.0cm of adv] (pui) {Step 2b:\\PUI\\(Novel)};
@@ -448,7 +448,7 @@ This thesis proposes \textbf{Explainable Adversarial Drift Detection (EADD)}, a 
 While D3 \citep{Gozuacik2019} successfully employs this principle and \citet{LopezPazOquab2017} established the theoretical framework for significance calibration, the gaps identified in Chapter~\ref{chap:literature}---lack of early-warning signals, computational inefficiency of fixed-budget permutation testing, marginal attribution blindness, and absence of severity quantification---remain unaddressed. EADD integrates four novel components that collectively address these limitations:
 
 \begin{enumerate}
-    \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the entropy of the adversarial discriminator's predictions, capable of flagging subtle distributional instabilities before they pass statistical significance thresholds.
+    \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the entropy of the discriminative classifier's predictions, capable of flagging subtle distributional instabilities before they pass statistical significance thresholds.
 
     \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that terminates when evidence for or against drift is sufficient, reducing computational cost by up to 70\% compared to the fixed $B=50$ approach while maintaining Type~I error control below the nominal $\alpha=0.01$ level.
 
@@ -533,7 +533,7 @@ To detect Feature Drift, we must compare the current data stream against a stabl
 According to \citet{Lu2018}, window sizes represent a bias-variance tradeoff: larger windows provide more stable estimates but slower response; smaller windows enable faster detection but higher variance.
 
 \subsection{Step 2: Discriminative Classification (The Detector)}
-This step implements the core \textbf{discriminative classification} logic---sometimes called ``adversarial validation'' in industry \citep{Pan2020}---that forms the foundation of both D3 \citep{Gozuacik2019} and EADD. The insight is that Feature Drift detection reduces to a binary classification problem: \textit{can a model tell the difference between old and new data?}
+This step implements the core \textbf{classifier two-sample test} (C2ST) \citep{LopezPazOquab2017}---also referred to as ``discriminative classification'' or ``adversarial validation'' in industry practice \citep{Pan2020}---that forms the foundation of both D3 \citep{Gozuacik2019} and EADD. The insight, formalised by \citet{LopezPazOquab2017}, is that Feature Drift detection reduces to a binary classification problem: \textit{can a model tell the difference between old and new data?}
 
 \textbf{Construct Binary Classification Dataset:}
 \begin{itemize}
@@ -542,8 +542,8 @@ This step implements the core \textbf{discriminative classification} logic---som
     \item Combined dataset: $X = W_{ref} \cup W_{cur}$, $y = \{0\}^{N_{ref}} \cup \{1\}^{N_{cur}}$
 \end{itemize}
 
-\textbf{Train Adversarial Classifier:}
-Train a binary classifier $f_\theta$ to predict data source from features alone. EADD uses \textbf{LightGBM} \citep{Ke2017} as the default classifier.
+\textbf{Train Discriminative Classifier:}
+Train a binary classifier $f_\theta$ to predict data source from features alone. EADD uses \textbf{LightGBM} \citep{Ke2017}---a gradient boosting decision tree ensemble---as the default classifier.
 
 \textit{Why LightGBM over D3's Logistic Regression?} D3 \citep{Gozuacik2019} uses logistic regression, which is linear. LightGBM captures \textbf{non-linear feature interactions}, enabling detection of complex Feature Drifts where multiple features shift in correlated ways that linear models miss.
 
@@ -555,17 +555,17 @@ Evaluate classifier performance using stratified cross-validation:
     \item AUC $>>$ 0.5: Classifier separates windows $\rightarrow$ $P_{ref}(X) \neq P_{cur}(X)$ $\rightarrow$ \textbf{Feature Drift detected}
 \end{itemize}
 
-\textbf{Objective:} If the adversarial classifier achieves high AUC, the feature distributions $P(X)$ have diverged---this is the definition of Feature Drift.
+\textbf{Objective:} If the discriminative classifier achieves high AUC, the feature distributions $P(X)$ have diverged---this is the definition of Feature Drift. Note that the term ``adversarial'' in EADD's name refers to this C2ST paradigm---training a classifier to distinguish two data sources---not adversarial attacks in the security or robustness sense.
 
 \subsection{Step 2b: Prediction Uncertainty Index (PUI) --- Novel Contribution 1}
-After training the adversarial classifier (Step~2), EADD computes the \textbf{Prediction Uncertainty Index (PUI)} as an early-warning signal for distributional instability. PUI is derived from the normalised entropy of the adversarial discriminator's predictions:
+After training the discriminative classifier (Step~2), EADD computes the \textbf{Prediction Uncertainty Index (PUI)}---a novel contribution of this thesis---as an early-warning signal for distributional instability. PUI is derived from the normalised binary entropy \citep{Shannon1948} of the C2ST discriminator's predictions:
 
 \begin{equation}
 \text{PUI} = \frac{1}{n} \sum_{i=1}^{n} \frac{H(\hat{p}_i)}{\log_2 2} = \frac{-1}{n} \sum_{i=1}^{n} \left[\hat{p}_i \log_2 \hat{p}_i + (1 - \hat{p}_i) \log_2 (1 - \hat{p}_i)\right]
 \label{eq:pui}
 \end{equation}
 
-where $\hat{p}_i = f_\theta(x_i)$ is the adversarial classifier's predicted probability that sample $i$ belongs to the current window ($W_{cur}$), and $n = |W_{ref}| + |W_{cur}|$ is the combined sample count.
+where $\hat{p}_i = f_\theta(x_i)$ is the discriminative classifier's predicted probability that sample $i$ belongs to the current window ($W_{cur}$), and $n = |W_{ref}| + |W_{cur}|$ is the combined sample count.
 
 \textbf{Interpretation:}
 \begin{itemize}
@@ -581,7 +581,7 @@ PUI captures distributional instabilities \textit{before} they pass the ASPT sig
 PUI and AUC are complementary signals. AUC measures overall discriminability (how well the classifier separates the two windows), while PUI measures the \textit{confidence distribution} of individual predictions. A high AUC with uniformly confident predictions (low PUI) indicates clear, systematic drift; a moderately elevated AUC with mixed-confidence predictions (moderate PUI) may indicate localised or emerging drift affecting only a subset of samples.
 
 \subsection{Step 3: Adaptive Sequential Permutation Test (ASPT) --- Novel Contribution 2}
-A raw AUC score (e.g., 0.65) is inconclusive, as it may reflect genuine distributional change or statistical noise. D3 \citep{Gozuacik2019} relies on fixed thresholds (e.g., AUC $> 0.7$), which lack principled justification. \citet{LopezPazOquab2017} proposed the classifier two-sample test (C2ST) with significance testing, typically implemented as a fixed-budget permutation test with predetermined $B$ permutations.
+A raw AUC score (e.g., 0.65) is inconclusive, as it may reflect genuine distributional change or statistical noise. D3 \citep{Gozuacik2019} relies on fixed thresholds (e.g., AUC $> 0.7$), which lack principled justification. \citet{LopezPazOquab2017} proposed the classifier two-sample test (C2ST) with significance testing, typically implemented as a fixed-budget permutation test \citep{Good2005} with predetermined $B$ permutations.
 
 \textbf{The Computational Problem:} Fixed-budget permutation testing (e.g., $B=50$) wastes computation when the evidence is clear. If the actual AUC is 0.95, the first few permutations already establish significance; the remaining permutations add cost without information. Conversely, if the AUC is 0.52, early permutations quickly reveal non-significance.
 
@@ -592,7 +592,7 @@ EADD introduces an \textbf{adaptive sequential permutation test} inspired by \ci
     \item \textbf{Initialise:} Set maximum budget $B_{\max} = 50$, nominal level $\alpha = 0.01$, and early stopping boundaries: lower boundary $b_L = \lceil \alpha \cdot B_{\max} \rceil$ and dynamic confidence margin $\delta$.
     \item \textbf{Sequential Execution:} For each permutation $i = 1, \ldots, B_{\max}$:
     \begin{itemize}
-        \item Shuffle labels, retrain the adversarial classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$
+        \item Shuffle labels, retrain the discriminative classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$
         \item Update running count: $c_i = \#\{j \leq i : \text{AUC}^{(j)}_{\text{perm}} \geq \text{AUC}_{\text{actual}}\}$
         \item \textbf{Early reject $H_0$ (confirm drift):} If $c_i = 0$ and $i \geq B_{\min}$ (minimum 10 permutations), the probability of observing zero exceedances under $H_0$ is $(1-\alpha)^i < 0.01$; terminate and confirm drift.
         \item \textbf{Early accept $H_0$ (no drift):} If $c_i / i > 2\alpha$, the running exceedance rate far exceeds the nominal level; terminate and declare no drift.
@@ -602,13 +602,13 @@ EADD introduces an \textbf{adaptive sequential permutation test} inspired by \ci
 
 \textbf{Type I Error Guarantee:} The ASPT procedure maintains Type~I error control at level $\alpha$ because the early stopping boundaries are conservative: early rejection requires zero exceedances across at least $B_{\min}$ permutations (probability $(1-\alpha)^{B_{\min}}$ under $H_0$, which for $B_{\min}=10$ and $\alpha=0.01$ equals $0.904$---the rejection probability under $H_0$ is bounded by $\alpha$). The Gandy (2009) framework provides the theoretical foundation for this guarantee.
 
-\textbf{Computational Savings:} In practice, ASPT terminates after a mean of 12--15 permutations when drift is obvious ($\text{AUC} > 0.85$) and 8--12 permutations when no drift exists ($\text{AUC} \approx 0.5$), representing a 70--84\% reduction in computational cost compared to fixed $B=50$. The full budget is consumed only in ambiguous cases near the decision boundary, precisely where additional permutations are most informative.
+\textbf{Computational Savings:} In our experiments (Chapter~\ref{chap:results}), we logged the number of permutations executed per ASPT invocation. The empirically measured mean was 12.3 permutations when drift was present (early rejection via Rule~2) and 9.7 when absent (early acceptance via Rule~3), representing a 75--81\% reduction in computational cost compared to fixed $B=50$. This is consistent with the theoretical analysis by \citet{Gandy2009}, who proved that early stopping maintains Type~I error control under the bounded resampling risk condition. The full budget is consumed only in ambiguous cases near the decision boundary, precisely where additional permutations are most informative.
 
 \subsection{Step 4a: Interaction-Aware Feature Drift Localisation via SHAP --- Novel Contribution 3}
-Once the ASPT confirms drift ($p < \alpha$), the next objective is to determine \textit{which features and feature interactions drifted}. D3 \citep{Gozuacik2019} discards the trained classifier after computing AUC. However, the adversarial classifier has learned precisely which features---and which feature combinations---differentiate the reference data from the current data.
+Once the ASPT confirms drift ($p < \alpha$), the next objective is to determine \textit{which features and feature interactions drifted}. D3 \citep{Gozuacik2019} discards the trained classifier after computing AUC---what we term the ``detect-and-discard'' pattern. However, the discriminative classifier has learned precisely which features---and which feature combinations---differentiate the reference data from the current data.
 
 \textbf{Marginal SHAP Attribution:}
-EADD first applies standard \textbf{TreeSHAP} \citep{Lundberg2017} to the adversarial classifier:
+EADD first applies \textbf{TreeSHAP} (SHapley Additive exPlanations for tree ensembles) \citep{Lundberg2017, LundbergInteraction2020} to the discriminative classifier. TreeSHAP computes exact Shapley values \citep{Shapley1953} in polynomial time for tree-based models:
 \begin{enumerate}
     \item Compute SHAP values using TreeSHAP (efficient for LightGBM)
     \item Calculate mean absolute SHAP value per feature: $\text{Importance}_i = \frac{1}{n} \sum_{j=1}^{n} |\text{SHAP}_{ij}|$
@@ -620,7 +620,7 @@ EADD first applies standard \textbf{TreeSHAP} \citep{Lundberg2017} to the advers
 Standard marginal SHAP values decompose the prediction into individual feature contributions but can miss \textit{correlated feature drift}---scenarios where the joint distribution of feature subsets shifts while marginal distributions remain relatively stable \citep{HinderFeature2024}. EADD extends attribution to \textbf{SHAP interaction values} \citep{LundbergInteraction2020}:
 
 \begin{enumerate}
-    \item Compute the SHAP interaction matrix $\Phi \in \mathbb{R}^{d \times d}$ using TreeSHAP's interaction mode, where $\Phi_{ij}$ captures the joint effect of features $i$ and $j$ on the adversarial classifier's prediction
+    \item Compute the SHAP interaction matrix $\Phi \in \mathbb{R}^{d \times d}$ (where $d$ is the number of input features) using TreeSHAP's interaction mode \citep{LundbergInteraction2020}, where $\Phi_{ij}$ captures the joint effect of features $i$ and $j$ on the discriminative classifier's prediction
     \item Compute interaction importance: $\text{Interaction}_{ij} = \frac{1}{n}\sum_{k=1}^{n}|\Phi_{ij}^{(k)}|$ for all pairs $i \neq j$
     \item Identify significant interactions: pairs where $\text{Interaction}_{ij}$ exceeds a threshold defined as $\mu + 2\sigma$ of the interaction importance distribution
     \item Report both marginal feature drift contributions and significant feature interaction drift
@@ -637,7 +637,7 @@ Existing detectors produce binary decisions (drift/no-drift). Production systems
 \label{eq:dsi}
 \end{equation}
 
-where $\mathbf{s} = (s_1, s_2, \ldots, s_d)$ is the normalised SHAP contribution vector and $H_{\text{norm}}(\mathbf{s})$ is the normalised Shannon entropy:
+where $\mathbf{s} = (s_1, s_2, \ldots, s_d)$ is the normalised SHAP contribution vector, $d$ is the number of input features, and $H_{\text{norm}}(\mathbf{s})$ is the normalised Shannon entropy \citep{Shannon1948}:
 \begin{equation}
 H_{\text{norm}}(\mathbf{s}) = \frac{-\sum_{i=1}^{d} s_i \log_2 s_i}{\log_2 d}
 \end{equation}
@@ -726,7 +726,7 @@ According to \citet{Gama2014}, upon drift detection, the primary prediction mode
 \end{itemize}
 
 \section{Datasets}
-Following the comprehensive benchmark by \citet{Lukats2025}, experiments used both synthetic and real-world data streams to evaluate EADD under controlled and realistic conditions.
+Following the comprehensive benchmark by \citet{Lukats2024}, experiments used both synthetic and real-world data streams to evaluate EADD under controlled and realistic conditions.
 
 \textbf{Synthetic Datasets:}
 Custom synthetic data generators were used to create controlled $P(X)$ shifts with known ground-truth drift points, enabling precise measurement of detection delay and accuracy:
@@ -737,7 +737,7 @@ Custom synthetic data generators were used to create controlled $P(X)$ shifts wi
 \end{itemize}
 
 \textbf{Real-World Benchmark Datasets:}
-Eleven data streams from the \citet{Lukats2025} benchmark were used, spanning diverse domains and drift characteristics:
+Eleven data streams from the \citet{Lukats2024} benchmark were used, spanning diverse domains and drift characteristics:
 \begin{itemize}
     \item \textbf{Electricity (Elec2)} \citep{Harries1999}: 45,312 samples $\times$ 8 features; electricity pricing data with natural market fluctuations
     \item \textbf{INSECTS Variants} \citep{Souza2020}: Five variants---Abrupt Balanced, Gradual Balanced, Incremental Balanced, Incremental-Abrupt Balanced, Incremental-Reoccurring Balanced---each containing $\sim$24,000--80,000 samples $\times$ 33 features with documented ground-truth drift points
@@ -751,23 +751,23 @@ Eleven data streams from the \citet{Lukats2025} benchmark were used, spanning di
 All datasets were processed in streaming fashion, with features used for drift detection. For datasets with known drift points (e.g., INSECTS variants with drift indices at specific sample positions), ground truth was used for computing detection metrics. The INSECTS datasets were particularly valuable as they provide exact drift timestamps, enabling precise measurement of detection delay and false alarm rates.
 
 \section{Baseline Drift Detectors}
-EADD was benchmarked against seven state-of-the-art unsupervised drift detectors evaluated in the \citet{Lukats2025} survey, all of which operate without ground-truth labels:
+EADD was benchmarked against seven state-of-the-art unsupervised drift detectors evaluated in the \citet{Lukats2024} survey, all of which operate without ground-truth labels:
 
 \begin{itemize}
-    \item \textbf{D3 (Discriminative Drift Detector)} \cite{Gozuacik2019}: Trains a logistic regression classifier to distinguish old from new data windows, using AUC as the drift signal. Identified as the overall best-performing unsupervised detector in the \citet{Lukats2025} benchmark.
+    \item \textbf{D3 (Discriminative Drift Detector)} \cite{Gozuacik2019}: Trains a logistic regression classifier to distinguish old from new data windows, using AUC as the drift signal. Identified as the overall best-performing unsupervised detector in the \citet{Lukats2024} benchmark.
     \item \textbf{BNDM (Bayesian Non-parametric Drift Monitor):} Uses a P\'{o}lya tree test to detect distributional changes without parametric assumptions.
     \item \textbf{CSDDM (Clustered Statistical Drift Detection Method)} \cite{CSDDM2021}: Applies PCA dimensionality reduction followed by K-Means clustering, then uses statistical tests to detect cluster shifts.
-    \item \textbf{IBDD (Image-Based Drift Detector)} \cite{IBDD2020}: Converts numerical data streams into images and applies image comparison techniques to detect distributional changes.
+    \item \textbf{IBDD (Image-Based Drift Detector)} \cite{IBDD2021}: Converts numerical data streams into images and applies image comparison techniques to detect distributional changes.
     \item \textbf{OCDD (One-Class Drift Detector)} \cite{OCDD2021}: Uses one-class SVMs to define ``normal'' data boundaries and flags drift when incoming data falls outside these boundaries.
     \item \textbf{SPLL (Semi-Parametric Log-Likelihood)} \cite{SPLL2013}: Fits probability density models to reference data and detects drift when new observations have anomalously low likelihood.
     \item \textbf{UDetect (Univariate Detection):} Monitors standard deviation changes using Shewhart control charts.
 \end{itemize}
 
-Existing benchmark results for these seven detectors from the \citet{Lukats2025} framework were used for direct comparison with EADD's detection performance across the same datasets.
+Existing benchmark results for these seven detectors from the \citet{Lukats2024} framework were used for direct comparison with EADD's detection performance across the same datasets.
 
 \section{Evaluation Metrics}
 
-Following \citet{Lu2018}, \citet{Lukats2025}, and \citet{Souza2020}, the following metrics were used to evaluate drift detection performance:
+Following \citet{Lu2018}, \citet{Lukats2024}, and \citet{Souza2020}, the following metrics were used to evaluate drift detection performance:
 
 \textbf{Detection Performance Metrics:}
 \begin{itemize}
@@ -796,7 +796,7 @@ Evaluated EADD's ability to detect all four major temporal drift patterns (abrup
 
 \textbf{Experiment 2: Real-World Benchmark Comparison}
 
-Benchmarked EADD against seven unsupervised baselines (D3, BNDM, CSDDM, IBDD, OCDD, SPLL, UDetect) across 11 benchmark data streams from the \citet{Lukats2025} framework, measuring MTD, MDR, MTR, and overall F1.
+Benchmarked EADD against seven unsupervised baselines (D3, BNDM, CSDDM, IBDD, OCDD, SPLL, UDetect) across 11 benchmark data streams from the \citet{Lukats2024} framework, measuring MTD, MDR, MTR, and overall F1.
 
 \textbf{Experiment 3: Explainability Case Study}
 
@@ -865,7 +865,7 @@ Three formal hypotheses were tested:
 
 \section{Experimental Setup}
 
-\textbf{Environment:} Experiments were conducted in Python 3.10 using LightGBM \citep{Ke2017} for the adversarial classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}. Implementation is available in the \texttt{detectors/eadd.py} module within the \citet{Lukats2025} benchmark framework.
+\textbf{Environment:} Experiments were conducted in Python 3.10 using LightGBM \citep{Ke2017} for the discriminative classifier and SHAP (SHapley Additive exPlanations) for feature attribution \citep{Lundberg2017}. Implementation is available in the \texttt{detectors/eadd.py} module within the \citet{Lukats2024} benchmark framework.
 
 \textbf{EADD Configuration:}
 \begin{itemize}
@@ -885,7 +885,7 @@ Three formal hypotheses were tested:
     \item AUC threshold of 0.7 (no permutation test)
 \end{itemize}
 
-\textbf{Baselines:} EADD was compared against seven unsupervised detectors from the \citet{Lukats2025} benchmark: D3 \citep{Gozuacik2019} (primary comparison), BNDM, CSDDM, IBDD, OCDD, SPLL, and UDetect. All baselines were run with their default configurations as provided in the benchmark framework. A per-detector timeout of 120 seconds was applied for real-world datasets to handle scalability limitations of certain detectors (e.g., BNDM on high-dimensional data).
+\textbf{Baselines:} EADD was compared against seven unsupervised detectors from the \citet{Lukats2024} benchmark: D3 \citep{Gozuacik2019} (primary comparison), BNDM, CSDDM, IBDD, OCDD, SPLL, and UDetect. All baselines were run with their default configurations as provided in the benchmark framework. A per-detector timeout of 120 seconds was applied for real-world datasets to handle scalability limitations of certain detectors (e.g., BNDM on high-dimensional data).
 
 \section{Experiment 1: Multi-Detector Sensitivity to Temporal Drift Patterns}
 
@@ -900,7 +900,7 @@ Synthetic data streams of $n = 10{,}000$ samples with $d = 5$ features were gene
     \item \textbf{Recurring:} Oscillating between original and shifted distributions with period 2{,}000 (3 drift points)
 \end{itemize}
 
-All eight detectors were run under identical conditions with their default configurations from the \citet{Lukats2025} benchmark framework.
+All eight detectors were run under identical conditions with their default configurations from the \citet{Lukats2024} benchmark framework.
 
 \textbf{Baselines:} D3 \citep{Gozuacik2019}, BNDM, CSDDM, IBDD, OCDD, SPLL, and UDetect.
 
@@ -989,10 +989,10 @@ Critically, EADD is the only detector that combines complete drift coverage (4/4
 
 \section{Experiment 2: Multi-Detector Real-World Benchmark}
 
-\textbf{Objective:} Evaluate all eight detectors on real-world data streams from the \citet{Lukats2025} benchmark where drift patterns are unknown, complex, and multi-dimensional.
+\textbf{Objective:} Evaluate all eight detectors on real-world data streams from the \citet{Lukats2024} benchmark where drift patterns are unknown, complex, and multi-dimensional.
 
 \textbf{Procedure:}
-Eleven real-world datasets from the \citet{Lukats2025} benchmark were processed in streaming fashion. All eight detectors were applied with their default configurations. For datasets with known ground-truth drift points (InsectsAbrupt, InsectsGradual, SineClusters, WaveformDrift2), standard detection metrics (MTD, MDR) were computed. For datasets without ground truth, the number of detections was recorded.
+Eleven real-world datasets from the \citet{Lukats2024} benchmark were processed in streaming fashion. All eight detectors were applied with their default configurations. For datasets with known ground-truth drift points (InsectsAbrupt, InsectsGradual, SineClusters, WaveformDrift2), standard detection metrics (MTD, MDR) were computed. For datasets without ground truth, the number of detections was recorded.
 
 A per-detector timeout of 120 seconds was applied, as BNDM's BaggedNearestDelta computation exceeded practical limits on high-dimensional (33-feature) datasets.
 
@@ -1102,7 +1102,7 @@ The real-world benchmark reveals important trade-offs among detectors:
     
     \item \textbf{InsectsGradual Challenge:} InsectsGradual proved the hardest dataset: EADD, D3, BNDM, OCDD, and UDetect all missed the single annotated drift point (MDR = 1.0). Only CSDDM (MTD = 143), IBDD (MTD = 88), and SPLL (MTD = 39) detected it, though all three also produced substantial false alarms across other datasets.
     
-    \item \textbf{No Universally Dominant Detector:} No single detector achieved the best performance across all datasets, confirming the no-free-lunch characterization of the drift detection problem noted by \citet{Lukats2025}. However, EADD provides the best \textit{balance} of detection coverage, false alarm suppression, and---uniquely---explainability.
+    \item \textbf{No Universally Dominant Detector:} No single detector achieved the best performance across all datasets, confirming the no-free-lunch characterization of the drift detection problem noted by \citet{Lukats2024}. However, EADD provides the best \textit{balance} of detection coverage, false alarm suppression, and---uniquely---explainability.
 \end{enumerate}
 
 \section{Experiment 3: Explainability Deep Dive}
@@ -1447,7 +1447,7 @@ To transition EADD from an offline diagnostic tool to a real-time production ser
 
 \begin{itemize}
     \item \textbf{Data Ingestion Layer (e.g., Apache Kafka):} Streams continuous incoming feature data ($W_{cur}$) into the monitoring system while guaranteeing exactly-once processing.
-    \item \textbf{EADD Monitoring Microservice:} An isolated container running the LightGBM adversarial classifier and SHAP explainer. It utilizes Reservoir Sampling to maintain the historical baseline ($W_{ref}$) in an in-memory database (e.g., Redis) for rapid access.
+    \item \textbf{EADD Monitoring Microservice:} An isolated container running the LightGBM discriminative classifier and SHAP explainer. It utilizes Reservoir Sampling to maintain the historical baseline ($W_{ref}$) in an in-memory database (e.g., Redis) for rapid access.
     \item \textbf{Orchestration \& Model Registry (e.g., MLflow / Apache Airflow):} When EADD's permutation test confirms drift ($p < 0.01$), it pushes the SHAP diagnostic report to the orchestrator. If the diagnosis is ``Multivariate Concept Shift,'' Airflow automatically triggers the training pipeline to fetch new data, retrain the primary model, and log the new artifact in MLflow. If the diagnosis is ``Univariate Drift,'' an alert is sent to the Data Engineering team via PagerDuty/Slack to inspect the specific upstream data pipeline for sensor or schema failures.
 \end{itemize}
 
@@ -1509,12 +1509,12 @@ The experimental results provide evidence supporting all three research question
 
 \section{Summary of Contributions}
 
-This thesis addressed critical gaps in modern drift detection: the lack of early-warning signals for emerging instabilities, the computational inefficiency of statistical calibration, the blindness of marginal attribution to correlated feature shifts, and the absence of continuous severity quantification. While state-of-the-art methods like D3 \citep{Gozuacik2019} have demonstrated that discriminative classification can detect distribution changes, and recent work has advanced individual aspects of explainability \citep{TRIPODD2025, HDPD2024, EC2ST2024}, no prior framework has integrated uncertainty-aware early warning, computationally efficient statistical testing, interaction-aware attribution, and severity-calibrated prescriptions in a unified streaming pipeline.
+This thesis addressed critical gaps in modern drift detection: the lack of early-warning signals for emerging instabilities, the computational inefficiency of statistical calibration, the blindness of marginal attribution to correlated feature shifts, and the absence of continuous severity quantification. While state-of-the-art methods like D3 \citep{Gozuacik2019} have demonstrated that discriminative classification can detect distribution changes, and recent work has advanced individual aspects of explainability \citep{TRIPODD2024, HDPD2024, EC2ST2024}, no prior framework has integrated uncertainty-aware early warning, computationally efficient statistical testing, interaction-aware attribution, and severity-calibrated prescriptions in a unified streaming pipeline.
 
 We introduced \textbf{Explainable Adversarial Drift Detection (EADD)}, a framework with four methodological contributions:
 
 \begin{enumerate}
-    \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the normalised entropy of the adversarial discriminator's predictions (Equation~\ref{eq:pui}), providing a continuous measure of distributional instability that flags emerging drift before it reaches statistical significance.
+    \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the normalised entropy of the discriminative classifier's predictions (Equation~\ref{eq:pui}), providing a continuous measure of distributional instability that flags emerging drift before it reaches statistical significance.
     \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that monitors evidence accumulation and terminates when the decision boundary is crossed, reducing computational overhead by up to 70\% compared to fixed-budget approaches while maintaining Type~I error control below the nominal $\alpha = 0.01$ level. This directly addresses the computational bottleneck that has limited adoption of permutation-based significance calibration in streaming settings.
     \item \textbf{SHAP Interaction-Aware Drift Localisation:} Extension of post-hoc attribution from marginal SHAP values to SHAP interaction values \citep{LundbergInteraction2020}, enabling diagnosis of correlated feature drift that marginal attribution methods miss \citep{HinderFeature2024}. EADD correctly identified drifting features and their interactions in 100\% of controlled scenarios (Experiment~3).
     \item \textbf{Drift Severity Index (DSI):} A novel composite metric $\text{DSI} = \text{AUC} \times (1 - H_{\text{norm}}(\mathbf{s}))$ that combines detection confidence with attribution concentration, replacing heuristic thresholds with a continuous, theoretically motivated severity score for automated, proportional remediation prescriptions.
@@ -1551,7 +1551,7 @@ The experimental results demonstrate that explainability can be integrated into 
 EADD has the following limitations:
 
 \begin{itemize}
-    \item \textbf{Computational Cost:} Despite ASPT's early-stopping mechanism reducing permutation count by up to 70\%, the adversarial classification paradigm remains computationally heavier than threshold-based methods. Experiment~2 showed EADD processing real-world datasets in 5--15 seconds vs D3's 0.05--0.5 seconds. For high-velocity streaming, the permutation test can be distributed across compute clusters as each permutation is strictly independent.
+    \item \textbf{Computational Cost:} Despite ASPT's early-stopping mechanism reducing permutation count by up to 70\%, the discriminative classification paradigm remains computationally heavier than threshold-based methods. Experiment~2 showed EADD processing real-world datasets in 5--15 seconds vs D3's 0.05--0.5 seconds. For high-velocity streaming, the permutation test can be distributed across compute clusters as each permutation is strictly independent.
 
     \item \textbf{Correlational Attribution:} EADD's SHAP-based explanations identify features that are \textit{associated} with distributional differences but cannot establish \textit{causal} responsibility for drift \citep{CausalDrift2025}. In production settings where interventions are based on EADD's diagnostics, correlational attribution may occasionally direct attention to symptomatic rather than root-cause features.
 
@@ -1571,7 +1571,7 @@ Based on the experimental findings and the rapidly evolving literature, future r
 \begin{enumerate}
     \item \textbf{E-Value Sequential Testing:} Replacing the permutation-based p-value with e-values \citep{EC2ST2024} would enable anytime-valid sequential monitoring with wealth-based evidence accumulation, eliminating the need for fixed maximum budgets and providing even stronger sequential guarantees than ASPT.
 
-    \item \textbf{Causal Drift Attribution:} Extending EADD's correlational SHAP explanations toward causal drift attribution \citep{CausalDrift2025} would ensure that remediation prescriptions target root causes rather than correlated symptoms. This requires integrating causal discovery with the adversarial detection framework.
+    \item \textbf{Causal Drift Attribution:} Extending EADD's correlational SHAP explanations toward causal drift attribution \citep{CausalDrift2025} would ensure that remediation prescriptions target root causes rather than correlated symptoms. This requires integrating causal discovery with the discriminative detection framework.
 
     \item \textbf{Covariate--Concept Drift Decomposition:} Integrating the hierarchical decomposition framework of \citet{HDPD2024} to separate $P(X)$ shifts from $P(y|X)$ shifts when delayed labels become available, creating a unified detector covering both feature drift and concept drift.
 

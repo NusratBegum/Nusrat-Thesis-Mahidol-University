@@ -2,6 +2,41 @@
 % Cleaned and organized bibliography - only cited references included
 
 % ============================================================================
+% Foundational References
+% ============================================================================
+
+@article{Shannon1948,
+  author    = {Claude E. Shannon},
+  title     = {A Mathematical Theory of Communication},
+  journal   = {Bell System Technical Journal},
+  volume    = {27},
+  number    = {3},
+  pages     = {379--423},
+  year      = {1948},
+  doi       = {10.1002/j.1538-7305.1948.tb01338.x}
+}
+
+@book{Good2005,
+  author    = {Phillip I. Good},
+  title     = {Permutation, Parametric, and Bootstrap Tests of Hypotheses},
+  edition   = {3rd},
+  publisher = {Springer},
+  year      = {2005},
+  doi       = {10.1007/b138696}
+}
+
+@incollection{Shapley1953,
+  author    = {Lloyd S. Shapley},
+  title     = {A Value for n-Person Games},
+  booktitle = {Contributions to the Theory of Games},
+  editor    = {Harold W. Kuhn and Albert W. Tucker},
+  publisher = {Princeton University Press},
+  volume    = {2},
+  pages     = {307--317},
+  year      = {1953}
+}
+
+% ============================================================================
 % Sampling and Statistical Methods
 % ============================================================================
 
@@ -50,7 +85,8 @@
   volume    = {245},
   pages     = {108632},
   year      = {2022},
-  doi       = {10.1016/j.knosys.2022.108632}
+  doi       = {10.1016/j.knosys.2022.108632},
+  note      = {Authors verified: F. Bayram, B.S. Ahmed, A. Kassler}
 }
 
 @article{Webb2016,
@@ -243,18 +279,17 @@
 % ============================================================================
 
 @inproceedings{Pan2020,
-  author    = {Jianmin Pan and Vincent Pham and Mohamad Doroudian and Neeraj Arora},
-  title     = {{MaLTA}: Machine Learning for User Targeting at Uber},
-  booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining},
-  pages     = {3475--3483},
+  author    = {Jing Pan and Vincent Pham and Mohan Dorairaj and Huigang Chen and Jeong-Yoon Lee},
+  title     = {Adversarial Validation Approach to Concept Drift Problem in User Targeting Automation Systems at {Uber}},
+  booktitle = {Proceedings of the AdKDD Workshop at KDD},
   year      = {2020},
-  doi       = {10.1145/3394486.3403377}
+  note      = {arXiv:2004.03045}
 }
 
 @article{Qian2021,
-  author    = {Hang Qian and Sarita Rao},
+  author    = {Hongyi Qian and Baohui Wang and Ping Ma and Lei Peng and Songfeng Gao and You Song},
   title     = {Managing Dataset Shift by Adversarial Validation for Credit Scoring},
-  journal   = {arXiv preprint arXiv:2112.04471},
+  journal   = {arXiv preprint arXiv:2112.10078},
   year      = {2021}
 }
 
@@ -399,18 +434,18 @@
 % State-of-the-Art Unsupervised Drift Detectors (2019-2025)
 % ============================================================================
 
-@article{Lukats2025,
-  author    = {Daniel Lukats and Oliver Zielinski and Axel Hahn and Frederic T. Stahl},
+@article{Lukats2024,
+  author    = {Daniel Lukats and Oliver Zielinski and Axel Hahn and Frederic Stahl},
   title     = {A Benchmark and Survey of Fully Unsupervised Concept Drift Detectors on Real-World Data Streams},
   journal   = {International Journal of Data Science and Analytics},
   volume    = {19},
   pages     = {1--31},
-  year      = {2025},
-  doi       = {10.1007/s41060-024-00600-0}
+  year      = {2024},
+  doi       = {10.1007/s41060-024-00620-y}
 }
 
 @article{OCDD2021,
-  author    = {{\"O}zlem G{\"o}z{\"u}a{\c c}{\i}k and Fazli Can},
+  author    = {{\"{O}}zlem G{\"{o}}z{\"{u}}a{\c{c}}{\i}k and Fazli Can},
   title     = {Concept Learning Using One-Class Classifiers for Implicit Drift Detection in Evolving Data Streams},
   journal   = {Artificial Intelligence Review},
   volume    = {54},
@@ -439,18 +474,19 @@
   number    = {5},
   pages     = {1175--1180},
   year      = {2013},
-  doi       = {10.1109/TKDE.2011.226}
+  doi       = {10.1109/TKDE.2011.226},
+  note      = {Semi-Parametric Log-Likelihood (SPLL) detector}
 }
 
-@article{IBDD2020,
-  author    = {V{\'i}tor M. A. Souza and Denis M. Reis and Andr{\'e} G. Maletzke and Gustavo E. A. P. A. Batista},
+@article{IBDD2021,
+  author    = {V{\'i}tor M. A. Souza and Antonio R. S. Parmezan and Faisal A. Chowdhury and Abdullah Mueen},
   title     = {Efficient Unsupervised Drift Detector for Fast and High-Dimensional Data Streams},
   journal   = {Knowledge and Information Systems},
-  volume    = {62},
-  number    = {4},
-  pages     = {1357--1385},
-  year      = {2020},
-  doi       = {10.1007/s10115-019-01364-9}
+  volume    = {63},
+  number    = {6},
+  pages     = {1497--1527},
+  year      = {2021},
+  doi       = {10.1007/s10115-021-01564-6}
 }
 
 @article{NNDVI2018,
@@ -594,12 +630,13 @@
   note      = {\url{https://arxiv.org/abs/2410.09190}}
 }
 
-@article{TRIPODD2025,
-  author    = {Elisa Turrini and Andrea Facchinetti and Giovanni Sparacino},
-  title     = {{TRIPODD}: A Holistic Framework for Interpretable Model Drift Detection via Feature-Interaction Aware Hypothesis Testing},
-  journal   = {arXiv preprint arXiv:2503.06606},
-  year      = {2025},
-  note      = {\url{https://arxiv.org/abs/2503.06606}}
+@inproceedings{TRIPODD2024,
+  author    = {Pranoy Panda and Sai Srinivas Kancheti and Vineeth N. Balasubramanian and Gaurav Sinha},
+  title     = {Interpretable Model Drift Detection},
+  booktitle = {Proceedings of the 7th Joint International Conference on Data Science and Management of Data (ACM IKDD CODS-COMAD)},
+  year      = {2024},
+  doi       = {10.1145/3632410.3632434},
+  note      = {TRIPODD: feature-inTeraction awaRe InterPretable mOdel Drift Detection. Extended version: arXiv:2503.06606}
 }
 
 @article{DriftLens2024,
@@ -635,9 +672,9 @@
 @article{EC2ST2024,
   author    = {Teodora Pandeva and Tim Bakker and Christian A. Naesseth and Patrick Forr{\'e}},
   title     = {E-Valuating Classifier Two-Sample Tests},
-  journal   = {Transactions on Machine Learning Research (TMLR)},
+  journal   = {Transactions on Machine Learning Research},
   year      = {2024},
-  note      = {ICLR 2025 Journal Track. \url{https://openreview.net/forum?id=dwFRov8xhr}}
+  note      = {arXiv:2210.13027. \url{https://openreview.net/forum?id=dwFRov8xhr}}
 }
 
 @inproceedings{HDPD2024,
@@ -669,9 +706,9 @@
   title     = {Feature-based Analyses of Concept Drift},
   journal   = {Neurocomputing},
   volume    = {600},
-  pages     = {128162},
+  pages     = {127968},
   year      = {2024},
-  doi       = {10.1016/j.neucom.2024.128162}
+  doi       = {10.1016/j.neucom.2024.127968}
 }
 
 @article{Gandy2009,

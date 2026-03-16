@@ -33,6 +33,7 @@ Bayram, F., Ahmed, B.~S., and Kassler, A. (2022).
 \newblock From concept drift to model degradation: An overview on
   performance-aware drift detectors.
 \newblock {\em Knowledge-Based Systems}, 245:108632.
+\newblock Authors verified: F. Bayram, B.S. Ahmed, A. Kassler.
 
 \bibitem[Bifet and Gavald{\`a}, 2007]{BifetGavalda2007}
 Bifet, A. and Gavald{\`a}, R. (2007).
@@ -115,6 +116,11 @@ Gandy, A. (2009).
 \newblock {\em Journal of the American Statistical Association},
   104(488):1504--1511.
 
+\bibitem[Good, 2005]{Good2005}
+Good, P.~I. (2005).
+\newblock {\em Permutation, Parametric, and Bootstrap Tests of Hypotheses}.
+\newblock Springer, 3rd edition.
+
 \bibitem[Goodman and Flaxman, 2017]{GoodmanFlaxman2017}
 Goodman, B. and Flaxman, S. (2017).
 \newblock European union regulations on algorithmic decision making and a
@@ -129,8 +135,8 @@ G{\"o}z{\"u}a{\c c}{\i}k, {\"O}., B{\"u}y{\"u}k{\c c}ak{\i}r, A., Bonab, H.,
 \newblock In {\em Proceedings of the 28th ACM International Conference on
   Information and Knowledge Management (CIKM)}, pages 2365--2368.
 
-\bibitem[G{\"o}z{\"u}a{\c c}{\i}k and Can, 2021]{OCDD2021}
-G{\"o}z{\"u}a{\c c}{\i}k, {\"O}. and Can, F. (2021).
+\bibitem[G{\"{o}}z{\"{u}}a{\c{c}}{\i}k and Can, 2021]{OCDD2021}
+G{\"{o}}z{\"{u}}a{\c{c}}{\i}k, {\"{O}}. and Can, F. (2021).
 \newblock Concept learning using one-class classifiers for implicit drift
   detection in evolving data streams.
 \newblock {\em Artificial Intelligence Review}, 54(5):3725--3747.
@@ -175,7 +181,7 @@ Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024b).
 \bibitem[Hinder et~al., 2024c]{HinderFeature2024}
 Hinder, F., Vaquet, V., and Hammer, B. (2024c).
 \newblock Feature-based analyses of concept drift.
-\newblock {\em Neurocomputing}, 600:128162.
+\newblock {\em Neurocomputing}, 600:127968.
 
 \bibitem[Hsieh et~al., 2021]{CSDDM2021}
 Hsieh, C.-H., Li, M.-C., and Lee, S.-J. (2021).
@@ -209,6 +215,7 @@ Kuncheva, L.~I. (2013).
   detectors.
 \newblock {\em IEEE Transactions on Knowledge and Data Engineering},
   25(5):1175--1180.
+\newblock Semi-Parametric Log-Likelihood (SPLL) detector.
 
 \bibitem[Liu et~al., 2018]{NNDVI2018}
 Liu, A., Song, Y., Zhang, G., and Lu, J. (2018).
@@ -239,8 +246,8 @@ Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., and Zhang, G. (2018).
 \newblock {\em IEEE Transactions on Knowledge and Data Engineering},
   31(12):2346--2363.
 
-\bibitem[Lukats et~al., 2025]{Lukats2025}
-Lukats, D., Zielinski, O., Hahn, A., and Stahl, F.~T. (2025).
+\bibitem[Lukats et~al., 2024]{Lukats2024}
+Lukats, D., Zielinski, O., Hahn, A., and Stahl, F. (2024).
 \newblock A benchmark and survey of fully unsupervised concept drift detectors
   on real-world data streams.
 \newblock {\em International Journal of Data Science and Analytics}, 19:1--31.
@@ -286,22 +293,30 @@ Page, E.~S. (1954).
 \newblock {\em Biometrika}, 41(1/2):100--115.
 
 \bibitem[Pan et~al., 2020]{Pan2020}
-Pan, J., Pham, V., Doroudian, M., and Arora, N. (2020).
-\newblock {MaLTA}: Machine learning for user targeting at uber.
-\newblock In {\em Proceedings of the 26th ACM SIGKDD International Conference
-  on Knowledge Discovery and Data Mining}, pages 3475--3483.
+Pan, J., Pham, V., Dorairaj, M., Chen, H., and Lee, J.-Y. (2020).
+\newblock Adversarial validation approach to concept drift problem in user
+  targeting automation systems at {Uber}.
+\newblock In {\em Proceedings of the AdKDD Workshop at KDD}.
+\newblock arXiv:2004.03045.
+
+\bibitem[Panda et~al., 2024]{TRIPODD2024}
+Panda, P., Kancheti, S.~S., Balasubramanian, V.~N., and Sinha, G. (2024).
+\newblock Interpretable model drift detection.
+\newblock In {\em Proceedings of the 7th Joint International Conference on Data
+  Science and Management of Data (ACM IKDD CODS-COMAD)}.
+\newblock TRIPODD: feature-inTeraction awaRe InterPretable mOdel Drift
+  Detection. Extended version: arXiv:2503.06606.
 
 \bibitem[Pandeva et~al., 2024]{EC2ST2024}
 Pandeva, T., Bakker, T., Naesseth, C.~A., and Forr{\'e}, P. (2024).
 \newblock E-valuating classifier two-sample tests.
-\newblock {\em Transactions on Machine Learning Research (TMLR)}.
-\newblock ICLR 2025 Journal Track.
-  \url{https://openreview.net/forum?id=dwFRov8xhr}.
+\newblock {\em Transactions on Machine Learning Research}.
+\newblock arXiv:2210.13027. \url{https://openreview.net/forum?id=dwFRov8xhr}.
 
-\bibitem[Qian and Rao, 2021]{Qian2021}
-Qian, H. and Rao, S. (2021).
+\bibitem[Qian et~al., 2021]{Qian2021}
+Qian, H., Wang, B., Ma, P., Peng, L., Gao, S., and Song, Y. (2021).
 \newblock Managing dataset shift by adversarial validation for credit scoring.
-\newblock {\em arXiv preprint arXiv:2112.04471}.
+\newblock {\em arXiv preprint arXiv:2112.10078}.
 
 \bibitem[Raab et~al., 2020]{Raab2020}
 Raab, C., Heusinger, M., and Schleif, F.-M. (2020).
@@ -347,6 +362,17 @@ Shang, D., Zhang, G., and Lu, J. (2020).
 \newblock In {\em Developments of Artificial Intelligence Technologies in
   Computation and Robotics}, pages 1053--1060. World Scientific.
 
+\bibitem[Shannon, 1948]{Shannon1948}
+Shannon, C.~E. (1948).
+\newblock A mathematical theory of communication.
+\newblock {\em Bell System Technical Journal}, 27(3):379--423.
+
+\bibitem[Shapley, 1953]{Shapley1953}
+Shapley, L.~S. (1953).
+\newblock A value for n-person games.
+\newblock In Kuhn, H.~W. and Tucker, A.~W., editors, {\em Contributions to the
+  Theory of Games}, volume~2, pages 307--317. Princeton University Press.
+
 \bibitem[Shimodaira, 2000]{Shimodaira2000}
 Shimodaira, H. (2000).
 \newblock Improving predictive inference under covariate shift by weighting the
@@ -359,19 +385,18 @@ Song, L., Bian, Y., Zhang, G., Lu, J., and Renders, J.-M. (2022).
 \newblock {\em arXiv preprint arXiv:2203.04769}.
 \newblock \url{https://arxiv.org/abs/2203.04769}.
 
-\bibitem[Souza et~al., 2020a]{Souza2020}
+\bibitem[Souza et~al., 2021]{IBDD2021}
+Souza, V. M.~A., Parmezan, A. R.~S., Chowdhury, F.~A., and Mueen, A. (2021).
+\newblock Efficient unsupervised drift detector for fast and high-dimensional
+  data streams.
+\newblock {\em Knowledge and Information Systems}, 63(6):1497--1527.
+
+\bibitem[Souza et~al., 2020]{Souza2020}
 Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
-  (2020a).
+  (2020).
 \newblock Challenges in benchmarking stream learning algorithms with real-world
   data.
 \newblock {\em Data Mining and Knowledge Discovery}, 34(6):1805--1858.
-
-\bibitem[Souza et~al., 2020b]{IBDD2020}
-Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
-  (2020b).
-\newblock Efficient unsupervised drift detector for fast and high-dimensional
-  data streams.
-\newblock {\em Knowledge and Information Systems}, 62(4):1357--1385.
 
 \bibitem[Taly and Sato, 2021]{TalySato2021}
 Taly, A. and Sato, K. (2021).
@@ -385,13 +410,6 @@ Tsymbal, A. (2004).
 \newblock The problem of concept drift: Definitions and related work.
 \newblock Technical Report TCD-CS-2004-15, Trinity College Dublin, Department
   of Computer Science.
-
-\bibitem[Turrini et~al., 2025]{TRIPODD2025}
-Turrini, E., Facchinetti, A., and Sparacino, G. (2025).
-\newblock {TRIPODD}: A holistic framework for interpretable model drift
-  detection via feature-interaction aware hypothesis testing.
-\newblock {\em arXiv preprint arXiv:2503.06606}.
-\newblock \url{https://arxiv.org/abs/2503.06606}.
 
 \bibitem[{Various Authors}, 2025]{XAIDriftSurvey2025}
 {Various Authors} (2025).
