@@ -183,12 +183,6 @@ Hinder, F., Vaquet, V., and Hammer, B. (2024c).
 \newblock Feature-based analyses of concept drift.
 \newblock {\em Neurocomputing}, 600:127968.
 
-\bibitem[Hsieh et~al., 2021]{CSDDM2021}
-Hsieh, C.-H., Li, M.-C., and Lee, S.-J. (2021).
-\newblock Concept drift detection based on pre-clustering and statistical
-  testing.
-\newblock {\em Journal of Internet Technology}, 22(2):287--296.
-
 \bibitem[Ke et~al., 2017]{Ke2017}
 Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu,
   T.-Y. (2017).
@@ -398,9 +392,10 @@ Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
   data.
 \newblock {\em Data Mining and Knowledge Discovery}, 34(6):1805--1858.
 
-\bibitem[Taly and Sato, 2021]{TalySato2021}
-Taly, A. and Sato, K. (2021).
-\newblock Feature attributions -- monitoring machine learning models.
+\bibitem[Taly et~al., 2021]{TalySato2021}
+Taly, A., Sato, K., and Gruia, C. (2021).
+\newblock Monitoring feature attributions: How {Google} saved one of the
+  largest {ML} services in trouble.
 \newblock Google Cloud Blog.
 \newblock Archived at
   \url{https://web.archive.org/web/2024/https://cloud.google.com/blog/products/ai-machine-learning/monitoring-feature-attributions-how-google-saved-one-of-the-largest-ml-services-in-crisis}.
@@ -427,6 +422,13 @@ Vela, D., Sharp, A., Zhang, R., Nguyen, T., Hoang, A., and Pianykh, O.~N.
 Vitter, J.~S. (1985).
 \newblock Random sampling with a reservoir.
 \newblock {\em ACM Transactions on Mathematical Software}, 11(1):37--57.
+
+\bibitem[Wan and Wang, 2021]{CSDDM2021}
+Wan, J. S.-W. and Wang, S.-D. (2021).
+\newblock Concept drift detection based on pre-clustering and statistical
+  testing.
+\newblock {\em Journal of Internet Technology}, 22(2):275--286.
+\newblock CSDDM: Clustered Statistical test Drift Detection Method.
 
 \bibitem[Wan et~al., 2024]{MCD2024}
 Wan, Z., Song, L., and Yoo, S. (2024).

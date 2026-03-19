@@ -28,7 +28,7 @@ EADD transforms drift detection from a simple alarm into an intelligent diagnost
 |--------------|-------------|
 | **EADD Framework** | Extends D3 with explainability layer using LightGBM + SHAP |
 | **Root Cause Analysis** | Ranks features by drift contribution (e.g., "Age: 45%, Income: 25%") |
-| **Permutation Test** | Solves threshold calibration problem cited in Lukats et al. (2025) |
+| **Permutation Test** | Solves threshold calibration problem cited in Lukats et al. (2024) |
 | **Automated Prescriptions** | Maps drift patterns to MLOps actions (univariate → drop feature; multivariate → full retrain) |
 
 ---
