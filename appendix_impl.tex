@@ -10,36 +10,36 @@ The adversarial classifier utilizes LightGBM \citep{Ke2017}, a high-performance 
 \caption{LightGBM Hyperparameters}
 \begin{tabular}{ll}
 \hline
-	extbf{Parameter} & 	extbf{Value} 
+\textbf{Parameter} & \textbf{Value} \\
 \hline
-Boosting Type & gbdt 
-Number of Estimators & 50 
-Learning Rate & 0.1 
-Max Depth & -1 
-Num Leaves & 31 
-Objective & Binary Classification 
-Metric & AUC 
-Verbosity & -1 
+Boosting Type & gbdt \\
+Number of Estimators & 50 \\
+Learning Rate & 0.1 \\
+Max Depth & -1 \\
+Num Leaves & 31 \\
+Objective & Binary Classification \\
+Metric & AUC \\
+Verbosity & -1 \\
 \hline
 \end{tabular}
 \end{table}
 
 \section{Windowing and Monitoring}
 \begin{itemize}
-    \item 	extbf{Reference Window ($W_{ref}$):} 500 samples, maintained via Reservoir Sampling \citep{Vitter1985}.
-    \item 	extbf{Current Window ($W_{cur}$):} 200 samples, sliding window.
-    \item 	extbf{Monitoring Frequency:} Every 50 samples.
+    \item \textbf{Reference Window ($W_{ref}$):} 500 samples, maintained via Reservoir Sampling \citep{Vitter1985}.
+    \item \textbf{Current Window ($W_{cur}$):} 200 samples, sliding window.
+    \item \textbf{Monitoring Frequency:} Every 50 samples.
 \end{itemize}
 
 \section{Uncertainty and Statistical Testing}
 \begin{itemize}
-    \item 	extbf{Prediction Uncertainty Index (PUI):} Entropy-based warning.
-    \item 	extbf{Adaptive Sequential Permutation Test (ASPT):} Max 50 perms, $\alpha=0.01$.
+    \item \textbf{Prediction Uncertainty Index (PUI):} Entropy-based warning.
+    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} Max 50 perms, $\alpha=0.05$.
 \end{itemize}
 
 \section{Drift Severity Index (DSI) Tiers}
 \begin{itemize}
-    \item 	extbf{Critical (DSI $> 0.6$):} concentrated univariate.
-    \item 	extbf{Moderate (DSI $0.3$--$0.6$):} subset drift.
-    \item 	extbf{Low (DSI $< 0.3$):} diffuse shift.
+    \item \textbf{Critical (DSI $> 0.6$):} concentrated univariate.
+    \item \textbf{Moderate (DSI $0.3$--$0.6$):} subset drift.
+    \item \textbf{Low (DSI $< 0.3$):} diffuse shift.
 \end{itemize}

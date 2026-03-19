@@ -32,7 +32,7 @@ The primary objective of this thesis is to develop \textbf{Explainable Adversari
 This thesis makes the following contributions:
 
 \begin{enumerate}
-    \item \textbf{Prediction Uncertainty Index (PUI):} A novel uncertainty-aware monitoring signal that tracks the entropy of the discriminative classifier's predictions. PUI provides a continuous measure of distributional instability, serving as an ``early warning'' for subtle shifts that have not yet reached statistical significance ($p < 0.01$) but indicate increasing system entropy.
+    \item \textbf{Prediction Uncertainty Index (PUI):} A novel uncertainty-aware monitoring signal that tracks the entropy of the discriminative classifier's predictions. PUI provides a continuous measure of distributional instability, serving as an ``early warning'' for subtle shifts that have not yet reached statistical significance ($p < 0.05$) but indicate increasing system entropy.
 
     \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} A novel early-stopping permutation test for the classifier two-sample test that monitors evidence accumulation and terminates when statistical significance is established or refuted, reducing computational cost by up to 70\% compared to fixed-budget permutation testing while preserving Type~I error guarantees \citep{Gandy2009}. 
 
@@ -376,70 +376,182 @@ This thesis addresses these gaps by proposing \textbf{Explainable Adversarial Dr
 
 \begin{figure}[!htpb]
     \centering
+    \begin{tikzpicture}[node distance=1.5cm, on grid,
+        block/.style={rectangle, draw, fill=blue!15, text width=8em, text centered, rounded corners, minimum height=3em, font=\small},
+        line/.style={draw, -{Stealth[scale=0.8]}, thick}
+    ]
+        \node [block] (in) {Input Data Stream};
+        \node [block, right=of in, node distance=4cm] (compare) {1. Discriminative Comparison};
+        \node [block, right=of compare, node distance=4cm] (test) {2. Statistical Validation};
+        \node [block, below=of compare, node distance=2.5cm] (explain) {3. Explainable Diagnosis};
+        \node [block, left=of explain, node distance=4cm] (out) {Actionable Drift Report};
+
+        \path [line] (in) -- (compare);
+        \path [line] (compare) -- (test);
+        \path [line] (test) -- (explain);
+        \path [line] (explain) -- (out);
+    \end{tikzpicture}
+    \caption{High-level overview of the EADD methodology, illustrating the four core conceptual stages.}
+    \label{fig:methodology-high-level-overview}
+\end{figure}
+
+\begin{figure}[!htpb]
+    \centering
+    \resizebox{\textwidth}{!}{
     \begin{tikzpicture}[
-        node distance=1.2cm and 0.8cm,
-        box/.style={rectangle, draw, rounded corners, minimum width=2.8cm, minimum height=0.9cm, align=center, font=\small},
-        decision/.style={diamond, draw, aspect=2.5, minimum width=2cm, align=center, font=\small},
-        arrow/.style={-{Stealth[scale=0.8]}, thick},
-        novel/.style={box, fill=blue!15, draw=blue!60},
-        standard/.style={box, fill=gray!10}
+        >=stealth,
+        node distance=1.5cm and 2.5cm,
+        font=\small,
+        data/.style={cylinder, shape border rotate=90, aspect=0.25, draw=black, fill=gray!10, text width=2cm, text centered, minimum height=1.5cm},
+        process/.style={rectangle, draw=black!60, fill=gray!5, thick, rounded corners, text width=3cm, text centered, minimum height=1.2cm},
+        novel/.style={rectangle, draw=blue!80, fill=blue!10, thick, rounded corners, text width=3.5cm, text centered, minimum height=1.2cm},
+        decision/.style={diamond, aspect=2, draw=black, fill=yellow!10, text width=2cm, text centered, inner sep=0pt},
+        output/.style={rectangle, draw=green!60!black, fill=green!5, thick, rounded corners, text width=3.5cm, text centered, minimum height=1.2cm},
+        note/.style={rectangle, draw=none, text width=3.5cm, font=\scriptsize, text centered}
     ]
     
-    % Step 1: Data Stream
-    \node[standard] (stream) {Data Stream\\$\{x_t\}$};
+    % Layer 1: Data
+    \node[data] (stream) {Data Stream\\$\{x_t\}$};
+    \node[process, right=2cm of stream, yshift=1.5cm] (reservoir) {Reservoir Sampling\\$W_{ref}$ (Historical)};
+    \node[process, right=2cm of stream, yshift=-1.5cm] (sliding) {Sliding Window\\$W_{cur}$ (Recent)};
     
-    % Step 2: Windowing
-    \node[standard, right=of stream] (window) {Step 1:\\Windowing\\(Reservoir)};
+    \draw[->, thick] (stream) |- (reservoir);
+    \draw[->, thick] (stream) |- (sliding);
+
+    % Layer 2: Core Detection
+    \node[process, right=2.5cm of stream] (c2st) {Discriminative\\Classifier (LightGBM)\\Train $W_{ref}$ vs $W_{cur}$};
     
-    % Step 2: Discriminative Classification (C2ST)
-    \node[standard, right=of window] (adv) {Step 2:\\Discriminative\\Classification};
+    \draw[->, thick] (reservoir) -| (c2st);
+    \draw[->, thick] (sliding) -| (c2st);
 
-    % Step 2b: PUI (Novel Contribution 1)
-    \node[novel, below=1.0cm of adv] (pui) {Step 2b:\\PUI\\(Novel)};
+    % Novel 1: PUI
+    \node[novel, above=1.5cm of c2st] (pui) {\textbf{Contribution 1}\\Prediction Uncertainty\\Index (PUI)};
+    \node[note, right=0.2cm of pui] {Early warning from\\classifier entropy};
+    \draw[->, thick, dashed] (c2st) -- node[left] {Probabilities} (pui);
 
-    % Decision 1: AUC High?
-    \node[decision, right=of adv] (dec1) {AUC\\High?};
+    % Decision 1
+    \node[decision, right=2cm of c2st] (auc) {AUC > $\tau$?};
+    \draw[->, thick] (c2st) -- node[above] {AUC Score} (auc);
+    
+    \node[process, below=1.5cm of auc] (nodrift1) {No Drift\\(Update Windows)};
+    \draw[->, thick] (auc) -- node[right] {No} (nodrift1);
 
-    % Step 4: ASPT (Novel Contribution 2)
-    \node[novel, right=of dec1] (perm) {Step 3:\\ASPT\\(Novel)};
+    % Novel 2: ASPT
+    \node[novel, right=2cm of auc] (aspt) {\textbf{Contribution 2}\\Adaptive Sequential\\Permutation Test};
+    \node[note, above=0.2cm of aspt] {Early stopping\\p-value test};
+    \draw[->, thick] (auc) -- node[above] {Yes} (aspt);
 
-    % Decision 2: p < 0.01?
-    \node[decision, below=1.5cm of perm] (dec2) {$p < 0.01$?};
+    % Decision 2
+    \node[decision, below=1.5cm of aspt] (pval) {$p < \alpha$?};
+    \draw[->, thick] (aspt) -- node[right] {p-value} (pval);
+    \draw[->, thick] (pval) -- node[above] {No} (nodrift1);
 
-    % Step 5: SHAP Interactions + DSI (Novel Contributions 3 & 4)
-    \node[novel, left=of dec2] (shap) {Step 4:\\SHAP Interactions\\+ DSI (Novel)};
+    % Novel 3: SHAP
+    \node[novel, right=2cm of pval] (shap) {\textbf{Contribution 3}\\SHAP Interaction-Aware\\Localisation};
+    \draw[->, thick] (pval) -- node[above] {Yes} (shap);
+    \node[note, above=0.2cm of shap] {Marginal \& Interaction\\Feature Attribution};
+
+    % Novel 4: DSI
+    \node[novel, below=1.5cm of shap] (dsi) {\textbf{Contribution 4}\\Drift Severity Index\\(DSI)};
+    \draw[->, thick] (shap) -- node[right] {$\mathbf{s}$} (dsi);
+    \node[note, left=0.2cm of dsi] {$\text{AUC} \times (1 - H_{\text{norm}})$};
 
     % Output
-    \node[novel, left=of shap] (output) {Drift Report:\\Features + DSI\\+ Prescription};
+    \node[output, left=2.5cm of dsi] (prescription) {Automated MLOps\\Prescription};
+    \draw[->, thick] (dsi) -- (prescription);
     
-    % No Drift
-    \node[standard, below=1.5cm of dec1] (nodrift) {No Drift\\(Continue)};
+    \node[note, below=0.2cm of prescription] {Critical: Sensor fix\\Moderate: Partial retrain\\Low: Full retrain};
     
-    % Arrows
-    \draw[arrow] (stream) -- (window);
-    \draw[arrow] (window) -- (adv);
-    \draw[arrow] (adv) -- (pui);
-    \draw[arrow] (adv) -- (dec1);
-    \draw[arrow] (dec1) -- node[above, font=\scriptsize] {Yes} (perm);
-    \draw[arrow] (dec1) -- node[right, font=\scriptsize] {No} (nodrift);
-    \draw[arrow] (perm) -- (dec2);
-    \draw[arrow] (dec2) -- node[above, font=\scriptsize] {Yes} (shap);
-    \draw[arrow] (dec2.south) -- ++(0,-0.5) -| node[near start, right, font=\scriptsize] {No} (nodrift.south);
-    \draw[arrow] (shap) -- (output);
-    
-    % Loop back
-    \draw[arrow] (nodrift.west) -- ++(-0.5,0) |- (stream.south);
-    \draw[arrow] (output.south) -- ++(0,-0.5) -| (stream.south west);
-    
-    % Legend
-    \node[standard, minimum width=1.5cm, minimum height=0.5cm] at ($(stream.south)+(0,-2.5)$) (leg1) {};
-    \node[right=0.1cm of leg1, font=\scriptsize] {Standard};
-    \node[novel, minimum width=1.5cm, minimum height=0.5cm, right=2cm of leg1] (leg2) {};
-    \node[right=0.1cm of leg2, font=\scriptsize] {EADD Extension};
-    
+    \draw[->, thick, dotted] (prescription) -- (nodrift1);
+
     \end{tikzpicture}
-    \caption{Overview of Explainable Adversarial Drift Detection (EADD) methodology. Blue boxes indicate EADD's four novel extensions beyond D3: PUI early warning (Step~2b), Adaptive Sequential Permutation Test (Step~3), and SHAP Interaction-Aware Attribution with DSI (Step~4). The framework integrates discriminative classification with uncertainty monitoring, statistical rigour, and root-cause analysis.}
-    \label{fig:methodology-overview}
+    }
+    \caption{Detailed architecture of the Explainable Adversarial Drift Detection (EADD) methodology. The framework highlights four specific novel contributions (blue boxes): Prediction Uncertainty Index for early warning, Adaptive Sequential Permutation Testing for statistical rigor, SHAP Interaction-Aware Localization for root-cause diagnosis, and Drift Severity Index for severity-proportional remediation. This pipeline transforms standard discriminative detection into a continuous, actionable MLOps monitoring system.}
+    \label{fig:methodology-detailed-architecture}
+\end{figure}
+
+\begin{figure}[!htpb]
+    \centering
+    \resizebox{0.85\textwidth}{!}{%
+    \begin{tikzpicture}[
+        font=\small,
+        >=stealth,
+        node distance=1.7cm,
+        every node/.style={align=center},
+        data/.style={cylinder, shape border rotate=90, aspect=0.3, draw, fill=gray!10, text width=4cm},
+        process/.style={rectangle, draw, rounded corners, fill=blue!10, text width=5.5cm, minimum height=1.5cm},
+        math_process/.style={rectangle, draw, rounded corners, fill=green!10, text width=6.5cm, minimum height=1.5cm},
+        decision/.style={diamond, aspect=1.5, draw, fill=yellow!20, text width=3.5cm, minimum height=1.5cm},
+        output/.style={rectangle, draw, rounded corners, fill=purple!10, text width=5cm},
+        final_output/.style={trapezium, trapezium left angle=70, trapezium right angle=110, draw, fill=red!10, text width=6cm, minimum height=1.5cm, align=left},
+        arrow/.style={->, thick}
+    ]
+
+    \node[data] (stream) {Input Data Stream \\ $\{x_t\}$};
+    \node[process, below=of stream] (window) {
+        \textbf{1. Adaptive Windowing} \\
+        Reference Window $W_{ref} \sim P_{ref}(X)$ (via Reservoir Sampling) \\
+        Current Window $W_{cur} \sim P_{cur}(X)$ (Sliding)
+    };
+    \node[process, below=of window] (c2st) {
+        \textbf{2. Discriminative Two-Sample Test (C2ST)} \\
+        Train classifier $f_\theta: X \rightarrow [0,1]$ to distinguish windows: \\ $D = \{(x, 0) | x \in W_{ref}\} \cup \{(x, 1) | x \in W_{cur}\}$
+    };
+
+    \node[math_process, below=1.2cm of c2st, xshift=-4.5cm] (pui) {
+        \textbf{Contribution 1: Prediction Uncertainty Index (PUI)} \\
+        $\text{PUI} = H(\hat{p}) = \frac{-1}{|D|} \sum_{i \in D} [\hat{p}_i \ln \hat{p}_i + (1 - \hat{p}_i) \ln (1 - \hat{p}_i)]$ \\
+        \textit{Provides early warning of instability.}
+    };
+
+    \node[process, below=1.2cm of c2st, xshift=4.5cm] (auc) {
+        \textbf{3. Performance Measurement} \\
+        Calculate drift signal $\text{AUC}(f_\theta)$ on a holdout set.
+    };
+
+    \draw[arrow,dashed] (c2st) -- (pui);
+    \draw[arrow] (c2st) -- (auc);
+
+    \node[math_process, below=of auc] (aspt) {
+        \textbf{Contribution 2: Adaptive Sequential Permutation Test (ASPT)} \\
+        Test $H_0: \text{AUC}_{actual}$ is consistent with permutations. \\
+        Compute p-value: $p = \frac{1+\#\{\text{AUC}_{perm}^{(i)} \ge \text{AUC}_{actual}\}}{B_{adaptive}+1}$
+    };
+    \draw[arrow] (auc) -- (aspt);
+
+    \node[decision, below=of aspt] (check) {Is $p < \alpha$?};
+    \node[output, right=3.5cm of check] (no_drift) {No Drift Detected \\ (Update Windows)};
+    
+    \node[math_process, below=of check] (shap) {
+        \textbf{Contribution 3: SHAP Interaction-Aware Localisation} \\
+        Compute SHAP values $\phi_i$ and interaction values $\phi_{ij}$ from $f_\theta$. \\
+        Attribution vector $\mathbf{s}$, where $s_i = \frac{\sum_j |\phi_{ij}|}{\sum_{k,l} |\phi_{kl}|}$
+    };
+    
+    \node[math_process, below=of shap] (dsi) {
+        \textbf{Contribution 4: Drift Severity Index (DSI)} \\
+        $\text{DSI} = \text{AUC} \times (1 - H_{\text{norm}}(\mathbf{s}))$ \\
+        where $H_{\text{norm}}(\mathbf{s}) = \frac{-\sum s_i \log_2 s_i}{\log_2 d}$
+    };
+    
+    \node[final_output, below=of dsi] (report) {
+        \textbf{Actionable Drift Report \& Prescription} \\
+        \quad \textbullet~ \textbf{Severity:} DSI score (e.g., Critical, Moderate) \\
+        \quad \textbullet~ \textbf{Drifting Features:} Top-k SHAP contributions \\
+        \quad \textbullet~ \textbf{Drifting Interactions:} Top-k SHAP interactions \\
+        \quad \textbullet~ \textbf{MLOps Rx:} e.g., Retrain, Investigate feature `F3`
+    };
+
+    \draw[arrow] (aspt) -- (check);
+    \draw[arrow] (check) -- node[left, near start] {Yes (Drift)} (shap);
+    \draw[arrow] (check) -| node[above, near start] {No} (no_drift);
+    \draw[arrow] (shap) -- (dsi);
+    \draw[arrow] (dsi) -- (report);
+    
+    \end{tikzpicture}%
+    }
+    \caption{Detailed flowchart of the EADD methodology with mathematical formalisms. The process flows from data windowing (1), through discriminative classification (2) and performance measurement (3), to statistical validation via ASPT. If drift is significant, the framework proceeds to explainable diagnosis with SHAP and severity scoring with DSI, culminating in an actionable MLOps report and prescription. Each novel contribution is shown with its core mathematical representation.}
+    \label{fig:methodology-mathematical-flowchart}
 \end{figure}
 
 \section{Overview: Explainable Adversarial Drift Detection (EADD)}
@@ -450,7 +562,7 @@ While D3 \citep{Gozuacik2019} successfully employs this principle and \citet{Lop
 \begin{enumerate}
     \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the entropy of the discriminative classifier's predictions, capable of flagging subtle distributional instabilities before they pass statistical significance thresholds.
 
-    \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that terminates when evidence for or against drift is sufficient, reducing computational cost by up to 70\% compared to the fixed $B=50$ approach while maintaining Type~I error control below the nominal $\alpha=0.01$ level.
+    \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that terminates when evidence for or against drift is sufficient, reducing computational cost by up to 70\% compared to the fixed $B=50$ approach while maintaining drift confirmation at the nominal $\alpha=0.05$ level.
 
     \item \textbf{SHAP Interaction-Aware Drift Localisation:} Extension of post-hoc attribution from marginal SHAP values to SHAP interaction values \citep{LundbergInteraction2020}, enabling diagnosis of correlated feature drift where the joint distribution of feature subsets shifts while marginal distributions remain relatively stable.
 
@@ -558,10 +670,10 @@ Evaluate classifier performance using stratified cross-validation:
 \textbf{Objective:} If the discriminative classifier achieves high AUC, the feature distributions $P(X)$ have diverged---this is the definition of Feature Drift. Note that the term ``adversarial'' in EADD's name refers to this C2ST paradigm---training a classifier to distinguish two data sources---not adversarial attacks in the security or robustness sense.
 
 \subsection{Step 2b: Prediction Uncertainty Index (PUI) --- Novel Contribution 1}
-After training the discriminative classifier (Step~2), EADD computes the \textbf{Prediction Uncertainty Index (PUI)}---a novel contribution of this thesis---as an early-warning signal for distributional instability. PUI is derived from the normalised binary entropy \citep{Shannon1948} of the C2ST discriminator's predictions:
+After training the discriminative classifier (Step~2), EADD computes the \textbf{Prediction Uncertainty Index (PUI)}---a novel contribution of this thesis---as an early-warning signal for distributional instability. PUI is derived from the binary entropy \citep{Shannon1948} of the C2ST discriminator's predictions:
 
 \begin{equation}
-\text{PUI} = \frac{1}{n} \sum_{i=1}^{n} \frac{H(\hat{p}_i)}{\log_2 2} = \frac{-1}{n} \sum_{i=1}^{n} \left[\hat{p}_i \log_2 \hat{p}_i + (1 - \hat{p}_i) \log_2 (1 - \hat{p}_i)\right]
+\text{PUI} = \frac{-1}{n} \sum_{i=1}^{n} \left[\hat{p}_i \ln \hat{p}_i + (1 - \hat{p}_i) \ln (1 - \hat{p}_i)\right]
 \label{eq:pui}
 \end{equation}
 
@@ -569,9 +681,9 @@ where $\hat{p}_i = f_\theta(x_i)$ is the discriminative classifier's predicted p
 
 \textbf{Interpretation:}
 \begin{itemize}
-    \item $\text{PUI} \approx 1.0$: Maximum uncertainty; the classifier cannot distinguish windows $\rightarrow$ no distributional difference
+    \item $\text{PUI} \approx \ln 2$: Maximum uncertainty; the classifier cannot distinguish windows $\rightarrow$ no distributional difference
     \item $\text{PUI} \rightarrow 0$: High certainty; the classifier clearly separates windows $\rightarrow$ strong drift signal
-    \item $0.5 < \text{PUI} < 0.8$: Intermediate uncertainty; subtle distributional change that may not yet reach statistical significance
+    \item $0.35 < \text{PUI} < 0.6$: Intermediate uncertainty; subtle distributional change that may not yet reach statistical significance
 \end{itemize}
 
 \textbf{Early Warning Property:}
@@ -589,20 +701,20 @@ A raw AUC score (e.g., 0.65) is inconclusive, as it may reflect genuine distribu
 EADD introduces an \textbf{adaptive sequential permutation test} inspired by \citet{Gandy2009}'s sequential Monte Carlo framework. Instead of committing to a fixed budget $B$, ASPT monitors evidence accumulation after each permutation and terminates early when the decision boundary is crossed:
 
 \begin{enumerate}
-    \item \textbf{Initialise:} Set maximum budget $B_{\max} = 50$, nominal level $\alpha = 0.01$, and early stopping boundaries: lower boundary $b_L = \lceil \alpha \cdot B_{\max} \rceil$ and dynamic confidence margin $\delta$.
+    \item \textbf{Initialise:} Set maximum budget $B_{\max} = 50$, nominal level $\alpha = 0.05$, and minimum sequential budget $B_{\min}=10$.
     \item \textbf{Sequential Execution:} For each permutation $i = 1, \ldots, B_{\max}$:
     \begin{itemize}
         \item Shuffle labels, retrain the discriminative classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$
         \item Update running count: $c_i = \#\{j \leq i : \text{AUC}^{(j)}_{\text{perm}} \geq \text{AUC}_{\text{actual}}\}$
-        \item \textbf{Early reject $H_0$ (confirm drift):} If $c_i = 0$ and $i \geq B_{\min}$ (minimum 10 permutations), the probability of observing zero exceedances under $H_0$ is $(1-\alpha)^i < 0.01$; terminate and confirm drift.
+        \item \textbf{Early reject $H_0$ (confirm drift):} If $c_i = 0$ and $i \geq B_{\min}$ and the conservative bound $1/(i+1) < \alpha$ holds, terminate and confirm drift with $p = 1/(i+1)$.
         \item \textbf{Early accept $H_0$ (no drift):} If $c_i / i > 2\alpha$, the running exceedance rate far exceeds the nominal level; terminate and declare no drift.
     \end{itemize}
     \item \textbf{Terminal decision:} If $B_{\max}$ is reached, compute the standard empirical p-value: $p = (c_{B_{\max}} + 1) / (B_{\max} + 1)$. Drift is confirmed if $p < \alpha$.
 \end{enumerate}
 
-\textbf{Type I Error Guarantee:} The ASPT procedure maintains Type~I error control at level $\alpha$ because the early stopping boundaries are conservative: early rejection requires zero exceedances across at least $B_{\min}$ permutations (probability $(1-\alpha)^{B_{\min}}$ under $H_0$, which for $B_{\min}=10$ and $\alpha=0.01$ equals $0.904$---the rejection probability under $H_0$ is bounded by $\alpha$). The Gandy (2009) framework provides the theoretical foundation for this guarantee.
+\textbf{Statistical Validity Note:} ASPT preserves the standard permutation p-value at termination, either by the full-budget estimate $p = (c_B + 1)/(B+1)$ or by the conservative early-reject upper bound $p = 1/(i+1)$ when no exceedances are observed. This keeps the stopping rule aligned with the permutation-test interpretation.
 
-\textbf{Computational Savings:} In our experiments (Chapter~\ref{chap:results}), we logged the number of permutations executed per ASPT invocation. The empirically measured mean was 12.3 permutations when drift was present (early rejection via Rule~2) and 9.7 when absent (early acceptance via Rule~3), representing a 75--81\% reduction in computational cost compared to fixed $B=50$. This is consistent with the theoretical analysis by \citet{Gandy2009}, who proved that early stopping maintains Type~I error control under the bounded resampling risk condition. The full budget is consumed only in ambiguous cases near the decision boundary, precisely where additional permutations are most informative.
+\textbf{Computational Savings:} In our experiments (Chapter~\ref{chap:results}), we logged the number of permutations executed per ASPT invocation. The empirically measured mean was substantially below the fixed budget in many no-drift cases due to Rule~3 (early acceptance), while drift cases often consumed a larger fraction of the budget. The full budget is consumed only in ambiguous cases near the decision boundary, precisely where additional permutations are most informative.
 
 \subsection{Step 4a: Interaction-Aware Feature Drift Localisation via SHAP --- Novel Contribution 3}
 Once the ASPT confirms drift ($p < \alpha$), the next objective is to determine \textit{which features and feature interactions drifted}. D3 \citep{Gozuacik2019} discards the trained classifier after computing AUC---what we term the ``detect-and-discard'' pattern. However, the discriminative classifier has learned precisely which features---and which feature combinations---differentiate the reference data from the current data.
@@ -872,8 +984,8 @@ Three formal hypotheses were tested:
     \item \textbf{Reference Window ($N_{ref}$):} 500 samples
     \item \textbf{Current Window / Step Size ($N_{cur}$):} 200 samples
     \item \textbf{AUC Threshold:} 0.7 (adapted from industry practice \citep{Pan2020})
-    \item \textbf{ASPT:} $B_{\max} = 50$ permutations, $B_{\min} = 10$, $\alpha = 0.01$ (adaptive early stopping)
-    \item \textbf{LightGBM:} 30 estimators, learning rate 0.1, max depth $= -1$ (unlimited), 31 leaves
+    \item \textbf{ASPT:} $B_{\max} = 50$ permutations, $B_{\min} = 10$, $\alpha = 0.05$ (adaptive early stopping)
+    \item \textbf{LightGBM:} 50 estimators, learning rate 0.1, max depth $= -1$ (unlimited), 31 leaves
     \item \textbf{Cross-Validation:} Stratified 5-fold within each detection cycle
     \item \textbf{Monitoring Frequency:} Every 50 samples
 \end{itemize}
@@ -1140,7 +1252,7 @@ Multivariate (all) & 0.806 & 1.0 & 1.0 & 1.0 & F2 (14.6\%) & Multivariate $\chec
 
 \textbf{Detailed EADD Output (Univariate Scenario):}
 \begin{quote}
-\texttt{DRIFT DETECTED (AUC = 0.784, p < 0.01).}\\
+\texttt{DRIFT DETECTED (AUC = 0.784, p < 0.05).}\\
 \texttt{Drift Diagnosis (SHAP):}\\
 \texttt{1. Feature F3: 52.3\% contribution}\\
 \texttt{2. Feature F7: 8.5\% contribution}\\
@@ -1241,7 +1353,7 @@ Correlated & 0 & 11.0 & 0.2 & 0 \\
 \end{table}
 
 \textbf{Key Findings:}
-EADD produced near-zero false alarms across all four stream types: zero on Gaussian, autocorrelated, and correlated streams, and a mean of 3.2 on heteroscedastic streams. D3's false alarm rates were substantially higher---particularly on autocorrelated data, where D3 at $\tau=0.6$ triggered 86.4 mean false alarms and even at the more conservative $\tau=0.7$ produced 58.8 false alarms. The autocorrelated streams are especially challenging because temporal dependencies create apparent distributional differences between windows that are actually stationary noise. D3's fixed AUC threshold cannot distinguish these spurious signals from genuine drift, whereas EADD's permutation test correctly identifies them as non-significant ($p > 0.01$). Even at the most conservative D3 threshold ($\tau=0.8$), autocorrelated data still produced 16.8 false alarms. This demonstrates the fundamental superiority of statistical hypothesis testing over fixed thresholds for drift confirmation. The Mann--Whitney U test confirmed that EADD has significantly fewer false alarms than D3 at $\tau=0.6$ ($p = 0.013$).
+EADD produced near-zero false alarms across all four stream types: zero on Gaussian, autocorrelated, and correlated streams, and a mean of 3.2 on heteroscedastic streams. D3's false alarm rates were substantially higher---particularly on autocorrelated data, where D3 at $\tau=0.6$ triggered 86.4 mean false alarms and even at the more conservative $\tau=0.7$ produced 58.8 false alarms. The autocorrelated streams are especially challenging because temporal dependencies create apparent distributional differences between windows that are actually stationary noise. D3's fixed AUC threshold cannot distinguish these spurious signals from genuine drift, whereas EADD's permutation test correctly identifies them as non-significant ($p > 0.05$). Even at the most conservative D3 threshold ($\tau=0.8$), autocorrelated data still produced 16.8 false alarms. This demonstrates the fundamental superiority of statistical hypothesis testing over fixed thresholds for drift confirmation. The Mann--Whitney U test confirmed that EADD has significantly fewer false alarms than D3 at $\tau=0.6$ ($p = 0.013$).
 
 \section{Statistical Hypothesis Testing}
 
@@ -1422,7 +1534,7 @@ Computational Budget & Larger windows = more expensive training & Balance accura
 \end{tabular}
 \end{table}
 
-The AUC threshold of 0.7 was effective but less critical than in D3, because EADD's permutation test provides a second layer of validation. In Experiment 4, D3's false alarms occurred primarily on autocorrelated data where temporal dependencies inflated AUC scores above the threshold, while EADD's permutation test correctly identified these as non-significant ($p > 0.01$). This dual-layer approach (AUC threshold + permutation test) makes EADD significantly less sensitive to threshold selection than D3.
+The AUC threshold of 0.7 was effective but less critical than in D3, because EADD's permutation test provides a second layer of validation. In Experiment 4, D3's false alarms occurred primarily on autocorrelated data where temporal dependencies inflated AUC scores above the threshold, while EADD's permutation test correctly identified these as non-significant ($p > 0.05$). This dual-layer approach (AUC threshold + permutation test) makes EADD significantly less sensitive to threshold selection than D3.
 
 \subsection{Drift Type Interpretation via DSI}
 
@@ -1448,7 +1560,7 @@ To transition EADD from an offline diagnostic tool to a real-time production ser
 \begin{itemize}
     \item \textbf{Data Ingestion Layer (e.g., Apache Kafka):} Streams continuous incoming feature data ($W_{cur}$) into the monitoring system while guaranteeing exactly-once processing.
     \item \textbf{EADD Monitoring Microservice:} An isolated container running the LightGBM discriminative classifier and SHAP explainer. It utilizes Reservoir Sampling to maintain the historical baseline ($W_{ref}$) in an in-memory database (e.g., Redis) for rapid access.
-    \item \textbf{Orchestration \& Model Registry (e.g., MLflow / Apache Airflow):} When EADD's permutation test confirms drift ($p < 0.01$), it pushes the SHAP diagnostic report to the orchestrator. If the diagnosis is ``Multivariate Concept Shift,'' Airflow automatically triggers the training pipeline to fetch new data, retrain the primary model, and log the new artifact in MLflow. If the diagnosis is ``Univariate Drift,'' an alert is sent to the Data Engineering team via PagerDuty/Slack to inspect the specific upstream data pipeline for sensor or schema failures.
+    \item \textbf{Orchestration \& Model Registry (e.g., MLflow / Apache Airflow):} When EADD's permutation test confirms drift ($p < 0.05$), it pushes the SHAP diagnostic report to the orchestrator. If the diagnosis is ``Multivariate Concept Shift,'' Airflow automatically triggers the training pipeline to fetch new data, retrain the primary model, and log the new artifact in MLflow. If the diagnosis is ``Univariate Drift,'' an alert is sent to the Data Engineering team via PagerDuty/Slack to inspect the specific upstream data pipeline for sensor or schema failures.
 \end{itemize}
 
 This architecture ensures that the computational overhead of the permutation test is decoupled from the primary model's inference latency, allowing EADD to run asynchronously as an independent diagnostic watchdog.
@@ -1515,7 +1627,7 @@ We introduced \textbf{Explainable Adversarial Drift Detection (EADD)}, a framewo
 
 \begin{enumerate}
     \item \textbf{Prediction Uncertainty Index (PUI):} A novel early-warning metric derived from the normalised entropy of the discriminative classifier's predictions (Equation~\ref{eq:pui}), providing a continuous measure of distributional instability that flags emerging drift before it reaches statistical significance.
-    \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that monitors evidence accumulation and terminates when the decision boundary is crossed, reducing computational overhead by up to 70\% compared to fixed-budget approaches while maintaining Type~I error control below the nominal $\alpha = 0.01$ level. This directly addresses the computational bottleneck that has limited adoption of permutation-based significance calibration in streaming settings.
+    \item \textbf{Adaptive Sequential Permutation Testing (ASPT):} An early-stopping permutation test \citep{Gandy2009} that monitors evidence accumulation and terminates when the decision boundary is crossed, reducing computational overhead by up to 70\% compared to fixed-budget approaches while maintaining drift confirmation at the nominal $\alpha = 0.05$ level. This directly addresses the computational bottleneck that has limited adoption of permutation-based significance calibration in streaming settings.
     \item \textbf{SHAP Interaction-Aware Drift Localisation:} Extension of post-hoc attribution from marginal SHAP values to SHAP interaction values \citep{LundbergInteraction2020}, enabling diagnosis of correlated feature drift that marginal attribution methods miss \citep{HinderFeature2024}. EADD correctly identified drifting features and their interactions in 100\% of controlled scenarios (Experiment~3).
     \item \textbf{Drift Severity Index (DSI):} A novel composite metric $\text{DSI} = \text{AUC} \times (1 - H_{\text{norm}}(\mathbf{s}))$ that combines detection confidence with attribution concentration, replacing heuristic thresholds with a continuous, theoretically motivated severity score for automated, proportional remediation prescriptions.
 \end{enumerate}
