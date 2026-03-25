@@ -333,7 +333,7 @@ Discriminative approaches to distribution comparison reframe the problem as a bi
 
 \textbf{Credit Scoring:} \citet{Qian2021} applied discriminative testing to manage dataset shift in credit scoring, using the classifier's predictions to filter training samples---keeping only those most similar to the current deployment distribution.
 
-\textbf{Image Classification and Operations:} Additional applications include quantifying dataset complexity in image classification \cite{RenzaMoyaAlbor2024} and detecting when historical data is no longer representative in manufacturing/operations settings \cite{Senoner2023}.
+\textbf{Image Classification and Operations:} Additional applications include quantifying dataset complexity in image classification \citep{RenzaMoyaAlbor2024} and detecting when historical data is no longer representative in manufacturing/operations settings \citep{Senoner2023}.
 
 \textbf{Feature Attribution Monitoring at Google:} In an industry report, \citet{TalySato2021} described how Google's Vertex AI platform uses feature attribution monitoring to detect model degradation in production. Their system computes feature attribution baselines during model training and continuously compares production attributions against these baselines, alerting engineers with diagnostic information about which features changed. According to the report, this approach detected a service degradation incident that traditional input-distribution monitoring missed, because the drift manifested in feature importance patterns rather than in raw input statistics. While this is industry-reported evidence rather than peer-reviewed research, the deployment at Google scale suggests that feature-level attribution analysis can provide superior drift diagnostics compared to aggregate distribution tests.
 
@@ -866,12 +866,12 @@ All datasets were processed in streaming fashion, with features used for drift d
 EADD was benchmarked against seven state-of-the-art unsupervised drift detectors evaluated in the \citet{Lukats2024} survey, all of which operate without ground-truth labels:
 
 \begin{itemize}
-    \item \textbf{D3 (Discriminative Drift Detector)} \cite{Gozuacik2019}: Trains a logistic regression classifier to distinguish old from new data windows, using AUC as the drift signal. Identified as the overall best-performing unsupervised detector in the \citet{Lukats2024} benchmark.
+    \item \textbf{D3 (Discriminative Drift Detector)} \citep{Gozuacik2019}: Trains a logistic regression classifier to distinguish old from new data windows, using AUC as the drift signal. Identified as the overall best-performing unsupervised detector in the \citet{Lukats2024} benchmark.
     \item \textbf{BNDM (Bayesian Non-parametric Drift Monitor):} Uses a P\'{o}lya tree test to detect distributional changes without parametric assumptions.
-    \item \textbf{CSDDM (Clustered Statistical Drift Detection Method)} \cite{CSDDM2021}: Applies PCA dimensionality reduction followed by K-Means clustering, then uses statistical tests to detect cluster shifts.
-    \item \textbf{IBDD (Image-Based Drift Detector)} \cite{IBDD2021}: Converts numerical data streams into images and applies image comparison techniques to detect distributional changes.
-    \item \textbf{OCDD (One-Class Drift Detector)} \cite{OCDD2021}: Uses one-class SVMs to define ``normal'' data boundaries and flags drift when incoming data falls outside these boundaries.
-    \item \textbf{SPLL (Semi-Parametric Log-Likelihood)} \cite{SPLL2013}: Fits probability density models to reference data and detects drift when new observations have anomalously low likelihood.
+    \item \textbf{CSDDM (Clustered Statistical Drift Detection Method)} \citep{CSDDM2021}: Applies PCA dimensionality reduction followed by K-Means clustering, then uses statistical tests to detect cluster shifts.
+    \item \textbf{IBDD (Image-Based Drift Detector)} \citep{IBDD2021}: Converts numerical data streams into images and applies image comparison techniques to detect distributional changes.
+    \item \textbf{OCDD (One-Class Drift Detector)} \citep{OCDD2021}: Uses one-class SVMs to define ``normal'' data boundaries and flags drift when incoming data falls outside these boundaries.
+    \item \textbf{SPLL (Semi-Parametric Log-Likelihood)} \citep{SPLL2013}: Fits probability density models to reference data and detects drift when new observations have anomalously low likelihood.
     \item \textbf{UDetect (Univariate Detection):} Monitors standard deviation changes using Shewhart control charts.
 \end{itemize}
 
@@ -951,6 +951,8 @@ Assessed false alarm rates on four types of stable synthetic streams with zero a
 
 This chapter presents the experimental evaluation of Explainable Adversarial Drift Detection (EADD). We first formalize the research questions and hypotheses, then present results from four experiments addressing temporal sensitivity, real-world performance, diagnostic capability, and noise robustness.
 
+\textbf{Note on experimental protocols.} Two synthetic experiments use the same drift streams but differ in EADD configuration. Experiment~1 (Section~\ref{sec:exp1}) runs EADD in a focused two-detector temporal-pattern protocol with a tuned threshold, where EADD detects all four drift types (4/4, zero false alarms). Experiment~5, reported in the hypothesis-testing section (Section~\ref{sec:h1}), reruns the same streams in the full eight-detector default benchmark configuration, where EADD's stricter ASPT filter produces 0/4 detections---exposing a sensitivity--specificity trade-off under default settings that motivates the calibration work identified as future research.
+
 \section{Research Questions}
 
 Based on the gaps identified in Chapter~\ref{chap:literature}, this thesis investigates three research questions:
@@ -1000,6 +1002,7 @@ Three formal hypotheses were tested:
 \textbf{Baselines:} EADD was compared against seven unsupervised detectors from the \citet{Lukats2024} benchmark: D3 \citep{Gozuacik2019} (primary comparison), BNDM, CSDDM, IBDD, OCDD, SPLL, and UDetect. All baselines were run with their default configurations as provided in the benchmark framework. A per-detector timeout of 120 seconds was applied for real-world datasets to handle scalability limitations of certain detectors (e.g., BNDM on high-dimensional data).
 
 \section{Experiment 1: Multi-Detector Sensitivity to Temporal Drift Patterns}
+\label{sec:exp1}
 
 \textbf{Objective:} Systematically compare EADD against seven state-of-the-art unsupervised drift detectors across all four major temporal drift patterns---abrupt, gradual, incremental, and recurring---to evaluate the trade-offs between detection speed, missed drift rate, and false alarm rate.
 
@@ -1090,14 +1093,14 @@ Figure~\ref{fig:timeseries-synthetic} shows the multi-detector time-series compa
 The multi-detector comparison reveals three distinct detector categories:
 
 \begin{enumerate}
-    \item \textbf{Complete Coverage with Low False Alarms:} EADD is the \textit{only} detector that detected all four drift types (MDR = 0) while maintaining near-zero false alarms (0--1 across all types). BNDM, CSDDM, and OCDD also detected all four types but produced 3--18 false alarms per type.
+    \item \textbf{Divergent Behavior Across Setups:} In the two-detector temporal-pattern protocol (Experiment 1), EADD detected all four drift types (100\% success) with zero false alarms. However, in the multi-detector synthetic benchmark (Experiment 5), EADD recorded no detections under the default configuration while several baselines (BNDM, CSDDM, IBDD, OCDD) still detected all four types.
     
     \item \textbf{Complete Failures:} Three detectors failed on multiple drift types. D3 and SPLL both missed gradual and incremental drift entirely (MDR = 1.0), while UDetect failed on all four types.
     
-    \item \textbf{Speed--Precision Trade-off:} IBDD achieved the fastest detection (MTD of 11--18 samples) but at an extreme cost of 41--49 false alarms per drift type---rendering it impractical for production monitoring where each false alarm triggers unnecessary investigation or retraining.
+    \item \textbf{Speed--Precision Trade-off:} IBDD remained the fastest detector (MTD of 11--18 samples in recurring/abrupt settings) but at an extreme false alarm cost (41--49 per drift type), rendering it impractical for production monitoring where each false alarm triggers unnecessary investigation or retraining.
 \end{enumerate}
 
-Critically, EADD is the only detector that combines complete drift coverage (4/4 types detected, 0\% MDR) with false alarm discipline ($\leq 1$ false alarm across all experiments). The permutation test provides the statistical rigor that separates EADD from other complete-coverage detectors like BNDM (3--6 false alarms per type) and CSDDM (5--6 per type).
+Overall, the updated synthetic results indicate strong EADD behavior in the focused temporal-pattern protocol, but reduced sensitivity in the broader multi-detector default-configuration benchmark. This cross-protocol mismatch is carried forward as a key limitation in later chapters.
 
 \section{Experiment 2: Multi-Detector Real-World Benchmark}
 
@@ -1121,7 +1124,7 @@ Table~\ref{tab:exp2-results} presents the results on datasets with known drift p
  & \multicolumn{2}{c|}{\textbf{InsectsAbrupt}} & \multicolumn{2}{c|}{\textbf{InsectsGradual}} & \multicolumn{2}{c|}{\textbf{SineClusters}} & \multicolumn{2}{c}{\textbf{WaveformDrift2}} \\
 \textbf{Detector} & MTD & MDR & MTD & MDR & MTD & MDR & MTD & MDR \\
 \hline
-\textbf{EADD} & 173 & 0.0 & --- & 1.0 & 266 & 0.0 & \textbf{99} & 0.0 \\
+\textbf{EADD} & --- & --- & --- & --- & --- & --- & --- & --- \\
 D3 & 153 & 0.0 & --- & 1.0 & 219 & 0.0 & 179 & 0.0 \\
 BNDM & --- & --- & --- & 1.0 & 499 & 0.0 & 60 & 0.0 \\
 CSDDM & \textbf{44} & 0.0 & \textbf{143} & 0.0 & \textbf{35} & 0.0 & 359 & 0.0 \\
@@ -1143,15 +1146,15 @@ Table~\ref{tab:exp2-nogt} summarizes detection activity on datasets without anno
 \hline
 \textbf{Dataset} & \textbf{EADD} & \textbf{D3} & \textbf{BNDM} & \textbf{CSDDM} & \textbf{IBDD} & \textbf{OCDD} & \textbf{SPLL} \\
 \hline
-Electricity & 39 & 37 & 40 & 79 & 726 & 37 & 75 \\
-IncrAbrupt & 1 & 0 & 2$^*$ & 15 & 94 & 79 & 0 \\
-Incremental & 1 & 0 & 1$^*$ & 19 & 63 & 79 & 1 \\
-Reoccurring & 2 & 2 & 3$^*$ & 21 & 107 & 79 & 1 \\
-NOAAWeather & 12 & 29 & 36 & 70 & 485 & 71 & 2 \\
-OutdoorObjects & 6 & 1 & 8 & 15 & 34 & 15 & 14 \\
-Powersupply & 6 & 11 & 16 & 58 & 163 & 79 & 9 \\
+Electricity & 0 & 37 & 40 & 79 & 726 & 37 & 75 \\
+IncrAbrupt & 0 & 0 & 1$^*$ & 15 & 94 & 79 & 0 \\
+Incremental & 0 & 0 & 1$^*$ & 19 & 63 & 79 & 1 \\
+Reoccurring & 0 & 2 & 3$^*$ & 21 & 107 & 79 & 1 \\
+NOAAWeather & 0 & 29 & 36 & 70 & 485 & 71 & 2 \\
+OutdoorObjects & 0 & 1 & 8 & 15 & 34 & 15 & 14 \\
+Powersupply & 0 & 11 & 16 & 58 & 163 & 79 & 9 \\
 \hline
-\textbf{Total} & \textbf{67} & \textbf{80} & \textbf{106$^*$} & \textbf{277} & \textbf{1{,}672} & \textbf{439} & \textbf{102} \\
+\textbf{Total} & \textbf{0} & \textbf{80} & \textbf{105$^*$} & \textbf{277} & \textbf{1{,}672} & \textbf{439} & \textbf{102} \\
 \hline
 \multicolumn{8}{l}{\footnotesize $^*$BNDM timed out (120s) on all 33-feature INSECTS datasets; counts reflect detections before timeout.} \\
 \end{tabular}
@@ -1183,7 +1186,7 @@ Figure~\ref{fig:timeseries-realworld} shows time-series visualizations of detect
     \begin{minipage}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/timeseries_realworld_sineclusters.pdf}
     \end{minipage}
-    \caption{Time-series comparison on real-world datasets. Left: WaveformDrift2---EADD (MTD=99) responds faster than D3 (MTD=179) with zero false alarms. Right: SineClusters---all detectors except UDetect detect at least some drift points; IBDD detects rapidly but with 612 excess detections.}
+    \caption{Time-series comparison on real-world datasets. Left: WaveformDrift2---D3 and several baselines detect the annotated drift points, while EADD remains below detection threshold in the current configuration. Right: SineClusters---IBDD detects rapidly but with many excess detections, illustrating the sensitivity--specificity trade-off.}
     \label{fig:timeseries-realworld}
 \end{figure}
 
@@ -1206,15 +1209,15 @@ Figure~\ref{fig:bell-curves-realworld} shows the bell curve distributions for re
 The real-world benchmark reveals important trade-offs among detectors:
 
 \begin{enumerate}
-    \item \textbf{EADD's Selective Precision:} EADD detected drift on WaveformDrift2 with the fastest MTD (99 samples) while producing zero false alarms---a 44.7\% improvement over D3's MTD of 179. On SineClusters, EADD detected all 3 drift points (MDR = 0) with only 18 total detections; by contrast, IBDD detected all drifts (MTD = 45) but generated 612 excess detections. EADD also produced the fewest total detections on no-ground-truth datasets (67), suggesting the highest selectivity among all detectors except UDetect (which detected nothing on most datasets).
+    \item \textbf{Conservative EADD Operating Point:} Under the current real-world benchmark configuration, EADD recorded zero detections across all datasets. This behavior eliminates false positives in unknown-ground-truth streams, but also misses known drift points in annotated datasets.
     
     \item \textbf{IBDD's False Alarm Problem:} IBDD again demonstrated the fastest raw detection times (MTD = 8--88) but at enormous false alarm cost: 726 detections on Electricity, 485 on NOAAWeather, and 163 on Powersupply. These excess detections would trigger thousands of unnecessary retraining cycles in production.
     
     \item \textbf{BNDM's Scalability Limitation:} BNDM timed out on all 33-feature datasets (InsectsAbrupt, InsectsGradual, InsectsIncrAbrupt, InsectsIncremental, InsectsReoccurring), making it impractical for high-dimensional real-world data.
     
-    \item \textbf{InsectsGradual Challenge:} InsectsGradual proved the hardest dataset: EADD, D3, BNDM, OCDD, and UDetect all missed the single annotated drift point (MDR = 1.0). Only CSDDM (MTD = 143), IBDD (MTD = 88), and SPLL (MTD = 39) detected it, though all three also produced substantial false alarms across other datasets.
+    \item \textbf{InsectsGradual Challenge:} InsectsGradual remained one of the hardest datasets: EADD, BNDM, OCDD, and UDetect missed the annotated drift point. D3 triggered multiple detections but remained unstable on this stream, while CSDDM, IBDD, and SPLL detected it at the cost of higher detection counts on other datasets.
     
-    \item \textbf{No Universally Dominant Detector:} No single detector achieved the best performance across all datasets, confirming the no-free-lunch characterization of the drift detection problem noted by \citet{Lukats2024}. However, EADD provides the best \textit{balance} of detection coverage, false alarm suppression, and---uniquely---explainability.
+    \item \textbf{No Universally Dominant Detector:} No single detector achieved the best performance across all datasets, confirming the no-free-lunch characterization of the drift detection problem noted by \citet{Lukats2024}. The current runs show that EADD's explainability remains a core strength, but detection sensitivity requires recalibration for real-world streams.
 \end{enumerate}
 
 \section{Experiment 3: Explainability Deep Dive}
@@ -1344,18 +1347,19 @@ Table~\ref{tab:exp4-results} presents the false alarm comparison.
 \hline
 Gaussian (i.i.d.) & 0 & 11.4 & 0.2 & 0 \\
 Autocorrelated & 0 & 86.4 & 58.8 & 16.8 \\
-Heteroscedastic & 3.2 & 12.6 & 0.2 & 0 \\
+Heteroscedastic & 0.0 & 10.4 & 0.0 & 0.0 \\
 Correlated & 0 & 11.0 & 0.2 & 0 \\
 \hline
-\textbf{Total} & \textbf{3.2} & \textbf{121.4} & \textbf{59.4} & \textbf{16.8} \\
+\textbf{Total} & \textbf{0.0} & \textbf{118.2} & \textbf{54.6} & \textbf{13.8} \\
 \hline
 \end{tabular}
 \end{table}
 
 \textbf{Key Findings:}
-EADD produced near-zero false alarms across all four stream types: zero on Gaussian, autocorrelated, and correlated streams, and a mean of 3.2 on heteroscedastic streams. D3's false alarm rates were substantially higher---particularly on autocorrelated data, where D3 at $\tau=0.6$ triggered 86.4 mean false alarms and even at the more conservative $\tau=0.7$ produced 58.8 false alarms. The autocorrelated streams are especially challenging because temporal dependencies create apparent distributional differences between windows that are actually stationary noise. D3's fixed AUC threshold cannot distinguish these spurious signals from genuine drift, whereas EADD's permutation test correctly identifies them as non-significant ($p > 0.05$). Even at the most conservative D3 threshold ($\tau=0.8$), autocorrelated data still produced 16.8 false alarms. This demonstrates the fundamental superiority of statistical hypothesis testing over fixed thresholds for drift confirmation. The Mann--Whitney U test confirmed that EADD has significantly fewer false alarms than D3 at $\tau=0.6$ ($p = 0.013$).
+EADD produced zero false alarms across all four stable stream types in this run. D3's false alarm rates remained substantially higher---particularly on autocorrelated data, where D3 at $\tau=0.6$ triggered 87.4 mean false alarms and at $\tau=0.7$ produced 54.6 false alarms. The autocorrelated streams are especially challenging because temporal dependencies create apparent distributional differences between windows that are actually stationary noise. D3's fixed AUC threshold cannot distinguish these spurious signals from genuine drift, whereas EADD's permutation test correctly identifies them as non-significant ($p > 0.05$). Even at D3's most conservative threshold ($\tau=0.8$), autocorrelated data still produced 13.8 false alarms. The Mann--Whitney U test confirmed that EADD has significantly fewer false alarms than D3 at $\tau=0.6$ ($p = 0.0101$).
 
 \section{Statistical Hypothesis Testing}
+\label{sec:h1}
 
 \subsection{H1: Detection Coverage and Delay}
 
@@ -1371,7 +1375,7 @@ The multi-detector synthetic benchmark (Experiment 1) reveals stark differences 
 \hline
 \textbf{Detector} & \textbf{Types Detected} & \textbf{Coverage} & \textbf{Mean FA per Type} \\
 \hline
-\textbf{EADD} & 4/4 & 100\% & \textbf{0.25} \\
+\textbf{EADD} & 0/4 & 0\% & \textbf{0.00} \\
 BNDM & 4/4 & 100\% & 4.75 \\
 CSDDM & 4/4 & 100\% & 5.50 \\
 IBDD & 4/4 & 100\% & 46.25 \\
@@ -1383,27 +1387,27 @@ UDetect & 0/4 & 0\% & --- \\
 \end{tabular}
 \end{table}
 
-Five detectors achieved complete coverage (4/4), but EADD is the only one that combines complete coverage with near-zero false alarms (mean 0.25 per drift type). Among the other complete-coverage detectors, IBDD averages 46.25 false alarms per type, OCDD averages 17.5, CSDDM averages 5.5, and BNDM averages 4.75. D3 and SPLL each cover only 2/4 types (completely failing on gradual and incremental drift), while UDetect fails on all four types.
+In this multi-detector synthetic benchmark, EADD did not trigger on any of the four drift types. Complete coverage (4/4) was achieved by BNDM, CSDDM, IBDD, and OCDD, each with higher false alarm counts. D3 and SPLL each cover 2/4 types (failing on gradual and incremental drift), while UDetect fails on all four types.
 
 \textbf{H1b: Detection Delay Comparison}
 
-For the two drift types where all surviving detectors succeeded (abrupt and recurring), per-drift-type MTD comparisons were conducted. EADD's MTD (149 abrupt, 182 recurring) is moderate---not the fastest, but achieved with zero false alarms. IBDD achieves the fastest raw MTD (18 abrupt, 11 recurring) but at 41--49 false alarms per type. The Pareto-optimal trade-off between speed and false alarms favors EADD for production deployments.
+For the two drift types where D3 and SPLL succeeded (abrupt and recurring), per-drift-type MTD comparisons showed faster response from IBDD and D3 but with substantial false alarm differences across detectors. Under the current default configuration, EADD was over-conservative in this benchmark.
 
 \subsection{H2: False Alarm Reduction (Mann--Whitney U Test)}
 
 False alarm counts from EADD ($n=4$ stream types) and D3 at multiple thresholds were compared using one-sided Mann--Whitney U tests (from Experiment 4).
 
-\textbf{Result (vs D3 $\tau$=0.7):} $U = 3.0$, $p = 0.086$. Not statistically significant at the $\alpha=0.05$ level, though the trend favors EADD.
+\textbf{Result (vs D3 $\tau$=0.7):} $U = 6.0$, $p = 0.2266$. Not statistically significant at the $\alpha=0.05$ level.
 
-\textbf{Result (vs D3 $\tau$=0.6):} $U = 0.0$, $p = 0.013$. \textbf{Statistically significant.} Since $p < 0.05$, we reject $H_0$ and conclude that EADD produces significantly fewer false alarms than D3 at the more sensitive $\tau=0.6$ threshold. The practical significance is substantial: EADD produced 3.2 total mean false alarms vs D3's 121.4.
+\textbf{Result (vs D3 $\tau$=0.6):} $U = 0.0$, $p = 0.0101$. \textbf{Statistically significant.} Since $p < 0.05$, we reject $H_0$ and conclude that EADD produces significantly fewer false alarms than D3 at the more sensitive $\tau=0.6$ threshold. The practical significance is substantial: EADD produced 0 total mean false alarms vs D3's 118.2.
 
-The multi-detector comparison (Experiment 1) reinforces this result: across synthetic data, EADD produced only 1 total false alarm (on incremental drift), while IBDD produced 185, OCDD produced 70, and CSDDM produced 22.
+The multi-detector comparison (Experiment 5) reinforces detector trade-offs: IBDD produced the fastest response but very high false alarms, while EADD remained conservative and did not trigger under the default benchmark setup.
 
 \subsection{H3: Explainability Accuracy (Quantitative Evaluation)}
 
 Experiment 3 provided formal quantitative evaluation of SHAP attribution accuracy using information retrieval metrics:
 
-\textbf{Result:} Perfect P@k = R@k = F1@k = 1.0 across all three controlled scenarios. The drifting features were correctly ranked as top SHAP contributors in every case. The automated prescription was correct in 3/3 cases (100\% accuracy): univariate (F3 at 52.3\% $>$ 50\% threshold), subset (F5+F2+F7 at 65\% combined), and multivariate (max single feature 14.6\% $<$ 30\% threshold). Hypothesis H3 is \textbf{strongly supported}.
+\textbf{Result:} Quantitatively, Experiment 3 yielded P@k = R@k = F1@k = 1.0 across the three controlled scenarios, with correct prescriptions in 3/3 cases. However, the aggregate hypothesis report marks H3 as \textit{partial} due to scope limitations and mixed behavior outside controlled synthetic settings.
 
 \section{Summary of Experimental Results}
 
@@ -1412,7 +1416,7 @@ Figure~\ref{fig:summary-comparison} presents an overall visual summary of detect
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.85\textwidth]{figures/summary_comparison.pdf}
-    \caption{Overall summary comparison of all eight detectors across key performance dimensions. EADD uniquely combines complete drift coverage with near-zero false alarms and feature-level explainability.}
+    \caption{Overall summary comparison of all eight detectors across key performance dimensions. The latest runs highlight a stability--sensitivity trade-off, with EADD remaining highly stable but conservative under default multi-detector settings.}
     \label{fig:summary-comparison}
 \end{figure}
 
@@ -1426,10 +1430,10 @@ Table~\ref{tab:experiment-summary} summarizes the capabilities validated across 
 \hline
 \textbf{Exp.} & \textbf{Data} & \textbf{Capability Tested} & \textbf{Key Result} \\
 \hline
-1 & Synthetic & Detection across 4 drift types (8 detectors) & EADD: 4/4 types, 0.25 mean FA. D3/SPLL: 2/4. UDetect: 0/4. IBDD: 4/4 but 46 mean FA. \\
-2 & Real-world & 11 datasets, 8 detectors & EADD: MTD=99 on WaveformDrift2 (vs D3: 179). Fewest no-GT detections (67). BNDM: timeout on 33d. \\
+1 & Synthetic & Detection across 4 drift types (8 detectors) & EADD: 0/4 types in multi-detector default setup; D3/SPLL: 2/4; BNDM/CSDDM/IBDD/OCDD: 4/4 with higher FA. \\
+2 & Real-world & 11 datasets, 8 detectors & EADD: 0 detections in current run. D3/BNDM/CSDDM/IBDD/OCDD/SPLL remain active; BNDM timeout on 33d. \\
 3 & Synthetic & SHAP attribution accuracy & P@k=R@k=F1@k=1.0 (all 3 scenarios). Prescription 3/3 correct. \\
-4 & Synthetic (stable) & False alarm suppression & EADD: 3.2 mean FA (0 on 3 of 4 types). D3: 86.4 FA on autocorrelated data. \\
+4 & Synthetic (stable) & False alarm suppression & EADD: 0.0 mean FA (0 on all 4 types). D3: 87.4 FA on autocorrelated data at $\tau=0.6$. \\
 \hline
 \end{tabular}
 \end{table}
@@ -1444,11 +1448,11 @@ Table~\ref{tab:hypothesis-summary} summarizes the hypothesis testing outcomes.
 \hline
 \textbf{Hypothesis} & \textbf{Test} & \textbf{p-value} & \textbf{Decision} \\
 \hline
-H1a: Drift type coverage & Multi-detector comparison & --- & EADD: only detector with 4/4 + $\leq$1 FA \\
-H1b: Detection delay & Pareto analysis & --- & Moderate MTD; best speed--precision trade-off \\
-H2: FA vs D3($\tau$=0.7) & Mann--Whitney U & 0.086 & Not significant \\
-H2: FA vs D3($\tau$=0.6) & Mann--Whitney U & \textbf{0.013} & \textbf{Supported} \\
-H3: SHAP attribution & P@k, R@k, F1@k & --- & \textbf{Perfect} (1.0 across all scenarios) \\
+H1a: Drift type coverage & Binomial test & 0.6875 & Not significant \\
+H1b: Detection delay & Mann--Whitney U & 0.3333 & Not significant \\
+H2: FA vs D3($\tau$=0.7) & Mann--Whitney U & 0.2266 & Not significant \\
+H2: FA vs D3($\tau$=0.6) & Mann--Whitney U & \textbf{0.0101} & \textbf{Supported} \\
+H3: SHAP attribution & Qualitative + P@k/R@k/F1@k & --- & Partial overall; perfect in controlled scenarios \\
 \hline
 \end{tabular}
 \end{table}
@@ -1467,14 +1471,14 @@ This chapter interprets the experimental results from Chapter~\ref{chap:results}
 The multi-detector experiments provide a nuanced answer: EADD is not the \textit{fastest} detector, but it achieves the best \textit{balance} of coverage, speed, and false alarm control across all eight detectors tested.
 
 \begin{itemize}
-    \item \textbf{Synthetic Data (Experiment 1):} EADD achieved complete drift coverage (4/4 types, MDR = 0) with near-zero false alarms (1 total across all types). Five detectors achieved 4/4 coverage (EADD, BNDM, CSDDM, IBDD, OCDD), but the others paid a heavy false alarm cost: IBDD averaged 46.25 false alarms per type, OCDD 17.5, CSDDM 5.5, and BNDM 4.75. D3 and SPLL both detected only 2/4 types (failing on gradual and incremental drift), while UDetect failed on all four types.
+    \item \textbf{Synthetic Data (Experiment 1 vs Experiment 5):} Results diverged by protocol. In the focused two-detector temporal-pattern setting (Experiment 1), EADD achieved complete coverage (4/4 types) with zero false alarms. In the multi-detector default benchmark (Experiment 5), EADD did not trigger, while BNDM, CSDDM, IBDD, and OCDD detected all four types with higher false alarm counts.
     
-    \item \textbf{Real-World Data (Experiment 2):} Across 11 real-world datasets, EADD demonstrated strong selective performance. On WaveformDrift2, EADD achieved a 44.7\% faster MTD than D3 (99 vs 179 samples) with zero false alarms. On no-ground-truth datasets, EADD produced the fewest total detections (67) among functional detectors, indicating high selectivity. BNDM timed out on all 33-feature datasets, revealing a critical scalability limitation. IBDD produced 1{,}672 total detections on no-ground-truth datasets---an impractical false alarm rate.
+    \item \textbf{Real-World Data (Experiment 2/6):} Across 11 real-world datasets, EADD remained highly conservative and produced zero detections in the current run. Other detectors remained active (for example, D3 and SPLL on known-drift datasets), while BNDM timed out on all 33-feature datasets, revealing a scalability limitation. IBDD again produced very high detection counts (1{,}672 on no-ground-truth datasets), indicating over-sensitivity.
     
-    \item \textbf{Key Limitation:} InsectsGradual proved challenging for EADD (MDR = 1.0), which was shared with D3, BNDM, OCDD, and UDetect. Only CSDDM, IBDD, and SPLL detected this dataset's drift, though with correspondingly higher false alarm rates on other datasets.
+    \item \textbf{Key Limitation:} Under default benchmark settings, EADD appears over-conservative in both synthetic multi-detector and real-world multi-detector evaluations, suggesting that calibration settings should be tuned before deployment.
 \end{itemize}
 
-The advantage of EADD over D3 stems from two design choices: (1) LightGBM captures non-linear feature interactions that D3's logistic regression misses, particularly important for gradual and incremental drift where distributional changes are subtle, and (2) reservoir sampling provides a more representative historical baseline. The advantage over high-sensitivity detectors like IBDD stems from the permutation test: IBDD triggers on any distributional fluctuation (producing 46 false alarms per synthetic drift type), while EADD's permutation test filters out non-significant fluctuations.
+The current evidence supports EADD's strength in false-alarm suppression and explainability, but not universal sensitivity. This suggests that the LightGBM + ASPT stack needs operating-point recalibration (windowing, thresholding, and significance settings) to maintain detection power on more challenging benchmark streams.
 
 \subsection{RQ2: Explainability}
 
@@ -1499,13 +1503,13 @@ This represents the fundamental differentiation of EADD from all other evaluated
 Experiments 1 and 4 together demonstrate a dramatic improvement in robustness:
 
 \begin{itemize}
-    \item \textbf{False Alarm Reduction on Stable Data (Experiment 4):} EADD produced near-zero false alarms across all four stable stream types (zero on three types, mean 3.2 on heteroscedastic data), compared to D3's substantial false alarm rates---particularly 86.4 mean false alarms on autocorrelated data at $\tau=0.6$, and 58.8 even at $\tau=0.7$.
+    \item \textbf{False Alarm Reduction on Stable Data (Experiment 4):} EADD produced zero false alarms across all four stable stream types, compared to D3's substantial false alarm rates---particularly 87.4 mean false alarms on autocorrelated data at $\tau=0.6$, and 54.6 at $\tau=0.7$.
     
-    \item \textbf{False Alarm Discipline on Drift Data (Experiment 1):} The multi-detector comparison confirmed EADD's superiority on data with actual drift. EADD produced only 1 total false alarm across all 4 drift types. By contrast, IBDD produced 185 total false alarms, OCDD produced 70, CSDDM produced 22, and BNDM produced 19---despite all four successfully detecting all drift types.
+    \item \textbf{False Alarm Discipline on Drift Data (Experiment 5):} Multi-detector synthetic results continued to show high false-alarm costs for highly sensitive detectors (e.g., IBDD, OCDD), while EADD remained conservative and did not trigger.
     
-    \item \textbf{Real-World Selectivity (Experiment 2):} On 7 no-ground-truth datasets, EADD produced only 67 total detections---the lowest among all functional detectors. IBDD produced 1{,}672, OCDD 439, CSDDM 277, and SPLL 102. Even D3 produced more (80).
+    \item \textbf{Real-World Selectivity (Experiment 2):} On 7 no-ground-truth datasets, EADD produced 0 detections in the current run. IBDD produced 1{,}672, OCDD 439, CSDDM 277, and SPLL 102; D3 produced 80.
     
-    \item \textbf{Statistical Validation (H2):} The Mann--Whitney U test confirmed that EADD's false alarm rate was significantly lower than D3's at $\tau=0.6$ ($p = 0.013$).
+    \item \textbf{Statistical Validation (H2):} The Mann--Whitney U test confirmed that EADD's false alarm rate was significantly lower than D3's at $\tau=0.6$ ($p = 0.0101$).
     
     \item \textbf{Mechanism:} The permutation test acts as a statistical ``filter'' that suppresses AUC spikes caused by temporal autocorrelation or random distributional fluctuations. Autocorrelated streams create window-to-window differences that inflate AUC scores, which pass D3's fixed threshold but fail EADD's permutation test because the shuffled-label classifiers achieve similarly inflated AUC values.
 \end{itemize}
@@ -1597,9 +1601,9 @@ EADD's approach to automated prescriptions also aligns with emerging domain-spec
 
 \section{Limitations and Threats to Validity}
 
-\textbf{Covariate Drift Only:} EADD detects feature drift ($P(X)$ changes) but cannot directly detect pure concept drift ($P(y|X)$ changes with stable $P(X)$). This was illustrated by InsectsGradual in Experiment~2, where EADD (along with D3, BNDM, OCDD, and UDetect) missed the annotated drift point. The hierarchical decomposition of \citet{HDPD2024} addresses this gap but requires labelled data.
+\textbf{Covariate Drift Only:} EADD detects feature drift ($P(X)$ changes) but cannot directly detect pure concept drift ($P(y|X)$ changes with stable $P(X)$). The current runs also indicate conservative behavior that can suppress true positives under some configurations. The hierarchical decomposition of \citet{HDPD2024} addresses this gap but requires labelled data.
 
-\textbf{Computational Overhead:} Despite ASPT's early-stopping mechanism reducing the mean number of permutations to 12--15 (from a fixed budget of 50), EADD remains computationally heavier than threshold-based methods. Experiment~2 showed EADD processing datasets in 5--15 seconds vs D3's 0.05--0.5 seconds. The embarrassingly parallel nature of the permutation test enables distribution across compute clusters for high-velocity applications.
+\textbf{Computational Overhead:} Despite ASPT's early-stopping mechanism, EADD remains computationally heavier than threshold-based methods. Experiment~2 showed EADD processing datasets in tens to hundreds of seconds on larger streams, versus sub-second to low-second processing for D3 on the same machine. The embarrassingly parallel nature of the permutation test enables distribution across compute clusters for high-velocity applications.
 
 \textbf{Correlational Attribution:} EADD's SHAP-based explanations are correlational rather than causal \citep{CausalDrift2025}. In production settings, this may occasionally direct attention to symptomatic rather than root-cause features. Causal drift attribution \citep{CausalDrift2025} addresses this but requires causal graph knowledge.
 
@@ -1607,13 +1611,13 @@ EADD's approach to automated prescriptions also aligns with emerging domain-spec
 
 \textbf{Sample Size for H3:} The explainability hypothesis (H3) was evaluated across 3 controlled scenarios, achieving perfect P@k = R@k = F1@k = 1.0. While the result is strong, the small number of scenarios ($n=3$) limits generalisability.
 
-\textbf{Gradual Drift Sensitivity:} EADD missed the InsectsGradual drift point (MDR = 1.0), suggesting that the current window configuration may need adjustment for extremely gradual real-world drift. The synthetic gradual drift was detected (MTD = 849), but the real-world gradual drift proved more challenging.
+\textbf{Sensitivity Calibration:} EADD missed annotated drifts in the current multi-detector benchmark configuration, suggesting that windowing and decision thresholds require further calibration for real-world conditions.
 
 \textbf{Adversarial Vulnerability:} \citet{AdvAttackDrift2024} demonstrated that discriminative drift detectors can be evaded by adversarial data streams. EADD inherits this vulnerability through its LightGBM-based adversarial classification.
 
 \section{Chapter Summary}
 
-The experimental results provide evidence supporting all three research questions. The multi-detector comparison across eight detectors revealed that EADD uniquely combines complete drift coverage (4/4 types, MDR = 0) with near-zero false alarms ($\leq 1$ across all synthetic experiments) and feature-level explainability (RQ1). EADD's four methodological contributions each addressed a distinct limitation: PUI provided entropy-based early-warning signals for emerging distributional instabilities; ASPT reduced computational overhead by up to 70\% while maintaining Type~I error control; SHAP interaction values enabled correlated feature drift diagnosis invisible to marginal attribution; and the DSI provided a continuous severity metric replacing heuristic thresholds. EADD achieved perfect SHAP attribution accuracy (P@k = R@k = F1@k = 1.0) with 100\% prescription accuracy across all controlled scenarios, making it the only detector among all eight that provides root cause analysis (RQ2). The ASPT provided the best false alarm control of any detector: 3.2 mean false alarms on stable data (zero on 3 of 4 stream types) vs D3's 86.4, and 1 total false alarm on drift data vs IBDD's 185 (RQ3). Hypothesis H2 was confirmed with statistical significance ($p = 0.013$ vs D3 at $\tau=0.6$), and H3 was confirmed quantitatively with perfect P@k scores.
+The experimental results provide mixed evidence across research questions. EADD consistently demonstrated strong false-alarm suppression and explainability in controlled settings (RQ2 and RQ3), including zero false alarms on stable streams and perfect P@k/R@k/F1@k in Experiment 3. However, cross-benchmark sensitivity was inconsistent: EADD performed strongly in focused temporal-pattern runs but remained over-conservative in multi-detector benchmark settings, motivating additional calibration work for RQ1. Hypothesis H2 was confirmed with statistical significance ($p = 0.0101$ vs D3 at $\tau=0.6$), while H1 and H3 were not uniformly supported across all evaluation contexts.
 
 \addtocontents{toc}{\protect\newpage}
 
@@ -1634,13 +1638,13 @@ We introduced \textbf{Explainable Adversarial Drift Detection (EADD)}, a framewo
 
 The experimental evaluation (Chapter~\ref{chap:results}) validated EADD across four experiments against seven state-of-the-art unsupervised baselines:
 \begin{itemize}
-    \item \textbf{Experiment 1:} Multi-detector comparison across 4 synthetic drift types and 8 detectors. EADD was the \textit{only} detector achieving complete coverage (4/4 types, MDR = 0) with near-zero false alarms ($\leq 1$). Five detectors achieved 4/4 coverage, but the others produced 4.75--46.25 mean false alarms per type. D3, SPLL, and UDetect failed on 2--4 drift types.
-    \item \textbf{Experiment 2:} All 8 detectors were benchmarked on 11 real-world datasets. EADD achieved the best MTD on WaveformDrift2 (99 vs D3's 179, 44.7\% faster) with zero false alarms, and produced the fewest detections on no-ground-truth datasets (67 total). BNDM timed out on all 33-feature datasets. IBDD produced 1{,}672 excess detections.
+    \item \textbf{Experiment 1/5:} Synthetic drift evaluation showed protocol-dependent outcomes: EADD was successful in focused temporal-pattern testing but conservative in the multi-detector default benchmark, while BNDM/CSDDM/IBDD/OCDD retained broad sensitivity at higher false alarm cost.
+    \item \textbf{Experiment 2/6:} In the 11-dataset real-world benchmark, EADD produced no detections in the current configuration, while several baselines remained active. BNDM timed out on high-dimensional streams; IBDD produced 1{,}672 excess detections.
     \item \textbf{Experiment 3:} SHAP-based feature attribution achieved \textit{perfect} quantitative accuracy: P@k = R@k = F1@k = 1.0 across all three controlled scenarios (univariate, subset, multivariate). Automated prescription accuracy was 100\% (3/3 correct). AUC values ranged from 0.784 to 0.809.
-    \item \textbf{Experiment 4:} EADD produced a mean of 3.2 false alarms across 4 stable stream types (zero on 3 of 4 types, including autocorrelated data), compared to D3's 86.4 mean false alarms on autocorrelated data at $\tau=0.6$.
+    \item \textbf{Experiment 4:} EADD produced 0.0 mean false alarms across 4 stable stream types, compared to D3's 87.4 mean false alarms on autocorrelated data at $\tau=0.6$.
 \end{itemize}
 
-Statistical hypothesis testing confirmed that EADD produces significantly fewer false alarms than D3 at $\tau=0.6$ (Mann--Whitney $p = 0.013$), with EADD demonstrating the best false alarm control of all eight detectors tested. The multi-detector comparison established that no other detector matches EADD's combination of complete drift coverage, false alarm discipline, and explainability.
+Statistical hypothesis testing confirmed that EADD produces significantly fewer false alarms than D3 at $\tau=0.6$ (Mann--Whitney $p = 0.0101$), with EADD demonstrating strong false alarm control. At the same time, the multi-detector benchmark exposed reduced sensitivity under default settings, indicating that calibration is essential before claiming uniformly superior detection coverage.
 
 \section{Implications for MLOps}
 
@@ -1698,4 +1702,4 @@ Based on the experimental findings and the rapidly evolving literature, future r
 
 \section{Concluding Remarks}
 
-This thesis has advanced the discriminative drift detection paradigm through four specific methodological contributions: the Prediction Uncertainty Index for entropy-based early warning, adaptive sequential permutation testing for computationally efficient significance calibration, SHAP interaction-aware drift localisation for correlated feature diagnosis, and the Drift Severity Index for continuous, theoretically motivated severity quantification. The experimental evaluation across synthetic and real-world datasets against seven state-of-the-art baselines confirmed that EADD is the only detector combining complete drift coverage (4/4 types), near-zero false alarms ($\leq 1$ on drift data, 3.2 mean on stable data), and feature-level attribution with perfect accuracy (P@k = R@k = F1@k = 1.0). By answering ``Is drift emerging?'', ``Is it statistically significant?'', ``What caused it?'', and ``How severe is it?'', EADD transforms drift detection from a passive binary alarm into an active diagnostic system with severity-proportional automated prescriptions for production MLOps environments.
+This thesis has advanced the discriminative drift detection paradigm through four specific methodological contributions: the Prediction Uncertainty Index for entropy-based early warning, adaptive sequential permutation testing for computationally efficient significance calibration, SHAP interaction-aware drift localisation for correlated feature diagnosis, and the Drift Severity Index for continuous, theoretically motivated severity quantification. The latest experimental evaluation confirms EADD's strong false-alarm suppression and high-quality attribution in controlled settings, while also revealing conservative detection behavior in multi-detector benchmark configurations. By answering ``Is drift emerging?'', ``Is it statistically significant?'', ``What caused it?'', and ``How severe is it?'' in a unified framework, EADD provides a practical diagnostic foundation for production MLOps, with calibration identified as the primary next step for broader sensitivity.
