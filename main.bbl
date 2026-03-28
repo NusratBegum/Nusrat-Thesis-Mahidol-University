@@ -2,57 +2,72 @@
 
 \bibitem[Abdi et~al., 2024]{CDSeer2024}
 Abdi, A., Soleymani, R., and K{\"a}m{\"a}r{\"a}inen, J. (2024).
-\newblock {CDSeer}: A model-agnostic semi-supervised concept drift detection technique.
+\newblock {CDSeer}: A model-agnostic semi-supervised concept drift detection
+  technique.
 \newblock {\em arXiv preprint arXiv:2410.09190}.
 \newblock \url{https://arxiv.org/abs/2410.09190}.
 
 \bibitem[Alam et~al., 2026]{DriftGuard2026}
 Alam, S., Rahman, M.~A., and Sadeqa, B. (2026).
-\newblock {DriftGuard}: A hierarchical framework for concept drift detection and remediation in supply chain forecasting.
+\newblock {DriftGuard}: A hierarchical framework for concept drift detection
+  and remediation in supply chain forecasting.
 \newblock arXiv preprint arXiv:2601.08928.
 
 \bibitem[{Amazon Web Services}, 2025]{AWSSageMaker2025}
 {Amazon Web Services} (2025).
-\newblock Feature attribution drift for models in production -- {Amazon SageMaker AI}.
-\newblock \url{https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-model-monitor-feature-attribution-drift.html}.
+\newblock Feature attribution drift for models in production -- {Amazon
+  SageMaker AI}.
+\newblock
+  \url{https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-model-monitor-feature-attribution-drift.html}.
 \newblock Accessed: 2026-02-25.
 
 \bibitem[Baena-Garc{\'i}a et~al., 2006]{BaenaGarcia2006}
-Baena-Garc{\'i}a, M., del Campo-{\'A}vila, J., Fidalgo, R., Bifet, A., Gavald{\`a}, R., and Morales-Bueno, R. (2006).
+Baena-Garc{\'i}a, M., del Campo-{\'A}vila, J., Fidalgo, R., Bifet, A.,
+  Gavald{\`a}, R., and Morales-Bueno, R. (2006).
 \newblock Early drift detection method.
-\newblock In {\em Proceedings of the Fourth International Workshop on Knowledge Discovery from Data Streams (IWKDDS)}, pages 77--86.
+\newblock In {\em Proceedings of the Fourth International Workshop on Knowledge
+  Discovery from Data Streams (IWKDDS)}, pages 77--86.
 
 \bibitem[Bayram et~al., 2022]{Bayram2022}
 Bayram, F., Ahmed, B.~S., and Kassler, A. (2022).
-\newblock From concept drift to model degradation: An overview on performance-aware drift detectors.
+\newblock From concept drift to model degradation: An overview on
+  performance-aware drift detectors.
 \newblock {\em Knowledge-Based Systems}, 245:108632.
 \newblock Authors verified: F. Bayram, B.S. Ahmed, A. Kassler.
 
 \bibitem[Bifet and Gavald{\`a}, 2007]{BifetGavalda2007}
 Bifet, A. and Gavald{\`a}, R. (2007).
 \newblock Learning from time-changing data with adaptive windowing.
-\newblock In {\em Proceedings of the 2007 SIAM International Conference on Data Mining (SDM)}, pages 443--448. SIAM.
+\newblock In {\em Proceedings of the 2007 SIAM International Conference on Data
+  Mining (SDM)}, pages 443--448. SIAM.
 
 \bibitem[Cerqueira et~al., 2022]{STUDD2022}
 Cerqueira, V., Gomes, H.~M., and Bifet, A. (2022).
-\newblock {STUDD}: A student--teacher method for unsupervised concept drift detection.
+\newblock {STUDD}: A student--teacher method for unsupervised concept drift
+  detection.
 \newblock {\em Machine Learning}, 112:4351--4378.
 
 \bibitem[Dasu et~al., 2006]{Dasu2006}
 Dasu, T., Krishnan, S., Venkatasubramanian, S., and Yi, K. (2006).
-\newblock An information-theoretic approach to detecting changes in multi-dimensional data streams.
-\newblock In {\em Proceedings of the 38th Symposium on the Interface of Statistics, Computing Science, and Applications}.
+\newblock An information-theoretic approach to detecting changes in
+  multi-dimensional data streams.
+\newblock In {\em Proceedings of the 38th Symposium on the Interface of
+  Statistics, Computing Science, and Applications}.
 
 \bibitem[Decker et~al., 2024]{XPE2024}
-Decker, M., Koebler, L., Lebacher, F., Thon, I., Tresp, V., and Buettner, R. (2024).
-\newblock Explanatory model monitoring to understand the effects of feature shifts on performance.
+Decker, M., Koebler, L., Lebacher, F., Thon, I., Tresp, V., and Buettner, R.
+  (2024).
+\newblock Explanatory model monitoring to understand the effects of feature
+  shifts on performance.
 \newblock {\em arXiv preprint arXiv:2408.13648}.
 \newblock \url{https://arxiv.org/abs/2408.13648}.
 
 \bibitem[Ditzler and Polikar, 2011]{DitzlerPolikar2011}
 Ditzler, G. and Polikar, R. (2011).
-\newblock Hellinger distance based drift detection for nonstationary environments.
-\newblock In {\em IEEE Symposium on Computational Intelligence in Dynamic and Uncertain Environments (CIDUE)}, pages 41--48.
+\newblock Hellinger distance based drift detection for nonstationary
+  environments.
+\newblock In {\em IEEE Symposium on Computational Intelligence in Dynamic and
+  Uncertain Environments (CIDUE)}, pages 41--48.
 
 \bibitem[Ditzler et~al., 2015]{Ditzler2015}
 Ditzler, G., Roveri, M., Alippi, C., and Polikar, R. (2015).
@@ -66,30 +81,39 @@ Edakunni, N., Tekriwal, K., and Jain, A. (2024).
 \newblock \url{https://arxiv.org/abs/2401.09756}.
 
 \bibitem[Feng et~al., 2024]{HDPD2024}
-Feng, J., Phillips, R.~V., Malenica, I., Bishara, A., Hubbard, A.~E., and van~der Laan, M.~J. (2024).
-\newblock A hierarchical decomposition for explaining {ML} performance discrepancies.
-\newblock In {\em Advances in Neural Information Processing Systems 37 (NeurIPS)}.
+Feng, J., Singh, H., Xia, F., Subbaswamy, A., and Gossmann, A. (2024).
+\newblock A hierarchical decomposition for explaining {ML} performance
+  discrepancies.
+\newblock In {\em Advances in Neural Information Processing Systems 37
+  (NeurIPS)}.
 \newblock \url{https://arxiv.org/abs/2402.14254}.
 
 \bibitem[Frias-Blanco et~al., 2015]{FriasBlanco2015}
-Frias-Blanco, I., del Campo-{\'A}vila, J., Ramos-Jim{\'e}nez, G., Morales-Bueno, R., Ortiz-D{\'i}az, A., and Caballero-Mota, Y. (2015).
-\newblock Online and non-parametric drift detection methods based on {Hoeffding}'s bounds.
-\newblock {\em IEEE Transactions on Knowledge and Data Engineering}, 27(3):810--823.
+Frias-Blanco, I., del Campo-{\'A}vila, J., Ramos-Jim{\'e}nez, G.,
+  Morales-Bueno, R., Ortiz-D{\'i}az, A., and Caballero-Mota, Y. (2015).
+\newblock Online and non-parametric drift detection methods based on
+  {Hoeffding}'s bounds.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  27(3):810--823.
 
 \bibitem[Gama et~al., 2004]{Gama2004}
 Gama, J., Medas, P., Castillo, G., and Rodrigues, P. (2004).
 \newblock Learning with drift detection.
-\newblock In {\em Advances in Artificial Intelligence -- SBIA 2004}, volume 3171 of {\em LNCS}, pages 286--295. Springer.
+\newblock In {\em Advances in Artificial Intelligence -- SBIA 2004}, volume
+  3171 of {\em LNCS}, pages 286--295. Springer.
 
 \bibitem[Gama et~al., 2014]{Gama2014}
-Gama, J., {\v Z}liobait{\.e}, I., Bifet, A., Pechenizkiy, M., and Bouchachia, A. (2014).
+Gama, J., {\v Z}liobait{\.e}, I., Bifet, A., Pechenizkiy, M., and Bouchachia,
+  A. (2014).
 \newblock A survey on concept drift adaptation.
 \newblock {\em ACM Computing Surveys}, 46(4):1--37.
 
 \bibitem[Gandy, 2009]{Gandy2009}
 Gandy, A. (2009).
-\newblock Sequential implementation of {Monte Carlo} tests with uniformly bounded resampling risk.
-\newblock {\em Journal of the American Statistical Association}, 104(488):1504--1511.
+\newblock Sequential implementation of {Monte Carlo} tests with uniformly
+  bounded resampling risk.
+\newblock {\em Journal of the American Statistical Association},
+  104(488):1504--1511.
 
 \bibitem[Good, 2005]{Good2005}
 Good, P.~I. (2005).
@@ -98,34 +122,42 @@ Good, P.~I. (2005).
 
 \bibitem[Goodman and Flaxman, 2017]{GoodmanFlaxman2017}
 Goodman, B. and Flaxman, S. (2017).
-\newblock European union regulations on algorithmic decision making and a ``right to explanation''.
+\newblock European union regulations on algorithmic decision making and a
+  ``right to explanation''.
 \newblock {\em AI Magazine}, 38(3):50--57.
 
 \bibitem[G{\"o}z{\"u}a{\c c}{\i}k et~al., 2019]{Gozuacik2019}
-G{\"o}z{\"u}a{\c c}{\i}k, {\"O}., B{\"u}y{\"u}k{\c c}ak{\i}r, A., Bonab, H., and Can, F. (2019).
-\newblock Unsupervised concept drift detection with a discriminative classifier.
-\newblock In {\em Proceedings of the 28th ACM International Conference on Information and Knowledge Management (CIKM)}, pages 2365--2368.
+G{\"o}z{\"u}a{\c c}{\i}k, {\"O}., B{\"u}y{\"u}k{\c c}ak{\i}r, A., Bonab, H.,
+  and Can, F. (2019).
+\newblock Unsupervised concept drift detection with a discriminative
+  classifier.
+\newblock In {\em Proceedings of the 28th ACM International Conference on
+  Information and Knowledge Management (CIKM)}, pages 2365--2368.
 
 \bibitem[G{\"{o}}z{\"{u}}a{\c{c}}{\i}k and Can, 2021]{OCDD2021}
 G{\"{o}}z{\"{u}}a{\c{c}}{\i}k, {\"{O}}. and Can, F. (2021).
-\newblock Concept learning using one-class classifiers for implicit drift detection in evolving data streams.
+\newblock Concept learning using one-class classifiers for implicit drift
+  detection in evolving data streams.
 \newblock {\em Artificial Intelligence Review}, 54(5):3725--3747.
 
 \bibitem[Greco et~al., 2024]{DriftLens2024}
 Greco, S., Vacchetti, B., Apiletti, D., and Cerquitelli, T. (2024).
-\newblock {DriftLens}: Real-time unsupervised concept drift detection by evaluating per-label embedding distributions.
+\newblock {DriftLens}: Real-time unsupervised concept drift detection by
+  evaluating per-label embedding distributions.
 \newblock {\em arXiv preprint arXiv:2406.17813}.
 \newblock \url{https://arxiv.org/abs/2406.17813}.
 
 \bibitem[Gretton et~al., 2012]{Gretton2012}
-Gretton, A., Borgwardt, K.~M., Rasch, M.~J., Sch{\"o}lkopf, B., and Smola, A. (2012).
+Gretton, A., Borgwardt, K.~M., Rasch, M.~J., Sch{\"o}lkopf, B., and Smola, A.
+  (2012).
 \newblock A kernel two-sample test.
 \newblock {\em Journal of Machine Learning Research}, 13(25):723--773.
 
 \bibitem[Guo et~al., 2017]{Guo2017}
 Guo, C., Pleiss, G., Sun, Y., and Weinberger, K.~Q. (2017).
 \newblock On calibration of modern neural networks.
-\newblock In {\em Proceedings of the 34th International Conference on Machine Learning (ICML)}, volume~70 of {\em PMLR}, pages 1321--1330.
+\newblock In {\em Proceedings of the 34th International Conference on Machine
+  Learning (ICML)}, volume~70 of {\em PMLR}, pages 1321--1330.
 
 \bibitem[Harries, 1999]{Harries1999}
 Harries, M. (1999).
@@ -136,11 +168,13 @@ Harries, M. (1999).
 Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024a).
 \newblock Adversarial attacks for drift detection.
 \newblock {\em arXiv preprint arXiv:2411.16591}.
-\newblock Extended version of ESANN 2024 paper. \url{https://arxiv.org/abs/2411.16591}.
+\newblock Extended version of ESANN 2024 paper.
+  \url{https://arxiv.org/abs/2411.16591}.
 
 \bibitem[Hinder et~al., 2024b]{Hinder2024}
 Hinder, F., Vaquet, V., Brinkrolf, J., and Hammer, B. (2024b).
-\newblock One or two things we know about concept drift---a survey on monitoring in evolving environments.
+\newblock One or two things we know about concept drift---a survey on
+  monitoring in evolving environments.
 \newblock {\em Frontiers in Artificial Intelligence}, 7:1330257.
 
 \bibitem[Hinder et~al., 2024c]{HinderFeature2024}
@@ -149,41 +183,50 @@ Hinder, F., Vaquet, V., and Hammer, B. (2024c).
 \newblock {\em Neurocomputing}, 600:127968.
 
 \bibitem[Ke et~al., 2017]{Ke2017}
-Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu, T.-Y. (2017).
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., and Liu,
+  T.-Y. (2017).
 \newblock {LightGBM}: A highly efficient gradient boosting decision tree.
-\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, volume~30, pages 3146--3154.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)},
+  volume~30, pages 3146--3154.
 
 \bibitem[Komnick et~al., 2025]{CausalDrift2025}
 Komnick, L., Lammers, T., Hammer, B., Vaquet, V., and Hinder, F. (2025).
 \newblock Causal explanation of concept drift---a truly actionable approach.
-\newblock In {\em Machine Learning and Knowledge Discovery in Databases (ECMLPKDD)}.
+\newblock In {\em Machine Learning and Knowledge Discovery in Databases
+  (ECMLPKDD)}.
 \newblock \url{https://arxiv.org/abs/2507.23389}.
 
 \bibitem[Krawczyk et~al., 2017]{Krawczyk2017}
-Krawczyk, B., Minku, L.~L., Gama, J., Stefanowski, J., and Wo{\'z}niak, M. (2017).
+Krawczyk, B., Minku, L.~L., Gama, J., Stefanowski, J., and Wo{\'z}niak, M.
+  (2017).
 \newblock Ensemble learning for data stream analysis: A survey.
 \newblock {\em Information Fusion}, 37:132--156.
 
 \bibitem[Kuncheva, 2013]{SPLL2013}
 Kuncheva, L.~I. (2013).
-\newblock Change detection in streaming multivariate data using likelihood detectors.
-\newblock {\em IEEE Transactions on Knowledge and Data Engineering}, 25(5):1175--1180.
+\newblock Change detection in streaming multivariate data using likelihood
+  detectors.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  25(5):1175--1180.
 \newblock Semi-Parametric Log-Likelihood (SPLL) detector.
 
 \bibitem[Liu et~al., 2018]{NNDVI2018}
 Liu, A., Song, Y., Zhang, G., and Lu, J. (2018).
-\newblock Accumulating regional density dissimilarity for concept drift detection in data streams.
+\newblock Accumulating regional density dissimilarity for concept drift
+  detection in data streams.
 \newblock {\em Pattern Recognition}, 76:256--272.
 
 \bibitem[Liu et~al., 2020]{Liu2020}
 Liu, F., Xu, W., Lu, J., Zhang, G., Gretton, A., and Sutherland, D.~J. (2020).
 \newblock Learning deep kernels for non-parametric two-sample tests.
-\newblock In {\em International Conference on Machine Learning (ICML)}, volume 119 of {\em PMLR}, pages 6316--6326.
+\newblock In {\em International Conference on Machine Learning (ICML)}, volume
+  119 of {\em PMLR}, pages 6316--6326.
 
 \bibitem[Long et~al., 2016]{Long2016}
 Long, M., Zhu, H., Wang, J., and Jordan, M.~I. (2016).
 \newblock Unsupervised domain adaptation with residual transfer networks.
-\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, volume~29.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)},
+  volume~29.
 
 \bibitem[Lopez-Paz and Oquab, 2017]{LopezPazOquab2017}
 Lopez-Paz, D. and Oquab, M. (2017).
@@ -193,38 +236,49 @@ Lopez-Paz, D. and Oquab, M. (2017).
 \bibitem[Lu et~al., 2018]{Lu2018}
 Lu, J., Liu, A., Dong, F., Gu, F., Gama, J., and Zhang, G. (2018).
 \newblock Learning under concept drift: A review.
-\newblock {\em IEEE Transactions on Knowledge and Data Engineering}, 31(12):2346--2363.
+\newblock {\em IEEE Transactions on Knowledge and Data Engineering},
+  31(12):2346--2363.
 
 \bibitem[Lukats et~al., 2024]{Lukats2024}
 Lukats, D., Zielinski, O., Hahn, A., and Stahl, F. (2024).
-\newblock A benchmark and survey of fully unsupervised concept drift detectors on real-world data streams.
+\newblock A benchmark and survey of fully unsupervised concept drift detectors
+  on real-world data streams.
 \newblock {\em International Journal of Data Science and Analytics}, 19:1--31.
 
 \bibitem[Lundberg et~al., 2020]{LundbergInteraction2020}
-Lundberg, S.~M., Erion, G., Chen, H., DeGrave, A., Prutkin, J.~M., Nair, B., Katz, R., Himmelfarb, J., Bansal, N., and Lee, S.-I. (2020).
-\newblock From local explanations to global understanding with explainable {AI} for trees.
+Lundberg, S.~M., Erion, G., Chen, H., DeGrave, A., Prutkin, J.~M., Nair, B.,
+  Katz, R., Himmelfarb, J., Bansal, N., and Lee, S.-I. (2020).
+\newblock From local explanations to global understanding with explainable {AI}
+  for trees.
 \newblock {\em Nature Machine Intelligence}, 2:56--67.
 
 \bibitem[Lundberg and Lee, 2017]{Lundberg2017}
 Lundberg, S.~M. and Lee, S.-I. (2017).
 \newblock A unified approach to interpreting model predictions.
-\newblock In {\em Advances in Neural Information Processing Systems 30 (NIPS)}, pages 4765--4774.
+\newblock In {\em Advances in Neural Information Processing Systems 30 (NIPS)},
+  pages 4766--4777.
 
 \bibitem[Lyu et~al., 2025]{SGShift2025}
-Lyu, R., Turcan, T., and Wilder, B. (2025).
+Lyu, R., Turcan, A., and Wilder, B. (2025).
 \newblock Explaining concept shift with interpretable feature attribution.
 \newblock {\em arXiv preprint arXiv:2505.20634}.
 \newblock \url{https://arxiv.org/abs/2505.20634}.
 
 \bibitem[Nestor et~al., 2019]{NestorEtAl2019}
-Nestor, B., McDermott, M. B.~A., Boag, W., Berner, G., Naumann, T., Hughes, M.~C., Goldenberg, A., and Ghassemi, M. (2019).
-\newblock Feature robustness in non-stationary health records: Caveats to deployable model performance in common clinical machine learning tasks.
-\newblock {\em Proceedings of Machine Learning Research (ML4H at NeurIPS)}, 106:1--23.
+Nestor, B., McDermott, M. B.~A., Boag, W., Berner, G., Naumann, T., Hughes,
+  M.~C., Goldenberg, A., and Ghassemi, M. (2019).
+\newblock Feature robustness in non-stationary health records: Caveats to
+  deployable model performance in common clinical machine learning tasks.
+\newblock {\em Proceedings of Machine Learning Research (ML4H at NeurIPS)},
+  106:1--23.
 
 \bibitem[Ovadia et~al., 2019]{Ovadia2019}
-Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon, J., Lakshminarayanan, B., and Snoek, J. (2019).
-\newblock Can you trust your model's uncertainty? evaluating predictive uncertainty under dataset shift.
-\newblock In {\em Advances in Neural Information Processing Systems 32 (NeurIPS)}, pages 13991--14002.
+Ovadia, Y., Fertig, E., Ren, J., Nado, Z., Sculley, D., Nowozin, S., Dillon,
+  J., Lakshminarayanan, B., and Snoek, J. (2019).
+\newblock Can you trust your model's uncertainty? evaluating predictive
+  uncertainty under dataset shift.
+\newblock In {\em Advances in Neural Information Processing Systems 32
+  (NeurIPS)}, pages 13991--14002.
 
 \bibitem[Page, 1954]{Page1954}
 Page, E.~S. (1954).
@@ -233,21 +287,30 @@ Page, E.~S. (1954).
 
 \bibitem[Pan et~al., 2020]{Pan2020}
 Pan, J., Pham, V., Dorairaj, M., Chen, H., and Lee, J.-Y. (2020).
-\newblock Adversarial validation approach to concept drift problem in user targeting automation systems at {Uber}.
+\newblock Adversarial validation approach to concept drift problem in user
+  targeting automation systems at {Uber}.
 \newblock In {\em Proceedings of the AdKDD Workshop at KDD}.
 \newblock arXiv:2004.03045.
 
 \bibitem[Panda et~al., 2024]{TRIPODD2024}
 Panda, P., Kancheti, S.~S., Balasubramanian, V.~N., and Sinha, G. (2024).
 \newblock Interpretable model drift detection.
-\newblock In {\em Proceedings of the 7th Joint International Conference on Data Science and Management of Data (ACM IKDD CODS-COMAD)}.
-\newblock TRIPODD: feature-inTeraction awaRe InterPretable mOdel Drift Detection. Extended version: arXiv:2503.06606.
+\newblock In {\em Proceedings of the 7th Joint International Conference on Data
+  Science and Management of Data (ACM IKDD CODS-COMAD)}.
+\newblock TRIPODD: feature-inTeraction awaRe InterPretable mOdel Drift
+  Detection. Extended version: arXiv:2503.06606.
 
 \bibitem[Pandeva et~al., 2024]{EC2ST2024}
 Pandeva, T., Bakker, T., Naesseth, C.~A., and Forr{\'e}, P. (2024).
 \newblock E-valuating classifier two-sample tests.
 \newblock {\em Transactions on Machine Learning Research}.
 \newblock arXiv:2210.13027. \url{https://openreview.net/forum?id=dwFRov8xhr}.
+
+\bibitem[Pelosi et~al., 2025]{XAIDriftSurvey2025}
+Pelosi, D., Cacciagrano, D., and Piangerelli, M. (2025).
+\newblock Explainability and interpretability in concept and data drift: A
+  systematic literature review.
+\newblock {\em Algorithms}, 18(7):443.
 
 \bibitem[Qian et~al., 2021]{Qian2021}
 Qian, H., Wang, B., Ma, P., Peng, L., Gao, S., and Song, Y. (2021).
@@ -261,33 +324,42 @@ Raab, C., Heusinger, M., and Schleif, F.-M. (2020).
 
 \bibitem[Rabanser et~al., 2019]{Rabanser2019}
 Rabanser, S., G{\"u}nnemann, S., and Lipton, Z.~C. (2019).
-\newblock Failing loudly: An empirical study of methods for detecting dataset shift.
-\newblock In {\em Advances in Neural Information Processing Systems 32 (NeurIPS)}, pages 1396--1408.
+\newblock Failing loudly: An empirical study of methods for detecting dataset
+  shift.
+\newblock In {\em Advances in Neural Information Processing Systems 32
+  (NeurIPS)}, pages 1396--1408.
 
 \bibitem[Renza and Moya-Albor, 2024]{RenzaMoyaAlbor2024}
 Renza, D. and Moya-Albor, E. (2024).
-\newblock Adversarial validation approach to concept drift detection in automated machine learning.
+\newblock Adversarial validation approach to concept drift detection in
+  automated machine learning.
 \newblock {\em Applied Sciences}, 14(3):1178.
 
 \bibitem[Sculley et~al., 2015]{Sculley2015}
-Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D., Chaudhary, V., Young, M., Crespo, J.-F., and Dennison, D. (2015).
+Sculley, D., Holt, G., Golovin, D., Davydov, E., Phillips, T., Ebner, D.,
+  Chaudhary, V., Young, M., Crespo, J.-F., and Dennison, D. (2015).
 \newblock Hidden technical debt in machine learning systems.
-\newblock In {\em Advances in Neural Information Processing Systems 28 (NIPS)}, pages 2503--2511.
+\newblock In {\em Advances in Neural Information Processing Systems 28 (NIPS)},
+  pages 2503--2511.
 
 \bibitem[Senoner et~al., 2023]{Senoner2023}
 Senoner, J., Netland, T.~H., and Korherr, B. (2023).
-\newblock Using machine learning to predict and monitor operational performance in order picking.
-\newblock {\em International Journal of Production Research}, 61(23):8207--8227.
+\newblock Using machine learning to predict and monitor operational performance
+  in order picking.
+\newblock {\em International Journal of Production Research},
+  61(23):8207--8227.
 
 \bibitem[Sethi and Kantardzic, 2017]{Sethi2017}
 Sethi, T.~S. and Kantardzic, M. (2017).
-\newblock On the reliable detection of concept drift from streaming unlabeled data.
+\newblock On the reliable detection of concept drift from streaming unlabeled
+  data.
 \newblock {\em Expert Systems with Applications}, 82:77--99.
 
 \bibitem[Shang et~al., 2020]{UCDD2020}
 Shang, D., Zhang, G., and Lu, J. (2020).
 \newblock Fast concept drift detection using unlabeled data.
-\newblock In {\em Developments of Artificial Intelligence Technologies in Computation and Robotics}, pages 1053--1060. World Scientific.
+\newblock In {\em Developments of Artificial Intelligence Technologies in
+  Computation and Robotics}, pages 1053--1060. World Scientific.
 
 \bibitem[Shannon, 1948]{Shannon1948}
 Shannon, C.~E. (1948).
@@ -297,11 +369,13 @@ Shannon, C.~E. (1948).
 \bibitem[Shapley, 1953]{Shapley1953}
 Shapley, L.~S. (1953).
 \newblock A value for n-person games.
-\newblock In Kuhn, H.~W. and Tucker, A.~W., editors, {\em Contributions to the Theory of Games}, volume~2, pages 307--317. Princeton University Press.
+\newblock In Kuhn, H.~W. and Tucker, A.~W., editors, {\em Contributions to the
+  Theory of Games}, volume~2, pages 307--317. Princeton University Press.
 
 \bibitem[Shimodaira, 2000]{Shimodaira2000}
 Shimodaira, H. (2000).
-\newblock Improving predictive inference under covariate shift by weighting the log-likelihood function.
+\newblock Improving predictive inference under covariate shift by weighting the
+  log-likelihood function.
 \newblock {\em Journal of Statistical Planning and Inference}, 90(2):227--244.
 
 \bibitem[Song et~al., 2022]{ADDM2022}
@@ -312,32 +386,34 @@ Song, L., Bian, Y., Zhang, G., Lu, J., and Renders, J.-M. (2022).
 
 \bibitem[Souza et~al., 2021]{IBDD2021}
 Souza, V. M.~A., Parmezan, A. R.~S., Chowdhury, F.~A., and Mueen, A. (2021).
-\newblock Efficient unsupervised drift detector for fast and high-dimensional data streams.
+\newblock Efficient unsupervised drift detector for fast and high-dimensional
+  data streams.
 \newblock {\em Knowledge and Information Systems}, 63(6):1497--1527.
 
 \bibitem[Souza et~al., 2020]{Souza2020}
-Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A. (2020).
-\newblock Challenges in benchmarking stream learning algorithms with real-world data.
+Souza, V. M.~A., Reis, D.~M., Maletzke, A.~G., and Batista, G. E. A. P.~A.
+  (2020).
+\newblock Challenges in benchmarking stream learning algorithms with real-world
+  data.
 \newblock {\em Data Mining and Knowledge Discovery}, 34(6):1805--1858.
 
 \bibitem[Taly et~al., 2021]{TalySato2021}
 Taly, A., Sato, K., and Gruia, C. (2021).
-\newblock Monitoring feature attributions: How {Google} saved one of the largest {ML} services in trouble.
+\newblock Monitoring feature attributions: How {Google} saved one of the
+  largest {ML} services in trouble.
 \newblock Google Cloud Blog.
-\newblock Archived at \url{https://web.archive.org/web/2024/https://cloud.google.com/blog/products/ai-machine-learning/monitoring-feature-attributions-how-google-saved-one-of-the-largest-ml-services-in-crisis}.
+\newblock Archived at
+  \url{https://web.archive.org/web/2024/https://cloud.google.com/blog/products/ai-machine-learning/monitoring-feature-attributions-how-google-saved-one-of-the-largest-ml-services-in-crisis}.
 
 \bibitem[Tsymbal, 2004]{Tsymbal2004}
 Tsymbal, A. (2004).
 \newblock The problem of concept drift: Definitions and related work.
-\newblock Technical Report TCD-CS-2004-15, Trinity College Dublin, Department of Computer Science.
-
-\bibitem[{Various Authors}, 2025]{XAIDriftSurvey2025}
-{Various Authors} (2025).
-\newblock Explainability and interpretability in concept and data drift: A systematic literature review.
-\newblock {\em Algorithms}, 18(7):443.
+\newblock Technical Report TCD-CS-2004-15, Trinity College Dublin, Department
+  of Computer Science.
 
 \bibitem[Vela et~al., 2022]{Vela2022}
-Vela, D., Sharp, A., Zhang, R., Nguyen, T., Hoang, A., and Pianykh, O.~N. (2022).
+Vela, D., Sharp, A., Zhang, R., Nguyen, T., Hoang, A., and Pianykh, O.~N.
+  (2022).
 \newblock Temporal quality degradation in {AI} models.
 \newblock {\em Scientific Reports}, 12(1):11654.
 
@@ -348,14 +424,16 @@ Vitter, J.~S. (1985).
 
 \bibitem[Wan and Wang, 2021]{CSDDM2021}
 Wan, J. S.-W. and Wang, S.-D. (2021).
-\newblock Concept drift detection based on pre-clustering and statistical testing.
+\newblock Concept drift detection based on pre-clustering and statistical
+  testing.
 \newblock {\em Journal of Internet Technology}, 22(2):275--286.
 \newblock CSDDM: Clustered Statistical test Drift Detection Method.
 
 \bibitem[Wan et~al., 2024]{MCD2024}
 Wan, Z., Song, L., and Yoo, S. (2024).
 \newblock Online drift detection with maximum concept discrepancy.
-\newblock {\em Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)}.
+\newblock {\em Proceedings of the 30th ACM SIGKDD Conference on Knowledge
+  Discovery and Data Mining (KDD)}.
 \newblock \url{https://arxiv.org/abs/2407.05375}.
 
 \bibitem[Webb et~al., 2016]{Webb2016}

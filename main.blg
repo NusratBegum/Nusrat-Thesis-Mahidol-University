@@ -1,38 +1,38 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
+This is BibTeX, Version 0.99e (TeX Live 2026)
 Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
 The top-level auxiliary file: main.aux
 The style file: apalike.bst
 Database file #1: references.bib
 You've used 71 entries,
             1935 wiz_defined-function locations,
-            957 strings with 18923 characters,
-and the built_in function-call counts, 31925 in all, are:
-= -- 3125
-> -- 1508
-< -- 44
-+ -- 544
-- -- 522
-* -- 2713
-:= -- 5464
+            957 strings with 18931 characters,
+and the built_in function-call counts, 31960 in all, are:
+= -- 3128
+> -- 1514
+< -- 43
++ -- 546
+- -- 524
+* -- 2719
+:= -- 5470
 add.period$ -- 235
 call.type$ -- 71
-change.case$ -- 616
+change.case$ -- 617
 chr.to.int$ -- 69
 cite$ -- 71
 duplicate$ -- 1195
 empty$ -- 2110
-format.name$ -- 613
-if$ -- 6277
+format.name$ -- 615
+if$ -- 6283
 int.to.chr$ -- 3
 int.to.str$ -- 0
 missing$ -- 67
 newline$ -- 376
 num.names$ -- 215
-pop$ -- 583
+pop$ -- 585
 preamble$ -- 1
-purify$ -- 615
+purify$ -- 616
 quote$ -- 0
-skip$ -- 890
+skip$ -- 889
 stack$ -- 0
 substring$ -- 2140
 swap$ -- 218
