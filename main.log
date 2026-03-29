@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.26)  27 MAR 2026 09:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.28)  29 MAR 2026 18:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -973,20 +973,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--6
 
  [10
 
-] (./main.lof
-[11
+] [11] (./main.lof
+[12
 
 ])
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- (./thesis.tex [12] [13]
+ (./thesis.tex [13] [14]
 Chapter 1.
 [1
 
 ] [2] [3] [4] [5]
 Chapter 2.
-<figures/figure-1.png, id=715, 858.0858pt x 352.1958pt>
+<figures/figure-1.png, id=722, 858.0858pt x 352.1958pt>
 File: figures/figure-1.png Graphic file (type png)
 <use figures/figure-1.png>
 Package pdftex.def Info: figures/figure-1.png  used on input line 47.
@@ -1205,7 +1205,7 @@ id you specify a point identical to the center of node ``no_drift''? on input l
 ine 550.
 
 
-LaTeX Warning: Float too large for page by 81.42175pt on input line 553.
+LaTeX Warning: Float too large for page by 124.92175pt on input line 553.
 
 [27
 
@@ -1217,44 +1217,44 @@ Underfull \hbox (badness 10000) in paragraph at lines 604--604
 [31] [32] [33]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 668.
+(hyperref)                removing `math shift' on input line 667.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `subscript' on input line 668.
+(hyperref)                removing `subscript' on input line 667.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 668.
+(hyperref)                removing `math shift' on input line 667.
 
 [34] [35] [36]
-Overfull \hbox (42.62334pt too wide) in paragraph at lines 722--723
+Overfull \hbox (42.62334pt too wide) in paragraph at lines 721--722
  []\OT1/ptm/m/n/12 (-20) Calculate mean ab-so-lute SHAP value per fea-ture: $[]
 [] \OT1/cmr/m/n/12 = [] [][] \OMS/cmsy/m/n/12 j[][]j$ 
  []
 
 [37] [38]
-Underfull \hbox (badness 10000) in paragraph at lines 776--776
+Underfull \hbox (badness 10000) in paragraph at lines 775--775
 []\OT1/ptm/m/n/12 (+20) Concentrated drift
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 776--777
+Underfull \hbox (badness 10000) in paragraph at lines 775--776
 []\OT1/ptm/m/n/12 (+20) Immediate data qual-ity
  []
 
 
-Underfull \hbox (badness 4752) in paragraph at lines 776--777
+Underfull \hbox (badness 4752) in paragraph at lines 775--776
 \OT1/ptm/m/n/12 (+20) check; dis-able af-fected
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 777--778
+Underfull \hbox (badness 10000) in paragraph at lines 776--777
 []\OT1/ptm/m/n/12 (+20) Investigate shared data
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 778--778
+Underfull \hbox (badness 10000) in paragraph at lines 777--777
 []\OT1/ptm/m/n/12 (+20) Diffuse mul-ti-vari-ate
  []
 
@@ -1264,267 +1264,262 @@ Chapter 4.
 
 ]
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
-78.
+77.
  (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 [48] [49]
-Overfull \hbox (54.07936pt too wide) in paragraph at lines 1026--1041
+Overfull \hbox (54.07936pt too wide) in paragraph at lines 1025--1040
  [][] 
  []
 
-<figures/heatmap_mtd.pdf, id=1578, 672.31749pt x 425.36792pt>
+<figures/heatmap_mtd.pdf, id=1585, 672.31749pt x 425.36792pt>
 File: figures/heatmap_mtd.pdf Graphic file (type pdf)
 <use figures/heatmap_mtd.pdf>
-Package pdftex.def Info: figures/heatmap_mtd.pdf  used on input line 1048.
+Package pdftex.def Info: figures/heatmap_mtd.pdf  used on input line 1047.
 (pdftex.def)             Requested size: 201.44371pt x 127.44908pt.
-<figures/heatmap_false_alarms.pdf, id=1579, 666.04405pt x 425.36792pt>
+<figures/heatmap_false_alarms.pdf, id=1586, 666.04405pt x 425.36792pt>
 File: figures/heatmap_false_alarms.pdf Graphic file (type pdf)
 <use figures/heatmap_false_alarms.pdf>
 Package pdftex.def Info: figures/heatmap_false_alarms.pdf  used on input line 1
-052.
+051.
 (pdftex.def)             Requested size: 201.44371pt x 128.64984pt.
-<figures/bell_curves_abrupt_drift.pdf, id=1581, 1076.5394pt x 592.51741pt>
+<figures/bell_curves_abrupt_drift.pdf, id=1588, 1076.5394pt x 592.51741pt>
 File: figures/bell_curves_abrupt_drift.pdf Graphic file (type pdf)
 <use figures/bell_curves_abrupt_drift.pdf>
 Package pdftex.def Info: figures/bell_curves_abrupt_drift.pdf  used on input li
-ne 1063.
+ne 1062.
 (pdftex.def)             Requested size: 201.44371pt x 110.87071pt.
-<figures/bell_curves_gradual_drift.pdf, id=1582, 1076.5394pt x 592.51741pt>
+<figures/bell_curves_gradual_drift.pdf, id=1589, 1076.5394pt x 592.51741pt>
 File: figures/bell_curves_gradual_drift.pdf Graphic file (type pdf)
 <use figures/bell_curves_gradual_drift.pdf>
 Package pdftex.def Info: figures/bell_curves_gradual_drift.pdf  used on input l
-ine 1067.
+ine 1066.
 (pdftex.def)             Requested size: 201.44371pt x 110.87071pt.
-<figures/timeseries_abrupt_drift.pdf, id=1584, 1148.81001pt x 570.15762pt>
+<figures/timeseries_abrupt_drift.pdf, id=1591, 1148.81001pt x 570.15762pt>
 File: figures/timeseries_abrupt_drift.pdf Graphic file (type pdf)
 <use figures/timeseries_abrupt_drift.pdf>
 Package pdftex.def Info: figures/timeseries_abrupt_drift.pdf  used on input lin
-e 1078.
+e 1077.
 (pdftex.def)             Requested size: 201.44371pt x 99.97047pt.
-<figures/timeseries_gradual_drift.pdf, id=1585, 1148.81001pt x 570.15762pt>
+<figures/timeseries_gradual_drift.pdf, id=1592, 1148.81001pt x 570.15762pt>
 File: figures/timeseries_gradual_drift.pdf Graphic file (type pdf)
 <use figures/timeseries_gradual_drift.pdf>
 Package pdftex.def Info: figures/timeseries_gradual_drift.pdf  used on input li
-ne 1082.
+ne 1081.
 (pdftex.def)             Requested size: 201.44371pt x 99.97047pt.
 [50] [51 <./figures/heatmap_mtd.pdf> <./figures/heatmap_false_alarms.pdf> <./fi
 gures/bell_curves_abrupt_drift.pdf> <./figures/bell_curves_gradual_drift.pdf> <
 ./figures/timeseries_abrupt_drift.pdf> <./figures/timeseries_gradual_drift.pdf>
 ] [52]
-Overfull \hbox (6.86449pt too wide) in paragraph at lines 1140--1156
+Overfull \hbox (6.86449pt too wide) in paragraph at lines 1139--1155
  [][] 
  []
 
-<figures/heatmap_realworld_mtd.pdf, id=2051, 921.64902pt x 497.63792pt>
+<figures/heatmap_realworld_mtd.pdf, id=2059, 921.64902pt x 497.63792pt>
 File: figures/heatmap_realworld_mtd.pdf Graphic file (type pdf)
 <use figures/heatmap_realworld_mtd.pdf>
 Package pdftex.def Info: figures/heatmap_realworld_mtd.pdf  used on input line 
-1163.
+1162.
 (pdftex.def)             Requested size: 201.44371pt x 108.7669pt.
-<figures/heatmap_realworld_mdr.pdf, id=2052, 918.46526pt x 497.63792pt>
+<figures/heatmap_realworld_mdr.pdf, id=2060, 918.46526pt x 497.63792pt>
 File: figures/heatmap_realworld_mdr.pdf Graphic file (type pdf)
 <use figures/heatmap_realworld_mdr.pdf>
 Package pdftex.def Info: figures/heatmap_realworld_mdr.pdf  used on input line 
-1167.
+1166.
 (pdftex.def)             Requested size: 201.44371pt x 109.13898pt.
-<figures/timeseries_realworld_waveformdrift2.pdf, id=2054, 1148.8399pt x 569.90
+<figures/timeseries_realworld_waveformdrift2.pdf, id=2062, 1148.8399pt x 569.90
 791pt>
 File: figures/timeseries_realworld_waveformdrift2.pdf Graphic file (type pdf)
 <use figures/timeseries_realworld_waveformdrift2.pdf>
 Package pdftex.def Info: figures/timeseries_realworld_waveformdrift2.pdf  used 
-on input line 1178.
+on input line 1177.
 (pdftex.def)             Requested size: 201.44371pt x 99.92668pt.
-<figures/timeseries_realworld_sineclusters.pdf, id=2055, 1148.8399pt x 569.9079
+<figures/timeseries_realworld_sineclusters.pdf, id=2063, 1148.8399pt x 569.9079
 1pt>
 File: figures/timeseries_realworld_sineclusters.pdf Graphic file (type pdf)
 <use figures/timeseries_realworld_sineclusters.pdf>
 Package pdftex.def Info: figures/timeseries_realworld_sineclusters.pdf  used on
- input line 1182.
+ input line 1181.
 (pdftex.def)             Requested size: 201.44371pt x 99.92668pt.
-<figures/bell_curves_realworld_waveformdrift2.pdf, id=2057, 1075.67006pt x 569.
+[53] [54 <./figures/heatmap_realworld_mtd.pdf> <./figures/heatmap_realworld_mdr
+.pdf> <./figures/timeseries_realworld_waveformdrift2.pdf> <./figures/timeseries
+_realworld_sineclusters.pdf>]
+<figures/bell_curves_realworld_waveformdrift2.pdf, id=2371, 1075.67006pt x 569.
 39098pt>
 File: figures/bell_curves_realworld_waveformdrift2.pdf Graphic file (type pdf)
 <use figures/bell_curves_realworld_waveformdrift2.pdf>
 Package pdftex.def Info: figures/bell_curves_realworld_waveformdrift2.pdf  used
- on input line 1193.
+ on input line 1192.
 (pdftex.def)             Requested size: 201.44371pt x 106.63022pt.
-<figures/bell_curves_realworld_insectsabrupt.pdf, id=2058, 1076.65862pt x 569.3
+<figures/bell_curves_realworld_insectsabrupt.pdf, id=2372, 1076.65862pt x 569.3
 9098pt>
 File: figures/bell_curves_realworld_insectsabrupt.pdf Graphic file (type pdf)
 <use figures/bell_curves_realworld_insectsabrupt.pdf>
 Package pdftex.def Info: figures/bell_curves_realworld_insectsabrupt.pdf  used 
-on input line 1197.
+on input line 1196.
 (pdftex.def)             Requested size: 201.44371pt x 106.53465pt.
-[53] [54 <./figures/heatmap_realworld_mtd.pdf> <./figures/heatmap_realworld_mdr
-.pdf> <./figures/timeseries_realworld_waveformdrift2.pdf> <./figures/timeseries
-_realworld_sineclusters.pdf>] [55 <./figures/bell_curves_realworld_waveformdrif
-t2.pdf> <./figures/bell_curves_realworld_insectsabrupt.pdf>]
-Overfull \hbox (56.91524pt too wide) in paragraph at lines 1240--1249
+ [55 <./figures/bell_curves_realworld_waveformdrift2.pdf> <./figures/bell_curve
+s_realworld_insectsabrupt.pdf>] [56]
+Overfull \hbox (56.91524pt too wide) in paragraph at lines 1239--1248
  [][] 
  []
 
-[56]
-Overfull \hbox (92.67105pt too wide) in paragraph at lines 1266--1270
+[57]
+Overfull \hbox (92.67105pt too wide) in paragraph at lines 1267--1271
 []\OT1/pcr/m/n/12 D3: ``DRIFT DETECTED (AUC = 0.78).'' [No feature attribution]
  
  []
 
 
-Overfull \hbox (35.07108pt too wide) in paragraph at lines 1266--1270
+Overfull \hbox (35.07108pt too wide) in paragraph at lines 1267--1271
 \OT1/pcr/m/n/12 IBDD: ``Drift at step 5012.'' [No feature attribution] 
  []
 
 
-Overfull \hbox (42.27107pt too wide) in paragraph at lines 1266--1270
+Overfull \hbox (42.27107pt too wide) in paragraph at lines 1267--1271
 \OT1/pcr/m/n/12 CSDDM: ``Drift at step 5009.'' [No feature attribution] 
  []
 
 
-Overfull \hbox (20.31108pt too wide) in paragraph at lines 1266--1270
+Overfull \hbox (20.31108pt too wide) in paragraph at lines 1267--1271
 \OT1/pcr/m/n/12 All other detectors: Binary alarm or no alarm---zero
  []
 
-<figures/bell_shap_combined_univariate.pdf, id=2523, 1438.50816pt x 499.50175pt
+<figures/bell_shap_combined_univariate.pdf, id=2535, 1438.50816pt x 499.50175pt
 >
 File: figures/bell_shap_combined_univariate.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_univariate.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_univariate.pdf  used on inp
-ut line 1277.
+ut line 1278.
 (pdftex.def)             Requested size: 134.30008pt x 46.63pt.
-<figures/bell_shap_combined_subset.pdf, id=2524, 1438.73325pt x 499.50175pt>
+<figures/bell_shap_combined_subset.pdf, id=2536, 1438.73325pt x 499.50175pt>
 File: figures/bell_shap_combined_subset.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_subset.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_subset.pdf  used on input l
-ine 1281.
+ine 1282.
 (pdftex.def)             Requested size: 134.30008pt x 46.62238pt.
-<figures/bell_shap_combined_multivariate.pdf, id=2525, 1438.50816pt x 499.50175
+<figures/bell_shap_combined_multivariate.pdf, id=2537, 1438.50816pt x 499.50175
 pt>
 File: figures/bell_shap_combined_multivariate.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_multivariate.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_multivariate.pdf  used on i
-nput line 1285.
+nput line 1286.
 (pdftex.def)             Requested size: 134.30008pt x 46.63pt.
-<figures/shap_attribution_accuracy.pdf, id=2527, 1291.46553pt x 427.59373pt>
+<figures/shap_attribution_accuracy.pdf, id=2539, 1291.46553pt x 427.59373pt>
 File: figures/shap_attribution_accuracy.pdf Graphic file (type pdf)
 <use figures/shap_attribution_accuracy.pdf>
 Package pdftex.def Info: figures/shap_attribution_accuracy.pdf  used on input l
-ine 1296.
+ine 1297.
 (pdftex.def)             Requested size: 201.44371pt x 66.69391pt.
-<figures/explainability_comparison.pdf, id=2528, 859.91576pt x 353.4426pt>
+<figures/explainability_comparison.pdf, id=2540, 859.91576pt x 353.4426pt>
 File: figures/explainability_comparison.pdf Graphic file (type pdf)
 <use figures/explainability_comparison.pdf>
 Package pdftex.def Info: figures/explainability_comparison.pdf  used on input l
-ine 1300.
+ine 1301.
 (pdftex.def)             Requested size: 201.44371pt x 82.79475pt.
-[57] [58 <./figures/bell_shap_combined_univariate.pdf> <./figures/bell_shap_com
-bined_subset.pdf> <./figures/bell_shap_combined_multivariate.pdf> <./figures/sh
+[58 <./figures/bell_shap_combined_univariate.pdf> <./figures/bell_shap_combined
+_subset.pdf> <./figures/bell_shap_combined_multivariate.pdf>] [59 <./figures/sh
 ap_attribution_accuracy.pdf> <./figures/explainability_comparison.pdf>]
-[59] [60] [61]
+[60] [61] [62] [63]
 Chapter 5.
-[62
+[64
 
-] [63] [64]
-Underfull \hbox (badness 2261) in paragraph at lines 1453--1453
+] [65] [66]
+Underfull \hbox (badness 2261) in paragraph at lines 1457--1457
 []\OT1/ptm/m/n/12 (+20) Larger datasets al-low
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1454--1454
+Underfull \hbox (badness 10000) in paragraph at lines 1458--1458
 []\OT1/ptm/m/n/12 (+20) Expected Drift
  []
 
 
-Underfull \hbox (badness 1383) in paragraph at lines 1454--1454
+Underfull \hbox (badness 1383) in paragraph at lines 1458--1458
 []\OT1/ptm/m/n/12 (+20) Abrupt: smaller win-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1455--1455
+Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
 []\OT1/ptm/m/n/12 (+20) Detection La-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1455--1455
+Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
 []\OT1/ptm/m/n/12 (+20) Smaller win-dows =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1455--1456
+Underfull \hbox (badness 10000) in paragraph at lines 1459--1460
 []\OT1/ptm/m/n/12 (+20) Trade-off with sta-tis-ti-cal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1456--1456
+Underfull \hbox (badness 10000) in paragraph at lines 1460--1460
 []\OT1/ptm/m/n/12 (+20) Computational
  []
 
-[65] [66]
-Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
+[67] [68]
+Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
 []\OT1/ptm/b/n/12 (+20) Drift Pat-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1502--1502
+Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
 []\OT1/ptm/b/n/12 (+20) DSI
  []
 
 
-Underfull \hbox (badness 2591) in paragraph at lines 1504--1504
+Underfull \hbox (badness 2591) in paragraph at lines 1508--1508
 []\OT1/ptm/m/n/12 (+20) Sensor Fail-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1504--1504
+Underfull \hbox (badness 10000) in paragraph at lines 1508--1508
 []\OT1/ptm/m/n/12 (+20) Single fea-ture
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
+Underfull \hbox (badness 10000) in paragraph at lines 1510--1510
 []\OT1/ptm/m/n/12 (+20) Univariate
  []
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 1508--1508
+Underfull \hbox (badness 1701) in paragraph at lines 1512--1512
 []\OT1/ptm/m/n/12 (+20) 2--5 cor-re-lated fea-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1508--1508
+Underfull \hbox (badness 10000) in paragraph at lines 1512--1512
 \OT1/ptm/m/n/12 (+20) tures; sig-nif-i-cant
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1510
+Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
 []\OT1/ptm/m/n/12 (+20) Multivariate
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1510
+Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
 []\OT1/ptm/m/n/12 (+20) Importance dis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1510
+Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
 \OT1/ptm/m/n/12 (+20) in-ter-ac-tion mag-ni-
  []
 
 
-Underfull \hbox (badness 4316) in paragraph at lines 1512--1512
+Underfull \hbox (badness 4316) in paragraph at lines 1516--1516
 []\OT1/ptm/m/n/12 (+20) Periodic DSI fluc-
  []
 
-[67] [68] [69]
+[69] [70] [71] [72]
 Chapter 6.
-[70
+[73
 
-]
-Overfull \hbox (80.10457pt too wide) in paragraph at lines 1560--1561
- \OT1/ptm/m/n/12 (-20) con-ser-va-tive in the multi-detector de-fault bench-mar
-k, while BNDM/CSDDM/IBDD/OCDD
- []
-
-[71] [72] [73] [74]) [75] (./appendix_impl.tex [76]
+] [74] [75] [76] [77]) [78] (./appendix_impl.tex [79]
 pdfTeX warning (ext4): destination with the same identifier (name{chapter.1}) h
 as been already used, duplicate ignored
 <to be read again> 
@@ -1556,12 +1551,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1.3})
 <to be read again> 
                    \relax 
 l.34 \section{Uncertainty and Statistical Testing}
-                                                   [77
+                                                   [80
 
-]) (./main.bbl [78]
-[79
+]) (./main.bbl [81]
+[82
 
-] [80] [81] [82] [83] [84]
+] [83] [84] [85] [86] [87]
 Underfull \hbox (badness 10000) in paragraph at lines 401--407
 []\OT1/ptm/m/n/12 (+20) Taly, A., Sato, K., and Gruia, C. (2021).  Mon-i-tor-in
 g fea-ture at-
@@ -1591,31 +1586,35 @@ Overfull \hbox (23.44904pt too wide) in paragraph at lines 401--407
 d-[]one-[]of-[]the-[]largest-[]ml-[]services-[]in-[]crisis$[]. 
  []
 
-[85]) [86] [87
+[88]) [89] [90
 
-] [88
+] [91
 
 ] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 0D90A3BE5D718D9A362042953BF94BB6;17218.
+(rerunfilecheck)             Checksum: D519D80F4C2B6FDB06E848345CD288BA;17106.
  )
 (\end occurred when \iffalse on line 1 was incomplete)
-(\end occurred when \iffalse on line 1544 was incomplete)
-(\end occurred when \iffalse on line 1381 was incomplete)
-(\end occurred when \iffalse on line 946 was incomplete)
+(\end occurred when \iffalse on line 1548 was incomplete)
+(\end occurred when \iffalse on line 1385 was incomplete)
+(\end occurred when \iffalse on line 945 was incomplete)
 (\end occurred when \iffalse on line 373 was incomplete)
 (\end occurred when \iffalse on line 43 was incomplete)
 (\end occurred when \iffalse on line 1 was incomplete) 
 Here is how much of TeX's memory you used:
- 37274 strings out of 469006
- 843885 string characters out of 5454813
- 1381560 words of memory out of 5000000
+ 37272 strings out of 469006
+ 843863 string characters out of 5454813
+ 1382575 words of memory out of 5000000
  64601 multiletter control sequences out of 15000+600000
- 679304 words of font info for 401 fonts, out of 8000000 for 9000
+ 679072 words of font info for 397 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  90i,15n,104p,1454b,975s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026b
@@ -1641,10 +1640,10 @@ f/fonts/type1/urw/courier/ucrr8a.pfb></Users/nusratbegum/Library/texmf/fonts/ty
 pe1/urw/times/utmb8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/time
 s/utmr8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on main.pdf (102 pages, 1814821 bytes).
+Output written on main.pdf (106 pages, 1820907 bytes).
 PDF statistics:
- 3331 PDF objects out of 3580 (max. 8388607)
- 2024 compressed objects within 21 object streams
- 330 named destinations out of 1000 (max. 500000)
+ 3352 PDF objects out of 3580 (max. 8388607)
+ 2041 compressed objects within 21 object streams
+ 334 named destinations out of 1000 (max. 500000)
  64239 words of extra memory for PDF output out of 74296 (max. 10000000)
 
