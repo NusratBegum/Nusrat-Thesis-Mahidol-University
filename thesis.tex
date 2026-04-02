@@ -188,7 +188,7 @@ Table~\ref{tab:method-comparison} compares popular univariate statistical method
 \hline
 \textbf{KS Test (Kolmogorov-Smirnov)} & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
 \hline
-\textbf{Discriminative Classification} & Trains classifier to distinguish old vs. new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; no built-in explainability (addressed by EADD) \\
+\textbf{Discriminative Classification} & Trains classifier to distinguish old vs. new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; no built-in feature attribution (addressed by EADD) \\
 \hline
 \end{tabular}
 \end{table}
@@ -285,7 +285,7 @@ While the drift detection literature offers diverse approaches, each category ha
 
 \textbf{Fundamental Gap:} Critically, most existing methods do not directly test whether new data is statistically distinguishable from historical data in the original feature space \citep{LopezPazOquab2017}. Discriminative approaches offer a natural, model-agnostic signal of drift that does not depend on predefined contexts, labels, or calibrated uncertainties---yet this perspective has received limited systematic attention in the drift detection literature \citep{Pan2020}.
 
-This thesis aims to bridge this gap by establishing discriminative classification as a viable, general-purpose drift detection technique and extending it with explainability through rigorous empirical evaluation and practical methodology development.
+This thesis aims to bridge this gap by establishing discriminative classification as a viable, general-purpose drift detection technique and extending it with diagnostic feature attribution through rigorous empirical evaluation and practical methodology development.
 
 \section{Drift Mitigation and Adaptation Strategies}
 Detecting drift is only the first step; production systems must also respond to it. The literature describes five principal mitigation strategies, each with distinct trade-offs \citep{Lu2018, Gama2014, Krawczyk2017}:
@@ -340,7 +340,7 @@ Despite strong detection performance, D3 and all C2ST-based streaming detectors 
 \textbf{Cloud Industry Standardization:} The necessity of feature attribution monitoring is rapidly becoming an industry standard across major cloud providers. As with Google's Vertex AI, Amazon Web Services (AWS) has integrated ``Feature Attribution Drift'' monitoring into Amazon SageMaker Clarify \citep{AWSSageMaker2025}. SageMaker automatically calculates a SHAP baseline during training and actively monitors production data for deviations in these attribution scores. This cross-platform adoption by leading cloud providers indicates that drift detection is increasingly moving toward continuous, explainable feature attribution rather than basic distribution tracking.
 
 \subsection{Recent Advances in Drift Detection (2024--2026)}
-The drift detection landscape has evolved rapidly along three axes: statistical rigour, explainability, and computational efficiency.
+The drift detection landscape has evolved rapidly along three axes: statistical rigour, diagnostic attribution, and computational efficiency.
 
 \textbf{Statistical Testing Advances.} \citet{EC2ST2024} proposed E-C2ST, which replaces p-values with e-values in classifier two-sample tests, enabling anytime-valid sequential monitoring without multiple testing penalties. This represents a strictly superior alternative to fixed-budget permutation testing for sequential settings. \citet{MCD2024} introduced Maximum Concept Discrepancy for online drift detection using contrastive learning, offering an alternative to the discriminative paradigm.
 
@@ -886,7 +886,7 @@ Following \citet{Lu2018}, \citet{Lukats2024}, and \citet{Souza2020}, the followi
     \item \textbf{False Positive Rate (FPR):} Proportion of alarms when no drift exists. Lower is better.
 \end{itemize}
 
-\textbf{Explainability Metrics:}
+\textbf{Attribution Metrics:}
 \begin{itemize}
     \item \textbf{Feature Attribution Accuracy:} Whether SHAP correctly identifies the ground-truth drifting feature(s) as the top contributor(s).
     \item \textbf{SHAP Dominance Score:} Percentage of total SHAP importance assigned to the true drifting feature(s). Higher indicates more precise attribution.
@@ -905,7 +905,7 @@ Evaluated EADD's ability to detect all four major temporal drift patterns (abrup
 
 Benchmarked EADD against seven unsupervised baselines (D3, BNDM, CSDDM, IBDD, OCDD, SPLL, UDetect) across 11 benchmark data streams from the \citet{Lukats2024} framework, measuring MTD, MDR, MTR, and overall F1.
 
-\textbf{Experiment 3: Explainability Case Study}
+\textbf{Experiment 3: Diagnostic Attribution Accuracy}
 
 Validated SHAP-based feature attribution accuracy across three controlled synthetic scenarios: (1) univariate drift in a single feature, (2) correlated subset drift across 2--3 features, and (3) multivariate drift distributed across all features. Measured whether EADD correctly identifies drifting features and generates appropriate prescriptions.
 
@@ -955,7 +955,7 @@ Based on the gaps identified in Chapter~\ref{chap:literature}, this thesis inves
 \begin{itemize}
     \item \textbf{RQ1 (Detection Accuracy):} Does EADD achieve comparable or superior drift detection performance (F1-score, detection delay) to state-of-the-art unsupervised detectors across synthetic and real-world data streams?
     
-    \item \textbf{RQ2 (Explainability):} Can EADD's SHAP-based feature attribution correctly identify the root cause of drift, and does the automated prescription system provide accurate drift categorization?
+    \item \textbf{RQ2 (Diagnostic Attribution):} Can EADD's SHAP-based feature attribution correctly identify the root cause of drift, and does the automated prescription system provide accurate drift categorization?
     
     \item \textbf{RQ3 (Robustness):} Does EADD's permutation test significantly reduce false alarm rates on stable data compared to threshold-based approaches like D3?
 \end{itemize}
@@ -969,7 +969,7 @@ Three formal hypotheses were tested:
     
     \item \textbf{H2 (False Alarm Reduction):} EADD produces significantly fewer false alarms than D3 on stable data. Formally, $H_0$: $\text{FPR}_{\text{EADD}} \geq \text{FPR}_{\text{D3}}$ vs $H_1$: $\text{FPR}_{\text{EADD}} < \text{FPR}_{\text{D3}}$. Tested using the Mann--Whitney U test (one-sided, $\alpha = 0.05$) at multiple D3 threshold settings ($\tau \in \{0.6, 0.7, 0.8\}$).
     
-    \item \textbf{H3 (Explainability Accuracy):} EADD correctly identifies the ground-truth drifting feature(s) as the top SHAP contributor in controlled experiments. Evaluated qualitatively across three controlled synthetic scenarios ($\alpha = 0.05$).
+    \item \textbf{H3 (Attribution Accuracy):} EADD correctly identifies the ground-truth drifting feature(s) as the top SHAP contributor in controlled experiments. Evaluated quantitatively across three controlled synthetic scenarios ($\alpha = 0.05$).
 \end{itemize}
 
 \section{Experimental Setup}
@@ -1300,7 +1300,7 @@ Figure~\ref{fig:shap-accuracy} summarizes the quantitative attribution accuracy 
     \begin{minipage}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/explainability_comparison.pdf}
     \end{minipage}
-    \caption{Left: SHAP attribution accuracy across all three scenarios (P@k = R@k = F1@k = 1.0 for all). Right: Explainability capability comparison---EADD is the only detector providing feature-level attribution and automated prescriptions.}
+    \caption{Left: SHAP attribution accuracy across all three scenarios (P@k = R@k = F1@k = 1.0 for all). Right: Diagnostic capability comparison---EADD is the only detector providing feature-level attribution and automated prescriptions.}
     \label{fig:shap-accuracy}
 \end{figure}
 
@@ -1404,7 +1404,7 @@ The multi-detector experiments provide a nuanced answer: EADD is not the \textit
 
 The evidence supports EADD's unique position as the only detector combining complete synthetic drift-type coverage with zero false alarms and built-in diagnostic attribution.
 
-\subsection{RQ2: Explainability}
+\subsection{RQ2: Diagnostic Attribution}
 
 \textit{Can EADD's SHAP-based feature attribution correctly identify the root cause of drift?}
 

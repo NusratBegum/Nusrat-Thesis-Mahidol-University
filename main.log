@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.28)  29 MAR 2026 18:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.28)  29 MAR 2026 19:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1178,12 +1178,27 @@ Underfull \hbox (badness 1533) in paragraph at lines 191--191
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 191--192
-[]\OT1/ptm/m/n/12 (+20) Requires clas-si-
+[]\OT1/ptm/m/n/12 (+20) Requires clas-
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 191--192
-\OT1/ptm/m/n/12 (+20) built-in ex-plain-
+\OT1/ptm/m/n/12 (+20) si-fier train-ing;
+ []
+
+
+Underfull \hbox (badness 6236) in paragraph at lines 191--192
+\OT1/ptm/m/n/12 (+20) no built-in fea-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+\OT1/ptm/m/n/12 (+20) ture at-tri-bu-tion
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 191--192
+\OT1/ptm/m/n/12 (+20) (ad-dressed by
  []
 
 
@@ -1599,8 +1614,14 @@ L3 programming layer <2026-01-19>
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: D519D80F4C2B6FDB06E848345CD288BA;17106.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: D519D80F4C2B6FDB06E848345CD288BA;17106
+(rerunfilecheck)             After:  C2AE5C49173AA7C50199150371CEC788;17149.
  )
 (\end occurred when \iffalse on line 1 was incomplete)
 (\end occurred when \iffalse on line 1548 was incomplete)
@@ -1612,7 +1633,7 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 Here is how much of TeX's memory you used:
  37272 strings out of 469006
  843863 string characters out of 5454813
- 1382575 words of memory out of 5000000
+ 1382430 words of memory out of 5000000
  64601 multiletter control sequences out of 15000+600000
  679072 words of font info for 397 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
@@ -1640,7 +1661,7 @@ f/fonts/type1/urw/courier/ucrr8a.pfb></Users/nusratbegum/Library/texmf/fonts/ty
 pe1/urw/times/utmb8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/time
 s/utmr8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/times/utmri8a.pf
 b>
-Output written on main.pdf (106 pages, 1820907 bytes).
+Output written on main.pdf (106 pages, 1820920 bytes).
 PDF statistics:
  3352 PDF objects out of 3580 (max. 8388607)
  2041 compressed objects within 21 object streams
