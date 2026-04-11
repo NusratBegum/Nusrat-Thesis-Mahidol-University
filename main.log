@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.28)  29 MAR 2026 19:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.4.4)  11 APR 2026 20:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
 LaTeX2e <2025-11-01>
-L3 programming layer <2026-01-19>
+L3 programming layer <2026-03-20>
 (./muthesis2021.cls
 Document Class: muthesis2021 2021/10/14 v0.142 Mahidol University thesis class
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/report.cls
@@ -24,7 +24,7 @@ File: size12.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 \c@table=\count283
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
-\bibindent=\dimen148
+\bibindent=\dimen150
 )
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2020/03/25 PSNFSS-v9.3 (SPQR) 
@@ -91,7 +91,7 @@ Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO
 )
 )
-\@linkdim=\dimen149
+\@linkdim=\dimen151
 \Hy@linkcounter=\count286
 \Hy@pagecounter=\count287
 
@@ -125,7 +125,7 @@ Package hyperref Info: Bookmarks ON on input line 4468.
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4807.
-\XeTeXLinkMargin=\dimen150
+\XeTeXLinkMargin=\dimen152
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -135,8 +135,8 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO
 )
 ))
 \Fld@menulength=\count290
-\Field@Width=\dimen151
-\Fld@charsize=\dimen152
+\Field@Width=\dimen153
+\Fld@charsize=\dimen154
 Package hyperref Info: Hyper figures OFF on input line 6084.
 Package hyperref Info: Link nesting OFF on input line 6089.
 Package hyperref Info: Hyper index ON on input line 6092.
@@ -193,8 +193,8 @@ Package graphics Info: Driver file: pdftex.def on input line 106.
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen153
-\Gin@req@width=\dimen154
+\Gin@req@height=\dimen155
+\Gin@req@width=\dimen156
 )
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
@@ -213,11 +213,11 @@ Package: amstext 2024/11/17 v2.01 AMS text
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
-\ex@=\dimen155
+\ex@=\dimen157
 ))
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen156
+\pmbraise@=\dimen158
 )
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
@@ -239,7 +239,7 @@ LaTeX Info: Redefining \big on input line 721.
 LaTeX Info: Redefining \Big on input line 722.
 LaTeX Info: Redefining \bigg on input line 723.
 LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen157
+\big@size=\dimen159
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
 \macc@depth=\count302
@@ -257,12 +257,12 @@ LaTeX Info: Redefining \Relbar on input line 970.
 \column@=\count307
 \maxfields@=\count308
 \andhelp@=\toks20
-\eqnshift@=\dimen158
-\alignsep@=\dimen159
-\tagshift@=\dimen160
-\tagwidth@=\dimen161
-\totwidth@=\dimen162
-\lineht@=\dimen163
+\eqnshift@=\dimen160
+\alignsep@=\dimen161
+\tagshift@=\dimen162
+\tagwidth@=\dimen163
+\totwidth@=\dimen164
+\lineht@=\dimen165
 \@envbody=\toks21
 \multlinegap=\skip58
 \multlinetaggap=\skip59
@@ -290,14 +290,14 @@ Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen164
-\captionmargin=\dimen165
-\caption@leftmargin=\dimen166
-\caption@rightmargin=\dimen167
-\caption@width=\dimen168
-\caption@indent=\dimen169
-\caption@parindent=\dimen170
-\caption@hangindent=\dimen171
+\caption@tempdima=\dimen166
+\captionmargin=\dimen167
+\caption@leftmargin=\dimen168
+\caption@rightmargin=\dimen169
+\caption@width=\dimen170
+\caption@indent=\dimen171
+\caption@parindent=\dimen172
+\caption@hangindent=\dimen173
 Package caption Info: Standard document class detected.
 )
 \c@caption@flags=\count309
@@ -312,8 +312,8 @@ Package: setspace 2022/12/04 v6.7b set line spacing
 (/Users/nusratbegum/Library/texmf/tex/latex/pgf/utilities/pgfrcs.sty
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks29
-\pgfutil@tempdima=\dimen172
-\pgfutil@tempdimb=\dimen173
+\pgfutil@tempdima=\dimen174
+\pgfutil@tempdimb=\dimen175
 ) (/Users/nusratbegum/Library/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box55
 ) (/Users/nusratbegum/Library/texmf/tex/generic/pgf/utilities/pgfrcs.code.tex
@@ -335,16 +335,16 @@ Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 red.code.tex
 \pgfkeys@tmptoks=\toks32
 ))
-\pgf@x=\dimen174
-\pgf@y=\dimen175
-\pgf@xa=\dimen176
-\pgf@ya=\dimen177
-\pgf@xb=\dimen178
-\pgf@yb=\dimen179
-\pgf@xc=\dimen180
-\pgf@yc=\dimen181
-\pgf@xd=\dimen182
-\pgf@yd=\dimen183
+\pgf@x=\dimen176
+\pgf@y=\dimen177
+\pgf@xa=\dimen178
+\pgf@ya=\dimen179
+\pgf@xb=\dimen180
+\pgf@yb=\dimen181
+\pgf@xc=\dimen182
+\pgf@yc=\dimen183
+\pgf@xd=\dimen184
+\pgf@yd=\dimen185
 \w@pgf@writea=\write3
 \r@pgf@reada=\read2
 \c@pgf@counta=\count311
@@ -402,7 +402,7 @@ Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/math/pgfmath.code.tex
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/math/pgfmathutil.code.tex)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen184
+\pgfmath@dimen=\dimen186
 \pgfmath@count=\count318
 \pgfmath@box=\box56
 \pgfmath@toks=\toks36
@@ -435,32 +435,32 @@ arithmetics.code.tex)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorepoints.code
 .tex
 File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@picminx=\dimen185
-\pgf@picmaxx=\dimen186
-\pgf@picminy=\dimen187
-\pgf@picmaxy=\dimen188
-\pgf@pathminx=\dimen189
-\pgf@pathmaxx=\dimen190
-\pgf@pathminy=\dimen191
-\pgf@pathmaxy=\dimen192
-\pgf@xx=\dimen193
-\pgf@xy=\dimen194
-\pgf@yx=\dimen195
-\pgf@yy=\dimen196
-\pgf@zx=\dimen197
-\pgf@zy=\dimen198
+\pgf@picminx=\dimen187
+\pgf@picmaxx=\dimen188
+\pgf@picminy=\dimen189
+\pgf@picmaxy=\dimen190
+\pgf@pathminx=\dimen191
+\pgf@pathmaxx=\dimen192
+\pgf@pathminy=\dimen193
+\pgf@pathmaxy=\dimen194
+\pgf@xx=\dimen195
+\pgf@xy=\dimen196
+\pgf@yx=\dimen197
+\pgf@yy=\dimen198
+\pgf@zx=\dimen199
+\pgf@zy=\dimen256
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorepathconstru
 ct.code.tex
 File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@path@lastx=\dimen199
-\pgf@path@lasty=\dimen256
+\pgf@path@lastx=\dimen257
+\pgf@path@lasty=\dimen258
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorepathusage.c
 ode.tex
 File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@shorten@end@additional=\dimen257
-\pgf@shorten@start@additional=\dimen258
+\pgf@shorten@end@additional=\dimen259
+\pgf@shorten@start@additional=\dimen260
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorescopes.code
 .tex
@@ -473,14 +473,14 @@ File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcoregraphicstat
 e.code.tex
 File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgflinewidth=\dimen259
+\pgflinewidth=\dimen261
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcoretransformat
 ions.code.tex
 File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@pt@x=\dimen260
-\pgf@pt@y=\dimen261
-\pgf@pt@temp=\dimen262
+\pgf@pt@x=\dimen262
+\pgf@pt@y=\dimen263
+\pgf@pt@temp=\dimen264
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorequick.code.
 tex
@@ -497,12 +497,12 @@ File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcorearrows.code
 .tex
 File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfarrowsep=\dimen263
+\pgfarrowsep=\dimen265
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/basiclayer/pgfcoreshade.code.
 tex
 File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@max=\dimen264
+\pgf@max=\dimen266
 \pgf@sys@shading@range@num=\count321
 \pgf@shadingcount=\count322
 )
@@ -543,8 +543,8 @@ File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/latex/pgf/compatibility/pgfcomp-version-0
 -65.sty
 Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
-\pgf@nodesepstart=\dimen265
-\pgf@nodesepend=\dimen266
+\pgf@nodesepstart=\dimen267
+\pgf@nodesepend=\dimen268
 )
 (/Users/nusratbegum/Library/texmf/tex/latex/pgf/compatibility/pgfcomp-version-1
 -18.sty
@@ -556,8 +556,8 @@ Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/math/pgfmath.code.tex))
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/utilities/pgffor.code.tex
 Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
-\pgffor@iter=\dimen267
-\pgffor@skip=\dimen268
+\pgffor@iter=\dimen269
+\pgffor@skip=\dimen270
 \pgffor@stack=\toks39
 \pgffor@toks=\toks40
 ))
@@ -569,16 +569,16 @@ Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
 ers.code.tex
 File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgf@plot@mark@count=\count323
-\pgfplotmarksize=\dimen269
+\pgfplotmarksize=\dimen271
 )
-\tikz@lastx=\dimen270
-\tikz@lasty=\dimen271
-\tikz@lastxsaved=\dimen272
-\tikz@lastysaved=\dimen273
-\tikz@lastmovetox=\dimen274
-\tikz@lastmovetoy=\dimen275
-\tikzleveldistance=\dimen276
-\tikzsiblingdistance=\dimen277
+\tikz@lastx=\dimen272
+\tikz@lasty=\dimen273
+\tikz@lastxsaved=\dimen274
+\tikz@lastysaved=\dimen275
+\tikz@lastmovetox=\dimen276
+\tikz@lastmovetoy=\dimen277
+\tikzleveldistance=\dimen278
+\tikzsiblingdistance=\dimen279
 \tikz@figbox=\box62
 \tikz@figbox@bg=\box63
 \tikz@tempbox=\box64
@@ -612,10 +612,10 @@ File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/libraries/pgflibraryarrows.me
 ta.code.tex
 File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
-\pgfarrowinset=\dimen278
-\pgfarrowlength=\dimen279
-\pgfarrowwidth=\dimen280
-\pgfarrowlinewidth=\dimen281
+\pgfarrowinset=\dimen280
+\pgfarrowlength=\dimen281
+\pgfarrowwidth=\dimen282
+\pgfarrowlinewidth=\dimen283
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/
 tikzlibrarypositioning.code.tex
@@ -634,7 +634,7 @@ Package: pgfplots 2025/08/14 v1.18.2 Data Visualization (1.18.2)
 \t@pgfplots@toka=\toks41
 \t@pgfplots@tokb=\toks42
 \t@pgfplots@tokc=\toks43
-\pgfplots@tmpa=\dimen282
+\pgfplots@tmpa=\dimen284
 \c@pgfplots@coordindex=\count332
 \c@pgfplots@scanlineindex=\count333
 
@@ -706,14 +706,14 @@ x)
 tikzlibrarydecorations.code.tex
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/modules/pgfmoduledecorations.
 code.tex
-\pgfdecoratedcompleteddistance=\dimen283
-\pgfdecoratedremainingdistance=\dimen284
-\pgfdecoratedinputsegmentcompleteddistance=\dimen285
-\pgfdecoratedinputsegmentremainingdistance=\dimen286
-\pgf@decorate@distancetomove=\dimen287
+\pgfdecoratedcompleteddistance=\dimen285
+\pgfdecoratedremainingdistance=\dimen286
+\pgfdecoratedinputsegmentcompleteddistance=\dimen287
+\pgfdecoratedinputsegmentremainingdistance=\dimen288
+\pgf@decorate@distancetomove=\dimen289
 \pgf@decorate@repeatstate=\count337
-\pgfdecorationsegmentamplitude=\dimen288
-\pgfdecorationsegmentlength=\dimen289
+\pgfdecorationsegmentamplitude=\dimen290
+\pgfdecorationsegmentlength=\dimen291
 )
 \tikz@lib@dec@box=\box66
 )
@@ -728,12 +728,12 @@ arydecorations.pathreplacing.code.tex))
 (/Users/nusratbegum/Library/texmf/tex/generic/pgfplots/libs/tikzlibrarypgfplots
 .contourlua.code.tex)
 \pgfplots@numplots=\count338
-\pgfplots@xmin@reg=\dimen290
-\pgfplots@xmax@reg=\dimen291
-\pgfplots@ymin@reg=\dimen292
-\pgfplots@ymax@reg=\dimen293
-\pgfplots@zmin@reg=\dimen294
-\pgfplots@zmax@reg=\dimen295
+\pgfplots@xmin@reg=\dimen292
+\pgfplots@xmax@reg=\dimen293
+\pgfplots@ymin@reg=\dimen294
+\pgfplots@ymax@reg=\dimen295
+\pgfplots@zmin@reg=\dimen296
+\pgfplots@zmax@reg=\dimen297
 )
 (/Users/nusratbegum/Library/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/
 tikzlibraryplotmarks.code.tex
@@ -745,30 +745,30 @@ File: pgflibraryplotmarks.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )))
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen296
-\lightrulewidth=\dimen297
-\cmidrulewidth=\dimen298
-\belowrulesep=\dimen299
-\belowbottomsep=\dimen300
-\aboverulesep=\dimen301
-\abovetopsep=\dimen302
-\cmidrulesep=\dimen303
-\cmidrulekern=\dimen304
-\defaultaddspace=\dimen305
+\heavyrulewidth=\dimen298
+\lightrulewidth=\dimen299
+\cmidrulewidth=\dimen300
+\belowrulesep=\dimen301
+\belowbottomsep=\dimen302
+\aboverulesep=\dimen303
+\abovetopsep=\dimen304
+\cmidrulesep=\dimen305
+\cmidrulekern=\dimen306
+\defaultaddspace=\dimen307
 \@cmidla=\count339
 \@cmidlb=\count340
-\@aboverulesep=\dimen306
-\@belowrulesep=\dimen307
+\@aboverulesep=\dimen308
+\@belowrulesep=\dimen309
 \@thisruleclass=\count341
 \@lastruleclass=\count342
-\@thisrulewidth=\dimen308
+\@thisrulewidth=\dimen310
 )
 (/Users/nusratbegum/Library/texmf/tex/latex/multirow/multirow.sty
 Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@colwidth=\skip63
 \multirow@cntb=\count343
 \multirow@dima=\skip64
-\bigstrutjot=\dimen309
+\bigstrutjot=\dimen311
 )
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
@@ -791,7 +791,7 @@ LaTeX Info: Redefining \leftprotrusion on input line 1085.
 \MT@prot@toks=\toks46
 LaTeX Info: Redefining \rightprotrusion on input line 1104.
 LaTeX Info: Redefining \textls on input line 1449.
-\MT@outer@kern=\dimen310
+\MT@outer@kern=\dimen312
 LaTeX Info: Redefining \microtypecontext on input line 2053.
 LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
 \MT@listname@count=\count345
@@ -827,7 +827,7 @@ File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (/usr/local/texlive/2026basic/texmf-dist/tex/latex/l3backend/l3backend-pdftex.d
 ef
-File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2026-02-18 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count346
 ) (./main.aux)
 \openout1 = `main.aux'.
@@ -859,13 +859,13 @@ Package hyperref Info: Link coloring OFF on input line 42.
 (/usr/local/texlive/2026basic/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count347
-\scratchdimen=\dimen311
+\scratchdimen=\dimen313
 \scratchbox=\box69
 \nofMPsegments=\count348
 \nofMParguments=\count349
 \everyMPshowfont=\toks47
 \MPscratchCnt=\count350
-\MPscratchDim=\dimen312
+\MPscratchDim=\dimen314
 \MPnumerator=\count351
 \makeMPintoPDFobject=\count352
 \everyMPtoPDFconversion=\toks48
@@ -967,26 +967,50 @@ Underfull \hbox (badness 10000) in paragraph at lines 1--6
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
- [9] (./main.lot)
+ [9] (./main.lot
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 8
+.
+
+(/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [10
+
+])
 \tf@lot=\write6
 \openout6 = `main.lot'.
 
- [10
 
-] [11] (./main.lof
-[12
+[11] (./main.lof [12
 
 ])
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
- (./thesis.tex [13] [14]
+ (./abbreviations.tex [13])
+Overfull \hbox (59.56593pt too wide) in paragraph at lines 4--55
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 4--55
+
+ []
+
+(./thesis.tex [14
+
+]
 Chapter 1.
 [1
 
-] [2] [3] [4] [5]
+] [2] [3]
+Overfull \hbox (8.3873pt too wide) in paragraph at lines 37--38
+ \OT1/ptm/b/n/12 (-20) Sever-ity In-dex (DSI)\OT1/ptm/m/n/12 (-20) . The lo-cal
+-i-sa-tion com-po-nent uses Tree-SHAP marginal
+ []
+
+[4] [5]
 Chapter 2.
-<figures/figure-1.png, id=722, 858.0858pt x 352.1958pt>
+<figures/figure-1.png, id=737, 858.0858pt x 352.1958pt>
 File: figures/figure-1.png Graphic file (type png)
 <use figures/figure-1.png>
 Package pdftex.def Info: figures/figure-1.png  used on input line 47.
@@ -1242,6 +1266,10 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 667.
 
+
+LaTeX Warning: Reference `sec:exp3-results' on page 34 undefined on input line 
+685.
+
 [34] [35] [36]
 Overfull \hbox (42.62334pt too wide) in paragraph at lines 721--722
  []\OT1/ptm/m/n/12 (-20) Calculate mean ab-so-lute SHAP value per fea-ture: $[]
@@ -1273,260 +1301,260 @@ Underfull \hbox (badness 10000) in paragraph at lines 777--777
 []\OT1/ptm/m/n/12 (+20) Diffuse mul-ti-vari-ate
  []
 
-[39] [40] [41] [42] [43] [44] [45] [46]
+[39] [40] [41] [42] [43] [44]
+Overfull \hbox (1.00032pt too wide) in paragraph at lines 918--919
+[]\OT1/ptm/m/n/12 (-20) Benchmarked EADD against D3 across 13 real-world bench-
+mark data streams
+ []
+
+[45] [46]
 Chapter 4.
 [47
 
-]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 9
-77.
- (/usr/local/texlive/2026basic/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-[48] [49]
-Overfull \hbox (54.07936pt too wide) in paragraph at lines 1025--1040
+] [48] [49]
+Overfull \hbox (54.07936pt too wide) in paragraph at lines 1037--1052
  [][] 
  []
 
-<figures/heatmap_mtd.pdf, id=1585, 672.31749pt x 425.36792pt>
+<figures/heatmap_mtd.pdf, id=1619, 672.31749pt x 425.36792pt>
 File: figures/heatmap_mtd.pdf Graphic file (type pdf)
 <use figures/heatmap_mtd.pdf>
-Package pdftex.def Info: figures/heatmap_mtd.pdf  used on input line 1047.
+Package pdftex.def Info: figures/heatmap_mtd.pdf  used on input line 1059.
 (pdftex.def)             Requested size: 201.44371pt x 127.44908pt.
-<figures/heatmap_false_alarms.pdf, id=1586, 666.04405pt x 425.36792pt>
+<figures/heatmap_false_alarms.pdf, id=1620, 666.04405pt x 425.36792pt>
 File: figures/heatmap_false_alarms.pdf Graphic file (type pdf)
 <use figures/heatmap_false_alarms.pdf>
 Package pdftex.def Info: figures/heatmap_false_alarms.pdf  used on input line 1
-051.
+063.
 (pdftex.def)             Requested size: 201.44371pt x 128.64984pt.
-<figures/bell_curves_abrupt_drift.pdf, id=1588, 1076.5394pt x 592.51741pt>
+<figures/bell_curves_abrupt_drift.pdf, id=1622, 1076.5394pt x 592.51741pt>
 File: figures/bell_curves_abrupt_drift.pdf Graphic file (type pdf)
 <use figures/bell_curves_abrupt_drift.pdf>
 Package pdftex.def Info: figures/bell_curves_abrupt_drift.pdf  used on input li
-ne 1062.
+ne 1074.
 (pdftex.def)             Requested size: 201.44371pt x 110.87071pt.
-<figures/bell_curves_gradual_drift.pdf, id=1589, 1076.5394pt x 592.51741pt>
+<figures/bell_curves_gradual_drift.pdf, id=1623, 1076.5394pt x 592.51741pt>
 File: figures/bell_curves_gradual_drift.pdf Graphic file (type pdf)
 <use figures/bell_curves_gradual_drift.pdf>
 Package pdftex.def Info: figures/bell_curves_gradual_drift.pdf  used on input l
-ine 1066.
+ine 1078.
 (pdftex.def)             Requested size: 201.44371pt x 110.87071pt.
-<figures/timeseries_abrupt_drift.pdf, id=1591, 1148.81001pt x 570.15762pt>
+<figures/timeseries_abrupt_drift.pdf, id=1625, 1148.81001pt x 570.15762pt>
 File: figures/timeseries_abrupt_drift.pdf Graphic file (type pdf)
 <use figures/timeseries_abrupt_drift.pdf>
 Package pdftex.def Info: figures/timeseries_abrupt_drift.pdf  used on input lin
-e 1077.
+e 1089.
 (pdftex.def)             Requested size: 201.44371pt x 99.97047pt.
-<figures/timeseries_gradual_drift.pdf, id=1592, 1148.81001pt x 570.15762pt>
+<figures/timeseries_gradual_drift.pdf, id=1626, 1148.81001pt x 570.15762pt>
 File: figures/timeseries_gradual_drift.pdf Graphic file (type pdf)
 <use figures/timeseries_gradual_drift.pdf>
 Package pdftex.def Info: figures/timeseries_gradual_drift.pdf  used on input li
-ne 1081.
+ne 1093.
 (pdftex.def)             Requested size: 201.44371pt x 99.97047pt.
 [50] [51 <./figures/heatmap_mtd.pdf> <./figures/heatmap_false_alarms.pdf> <./fi
 gures/bell_curves_abrupt_drift.pdf> <./figures/bell_curves_gradual_drift.pdf> <
 ./figures/timeseries_abrupt_drift.pdf> <./figures/timeseries_gradual_drift.pdf>
 ] [52]
-Overfull \hbox (6.86449pt too wide) in paragraph at lines 1139--1155
- [][] 
- []
 
-<figures/heatmap_realworld_mtd.pdf, id=2059, 921.64902pt x 497.63792pt>
+LaTeX Warning: Reference `sec:datasets' on page 53 undefined on input line 1117
+.
+
+[53]
+<figures/heatmap_realworld_mtd.pdf, id=2095, 921.64902pt x 497.63792pt>
 File: figures/heatmap_realworld_mtd.pdf Graphic file (type pdf)
 <use figures/heatmap_realworld_mtd.pdf>
 Package pdftex.def Info: figures/heatmap_realworld_mtd.pdf  used on input line 
-1162.
+1194.
 (pdftex.def)             Requested size: 201.44371pt x 108.7669pt.
-<figures/heatmap_realworld_mdr.pdf, id=2060, 918.46526pt x 497.63792pt>
+<figures/heatmap_realworld_mdr.pdf, id=2096, 918.46526pt x 497.63792pt>
 File: figures/heatmap_realworld_mdr.pdf Graphic file (type pdf)
 <use figures/heatmap_realworld_mdr.pdf>
 Package pdftex.def Info: figures/heatmap_realworld_mdr.pdf  used on input line 
-1166.
+1198.
 (pdftex.def)             Requested size: 201.44371pt x 109.13898pt.
-<figures/timeseries_realworld_waveformdrift2.pdf, id=2062, 1148.8399pt x 569.90
+<figures/timeseries_realworld_waveformdrift2.pdf, id=2098, 1148.8399pt x 569.90
 791pt>
 File: figures/timeseries_realworld_waveformdrift2.pdf Graphic file (type pdf)
 <use figures/timeseries_realworld_waveformdrift2.pdf>
 Package pdftex.def Info: figures/timeseries_realworld_waveformdrift2.pdf  used 
-on input line 1177.
+on input line 1209.
 (pdftex.def)             Requested size: 201.44371pt x 99.92668pt.
-<figures/timeseries_realworld_sineclusters.pdf, id=2063, 1148.8399pt x 569.9079
+<figures/timeseries_realworld_sineclusters.pdf, id=2099, 1148.8399pt x 569.9079
 1pt>
 File: figures/timeseries_realworld_sineclusters.pdf Graphic file (type pdf)
 <use figures/timeseries_realworld_sineclusters.pdf>
 Package pdftex.def Info: figures/timeseries_realworld_sineclusters.pdf  used on
- input line 1181.
+ input line 1213.
 (pdftex.def)             Requested size: 201.44371pt x 99.92668pt.
-[53] [54 <./figures/heatmap_realworld_mtd.pdf> <./figures/heatmap_realworld_mdr
-.pdf> <./figures/timeseries_realworld_waveformdrift2.pdf> <./figures/timeseries
-_realworld_sineclusters.pdf>]
-<figures/bell_curves_realworld_waveformdrift2.pdf, id=2371, 1075.67006pt x 569.
+<figures/bell_curves_realworld_waveformdrift2.pdf, id=2101, 1075.67006pt x 569.
 39098pt>
 File: figures/bell_curves_realworld_waveformdrift2.pdf Graphic file (type pdf)
 <use figures/bell_curves_realworld_waveformdrift2.pdf>
 Package pdftex.def Info: figures/bell_curves_realworld_waveformdrift2.pdf  used
- on input line 1192.
+ on input line 1224.
 (pdftex.def)             Requested size: 201.44371pt x 106.63022pt.
-<figures/bell_curves_realworld_insectsabrupt.pdf, id=2372, 1076.65862pt x 569.3
+<figures/bell_curves_realworld_insectsabrupt.pdf, id=2102, 1076.65862pt x 569.3
 9098pt>
 File: figures/bell_curves_realworld_insectsabrupt.pdf Graphic file (type pdf)
 <use figures/bell_curves_realworld_insectsabrupt.pdf>
 Package pdftex.def Info: figures/bell_curves_realworld_insectsabrupt.pdf  used 
-on input line 1196.
+on input line 1228.
 (pdftex.def)             Requested size: 201.44371pt x 106.53465pt.
- [55 <./figures/bell_curves_realworld_waveformdrift2.pdf> <./figures/bell_curve
-s_realworld_insectsabrupt.pdf>] [56]
-Overfull \hbox (56.91524pt too wide) in paragraph at lines 1239--1248
+ [54] [55 <./figures/heatmap_realworld_mtd.pdf> <./figures/heatmap_realworld_md
+r.pdf> <./figures/timeseries_realworld_waveformdrift2.pdf> <./figures/timeserie
+s_realworld_sineclusters.pdf> <./figures/bell_curves_realworld_waveformdrift2.p
+df> <./figures/bell_curves_realworld_insectsabrupt.pdf>] [56]
+Overfull \hbox (56.91524pt too wide) in paragraph at lines 1271--1280
  [][] 
  []
 
-[57]
-Overfull \hbox (92.67105pt too wide) in paragraph at lines 1267--1271
+[57] [58]
+Overfull \hbox (92.67105pt too wide) in paragraph at lines 1299--1303
 []\OT1/pcr/m/n/12 D3: ``DRIFT DETECTED (AUC = 0.78).'' [No feature attribution]
  
  []
 
 
-Overfull \hbox (35.07108pt too wide) in paragraph at lines 1267--1271
+Overfull \hbox (35.07108pt too wide) in paragraph at lines 1299--1303
 \OT1/pcr/m/n/12 IBDD: ``Drift at step 5012.'' [No feature attribution] 
  []
 
 
-Overfull \hbox (42.27107pt too wide) in paragraph at lines 1267--1271
+Overfull \hbox (42.27107pt too wide) in paragraph at lines 1299--1303
 \OT1/pcr/m/n/12 CSDDM: ``Drift at step 5009.'' [No feature attribution] 
  []
 
 
-Overfull \hbox (20.31108pt too wide) in paragraph at lines 1267--1271
+Overfull \hbox (20.31108pt too wide) in paragraph at lines 1299--1303
 \OT1/pcr/m/n/12 All other detectors: Binary alarm or no alarm---zero
  []
 
-<figures/bell_shap_combined_univariate.pdf, id=2535, 1438.50816pt x 499.50175pt
+<figures/bell_shap_combined_univariate.pdf, id=2572, 1438.50816pt x 499.50175pt
 >
 File: figures/bell_shap_combined_univariate.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_univariate.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_univariate.pdf  used on inp
-ut line 1278.
+ut line 1310.
 (pdftex.def)             Requested size: 134.30008pt x 46.63pt.
-<figures/bell_shap_combined_subset.pdf, id=2536, 1438.73325pt x 499.50175pt>
+<figures/bell_shap_combined_subset.pdf, id=2573, 1438.73325pt x 499.50175pt>
 File: figures/bell_shap_combined_subset.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_subset.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_subset.pdf  used on input l
-ine 1282.
+ine 1314.
 (pdftex.def)             Requested size: 134.30008pt x 46.62238pt.
-<figures/bell_shap_combined_multivariate.pdf, id=2537, 1438.50816pt x 499.50175
+<figures/bell_shap_combined_multivariate.pdf, id=2574, 1438.50816pt x 499.50175
 pt>
 File: figures/bell_shap_combined_multivariate.pdf Graphic file (type pdf)
 <use figures/bell_shap_combined_multivariate.pdf>
 Package pdftex.def Info: figures/bell_shap_combined_multivariate.pdf  used on i
-nput line 1286.
+nput line 1318.
 (pdftex.def)             Requested size: 134.30008pt x 46.63pt.
-<figures/shap_attribution_accuracy.pdf, id=2539, 1291.46553pt x 427.59373pt>
+<figures/shap_attribution_accuracy.pdf, id=2576, 1291.46553pt x 427.59373pt>
 File: figures/shap_attribution_accuracy.pdf Graphic file (type pdf)
 <use figures/shap_attribution_accuracy.pdf>
 Package pdftex.def Info: figures/shap_attribution_accuracy.pdf  used on input l
-ine 1297.
+ine 1329.
 (pdftex.def)             Requested size: 201.44371pt x 66.69391pt.
-<figures/explainability_comparison.pdf, id=2540, 859.91576pt x 353.4426pt>
+<figures/explainability_comparison.pdf, id=2577, 859.91576pt x 353.4426pt>
 File: figures/explainability_comparison.pdf Graphic file (type pdf)
 <use figures/explainability_comparison.pdf>
 Package pdftex.def Info: figures/explainability_comparison.pdf  used on input l
-ine 1301.
+ine 1333.
 (pdftex.def)             Requested size: 201.44371pt x 82.79475pt.
-[58 <./figures/bell_shap_combined_univariate.pdf> <./figures/bell_shap_combined
-_subset.pdf> <./figures/bell_shap_combined_multivariate.pdf>] [59 <./figures/sh
-ap_attribution_accuracy.pdf> <./figures/explainability_comparison.pdf>]
-[60] [61] [62] [63]
+[59 <./figures/bell_shap_combined_univariate.pdf> <./figures/bell_shap_combined
+_subset.pdf> <./figures/bell_shap_combined_multivariate.pdf> <./figures/shap_at
+tribution_accuracy.pdf> <./figures/explainability_comparison.pdf>] [60]
+[61] [62] [63]
 Chapter 5.
 [64
 
 ] [65] [66]
-Underfull \hbox (badness 2261) in paragraph at lines 1457--1457
+Underfull \hbox (badness 2261) in paragraph at lines 1489--1489
 []\OT1/ptm/m/n/12 (+20) Larger datasets al-low
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1458--1458
+Underfull \hbox (badness 10000) in paragraph at lines 1490--1490
 []\OT1/ptm/m/n/12 (+20) Expected Drift
  []
 
 
-Underfull \hbox (badness 1383) in paragraph at lines 1458--1458
+Underfull \hbox (badness 1383) in paragraph at lines 1490--1490
 []\OT1/ptm/m/n/12 (+20) Abrupt: smaller win-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
 []\OT1/ptm/m/n/12 (+20) Detection La-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1459
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1491
 []\OT1/ptm/m/n/12 (+20) Smaller win-dows =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1459--1460
+Underfull \hbox (badness 10000) in paragraph at lines 1491--1492
 []\OT1/ptm/m/n/12 (+20) Trade-off with sta-tis-ti-cal
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1460--1460
+Underfull \hbox (badness 10000) in paragraph at lines 1492--1492
 []\OT1/ptm/m/n/12 (+20) Computational
  []
 
 [67] [68]
-Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
+Underfull \hbox (badness 10000) in paragraph at lines 1538--1538
 []\OT1/ptm/b/n/12 (+20) Drift Pat-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1506--1506
+Underfull \hbox (badness 10000) in paragraph at lines 1538--1538
 []\OT1/ptm/b/n/12 (+20) DSI
  []
 
 
-Underfull \hbox (badness 2591) in paragraph at lines 1508--1508
+Underfull \hbox (badness 2591) in paragraph at lines 1540--1540
 []\OT1/ptm/m/n/12 (+20) Sensor Fail-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1508--1508
+Underfull \hbox (badness 10000) in paragraph at lines 1540--1540
 []\OT1/ptm/m/n/12 (+20) Single fea-ture
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1510
+Underfull \hbox (badness 10000) in paragraph at lines 1542--1542
 []\OT1/ptm/m/n/12 (+20) Univariate
  []
 
 
-Underfull \hbox (badness 1701) in paragraph at lines 1512--1512
+Underfull \hbox (badness 1701) in paragraph at lines 1544--1544
 []\OT1/ptm/m/n/12 (+20) 2--5 cor-re-lated fea-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1512--1512
+Underfull \hbox (badness 10000) in paragraph at lines 1544--1544
 \OT1/ptm/m/n/12 (+20) tures; sig-nif-i-cant
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
+Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
 []\OT1/ptm/m/n/12 (+20) Multivariate
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
+Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
 []\OT1/ptm/m/n/12 (+20) Importance dis-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1514--1514
+Underfull \hbox (badness 10000) in paragraph at lines 1546--1546
 \OT1/ptm/m/n/12 (+20) in-ter-ac-tion mag-ni-
  []
 
 
-Underfull \hbox (badness 4316) in paragraph at lines 1516--1516
+Underfull \hbox (badness 4316) in paragraph at lines 1548--1548
 []\OT1/ptm/m/n/12 (+20) Periodic DSI fluc-
  []
 
@@ -1534,7 +1562,7 @@ Underfull \hbox (badness 4316) in paragraph at lines 1516--1516
 Chapter 6.
 [73
 
-] [74] [75] [76] [77]) [78] (./appendix_impl.tex [79]
+] [74] [75] [76] [77] [78]) [79] (./appendix_impl.tex [80]
 pdfTeX warning (ext4): destination with the same identifier (name{chapter.1}) h
 as been already used, duplicate ignored
 <to be read again> 
@@ -1566,12 +1594,12 @@ pdfTeX warning (ext4): destination with the same identifier (name{section.1.3})
 <to be read again> 
                    \relax 
 l.34 \section{Uncertainty and Statistical Testing}
-                                                   [80
+                                                   [81
 
-]) (./main.bbl [81]
-[82
+]) (./main.bbl [82]
+[83
 
-] [83] [84] [85] [86] [87]
+] [84] [85] [86] [87] [88]
 Underfull \hbox (badness 10000) in paragraph at lines 401--407
 []\OT1/ptm/m/n/12 (+20) Taly, A., Sato, K., and Gruia, C. (2021).  Mon-i-tor-in
 g fea-ture at-
@@ -1601,43 +1629,37 @@ Overfull \hbox (23.44904pt too wide) in paragraph at lines 401--407
 d-[]one-[]of-[]the-[]largest-[]ml-[]services-[]in-[]crisis$[]. 
  []
 
-[88]) [89] [90
+[89]) [90] [91
 
-] [91
+] [92
 
 ] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
-L3 programming layer <2026-01-19>
+L3 programming layer <2026-03-20>
  ***********
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were undefined references.
 
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: D519D80F4C2B6FDB06E848345CD288BA;17106
-(rerunfilecheck)             After:  C2AE5C49173AA7C50199150371CEC788;17149.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: FFEAE34C4F0823A52269818A33A93A23;17304.
  )
 (\end occurred when \iffalse on line 1 was incomplete)
-(\end occurred when \iffalse on line 1548 was incomplete)
-(\end occurred when \iffalse on line 1385 was incomplete)
-(\end occurred when \iffalse on line 945 was incomplete)
+(\end occurred when \iffalse on line 1580 was incomplete)
+(\end occurred when \iffalse on line 1417 was incomplete)
+(\end occurred when \iffalse on line 957 was incomplete)
 (\end occurred when \iffalse on line 373 was incomplete)
 (\end occurred when \iffalse on line 43 was incomplete)
 (\end occurred when \iffalse on line 1 was incomplete) 
 Here is how much of TeX's memory you used:
- 37272 strings out of 469006
- 843863 string characters out of 5454813
- 1382430 words of memory out of 5000000
- 64601 multiletter control sequences out of 15000+600000
- 679072 words of font info for 397 fonts, out of 8000000 for 9000
+ 37286 strings out of 468830
+ 844080 string characters out of 5451467
+ 1386623 words of memory out of 5000000
+ 64781 multiletter control sequences out of 15000+600000
+ 678771 words of font info for 399 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 90i,15n,104p,1454b,975s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,15n,104p,1645b,975s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2026b
 asic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2
 026basic/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texli
@@ -1653,18 +1675,16 @@ s/cm/cmr12.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/amsf
 onts/cm/cmr6.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmr8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/typ
-e1/public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2026basic/texmf-dist/
-fonts/type1/public/amsfonts/symbols/msbm10.pfb></Users/nusratbegum/Library/texm
-f/fonts/type1/urw/courier/ucrr8a.pfb></Users/nusratbegum/Library/texmf/fonts/ty
-pe1/urw/times/utmb8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/time
-s/utmr8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/times/utmri8a.pf
-b>
-Output written on main.pdf (106 pages, 1820920 bytes).
+lic/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026basic/texmf-dist/fonts/type1/
+public/amsfonts/symbols/msam10.pfb></usr/local/texlive/2026basic/texmf-dist/fon
+ts/type1/public/amsfonts/symbols/msbm10.pfb></Users/nusratbegum/Library/texmf/f
+onts/type1/urw/courier/ucrr8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1
+/urw/times/utmb8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/times/u
+tmr8a.pfb></Users/nusratbegum/Library/texmf/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (107 pages, 1820599 bytes).
 PDF statistics:
- 3352 PDF objects out of 3580 (max. 8388607)
- 2041 compressed objects within 21 object streams
- 334 named destinations out of 1000 (max. 500000)
- 64239 words of extra memory for PDF output out of 74296 (max. 10000000)
+ 3390 PDF objects out of 3580 (max. 8388607)
+ 2080 compressed objects within 21 object streams
+ 336 named destinations out of 1000 (max. 500000)
+ 63223 words of extra memory for PDF output out of 74296 (max. 10000000)
 
