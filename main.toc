@@ -5,85 +5,86 @@
 \contentsline {chapter}{LIST OF FIGURES}{xii}{Doc-Start}%
 \contentsline {chapter}{List of Abbreviations}{xiv}{Doc-Start}%
 \contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ I}\MakeTextUppercase {Introduction}}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Motivation}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Objectives}{3}{section.1.2}%
-\contentsline {section}{\numberline {1.3}Expected Contributions}{4}{section.1.3}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ II}\MakeTextUppercase {Literature Review}}{6}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Overview}{6}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Historical Evolution of Drift Detection}{7}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Types of Drift}{8}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Drift by Nature of Change}{8}{subsection.2.3.1}%
-\contentsline {subsection}{\numberline {2.3.2}Drift by Temporal Pattern}{9}{subsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.3.3}Summary Taxonomy}{10}{subsection.2.3.3}%
-\contentsline {section}{\numberline {2.4}Classification of Drift Detection Methods}{10}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Supervised Drift Detection Methods}{10}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Unsupervised Drift Detection Methods}{11}{subsection.2.4.2}%
-\contentsline {subsubsection}{\numberline {2.4.2.1}Statistical Distribution-Based Methods}{12}{subsubsection.2.4.2.1}%
-\contentsline {subsubsection}{\numberline {2.4.2.2}Model-Based Discriminative Methods}{13}{subsubsection.2.4.2.2}%
-\contentsline {subsubsection}{\numberline {2.4.2.3}Representation-Based Methods}{14}{subsubsection.2.4.2.3}%
-\contentsline {subsubsection}{\numberline {2.4.2.4}Prediction-Based / Output-Based Methods}{15}{subsubsection.2.4.2.4}%
-\contentsline {subsubsection}{\numberline {2.4.2.5}State-of-the-Art Unsupervised Detectors (2019--2025)}{15}{subsubsection.2.4.2.5}%
-\contentsline {subsection}{\numberline {2.4.3}Hybrid and Ensemble Methods}{17}{subsection.2.4.3}%
-\contentsline {section}{\numberline {2.5}Limitations of Existing Methods}{18}{section.2.5}%
-\contentsline {section}{\numberline {2.6}Drift Mitigation and Adaptation Strategies}{19}{section.2.6}%
-\contentsline {section}{\numberline {2.7}Industry Applications of Drift Detection}{20}{section.2.7}%
-\contentsline {section}{\numberline {2.8}Related Work: Discriminative and Attribution Approaches}{21}{section.2.8}%
-\contentsline {subsection}{\numberline {2.8.1}Discriminative Distribution Testing}{21}{subsection.2.8.1}%
-\contentsline {subsection}{\numberline {2.8.2}Industrial Applications of Discriminative Detection}{22}{subsection.2.8.2}%
-\contentsline {subsection}{\numberline {2.8.3}Recent Advances in Drift Detection (2024--2026)}{23}{subsection.2.8.3}%
-\contentsline {section}{\numberline {2.9}Gap in the Literature}{25}{section.2.9}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ III}\MakeTextUppercase {Methodology}}{27}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Overview: Enhanced Adversarial Drift Detection (EADD)}{27}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Problem Formulation}{30}{section.3.2}%
-\contentsline {section}{\numberline {3.3}EADD Framework Components}{31}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Step 1: Adaptive Reference Windowing}{32}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Step 2: Discriminative Classification (The Detector)}{33}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Step 2b: Prediction Entropy Monitoring ($H_{\text {pred}}$) --- Contribution 1a}{34}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Step 3: Adaptive Sequential Permutation Test (ASPT) --- Contribution 1b}{35}{subsection.3.3.4}%
-\contentsline {subsection}{\numberline {3.3.5}Step 4a: Interaction-Aware Feature Drift Localisation via SHAP --- Contribution 2a}{36}{subsection.3.3.5}%
-\contentsline {subsection}{\numberline {3.3.6}Step 4b: Drift Severity Index (DSI) --- Contribution 2b}{38}{subsection.3.3.6}%
-\contentsline {subsection}{\numberline {3.3.7}Automated Drift Prescription via DSI}{40}{subsection.3.3.7}%
-\contentsline {subsection}{\numberline {3.3.8}Model Adaptation Strategies}{40}{subsection.3.3.8}%
-\contentsline {section}{\numberline {3.4}Datasets}{41}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Baseline Drift Detectors}{43}{section.3.5}%
-\contentsline {section}{\numberline {3.6}Evaluation Metrics}{44}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Experimental Design}{45}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Practical Considerations}{46}{section.3.8}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Experiments and Results}}{47}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Research Questions}{47}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Hypotheses}{48}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Experimental Setup}{48}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Experiment 1: Multi-Detector Sensitivity to Temporal Drift Patterns}{49}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Experiment 2: Multi-Detector Real-World Benchmark}{53}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Experiment 3: SHAP Attribution Accuracy}{57}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Statistical Hypothesis Testing}{61}{section.4.7}%
-\contentsline {subsection}{\numberline {4.7.1}H1: Detection Coverage and Delay}{61}{subsection.4.7.1}%
-\contentsline {subsection}{\numberline {4.7.2}H2: False Alarm Reduction (Mann--Whitney U Test)}{62}{subsection.4.7.2}%
-\contentsline {subsection}{\numberline {4.7.3}H3: Feature Attribution Accuracy (Quantitative Evaluation)}{62}{subsection.4.7.3}%
-\contentsline {section}{\numberline {4.8}Qualitative Component Analysis: AUC and ASPT Behaviour on Real-World Data}{63}{section.4.8}%
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{64}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{64}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}RQ1: Detection Accuracy}{64}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}RQ2: Diagnostic Attribution}{65}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}RQ3: Robustness}{66}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Practical Implementation Considerations}{67}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Window Size and Threshold Selection}{67}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Drift Type Interpretation via DSI}{68}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Proposed MLOps Deployment Architecture}{68}{subsection.5.2.3}%
-\contentsline {section}{\numberline {5.3}MLOps Prescription Framework}{69}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Limitations and Threats to Validity}{70}{section.5.4}%
-\contentsline {section}{\numberline {5.5}Chapter Summary}{71}{section.5.5}%
+\contentsline {section}{\numberline {1.1}Motivation}{1}{section.2}%
+\contentsline {section}{\numberline {1.2}Objectives}{3}{section.3}%
+\contentsline {section}{\numberline {1.3}Expected Contributions}{4}{section.10}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ II}\MakeTextUppercase {Literature Review}}{6}{chapter.14}%
+\contentsline {section}{\numberline {2.1}Overview}{6}{section.16}%
+\contentsline {section}{\numberline {2.2}Historical Evolution of Drift Detection}{7}{section.17}%
+\contentsline {section}{\numberline {2.3}Types of Drift}{8}{section.19}%
+\contentsline {subsection}{\numberline {2.3.1}Drift by Nature of Change}{8}{subsection.20}%
+\contentsline {subsection}{\numberline {2.3.2}Drift by Temporal Pattern}{9}{subsection.21}%
+\contentsline {subsection}{\numberline {2.3.3}Summary Taxonomy}{10}{subsection.22}%
+\contentsline {section}{\numberline {2.4}Classification of Drift Detection Methods}{10}{section.24}%
+\contentsline {subsection}{\numberline {2.4.1}Supervised Drift Detection Methods}{10}{subsection.25}%
+\contentsline {subsection}{\numberline {2.4.2}Unsupervised Drift Detection Methods}{11}{subsection.26}%
+\contentsline {subsubsection}{\numberline {2.4.2.1}Statistical Distribution-Based Methods}{12}{subsubsection.27}%
+\contentsline {subsubsection}{\numberline {2.4.2.2}Model-Based Discriminative Methods}{13}{subsubsection.29}%
+\contentsline {subsubsection}{\numberline {2.4.2.3}Representation-Based Methods}{14}{subsubsection.30}%
+\contentsline {subsubsection}{\numberline {2.4.2.4}Prediction-Based / Output-Based Methods}{15}{subsubsection.31}%
+\contentsline {subsubsection}{\numberline {2.4.2.5}State-of-the-Art Unsupervised Detectors (2019--2025)}{15}{subsubsection.32}%
+\contentsline {subsection}{\numberline {2.4.3}Hybrid and Ensemble Methods}{17}{subsection.33}%
+\contentsline {section}{\numberline {2.5}Limitations of Existing Methods}{18}{section.34}%
+\contentsline {section}{\numberline {2.6}Drift Mitigation and Adaptation Strategies}{19}{section.35}%
+\contentsline {section}{\numberline {2.7}Industry Applications of Drift Detection}{20}{section.41}%
+\contentsline {section}{\numberline {2.8}Related Work: Discriminative and Attribution Approaches}{21}{section.42}%
+\contentsline {subsection}{\numberline {2.8.1}Discriminative Distribution Testing}{21}{subsection.43}%
+\contentsline {subsection}{\numberline {2.8.2}Industrial Applications of Discriminative Detection}{22}{subsection.44}%
+\contentsline {subsection}{\numberline {2.8.3}Recent Advances in Drift Detection (2024--2026)}{23}{subsection.45}%
+\contentsline {section}{\numberline {2.9}Gap in the Literature}{25}{section.46}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ III}\MakeTextUppercase {Methodology}}{27}{chapter.51}%
+\contentsline {section}{\numberline {3.1}Overview: Enhanced Adversarial Drift Detection (EADD)}{27}{section.55}%
+\contentsline {section}{\numberline {3.2}Problem Formulation}{30}{section.59}%
+\contentsline {section}{\numberline {3.3}EADD Framework Components}{31}{section.60}%
+\contentsline {subsection}{\numberline {3.3.1}Step 1: Adaptive Reference Windowing}{32}{subsection.62}%
+\contentsline {subsection}{\numberline {3.3.2}Step 2: Discriminative Classification (The Detector)}{33}{subsection.63}%
+\contentsline {subsection}{\numberline {3.3.3}Step 2b: Prediction Entropy Monitoring ($H_{\text {pred}}$) --- Contribution 1a}{34}{subsection.64}%
+\contentsline {subsection}{\numberline {3.3.4}Step 3: Adaptive Sequential Permutation Test (ASPT) --- Contribution 1b}{35}{subsection.66}%
+\contentsline {subsection}{\numberline {3.3.5}Step 4a: Feature Drift Localisation via SHAP --- Contribution 2a}{36}{subsection.70}%
+\contentsline {subsection}{\numberline {3.3.6}Step 4b: Drift Severity Index (DSI) --- Contribution 2b}{38}{subsection.79}%
+\contentsline {subsection}{\numberline {3.3.7}Automated Drift Prescription via DSI}{40}{subsection.83}%
+\contentsline {subsection}{\numberline {3.3.8}Model Adaptation Strategies}{41}{subsection.84}%
+\contentsline {section}{\numberline {3.4}Datasets}{41}{section.85}%
+\contentsline {section}{\numberline {3.5}Baseline Drift Detectors}{43}{section.86}%
+\contentsline {section}{\numberline {3.6}Evaluation Metrics}{44}{section.87}%
+\contentsline {section}{\numberline {3.7}Experimental Design}{45}{section.88}%
+\contentsline {section}{\numberline {3.8}Practical Considerations}{46}{section.89}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ IV}\MakeTextUppercase {Experiments and Results}}{48}{chapter.90}%
+\contentsline {section}{\numberline {4.1}Research Questions}{48}{section.91}%
+\contentsline {section}{\numberline {4.2}Hypotheses}{49}{section.92}%
+\contentsline {section}{\numberline {4.3}Experimental Setup}{49}{section.93}%
+\contentsline {section}{\numberline {4.4}Experiment 1: Multi-Detector Sensitivity to Temporal Drift Patterns}{50}{section.94}%
+\contentsline {section}{\numberline {4.5}Experiment 2: Multi-Detector Real-World Benchmark}{55}{section.102}%
+\contentsline {section}{\numberline {4.6}Experiment 3: SHAP Attribution Accuracy}{62}{section.114}%
+\contentsline {section}{\numberline {4.7}Experiment 4: Robustness to Stable Data (False Alarm Evaluation)}{67}{section.121}%
+\contentsline {section}{\numberline {4.8}Statistical Hypothesis Testing}{68}{section.126}%
+\contentsline {subsection}{\numberline {4.8.1}H1: Detection Coverage and Delay}{68}{subsection.127}%
+\contentsline {subsection}{\numberline {4.8.2}H2: False Alarm Reduction (Mann--Whitney U Test)}{69}{subsection.129}%
+\contentsline {subsection}{\numberline {4.8.3}H3: Feature Attribution Accuracy (Quantitative Evaluation)}{70}{subsection.130}%
+\contentsline {section}{\numberline {4.9}Qualitative Component Analysis: AUC and ASPT Behaviour on Real-World Data}{70}{section.131}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ V}\MakeTextUppercase {Discussion}}{72}{chapter.132}%
+\contentsline {section}{\numberline {5.1}Addressing Core Research Questions}{72}{section.133}%
+\contentsline {subsection}{\numberline {5.1.1}RQ1: Detection Accuracy}{72}{subsection.134}%
+\contentsline {subsection}{\numberline {5.1.2}RQ2: Diagnostic Attribution}{73}{subsection.135}%
+\contentsline {subsection}{\numberline {5.1.3}RQ3: Robustness}{74}{subsection.136}%
+\contentsline {section}{\numberline {5.2}Practical Implementation Considerations}{75}{section.137}%
+\contentsline {subsection}{\numberline {5.2.1}Window Size and Threshold Selection}{75}{subsection.138}%
+\contentsline {subsection}{\numberline {5.2.2}Drift Type Interpretation via DSI}{76}{subsection.140}%
+\contentsline {subsection}{\numberline {5.2.3}Proposed MLOps Deployment Architecture}{76}{subsection.141}%
+\contentsline {section}{\numberline {5.3}MLOps Prescription Framework}{77}{section.142}%
+\contentsline {section}{\numberline {5.4}Limitations and Threats to Validity}{78}{section.144}%
+\contentsline {section}{\numberline {5.5}Chapter Summary}{79}{section.145}%
 \newpage 
-\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{73}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Summary of Contributions}{73}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Implications for MLOps}{75}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Limitations}{76}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Future Work}{78}{section.6.4}%
-\contentsline {section}{\numberline {6.5}Concluding Remarks}{79}{section.6.5}%
-\contentsline {chapter}{APPENDIX}{80}{section.6.5}%
-\contentsline {chapter}{\hspace {1.5em} \numberline {\MakeTextUppercase {Appendix}\ A}\MakeTextUppercase {Implementation Details}}{81}{chapter.1}%
-\contentsline {section}{\numberline {A.1}Adversarial Classifier (LightGBM)}{81}{section.1.1}%
-\contentsline {section}{\numberline {A.2}Windowing and Monitoring}{81}{section.1.2}%
-\contentsline {section}{\numberline {A.3}Uncertainty and Statistical Testing}{82}{section.1.3}%
-\contentsline {section}{\numberline {A.4}Drift Severity Index (DSI) Tiers}{82}{section.1.4}%
-\contentsline {chapter}{BIOGRAPHY}{91}{section.1.4}%
+\contentsline {chapter}{\numberline {\MakeTextUppercase {Chapter}\ VI}\MakeTextUppercase {Conclusion}}{81}{chapter.146}%
+\contentsline {section}{\numberline {6.1}Summary of Contributions}{81}{section.147}%
+\contentsline {section}{\numberline {6.2}Implications for MLOps}{83}{section.151}%
+\contentsline {section}{\numberline {6.3}Limitations}{84}{section.152}%
+\contentsline {section}{\numberline {6.4}Future Work}{86}{section.153}%
+\contentsline {section}{\numberline {6.5}Concluding Remarks}{87}{section.161}%
+\contentsline {chapter}{APPENDIX}{88}{section.161}%
+\contentsline {chapter}{\hspace {1.5em} \numberline {\MakeTextUppercase {Appendix}\ A}\MakeTextUppercase {Implementation Details}}{89}{chapter.162}%
+\contentsline {section}{\numberline {A.1}Adversarial Classifier (LightGBM)}{89}{section.163}%
+\contentsline {section}{\numberline {A.2}Windowing and Monitoring}{89}{section.165}%
+\contentsline {section}{\numberline {A.3}Uncertainty and Statistical Testing}{90}{section.166}%
+\contentsline {section}{\numberline {A.4}Drift Severity Index (DSI) Tiers}{90}{section.167}%
+\contentsline {chapter}{BIOGRAPHY}{99}{section.167}%
