@@ -671,7 +671,7 @@ EADD introduces an \textbf{adaptive sequential permutation test} inspired by \ci
         \item Shuffle labels, retrain the discriminative classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$
         \item Update running count: $c_i = \#\{j \leq i : \text{AUC}^{(j)}_{\text{perm}} \geq \text{AUC}_{\text{actual}}\}$
         \item \textbf{Early reject $H_0$ (confirm drift):} If $c_i = 0$ and $i \geq B_{\min}$ and the conservative bound $1/(i+1) < \alpha$ holds, terminate and confirm drift with $p = 1/(i+1)$.
-        \item \textbf{Early accept $H_0$ (no drift):} If $c_i / i > 2\alpha$, the running exceedance rate far exceeds the nominal level; terminate and declare no drift.
+        \item \textbf{Early accept $H_0$ (no drift):} If $c_i / i > 2\alpha$ and $i \geq B_{\min}$, the running exceedance rate far exceeds the nominal level; terminate and declare no drift with $p = (c_i + 1)/(i + 1)$.
     \end{itemize}
     \item \textbf{Terminal decision:} If $B_{\max}$ is reached, compute the standard empirical p-value: $p = (c_{B_{\max}} + 1) / (B_{\max} + 1)$. Drift is confirmed if $p < \alpha$.
 \end{enumerate}
