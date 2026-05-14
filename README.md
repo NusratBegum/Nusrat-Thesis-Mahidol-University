@@ -98,4 +98,16 @@ Drift Detection, Adversarial Validation, Feature Drift, SHAP, MLOps, Covariate S
 
 ## License
 
-This thesis template is based on the [Mahidol University Thesis Template](https://github.com/ICT-Mahidol/MahidolThesis) (2021 version).
+**Copyright © 2026 Nusrat Begum.** Licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) — see [LICENSE](LICENSE).
+
+| Allowed | Not allowed |
+|---|---|
+| Share unmodified copy for non-commercial use, with attribution | Commercial use of any kind |
+| Cite the thesis in academic work | Modification, translation, or derivative works |
+| Personal scholarly reading | Removing attribution or this notice |
+
+**Commercial licensing inquiries:** `nusrat.beg@student.mahidol.ac.th`
+
+**Thesis template attribution:** The LaTeX template is based on the [Mahidol University Thesis Template](https://github.com/ICT-Mahidol/MahidolThesis) (2021 version). The original `muthesis2021.cls` is provided by Mahidol University FGS and retains its own licensing.
+
+**Institutional note:** Student retains copyright under Mahidol FGS policy; the university holds a non-exclusive right to archive and distribute the thesis for academic purposes.
