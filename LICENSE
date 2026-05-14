@@ -1,0 +1,47 @@
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+(CC BY-NC-ND 4.0)
+
+Copyright (c) 2026 Nusrat Begum.
+
+This work — including the thesis manuscript, LaTeX source files, figures,
+embedded data, and accompanying materials in this repository — is licensed
+under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0
+International License (CC BY-NC-ND 4.0).
+
+To view a copy of this license, visit:
+  https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
+
+Permitted:
+  - Share (copy and redistribute) the unmodified material in any medium
+    or format, for non-commercial purposes only, with full attribution.
+
+Not permitted:
+  - Commercial use of any kind.
+  - Modification, adaptation, translation, or derivative works.
+  - Removing this notice or the attribution.
+
+Attribution requirement (BibTeX):
+  @mastersthesis{begum2026eadd,
+    author = {Nusrat Begum},
+    title  = {Enhanced Adversarial Drift Detection (EADD)
+              for MLOps Feature Monitoring},
+    school = {Mahidol University, Faculty of Information and
+              Communication Technology},
+    year   = {2026},
+    note   = {Licensed under CC BY-NC-ND 4.0}
+  }
+
+DISCLAIMER
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. UNDER NO CIRCUMSTANCES SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM,
+DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH
+THE WORK OR ITS USE.
+
+For licensing inquiries beyond CC BY-NC-ND 4.0 (including commercial
+licensing), contact: nusrat.beg@student.mahidol.ac.th
+
+Institutional note: This thesis is also subject to the policies of the
+Faculty of Graduate Studies, Mahidol University. The student retains
+copyright under FGS Mahidol policy; the university holds a non-exclusive
+right to archive and distribute the thesis for academic purposes.
