@@ -1,6 +1,6 @@
 # Feature Drift Detection via Adversarial Validation
 
-**Master's Thesis** — Faculty of Information and Communication Technology, Mahidol University
+**Master's Thesis**, Faculty of Information and Communication Technology, Mahidol University
 
 **Author:** Nusrat Begum  
 **Advisor:** Asst. Prof. Thanapon Noraset, Ph.D.  
@@ -10,44 +10,36 @@
 
 ## Abstract
 
-Machine learning models in production suffer from "silent failure" when input feature distributions change over time (feature drift). While discriminative methods like D3 (Gözüaçık et al., 2019) can accurately detect drift, they function as "black boxes"—signaling *that* drift occurred without explaining *which* features drifted.
+Unsupervised drift detectors can signal that the input distribution of a deployed model has changed, but D3 (Gözüaçık et al., 2019), a discriminative detector recommended by the benchmark of Lukats et al. (2024), relies on an uncalibrated AUC threshold, compares two short adjacent windows, and gives no indication of which features changed.
 
-This thesis proposes **Explainable Adversarial Drift Detection (EADD)**, a novel framework that extends adversarial validation with:
+This thesis proposes **Enhanced Adversarial Drift Detection (EADD)**, an integrated framework that combines:
 
-1. **Permutation Testing** for statistically principled drift confirmation (p < 0.01)
-2. **SHAP-based Root Cause Analysis** identifying which specific features drove the drift
-3. **Automated Prescriptions** providing actionable MLOps recommendations
+1. A **LightGBM classifier two-sample test** (C2ST) with a **reservoir-sampled reference window**
+2. **Prediction entropy monitoring** ($H_{pred}$)
+3. An **adaptive sequential permutation test (ASPT)** that confirms a clear drift after 20 of 199 permutations
+4. A **TreeSHAP ranking** of the features behind each confirmed drift
 
-EADD transforms drift detection from a simple alarm into an intelligent diagnostic tool.
+An ablation with a LightGBM version of D3 shows that EADD's advantage on gradual and incremental drift comes from its long-memory reference window rather than from the classifier, and that the permutation test changes decisions only when the AUC threshold is lowered.
 
 ---
 
-## Key Contributions
+## Contributions
 
 | Contribution | Description |
 |--------------|-------------|
-| **EADD Framework** | Extends D3 with explainability layer using LightGBM + SHAP |
-| **Root Cause Analysis** | Ranks features by drift contribution (e.g., "Age: 45%, Income: 25%") |
-| **Permutation Test** | Solves threshold calibration problem cited in Lukats et al. (2024) |
-| **Automated Prescriptions** | Maps drift patterns to MLOps actions (univariate → drop feature; multivariate → full retrain) |
+| **EADD framework** | Integrates LightGBM C2ST, reservoir-sampled reference window, $H_{pred}$, ASPT and TreeSHAP ranking |
+| **ASPT** | Sequential Monte Carlo stopping (Gandy, 2009) for the C2ST permutation test; 90% fewer permutations for clear decisions |
+| **Evaluation and ablation** | Seven unsupervised baselines on synthetic and 13 real-world streams; ablation separating classifier, window sizes, reference memory, threshold and permutation test |
 
 ---
 
 ## Methodology Overview
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Step 1:       │     │   Step 2:       │     │   Step 3:       │
-│   Windowing     │────▶│   Adversarial   │────▶│   Permutation   │
-│   (Reservoir)   │     │   Validation    │     │   Test          │
-└─────────────────┘     └─────────────────┘     └────────┬────────┘
-                                                         │
-                                                         ▼
-                                               ┌─────────────────┐
-                                               │   Step 4:       │
-                                               │   SHAP Feature  │
-                                               │   Attribution   │
-                                               └─────────────────┘
+Input stream -> Step 1: reservoir-sampled W_ref, sliding W_cur
+             -> Step 2: LightGBM C2ST (AUC, H_pred)
+             -> AUC > tau ? -> Step 3: ASPT (p < alpha ?)
+             -> Step 4: TreeSHAP feature ranking -> drift report
 ```
 
 ---
@@ -56,13 +48,18 @@ EADD transforms drift detection from a simple alarm into an intelligent diagnost
 
 | File | Description |
 |------|-------------|
-| `main.tex` | Main LaTeX document (compiles everything) |
-| `thesis.tex` | Thesis content (Chapters 1-5) |
+| `main.tex` | Main LaTeX document (Thesis plan, Traditional Format) |
+| `thesis.tex` | Thesis content (Chapters 1-6, as required by PR07284) |
 | `abstract.tex` | English abstract |
-| `preamble.tex` | Candidate info, committee, keywords |
-| `references.bib` | Bibliography (BibTeX) |
-| `muthesis2021.cls` | Mahidol University thesis class |
+| `acknowledgements.tex` | Acknowledgements |
+| `abbreviations.tex` | List of abbreviations |
+| `appendix_impl.tex` | Appendix: implementation details |
+| `preamble.tex` | Candidate info, committee, keywords, biography |
+| `references.bib` | Bibliography (BibTeX, `unsrtnat` style) |
+| `muthesis2026.cls` | Mahidol University thesis class (2026 version) |
 | `figures/` | Figures and diagrams |
+
+Experiment code and results: [unsupervised-concept-drift-detection](https://github.com/NusratBegum/unsupervised-concept-drift-detection).
 
 ---
 
@@ -72,13 +69,13 @@ EADD transforms drift detection from a simple alarm into an intelligent diagnost
 latexmk -pdf main.tex
 ```
 
-Requires: TeX Live 2021+ with `latexmk`, `natbib`, `hyperref`
+Requires: TeX Live 2021+ with `latexmk`, `natbib`, `hyperref`, `tikz`, `pgfplots`
 
 ---
 
 ## Keywords
 
-Drift Detection, Adversarial Validation, Feature Drift, SHAP, MLOps, Covariate Shift, Streaming Data
+Drift Detection, Classifier Two-Sample Test, Permutation Test, Covariate Drift, MLOps
 
 ---
 
@@ -98,7 +95,7 @@ Drift Detection, Adversarial Validation, Feature Drift, SHAP, MLOps, Covariate S
 
 ## License
 
-**Copyright © 2026 Nusrat Begum.** Licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) — see [LICENSE](LICENSE).
+**Copyright © 2026 Nusrat Begum.** Licensed under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/). See [LICENSE](LICENSE).
 
 | Allowed | Not allowed |
 |---|---|
@@ -108,6 +105,6 @@ Drift Detection, Adversarial Validation, Feature Drift, SHAP, MLOps, Covariate S
 
 **Commercial licensing inquiries:** `nusrat.beg@student.mahidol.ac.th`
 
-**Thesis template attribution:** The LaTeX template is based on the [Mahidol University Thesis Template](https://github.com/ICT-Mahidol/MahidolThesis) (2021 version). The original `muthesis2021.cls` is provided by Mahidol University FGS and retains its own licensing.
+**Thesis template attribution:** The LaTeX template is based on the [Mahidol University Thesis Template](https://github.com/ICT-Mahidol/MahidolThesis) (2026 version, updated for FGS announcement PR07284). `muthesis2026.cls` retains its own licensing.
 
 **Institutional note:** Student retains copyright under Mahidol FGS policy; the university holds a non-exclusive right to archive and distribute the thesis for academic purposes.
