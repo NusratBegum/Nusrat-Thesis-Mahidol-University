@@ -3,131 +3,117 @@
 
 \candidatetitle{Ms.\ } % Mr.\ Miss.\ or Ms.\
 
-\degree{MSc} % default is MSc
+\degree{MSc} % MSc or PhD
 
-\subject{Computer Science} % subject area of your thesis
+\subject{Computer Science} % subject area
 
-%\submissionyear{} % default is current year -- but maybe you will
-                  % want to print it out again next year
+%\submissionyear{} % default is current year
 
-%\isbn{974-04-xxxx-x} % remember to replace the x's when you know the number
+%\isbn{974-04-xxxx-x}
 
 % information for page i (advisors)
 
-% NOTE: to avoid hyphenation in names on the abstract page, try
-% putting the name which is hyphenated inside \mbox{ }
 \majoradvisor{Thanapon Noraset} % name of supervisor (without title)
-% default title is Lect.\
 \majoradvisortitle{Asst.~Prof.~} % Dr.~ or Asst.~Prof.~ or Assoc.~Prof.~ or Prof.~
-\majoradvisorletters{Ph.D.} % Ph.D. or Dr.rer.nat.
-\majoradvisorsubject{Computer Science} % subject in which advisor obtained last degree
+\majoradvisorletters{Ph.D.}
+\majoradvisorsubject{Computer Science}
 
-% Co-advisor removed from committee listing per requested change
-\coadvisor{Suppawong Tuarob} % name of co-advisor
-\coadvisortitle{Assoc.~Prof.~} % title of co-advisor
-\coadvisorletters{Ph.D.} % Ph.D. or Dr.rer.nat.
-\coadvisorsubject{Computer Science} % subject in which co-advisor obtained last degree
+\coadvisor{Suppawong Tuarob}
+\coadvisortitle{Assoc.~Prof.~}
+\coadvisorletters{Ph.D.}
+%\coadvisorstatus{Major advisor} % default is Co-advisor
+\coadvisorsubject{Computer Science}
 
-% \coadvisorII{Damon W. Ellison}
-% \coadvisorIItitle{MAJ }
-% \coadvisorIIletters{Ph.D.}
-% \coadvisorIIsubject{Molecular Microbiology and Microbial Pathogenesis}
-
-%\coadvisorIII{} % in case you have three co-advisors
-%\coadvisorIIItitle{}
-%\coadvisorIIIletters{}
+%\coadvisorII{}
+%\coadvisorIItitle{}
+%\coadvisorIIletters{}
 %\coadvisorIIsubject{}
 
-\programchair{Assoc.~Prof.~Boonsit Yimwadsana} % chair of your degree program
-\programchairqual{Ph.D. (Electrical Engineering)} % qualifications of program chair
+%\coadvisorIII{}
+%\coadvisorIIItitle{}
+%\coadvisorIIIletters{}
+%\coadvisorIIIsubject{}
+
+% TODO: confirm program chair, deans and committee names before submission
+\programchair{Assoc.~Prof.~Boonsit Yimwadsana}
+\programchairqual{Ph.D.} % the class adds the program subject in parentheses
 \faculty{Information and Communication Technology}
-%\facultyI{Information and Communication} % Faculty name is not too long
-%\facultyII{Technology} % Faculty name is too long to fit in one line
-% Default: previous dean entry replaced with Deputy Dean / Acting Dean per request
-\graduatestudiesdean{Assistant Professor Dr.Warin Krityakiarana\\Deputy Dean for Planning and Quality Assurance\\Acting as Dean of the Faculty of Graduate Studies, Mahidol University}
-%\GSDqual{Ph.D.} % this is no longer used
-%\GSDstatus{Acting} % in case the dean is away and you need to put
-%\t\t   % `Acting Dean' on the form
+%\facultyI{} % use if faculty name is too long for one line
+%\facultyII{}
+\graduatestudiesdean{Prof.~Dr.~Chartchalerm Isarankura-Na-Ayudhya,\\Ph.D. (Medical Technology)}
+%\GSDstatus{Acting}
 
 % information for page ii (exam committee)
 
-\submissiondate{February 2026} % date of submission
+\submissiondate{December 2026} % TODO: set to the defense date
 
-\chair{Assistant Professor Dr. Akara Supratak}
-\chairqual{Ph.D. (Computer Science)} % qualifications of chair
-%\memberI{Lect. Sudsanguan Ngamsuriyaroj} % use this if the major advisor is not present at the exam
-%\memberIqual{Ph.D.} % qualifications of 1st member
-%\memberIqual{Ph.D. (Computer Science and Engineering)} % qualifications of 1st member
-%\memberII{Assoc. Prof. Damras Wongsawang} % use this if the co-advisor is not present at the exam
-%\memberIIqual{Ph.D.} % qualifications of 2nd member
-%\memberIIqual{Ph.D. (Information Engineering)} % qualifications of 2nd member
-% \memberIII{MAJ Damon W. Ellison} % 3rd member
-%\memberIIIqual{Ph.D.} % qualifications of 3rd member
-% \memberIIIqual{Ph.D. (Molecular Microbiology and Microbial Pathogenesis)} % qualifications of 3rd member
-%\memberIV{} % 4th member
-%\memberIVqual{} % qualifications of 4th member
+\chair{Asst.~Prof.~Akara Supratak}
+\chairqual{Ph.D.}
+\chairsubject{Computer Science}
+%\memberI{} % use if the major advisor is not present at the exam
+%\memberIqual{}
+%\memberII{} % use if the co-advisor is not present at the exam
+%\memberIIqual{}
+%\memberIII{}
+%\memberIIIqual{}
+%\memberIV{}
+%\memberIVqual{}
 
-\facultydean{Dr.~Pattanasak Mongkolwat}    % default is Prof.~Prasert Sobhon
-\FDqual{Ph.D. (Computer Science)}         % default is Ph.D.
-%\FDstatus{Acting} % in case the dean is away and you need to put
-		   % `Acting Dean' on the form
+\facultydean{Dr.~Pattanasak Mongkolwat}
+\FDqual{Ph.D.}
+\FDsubject{Computer Science}
+%\FDstatus{Acting}
 
 % information for page iv (ABSTRACT)
 
-\candidatenumber{ 6638009 ITCS/M}
-%\major{} % major of thesis (not necessary if the same as subject)
-\keywords{DRIFT DETECTION / ADVERSARIAL VALIDATION /} % 1st line of keywords
-\keywordsII{COVARIATE DRIFT / MLOPS / DISTRIBUTION SHIFT /} % 2nd line of keywords
-\keywordsIII{STREAMING DATA} % 3rd line of keywords
+\candidatenumber{6638009 ITCS/M}
+%\major{} % major (not necessary if same as subject)
+\keywords{DRIFT DETECTION / CLASSIFIER TWO-SAMPLE TEST /}
+\keywordsII{PERMUTATION TEST / COVARIATE DRIFT / MLOPS}
+%\keywordsIII{}
 
 % information for page v (THAI ABSTRACT)
+% Not required for international programs (PR07284, No. 4.1.1.4).
 
-\thaisubject{วิทยาการคอมพิวเตอร์} % thai name of degree subject
-\thaititle{ชื่อภาษาไทย} % title of thesis in thai
-\thaicandidate{นายชื่อ นามสกุล} % your name in thai
-\thaimajoradvisor{ผศ. ดร. ธนพล นรเสฏฐ์} % Thai name of advisor (if they are Thai)
-%\thaicoadvisor{} % Thai name of co-advisor (if they are Thai)
-% you might need to put the individual (first and last) names
-% inside \mbox{} to stop them being split by the word-breaking routine
-
-%\thaicoadvisorII{} % Thai name of 2nd co-advisor (if they are Thai)
+\thaisubject{วิทยาการคอมพิวเตอร์}
+\thaititle{}
+\thaicandidate{}
+\thaimajoradvisor{ผศ. ดร. ธนพล นรเสฏฐ์}
+%\thaicoadvisor{}
+%\thaicoadvisorII{}
 
 % information for Biography
 
-\dateofbirth{21 February 1998} % your date of birth
-\placeofbirth{Chattogram, Bangladesh} % province and country of birth
-\firstdegreeinstitution{Stamford International University} % where you did your first degree
-\firstdegreeyears{2017--2022} % years for 1st degree
-\firstdegree{Bachelor of Business Administration (International Business Management)} % updated degree title
-\firstdegreemajor{} % first degree major
-%\longfirstdegree % necessary if you want the subject on the next line
-%\preinstitution{Asian Institute of Technology, 1993--1994} % details of place you went before present degree if
-		  % it wasn't your 1st degree
-%\preinstitutionLnII{Master of Engineering (Computer Science)} % 2nd line of details
-%\preinstitutionII{} % details of 2nd place you went before present degree
-%\preinstitutionIILnII{} % 2nd line of details
-\years{2024--2026} % years taken to do your present degree
-\postinstitution{Mahidol University} % details of place where you continued your study for your
-		   % present degree
-%\postinstitutionLnII{} % second line of details
-%\scholarship{} % details of 1st scholarship
-%\scholarshipLnII{} % 2nd line of details (if necessary)
-%\scholarshipLnIII{} % 3rd line of details (if necessary)
-%\scholarshipII{} % 2nd scholarship
+\dateofbirth{21 February 1998}
+\placeofbirth{Chattogram, Bangladesh}
+\firstdegreeinstitution{Stamford International University}
+\firstdegreeyears{2017--2022}
+\firstdegree{Bachelor of Business Administration}
+\firstdegreemajor{International Business Management}
+\longfirstdegree
+%\preinstitution{}
+%\preinstitutionLnII{}
+%\preinstitutionII{}
+%\preinstitutionIILnII{}
+\years{2024--2026}
+\postinstitution{Mahidol University}
+%\postinstitutionLnII{}
+%\scholarship{}
+%\scholarshipLnII{}
+%\scholarshipLnIII{}
+%\scholarshipII{}
 %\scholarshipIILnII{}
 %\scholarshipIILnIII{}
-%\scholarshipIII{}  % 3rd scholarship
-%\scholarshipIIILnII{}
-%\scholarshipIIILnIII{}
-%\scholarshipIV{}  % 4th scholarship
-%\scholarshipIVLnII{}
-%\scholarshipIVLnIII{}
-%\position{} % present position
-%\workplace{} % location
-%\workplaceLnII{} % second line of location
-%\homeaddress{} % your home address if you do not have a position
+\position{} % present position, if applicable
+\workplace{}
+\workplaceLnII{}
+%\homeaddress{}
 %\homeaddressLnII{}
 %\homeaddressLnIII{}
-\email{nusrat.beg@student.mahidol.edu} % the email address at which you can be contacted after you have left
-
-
+%\researchgrants{Grant name, funding agency, year} % TODO: add the ICT conference grant if it was awarded
+%\researchgrantsLnII{}
+%\researchgrantsLnIII{}
+\publications{Begum N, Yamchote P, Amornbunchornvej C, Noraset T.}
+\publicationsLnII{Enhanced Adversarial Drift Detection for MLOps Feature}
+\publicationsLnIII{Monitoring. In: Proc. JCSSE 2026. IEEE; 2026.}
+\email{nusrat.beg@student.mahidol.edu}

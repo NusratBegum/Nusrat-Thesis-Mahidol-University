@@ -3,7 +3,7 @@
 To ensure reproducibility, the specific hyperparameters and algorithmic configurations used for the EADD framework are detailed below.
 
 \section{Adversarial Classifier (LightGBM)}
-The adversarial classifier utilizes LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration:
+The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration. The LightGBM version of D3 used in Experiment~4 uses the same configuration.
 
 \begin{table}[!htbp]
 \centering
@@ -33,13 +33,6 @@ Verbosity & -1 \\
 
 \section{Uncertainty and Statistical Testing}
 \begin{itemize}
-    \item \textbf{Prediction Uncertainty Index (PUI):} Entropy-based warning.
-    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} Max 50 perms, $\alpha=0.05$.
-\end{itemize}
-
-\section{Drift Severity Index (DSI) Tiers}
-\begin{itemize}
-    \item \textbf{Critical (DSI $> 0.6$):} concentrated univariate.
-    \item \textbf{Moderate (DSI $0.3$--$0.6$):} subset drift.
-    \item \textbf{Low (DSI $< 0.3$):} diffuse shift.
+    \item \textbf{Prediction Entropy ($H_{\text{pred}}$):} Mean binary Shannon entropy of the discriminator's predicted probabilities, computed at every monitoring step.
+    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} $B_{\max} = 199$ permutations, $B_{\min} = 10$, $\alpha=0.05$; only invoked when the AUC exceeds $\tau = 0.7$.
 \end{itemize}

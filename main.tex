@@ -1,17 +1,22 @@
+% Main file for Thesis plan, Traditional Format (muthesis2026, PR07284).
+% PR07284 requires 6 mandatory chapters for Thesis Traditional Format.
 \PassOptionsToPackage{hypertexnames=false}{hyperref}
-\documentclass{muthesis2021}
-\usepackage[authoryear,round]{natbib}
+\documentclass{muthesis2026}
+\thesisplan
+\usepackage[numbers]{natbib}
 \setcounter{secnumdepth}{4}
 \usepackage{graphicx}
+\graphicspath{{figures/}}
 \usepackage{latexsym}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amssymb}
 \usepackage{url}
 \urlstyle{same}
 \usepackage{textcomp}
-
 \usepackage{caption,setspace}
 \captionsetup{font={stretch=1.5}}
+\usepackage[flushleft]{threeparttable}
 
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, backgrounds, fit}
@@ -20,14 +25,9 @@
 
 \usepackage{booktabs}
 \usepackage{multirow}
-\usepackage{amssymb}
-
 \usepackage{microtype}
 \usepackage{hyphenat}
 \emergencystretch=1em
-
-\usepackage[flushleft]{threeparttable}
-\newcommand\mathplus{+}
 
 \makeatletter
 \renewcommand{\@dotsep}{10000}
@@ -35,9 +35,9 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatother
 
+% TODO: replace with the title from the thesis proposal (advisor, 12 Oct 2026), so no title-change form is needed.
 \title{Enhanced Adversarial Drift Detection (EADD) for MLOps Feature Monitoring}
 \author{Nusrat Begum}
-
 \input{preamble}
 
 \begin{document}
@@ -51,16 +51,16 @@
 \tableofcontents
 \listoftables
 \listoffigures
-
 \input{abbreviations}
 
 \input{thesis}
 
-\appendix
-\input{appendix_impl}
-
-\bibliographystyle{apalike}
+\bibliographystyle{unsrtnat}
 \bibliography{references}
 
+\appendices
+\input{appendix_impl}
+
 \biography
+
 \end{document}
