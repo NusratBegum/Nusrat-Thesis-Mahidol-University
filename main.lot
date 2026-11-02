@@ -1,16 +1,15 @@
  \contentsline {chapter}{Table}{\textbf {Page}}{}
-\contentsline {table}{\numberline {2.1}{\ignorespaces Historical evolution of drift detection research.}}{8}{table.caption.26}%
-\contentsline {table}{\numberline {2.2}{\ignorespaces Taxonomy of drift types referenced in this thesis.}}{11}{table.caption.32}%
-\contentsline {table}{\numberline {2.3}{\ignorespaces Comparison of drift detection approaches.}}{14}{table.caption.37}%
-\contentsline {table}{\numberline {3.1}{\ignorespaces EADD components and the methods they build on.}}{29}{table.caption.66}%
-\contentsline {table}{\numberline {4.1}{\ignorespaces Experiment 1: multi-detector comparison on synthetic drift}}{44}{table.caption.91}%
-\contentsline {table}{\numberline {4.2}{\ignorespaces Experiment 2: EADD vs.\ D3 on annotated real-world datasets}}{47}{table.caption.99}%
-\contentsline {table}{\numberline {4.3}{\ignorespaces Experiment 2: detection counts on unannotated datasets}}{47}{table.caption.100}%
-\contentsline {table}{\numberline {4.4}{\ignorespaces Experiment 2: supplementary multi-detector comparison}}{48}{table.caption.101}%
-\contentsline {table}{\numberline {4.5}{\ignorespaces Experiment 4: ablation on synthetic drift streams}}{54}{table.caption.113}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Experiment 4: false alarms on stable streams}}{54}{table.caption.114}%
-\contentsline {table}{\numberline {4.7}{\ignorespaces Experiment 4: ablation on real-world streams}}{55}{table.caption.116}%
-\contentsline {table}{\numberline {4.8}{\ignorespaces Experiment 4: effect of the AUC threshold on ASPT}}{55}{table.caption.118}%
-\contentsline {table}{\numberline {4.9}{\ignorespaces Drift type coverage summary}}{58}{table.caption.126}%
-\contentsline {table}{\numberline {5.1}{\ignorespaces Guidelines for window size selection}}{64}{table.caption.136}%
-\contentsline {table}{\numberline {A.1}{\ignorespaces LightGBM Hyperparameters}}{84}{table.caption.159}%
+\contentsline {table}{\numberline {2.1}{\ignorespaces Historical evolution of drift detection research}}{9}{table.caption.26}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Taxonomy of drift types referenced in this thesis}}{12}{table.caption.32}%
+\contentsline {table}{\numberline {2.3}{\ignorespaces Comparison of drift detection approaches}}{15}{table.caption.37}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces EADD components and the methods they build on}}{31}{table.caption.67}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Experiment 1: multi-detector comparison on synthetic drift}}{45}{table.caption.90}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Experiment 2: EADD vs.\ D3 on annotated real-world datasets}}{48}{table.caption.98}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Experiment 2: detection counts on unannotated datasets}}{48}{table.caption.99}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Experiment 2: supplementary multi-detector comparison}}{49}{table.caption.100}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Experiment 4: ablation on synthetic drift streams}}{55}{table.caption.112}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Experiment 4: false alarms on stable streams}}{55}{table.caption.113}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Experiment 4: ablation on real-world streams}}{56}{table.caption.115}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces Experiment 4: effect of the AUC threshold on ASPT}}{56}{table.caption.117}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Drift type coverage summary}}{59}{table.caption.125}%
+\contentsline {table}{\numberline {A.1}{\ignorespaces LightGBM hyperparameters}}{85}{table.caption.157}%

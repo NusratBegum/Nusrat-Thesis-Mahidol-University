@@ -4,6 +4,9 @@
 \documentclass{muthesis2026}
 \thesisplan
 \usepackage[numbers]{natbib}
+% natbib replaces the class's thebibliography, which added REFERENCES to the
+% table of contents; restore that entry.
+\renewcommand{\bibsection}{\chapter*{\bibname}\addcontentsline{toc}{chapter}{\MakeUppercase{\bibname}}\markright{\bibname}}
 \setcounter{secnumdepth}{4}
 \usepackage{graphicx}
 \graphicspath{{figures/}}
@@ -30,13 +33,18 @@
 \emergencystretch=1em
 
 \makeatletter
+% muthesis2026 sets tocdepth to 0, which also hides every entry of the lists of
+% tables and figures; PR07284 No. 4.1.1.6 requires their page numbers, so list
+% them at level 0.
+\renewcommand*\l@figure{\@dottedtocline{0}{0em}{2.3em}}
+\renewcommand*\l@table{\@dottedtocline{0}{0em}{2.3em}}
 \renewcommand{\@dotsep}{10000}
 \setlength{\@fptop}{0pt}
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatother
 
-% TODO: replace with the title from the thesis proposal (advisor, 12 Oct 2026), so no title-change form is needed.
-\title{Enhanced Adversarial Drift Detection (EADD) for MLOps Feature Monitoring}
+% Title of the approved thesis proposal (advisor, 12 Oct 2026), so no title-change form is needed.
+\title{Feature Drift Detection Techniques via Adversarial Validation}
 \author{Nusrat Begum}
 \input{preamble}
 

@@ -7,9 +7,9 @@ The practical consequences are well documented. \citet{Vela2022} demonstrated th
 
 The drift detection landscape has matured considerably. Statistical methods employ hypothesis tests such as the Kolmogorov--Smirnov test or Maximum Mean Discrepancy to compare reference and current distributions \citep{Rabanser2019, Gretton2012}. Adaptive windowing methods like ADWIN dynamically adjust historical baselines \citep{BifetGavalda2007}. Supervised error-based detectors (DDM, EDDM) monitor model error rates but require ground-truth labels \citep{Gama2004, BaenaGarcia2006}. Prediction-based methods track model outputs but depend on calibration quality \citep{Sethi2017, Guo2017}. Despite this diversity, several challenges remain. Univariate tests are run once per feature, so they raise more false alarms as the number of features grows; supervised methods cannot operate when labels are delayed or unavailable; and most detectors report only whether drift occurred, not which features changed \citep{Lu2018, Webb2016}.
 
-The discriminative approach recasts distribution comparison as a classification problem. \citet{LopezPazOquab2017} formalised this as the \textit{classifier two-sample test} (C2ST): if an auxiliary classifier can reliably separate reference from current data based solely on features, the distributions differ. \citet{Gozuacik2019} adapted this principle for streaming drift detection as the Discriminative Drift Detector (D3), which is one of the three detectors recommended by the benchmark of \citet{Lukats2024} and achieved the best mean time ratio in its experiments. D3 has three practical limitations. First, it signals drift when the AUC of a logistic regression classifier exceeds a fixed threshold of 0.7, and this threshold is not calibrated as a statistical test. Second, it compares two short adjacent windows, so a slow drift that changes both windows together can go unnoticed. Third, it discards the trained classifier after computing the AUC, so it gives no indication of which features drove the alarm.
+The discriminative approach recasts distribution comparison as a classification problem. \citet{LopezPazOquab2017} formalised this as the \textit{classifier two-sample test} (C2ST): if an auxiliary classifier can reliably separate reference from current data based solely on features, the distributions differ. In machine learning practice the same procedure is called \textit{adversarial validation} \citep{Pan2020}. This thesis studies adversarial validation as a technique for feature drift detection and uses the term C2ST when it refers to the statistical test. \citet{Gozuacik2019} adapted this principle for streaming drift detection as the Discriminative Drift Detector (D3), which is one of the three detectors recommended by the benchmark of \citet{Lukats2024} and achieved the best mean time ratio in its experiments. D3 has three practical limitations. First, it signals drift when the AUC of a logistic regression classifier exceeds a fixed threshold of 0.7, and this threshold is not calibrated as a statistical test. Second, it compares two short adjacent windows, so a slow drift that changes both windows together can go unnoticed. Third, it discards the trained classifier after computing the AUC, so it gives no indication of which features drove the alarm.
 
-Each of these limitations has been studied separately. Permutation tests can calibrate the C2ST statistic \citep{LopezPazOquab2017}, and sequential Monte Carlo methods reduce the number of permutations that such tests need \citep{Gandy2009}. SHAP \citep{Lundberg2017} has been applied to domain classifiers to rank drifted features \citep{Maggio2021} and to the explanations of deployed models to detect shifts that change model behaviour \citep{Mougan2025}. \citet{TRIPODD2024} test feature interactions for drift, but the interactions must be specified in advance and the cost grows quadratically with the number of features. \citet{HDPD2024} attribute performance changes to features but need ground-truth labels, and \citet{HinderFeature2024} define feature-wise drift formally without providing a streaming detector. This thesis combines a calibrated and cheaper significance test, a long-memory reference window and a feature ranking in one unsupervised streaming detector, and measures which of these components causes the differences from D3.
+Each of these limitations has been studied separately. Permutation tests can calibrate the C2ST statistic \citep{LopezPazOquab2017}, and sequential Monte Carlo methods reduce the number of permutations that such tests need \citep{Gandy2009}. SHAP \citep{Lundberg2017} has been applied to domain classifiers to rank drifted features \citep{Maggio2021} and to the explanations of deployed models to detect shifts that change model behaviour \citep{Mougan2025}. \citet{TRIPODD2024} test feature interactions for drift, but the interactions must be specified in advance and the cost grows quadratically with the number of features. \citet{HDPD2024} attribute performance changes to features but need ground-truth labels, and \citet{HinderFeature2024} define feature-wise drift formally without providing a streaming detector. This thesis combines a permutation test with sequential stopping, a long-memory reference window and a feature ranking in one unsupervised streaming detector, and measures which of these components causes the differences from D3.
 
 \section{Research Objectives}
 The objectives of this thesis are:
@@ -17,7 +17,7 @@ The objectives of this thesis are:
 \begin{enumerate}
     \item To develop an unsupervised drift detection framework, Enhanced Adversarial Drift Detection (EADD), that extends the discriminative approach of D3 \citep{Gozuacik2019} with a LightGBM classifier \citep{Ke2017}, a reservoir-sampled reference window \citep{Vitter1985} and a permutation test that confirms each alarm.
 
-    \item To reduce the cost of the permutation test with an adaptive sequential stopping rule \citep{Gandy2009} while keeping its Type~I error control.
+    \item To reduce the cost of the permutation test with a sequential stopping rule motivated by \citet{Gandy2009}, and to measure how the rule changes the Type~I error of the test.
 
     \item To evaluate EADD against seven unsupervised drift detectors on synthetic and real-world data streams in terms of detection delay, missed detections and false alarms, and to measure the effect of each EADD component.
 \end{enumerate}
@@ -57,7 +57,7 @@ Figure~\ref{fig:conceptual-framework} shows the conceptual framework of this the
 Two hypotheses are tested. H1 states that EADD detects a broader range of temporal drift patterns than D3. H2 states that EADD produces fewer false alarms than D3 on stable data. Section~\ref{sec:hypotheses} states both hypotheses formally, together with the research questions they address.
 
 \section{Brief Research Methodology}
-The methodology has three steps, described in Chapter~\ref{chap:methodology}. First, synthetic streams with known drift points, stable synthetic streams and thirteen real-world benchmark streams are collected. Second, each stream is processed by EADD, by the seven detectors of the \citet{Lukats2024} benchmark, and by ablated versions of D3 and EADD that change one design choice at a time. Third, the detections are compared with the known drift points, or counted on streams without drift, and the differences are tested with one-sided Mann--Whitney U tests.
+The methodology has three steps, described in Chapter~\ref{chap:methodology}. First, synthetic streams with known drift points, stable synthetic streams and thirteen real-world benchmark streams are collected. Second, each stream is processed by EADD, by the seven detectors of the \citet{Lukats2024} benchmark, and by ablated versions of D3 and EADD that change one design choice at a time. Third, the detections are compared with the known drift points, or counted on streams without drift, and the differences are tested with a sign test, a Wilcoxon signed-rank test and a one-sided Mann--Whitney U test.
 
 \section{Assumptions}
 The study relies on the following assumptions:
@@ -73,6 +73,7 @@ The study relies on the following assumptions:
     \item[Feature drift (covariate drift):] a change over time in the distribution of the input features $P(X)$.
     \item[Concept drift:] a change over time in the conditional distribution $P(y \mid X)$.
     \item[Classifier two-sample test (C2ST):] a test of whether two samples come from the same distribution, based on how well a classifier can tell them apart \citep{LopezPazOquab2017}.
+    \item[Adversarial validation:] the practice of training a classifier to separate two data sets, such as training data and production data, and reading a high AUC as evidence that they differ \citep{Pan2020}. As a statistical test, it is a C2ST.
     \item[Reference window and current window:] the baseline sample $W_{ref}$ and the most recent sample $W_{cur}$ that a drift detector compares.
     \item[AUC:] the area under the receiver operating characteristic curve of the classifier that separates the two windows; 0.5 means the windows cannot be separated.
     \item[Permutation test:] a test that compares the observed AUC with the AUCs obtained after randomly shuffling the window labels.
@@ -87,7 +88,7 @@ This thesis makes the following contributions:
 \begin{enumerate}
     \item We propose EADD, an integrated framework for unsupervised feature drift detection that combines a LightGBM classifier two-sample test, a reservoir-sampled reference window, prediction entropy monitoring and an adaptive sequential permutation test, and that ranks the features behind each confirmed drift with TreeSHAP \citep{Lundberg2017} (Chapter~\ref{chap:methodology}).
 
-    \item We apply sequential Monte Carlo stopping \citep{Gandy2009} to the permutation test of the classifier two-sample test. The resulting adaptive sequential permutation test (ASPT) confirms a clear drift after 20 of the 199 available permutations, a 90\% saving over a fixed-budget test. Experiment~4 shows that, with the default AUC threshold, ASPT confirms every alarm it tests, and that it reduces false alarms when the threshold is lowered (Chapters~\ref{chap:methodology} and~\ref{chap:results}).
+    \item We add a sequential stopping rule, motivated by sequential Monte Carlo tests \citep{Gandy2009}, to the permutation test of the classifier two-sample test. The resulting adaptive sequential permutation test (ASPT) confirms a clear drift after 20 of the 199 available permutations, a 90\% saving over a fixed-budget test. A simulation under the null hypothesis shows that the rule raises the Type~I error from 0.045 to 0.059 at $\alpha = 0.05$. Experiment~4 shows that, with the default AUC threshold, ASPT confirms every alarm it tests, and that it reduces false alarms when the threshold is lowered (Chapters~\ref{chap:methodology} and~\ref{chap:results}).
 
     \item We evaluate EADD against seven unsupervised detectors on synthetic and real-world streams. The evaluation includes an ablation with D3 using a LightGBM classifier, which separates the effects of the classifier, the reference window and the permutation test (Chapter~\ref{chap:results}).
 \end{enumerate}
@@ -110,7 +111,7 @@ The study of distribution drift has evolved from foundational statistical concep
 
 \begin{table}[!htbp]
 \centering
-\caption{Historical evolution of drift detection research.}
+\caption[Historical evolution of drift detection research]{Historical evolution of drift detection research.}
 \label{tab:timeline}
 \begin{tabular}{p{3.5cm}p{10.5cm}}
 \hline
@@ -174,7 +175,7 @@ Table~\ref{tab:drift-taxonomy} consolidates the drift classification used throug
 
 \begin{table}[!htbp]
 \centering
-\caption{Taxonomy of drift types referenced in this thesis.}
+\caption[Taxonomy of drift types referenced in this thesis]{Taxonomy of drift types referenced in this thesis.}
 \label{tab:drift-taxonomy}
 \begin{tabular}{p{2.5cm}p{3cm}p{7.6cm}}
 \hline
@@ -216,7 +217,7 @@ Table~\ref{tab:method-comparison} compares two widely used univariate methods, t
 
 \begin{table}[!htbp]
 \centering
-\caption{Comparison of drift detection approaches.}
+\caption[Comparison of drift detection approaches]{Comparison of drift detection approaches.}
 \label{tab:method-comparison}
 \begin{tabular}{p{2.5cm}p{3.6cm}p{3.6cm}p{3cm}}
 \hline
@@ -266,6 +267,7 @@ Each group of methods has characteristic limitations. Supervised methods need ti
 Discriminative tests avoid several of these problems. They test the joint feature distribution directly, need neither labels nor calibrated model outputs, and make no assumption about which features matter \citep{LopezPazOquab2017, Pan2020}. In streaming drift detection, however, they have mostly been used with fixed thresholds, as in D3 \citep{Gozuacik2019}.
 
 \section{Drift Mitigation and Adaptation Strategies}
+\label{sec:mitigation}
 Detecting drift is only the first step; production systems must also respond to it. The literature describes five principal mitigation strategies, each with distinct trade-offs \citep{Lu2018, Gama2014, Krawczyk2017}:
 
 \begin{enumerate}
@@ -285,7 +287,7 @@ Detecting drift is only the first step; production systems must also respond to 
 \subsection{Discriminative Distribution Testing}
 Discriminative approaches to distribution comparison reframe the problem as a binary classification task: a classifier is trained to predict whether each instance originates from a reference distribution or a target distribution. High discriminative performance (AUC $\gg 0.5$) indicates the distributions are statistically separable; near-random performance suggests they are indistinguishable \citep{Pan2020, Qian2021}.
 
-\citet{Pan2020} used this approach at Uber for the MaLTA user targeting system, training a classifier to detect mismatch between training and deployment data and retraining when the two were strongly separable. \citet{Qian2021} applied discriminative testing to manage dataset shift in credit scoring. D3 \citep{Gozuacik2019} turned the idea into a streaming detector that trains logistic regression classifiers on sliding windows and signals drift when the AUC exceeds a fixed threshold of 0.7. D3 achieved the best mean time ratio in the \citet{Lukats2024} benchmark. However, D3 applies no formal significance test; its fixed threshold is not calibrated, which can make it vulnerable to false alarms on autocorrelated data.
+\citet{Pan2020} used this approach at Uber for the MaLTA user targeting system, training a classifier to detect mismatch between training and deployment data and retraining when the two were strongly separable. \citet{Qian2021} applied discriminative testing to manage dataset shift in credit scoring. D3 \citep{Gozuacik2019} turned the idea into a streaming detector that trains logistic regression classifiers on sliding windows and signals drift when the AUC exceeds a fixed threshold of 0.7. D3 achieved the best mean time ratio in the \citet{Lukats2024} benchmark. However, D3 applies no formal significance test, so its fixed threshold has no statistical calibration.
 
 The \textit{classifier two-sample test} (C2ST), formalised by \citet{LopezPazOquab2017}, provided theoretical foundations for the discriminative approach: significance is calibrated via permutation testing, allowing principled Type~I error control. The approach is label-independent, model-agnostic, and makes no assumptions about which features are important. \citet{EC2ST2024} extended C2ST with anytime-valid e-values for sequential monitoring, and \citet{MCD2024} proposed Maximum Concept Discrepancy, which uses contrastive learning as an alternative to classifier-based testing for online drift detection. C2ST and E-C2ST were designed for distribution testing rather than for streaming drift detection, and neither provides feature-level attribution of the detected shift.
 
@@ -345,6 +347,17 @@ Two formal hypotheses were tested:
 
     \item \textbf{H2 (False Alarm Reduction):} EADD produces significantly fewer false alarms than D3 on stable data. Formally, $H_0$: $\text{FA}_{\text{EADD}} \geq \text{FA}_{\text{D3}}$ vs $H_1$: $\text{FA}_{\text{EADD}} < \text{FA}_{\text{D3}}$, where FA is the number of false alarms per stream. The hypothesis is tested with a one-sided Mann--Whitney U test ($\alpha = 0.05$) at several D3 thresholds ($\tau \in \{0.6, 0.7, 0.8\}$) in Experiment~3.
 \end{itemize}
+
+\section{Changes from the Thesis Proposal}
+\label{sec:proposal-changes}
+
+The thesis proposal planned to study adversarial validation as a feature drift detection technique, using a logistic regression or random forest classifier, a permutation test with 200 permutations, and a rule that signals drift when the AUC is at least 0.7 and the p-value is below 0.05. It asked how effective adversarial validation is for different drift types, whether it detects drift earlier than statistical and error-based methods, and how it compares with PSI, the KS test, DDM and ADWIN. This thesis keeps that goal but changes three parts of the plan.
+
+First, the detector was developed into EADD. The classifier was changed to LightGBM, the sliding reference window to a reservoir sample, and the fixed-budget permutation test to a sequential one, and a feature ranking was added. D3 \citep{Gozuacik2019}, a published streaming detector based on the same principle, became the main baseline, and Experiment~4 measures the effect of each change.
+
+Second, the baselines were changed. DDM monitors the error rate of a deployed model and therefore needs labels, while PSI, the KS test and ADWIN monitor one variable at a time. Comparing them with a multivariate unsupervised detector would require choices that are not part of these methods, such as which variable to monitor and how to combine the tests for each feature. The thesis therefore compares EADD with the seven fully unsupervised detectors of the \citet{Lukats2024} benchmark, which take the same multivariate input as EADD and have tested implementations. PSI and the KS test are discussed in Chapter~\ref{chap:literature}.
+
+Third, the proposal's questions were combined into RQ1, which covers detection of each drift type and detection delay, and RQ2, which covers false alarms on stable data. Comparison with error-based detectors, which need labels, is outside the scope of the thesis.
 
 \section{Overview of the Methodology}
 Figure~\ref{fig:research-methodology} summarises the methodology. First, synthetic, semi-synthetic and real-world data streams are collected (Section~\ref{sec:datasets}). Second, each stream is processed by EADD (Section~\ref{sec:eadd}) and by the baseline detectors (Section~\ref{sec:baselines}). The baselines include seven unsupervised detectors from the \citet{Lukats2024} benchmark and ablated versions of D3 and EADD that change one design choice at a time. Third, the detections are compared with the known drift points, or counted on stable streams that contain no drift, using the metrics in Section~\ref{sec:metrics}. Section~\ref{sec:design} describes the four experiments and the statistical tests.
@@ -514,7 +527,7 @@ Figure~\ref{fig:methodology-detailed-architecture} shows the steps of EADD, and 
 
 \begin{table}[!htbp]
 \centering
-\caption{EADD components and the methods they build on.}
+\caption[EADD components and the methods they build on]{EADD components and the methods they build on.}
 \label{tab:eadd-alignment}
 \begin{tabular}{p{3.6cm}p{5cm}p{5cm}}
 \hline
@@ -598,13 +611,13 @@ A raw AUC score (e.g., 0.65) is inconclusive, as it may reflect genuine distribu
 \textbf{The Computational Problem:} A fixed-budget permutation test (e.g., $B=50$) wastes computation when the evidence is clear. If the actual AUC is 0.95, the first few permutations already establish significance and the remaining permutations add cost without information. Conversely, if the AUC is 0.52, early permutations quickly reveal non-significance.
 
 \textbf{Adaptive Sequential Permutation Testing:}
-EADD uses an \textbf{adaptive sequential permutation test} based on the sequential Monte Carlo framework of \citet{Gandy2009}. Instead of committing to a fixed budget $B$, ASPT monitors evidence accumulation after each permutation and terminates early when the decision boundary is crossed:
+EADD uses an \textbf{adaptive sequential permutation test} motivated by the sequential Monte Carlo tests of \citet{Gandy2009}. Gandy's algorithm uses stopping boundaries that bound the probability of reaching a different decision than the exact test would; ASPT instead uses two simple stopping rules. Instead of committing to a fixed budget $B$, ASPT checks the evidence after each permutation and stops early when one of the rules applies:
 
 \begin{enumerate}
     \item \textbf{Initialise:} Set maximum budget $B_{\max}$, nominal significance level $\alpha$, and minimum sequential budget $B_{\min}$.
     \item \textbf{Sequential Execution:} For each permutation $i = 1, \ldots, B_{\max}$:
     \begin{itemize}
-        \item Shuffle labels, retrain the discriminative classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$
+        \item Shuffle labels, retrain the discriminative classifier, compute $\text{AUC}^{(i)}_{\text{perm}}$ with 2-fold cross-validation
         \item Update running count: $c_i = \#\{j \leq i : \text{AUC}^{(j)}_{\text{perm}} \geq \text{AUC}_{\text{actual}}\}$
         \item \textbf{Early reject $H_0$ (confirm drift):} If $c_i = 0$ and $i \geq B_{\min}$ and the conservative bound $1/(i+1) < \alpha$ holds, terminate and confirm drift with $p = 1/(i+1)$.
         \item \textbf{Early accept $H_0$ (no drift):} If $c_i / i > 2\alpha$ and $i \geq B_{\min}$, the running exceedance rate far exceeds the nominal level; terminate and declare no drift with $p = (c_i + 1)/(i + 1)$.
@@ -612,7 +625,7 @@ EADD uses an \textbf{adaptive sequential permutation test} based on the sequenti
     \item \textbf{Terminal decision:} If $B_{\max}$ is reached, compute the standard empirical p-value: $p = (c_{B_{\max}} + 1) / (B_{\max} + 1)$. Drift is confirmed if $p < \alpha$.
 \end{enumerate}
 
-\textbf{Statistical Validity Note:} ASPT preserves the standard permutation p-value at termination, either by the full-budget estimate $p = (c_B + 1)/(B+1)$ or by the conservative early-reject upper bound $p = 1/(i+1)$ when no exceedances are observed. This keeps the stopping rule aligned with the permutation-test interpretation.
+\textbf{Type~I Error:} ASPT reports the usual permutation p-value at the point where it stops, $p = (c_i + 1)/(i + 1)$. The combination of the two stopping rules, however, is not an exact level-$\alpha$ test. The early-reject rule alone rejects with probability $1/21 \approx 0.048$ under the null hypothesis, because it stops at $i = 20$ whenever the first 20 permuted AUCs are all below the observed one. If at least one of them is above it, the test can still continue to $B_{\max}$ and reject there. A simulation of the stopping rules with exchangeable statistics under the null hypothesis (400{,}000 repetitions) gave a rejection rate of 0.059 at $\alpha = 0.05$, compared with 0.045 for a fixed test with 199 permutations, and an average of 16.4 permutations per test. A sequential test with exact level, such as the sequential p-value of \citet{BesagClifford1991}, could replace these rules but was not used in the experiments. In addition, to save time, each permuted AUC is computed with 2-fold cross-validation, while the observed AUC uses 5-fold cross-validation (Step~2). The permuted and observed statistics are therefore not computed in the same way, and the p-value is approximate.
 
 \textbf{Computational Savings:} ASPT logs the number of permutations executed per invocation. With $\alpha = 0.05$ and $B_{\min} = 10$, the earliest possible confirmation is at $i = 20$, where $1/21 \approx 0.048 < \alpha$, so a clear drift costs 20 permutations instead of $B_{\max} = 199$. Clear non-drift cases can stop after $B_{\min} = 10$ permutations, and only cases close to the decision boundary use the full budget.
 
@@ -631,29 +644,7 @@ EADD applies \textbf{TreeSHAP} \citep{Lundberg2017, LundbergInteraction2020} to 
 
 EADD also computes TreeSHAP interaction values \citep{LundbergInteraction2020} on a sample of 100 points and reports their mean absolute values for each feature pair. The ranking and the interaction values are provided as diagnostic output; their accuracy is not evaluated in this thesis.
 
-\subsection{Model Adaptation Strategies}
-According to \citet{Gama2014}, upon drift detection, the primary prediction model can be adapted:
-
-\textbf{Strategy 1: Drift-Triggered Retraining}
-\begin{itemize}
-    \item Model is trained at initialisation
-    \item Retraining occurs only when drift alarm is raised
-    \item Reference window resets to current data after retraining
-    \item According to \citet{Pan2020}, advantage: Conserves resources; exploits early detection for timely updates
-\end{itemize}
-
-\textbf{Strategy 2: Periodic Retraining (Baseline)}
-\begin{itemize}
-    \item Model is retrained at fixed intervals regardless of drift signals
-    \item Advantage: Simple; does not depend on detector reliability
-    \item According to \citet{Gama2014}, disadvantage: May retrain unnecessarily or too late
-\end{itemize}
-
-\textbf{Strategy 3: Continuous Update with Drift Weighting}
-\begin{itemize}
-    \item Online learning with sample weighting based on drift score
-    \item According to \citet{Krawczyk2017}, recent samples receive higher weights when drift is detected
-\end{itemize}
+After a confirmed drift, the reference window is replaced by the current window (Step~1). How the deployed model is then adapted, for example by retraining it on recent data (Section~\ref{sec:mitigation}), is outside the scope of this thesis.
 
 \section{Baseline Drift Detectors}
 \label{sec:baselines}
@@ -723,33 +714,7 @@ Ran D3, the ablation variants of Section~\ref{sec:baselines}, and EADD on the sy
 \subsection{Statistical Analysis}
 Results over several seeds or runs are summarised by their mean, and by their range where it matters for interpretation. H1a is tested with an exact one-sided sign test on the 20 synthetic drift streams of Experiment~4 (four drift types and five seeds): each stream counts for EADD if only EADD detects its drift and for D3 if only D3 does. H1b is tested with a two-sided Wilcoxon signed-rank test on the detection delays of the streams that both detectors detect. H2 is tested with a one-sided Mann--Whitney U test on the mean number of false alarms per stable stream type. Because only four stream types are compared, the exact p-value of this test is reported together with the normal approximation. All tests use $\alpha = 0.05$.
 
-\section{Practical Considerations}
-
-\textbf{Class Imbalance:} When $|W_{ref}| \neq |W_{cur}|$, use:
-\begin{itemize}
-    \item Stratified cross-validation
-    \item Class-weighted classifiers
-    \item According to \citet{LopezPazOquab2017}, AUC-ROC rather than accuracy
-\end{itemize}
-
-\textbf{Computational Efficiency:}
-\begin{itemize}
-    \item Use efficient classifiers (logistic regression, small random forests)
-    \item Consider approximate methods for large windows
-    \item According to \citet{Pan2020}, implement incremental training where possible
-\end{itemize}
-
-\textbf{Temporal Leakage Prevention:}
-\begin{itemize}
-    \item Use purged cross-validation to avoid temporal overlap between folds
-    \item According to \citet{Souza2020}, ensure strict temporal ordering in train/test splits
-\end{itemize}
-
-\textbf{Threshold Calibration:}
-\begin{itemize}
-    \item Use validation data with known drift to tune $\tau$
-    \item According to \citet{Pan2020}, consider adaptive thresholds based on baseline variance
-\end{itemize}
+The Type~I error of ASPT's stopping rules (Section~\ref{sec:eadd}) was estimated by simulating the rules under the null hypothesis, where the observed AUC and the permuted AUCs are exchangeable, with 400{,}000 repetitions.
 
 
 \chapter{Results} \label{chap:results}
@@ -849,7 +814,7 @@ Figure~\ref{fig:timeseries-synthetic} shows the multi-detector time-series compa
 The multi-detector comparison reveals three groups of detectors:
 
 \begin{enumerate}
-    \item \textbf{Complete Coverage without False Alarms:} EADD was the only detector that detected all four drift types (4/4 coverage, MTD: 149--849) with zero false alarms, including the gradual and incremental drift that D3 and SPLL missed entirely. Experiment~4 shows that this coverage comes from EADD's reservoir-sampled reference window rather than from its classifier or its permutation test. EADD's detection delays are longer than those of the fastest detectors (e.g., IBDD's 11--18 samples). EADD also reports a feature ranking with each detection, which the other detectors do not provide.
+    \item \textbf{Complete Coverage without False Alarms:} EADD was the only detector that detected all four drift types (4/4 coverage, MTD: 149--849) with zero false alarms, including the gradual and incremental drift that D3 and SPLL missed entirely. Experiment~4 shows that this coverage comes from EADD's long-memory reference window rather than from its classifier or its permutation test. EADD's detection delays are longer than those of the fastest detectors (e.g., IBDD's 11--18 samples). EADD also reports a feature ranking with each detection, which the other detectors do not provide.
 
     \item \textbf{High-Sensitivity Detectors with False Alarm Costs:} BNDM, CSDDM, IBDD, and OCDD also achieved 4/4 drift-type coverage, but with substantially higher false alarm rates (3--49 per drift type). IBDD was the fastest (MTD of 11--18 samples) but generated 41--49 false alarms per type, rendering it impractical for production monitoring. OCDD produced 16--18 false alarms per type with no speed advantage over EADD.
 
@@ -1172,7 +1137,7 @@ The monitoring logs of EADD on the real-world streams of Experiments~2 and~4 (13
 
 \textbf{Prediction Entropy.} $H_{\text{pred}}$ was about 0.45 to 0.47 on stable segments and fell together with the AUC as drift appeared, for example to 0.39 and 0.30 in the two checks before the first detection on InsectsAbrupt. Across all checks, the Spearman correlation between $H_{\text{pred}}$ and the AUC was $-0.56$. On InsectsGradual, $H_{\text{pred}}$ stayed between 0.44 and 0.47 around the annotated drift point. These logs do not show $H_{\text{pred}}$ declining consistently before the AUC, so its value as an early-warning signal is not established.
 
-\textbf{Component Summary.} The reservoir-sampled reference window gives EADD its broader detection coverage over D3; the LightGBM classifier alone does not (Experiment~4). At the default threshold, ASPT confirmed every alarm that reached it at 10\% of the cost of a fixed-budget permutation test, so its effect on the decisions depends on the threshold. $H_{\text{pred}}$ provides a continuous monitoring signal but moved together with the AUC. The TreeSHAP feature ranking adds diagnostic output without affecting detection decisions.
+\textbf{Component Summary.} The long-memory reference window gives EADD its broader detection coverage over D3; the LightGBM classifier alone does not (Experiment~4). At the default threshold, ASPT confirmed every alarm that reached it at 10\% of the cost of a fixed-budget permutation test, so its effect on the decisions depends on the threshold. $H_{\text{pred}}$ provides a continuous monitoring signal but moved together with the AUC. The TreeSHAP feature ranking adds diagnostic output without affecting detection decisions.
 
 \chapter{Discussion} \label{chap:discussion}
 
@@ -1215,7 +1180,7 @@ The answer to RQ2 is therefore that EADD raises fewer false alarms than D3 in it
 
 Several results agree with the studies reviewed in Chapter~\ref{chap:literature}. \citet{Lukats2024} found that the size of the observed samples was one of the most influential hyperparameters of unsupervised drift detectors, and that D3 is sensitive to noise. The ablation confirms both points for discriminative detectors: changing D3's windows from 100/50 to 500/200 samples removed almost all of its false alarms, while changing its classifier did not. \citet{Lukats2024} also questioned whether purging the data windows after a detection, as most detectors do, suits incremental and gradual drift. The results support this concern from the other side: D3, which compares two adjacent sliding windows, missed every slow synthetic drift, while EADD, whose reference window summarises all data since the last detection, detected all of them.
 
-The behaviour of ASPT follows from the theory of the classifier two-sample test \citep{LopezPazOquab2017}. Under the null hypothesis, the AUC of a classifier trained on shuffled labels concentrates near 0.5, with a spread that shrinks as the windows grow. With 700 samples per test, an AUC of 0.7 lies far in the tail of this distribution, so a permutation test confirms almost every alarm that passes the threshold. The sequential stopping rule of \citet{Gandy2009} still reduced the cost of the test by 90\%, as expected when the evidence is clear. The remaining false alarms at $\tau = 0.5$ illustrate a known limitation of repeated significance testing on a stream: a test at level $\alpha$ at every check does not control the error rate over the whole stream, which is the motivation for anytime-valid tests such as E-C2ST \citep{EC2ST2024}.
+The behaviour of ASPT follows from the theory of the classifier two-sample test \citep{LopezPazOquab2017}. Under the null hypothesis, the AUC of a classifier trained on shuffled labels concentrates near 0.5, with a spread that shrinks as the windows grow. With 700 samples per test, an AUC of 0.7 lies far in the tail of this distribution, so a permutation test confirms almost every alarm that passes the threshold. ASPT's sequential stopping rule still reduced the cost of the test by 90\%, as expected when the evidence is clear, although the rule raises the Type~I error of a single test above $\alpha$ (Section~\ref{sec:eadd}). The remaining false alarms at $\tau = 0.5$ illustrate a known limitation of repeated significance testing on a stream: a test at level $\alpha$ at every check does not control the error rate over the whole stream, which is the motivation for anytime-valid tests such as E-C2ST \citep{EC2ST2024}.
 
 The feature ranking in EADD follows the domain-classifier approach of \citet{Maggio2021}, and the monitoring of explanation distributions by \citet{Mougan2025} offers an alternative that observes the deployed model instead. Because the accuracy of the ranking was not evaluated in this thesis, the results neither confirm nor contradict the reports that SHAP rankings identify drifted features. Finally, prediction-based monitoring depends on calibrated outputs \citep{Guo2017, Ovadia2019}. In EADD, the prediction entropy of the discriminator moved together with its AUC, so it added little information beyond the AUC in these experiments.
 
@@ -1223,25 +1188,7 @@ The feature ranking in EADD follows the domain-classifier approach of \citet{Mag
 
 \subsection{Window Size and Threshold Selection}
 
-The experiments used $N_{ref} = 500$ and $N_{cur} = 200$ for EADD throughout, which proved effective across both synthetic and real-world datasets. However, the optimal window configuration is dataset-dependent:
-
-\begin{table}[!htbp]
-\centering
-\caption[Guidelines for window size selection]{Guidelines for Window Size Selection Based on Experimental Evidence}
-\label{tab:window-guidelines}
-\begin{tabular}{p{3cm}p{4cm}p{5cm}}
-\hline
-\textbf{Factor} & \textbf{Consideration} & \textbf{Recommendation} \\
-\hline
-Dataset Size & Larger datasets allow larger windows & $N_{ref}$: 1--10\% of total data \\
-Expected Drift Type & Abrupt: smaller windows; Gradual: larger windows & Abrupt: 200--500; Gradual: 500--2000 \\
-Detection Latency & Smaller windows = faster detection & Trade-off with statistical power \\
-Computational Budget & Larger windows = more expensive training & Balance accuracy vs. speed \\
-\hline
-\end{tabular}
-\end{table}
-
-Experiment~4 shows that window size matters more than the classifier for false alarms on autocorrelated data. With $N_{ref} = 100$, D3 raised false alarms at every threshold from 0.6 to 0.8, while with $N_{ref} = 500$ it raised none at $\tau = 0.7$. The reference memory matters for slow drift: a reference window that summarises all data since the last drift detected gradual and incremental drift that two adjacent sliding windows missed. The threshold sets a trade-off between speed and false alarms: lowering $\tau$ from 0.7 to 0.5 halved the detection delay on gradual drift but introduced false alarms, and ASPT is useful only in that low-threshold setting.
+The experiments used $N_{ref} = 500$ and $N_{cur} = 200$ for EADD throughout, and other window sizes for EADD were not tested, so the best configuration for other streams is not known. Experiment~4 shows that window size matters more than the classifier for false alarms on autocorrelated data. With $N_{ref} = 100$, D3 raised false alarms at every threshold from 0.6 to 0.8, while with $N_{ref} = 500$ it raised none at $\tau = 0.7$. The reference memory matters for slow drift: a reference window that summarises all data since the last drift detected gradual and incremental drift that two adjacent sliding windows missed. The threshold sets a trade-off between speed and false alarms: lowering $\tau$ from 0.7 to 0.5 halved the detection delay on gradual drift but introduced false alarms, and ASPT is useful only in that low-threshold setting.
 
 \subsection{Proposed MLOps Deployment Architecture}
 
@@ -1270,6 +1217,8 @@ This architecture decouples the computational overhead of the discriminator and 
 
 \textbf{Repeated Testing:} EADD tests for drift at every monitoring check without correcting for the number of tests, and the permutation test assumes exchangeable samples, which autocorrelated streams violate. The false alarm rate per stream is therefore not controlled at $\alpha$.
 
+\textbf{Approximate Permutation Test:} Even for a single check, ASPT is not an exact level-$\alpha$ test. Its stopping rules raise the Type~I error from 0.045 to 0.059 at $\alpha = 0.05$ in simulation, and the permuted AUCs use 2-fold cross-validation while the observed AUC uses 5-fold cross-validation. At the default threshold this did not affect the results, because every alarm that reached ASPT was far in the tail of the permutation distribution, but it matters at lower thresholds.
+
 \textbf{Computational Overhead:} EADD took about 11.9 seconds per 10{,}000-sample stable stream, compared with 0.2 to 0.5 seconds for D3, and about 27.5 minutes for one pass over the 13 real-world streams, compared with 0.5 minutes for D3. Each permutation is independent, so the permutation test can be distributed across compute clusters for high-velocity applications.
 
 \textbf{Unevaluated Feature Ranking:} The TreeSHAP feature ranking is reported with each detection but its accuracy is not evaluated in this thesis. SHAP explanations are also correlational rather than causal \citep{CausalDrift2025}, so in production they may direct attention to symptomatic rather than root-cause features.
@@ -1280,9 +1229,7 @@ This architecture decouples the computational overhead of the discriminator and 
 
 \section{Chapter Summary}
 
-EADD was the only detector to achieve 4/4 synthetic drift-type coverage with zero false alarms, and it detected the slow synthetic drifts that D3 missed (RQ1, H1a supported); where both detected the drift, D3 was faster (H1b not supported). On the real-world streams with matched windows, EADD detected incremental drift sooner than D3, and both raised a similar number of detections. EADD produced no false alarms on the stable streams, while D3 with small windows produced up to 87.4 (RQ2, H2 supported at $\tau = 0.6$). The ablation showed that EADD's coverage of slow drift comes from its reservoir-sampled reference window, that D3's false alarms come from its small windows, that replacing D3's logistic regression with LightGBM changes little, and that ASPT changes the decisions only when the AUC threshold is lowered to 0.5. The remaining detection limitation is InsectsGradual, where EADD (along with D3, BNDM, OCDD, and UDetect) missed the annotated drift point.
-
-\addtocontents{toc}{\protect\newpage}
+EADD was the only detector to achieve 4/4 synthetic drift-type coverage with zero false alarms, and it detected the slow synthetic drifts that D3 missed (RQ1, H1a supported); where both detected the drift, D3 was faster (H1b not supported). On the real-world streams with matched windows, EADD detected incremental drift sooner than D3, and both raised a similar number of detections. EADD produced no false alarms on the stable streams, while D3 with small windows produced up to 87.4 (RQ2, H2 supported at $\tau = 0.6$). The ablation showed that EADD's coverage of slow drift comes from its long-memory reference window, that D3's false alarms come from its small windows, that replacing D3's logistic regression with LightGBM changes little, and that ASPT changes the decisions only when the AUC threshold is lowered to 0.5. The remaining detection limitation is InsectsGradual, where EADD (along with D3, BNDM, OCDD, and UDetect) missed the annotated drift point.
 
 \chapter{Conclusion and Recommendations} \label{chap:conclusion}
 
@@ -1294,7 +1241,7 @@ We proposed \textbf{Enhanced Adversarial Drift Detection (EADD)} and made the fo
 
 \begin{enumerate}
     \item An integrated framework that combines a LightGBM classifier two-sample test \citep{LopezPazOquab2017, Ke2017}, a reservoir-sampled reference window \citep{Vitter1985}, prediction entropy monitoring ($H_{\text{pred}}$) and an adaptive sequential permutation test, and that ranks the features behind each confirmed drift with TreeSHAP \citep{Lundberg2017}.
-    \item An adaptive sequential permutation test (ASPT) that applies sequential Monte Carlo stopping \citep{Gandy2009} to the classifier two-sample test. ASPT confirmed a clear drift after 20 of 199 permutations, a 90\% saving over a fixed-budget test.
+    \item An adaptive sequential permutation test (ASPT) that adds a sequential stopping rule, motivated by \citet{Gandy2009}, to the classifier two-sample test. ASPT confirmed a clear drift after 20 of 199 permutations, a 90\% saving over a fixed-budget test, at the cost of a Type~I error of 0.059 instead of 0.045 at $\alpha = 0.05$ in simulation.
     \item An experimental evaluation against seven unsupervised detectors on synthetic and real-world streams, including an ablation with a LightGBM version of D3 that separates the effects of the classifier, the window sizes, the reference memory, the threshold and the permutation test.
 \end{enumerate}
 
@@ -1303,14 +1250,14 @@ The experimental evaluation (Chapter~\ref{chap:results}) produced the following 
     \item \textbf{Experiment 1:} EADD detected all four synthetic drift types (4/4) with zero false alarms, the only detector to achieve this combination. BNDM, CSDDM, IBDD, and OCDD achieved 4/4 coverage but with substantially higher false alarm counts.
     \item \textbf{Experiment 2:} With matched window sizes and three seeds, EADD detected drift on 3 of 4 annotated INSECTS datasets and had a lower mean MTD than D3 on all three (124 vs.\ 166, 50 vs.\ 126, and 84 vs.\ 256 samples), while D3 had a higher recall on two of them. On nine unannotated datasets, both detectors raised a similar number of detections (474.7 and 471.7).
     \item \textbf{Experiment 3:} EADD produced no false alarms on 4 stable stream types, compared with D3's 87.4 mean false alarms on autocorrelated data at $\tau=0.6$ with $N_{ref} = 100$.
-    \item \textbf{Experiment 4:} D3 with a LightGBM classifier behaved like the original D3. With EADD's window sizes, D3 raised almost no false alarms. EADD's coverage of slow drift came from its reservoir-sampled reference window. ASPT changed the decisions only at $\tau = 0.5$, where it halved the false alarms.
+    \item \textbf{Experiment 4:} D3 with a LightGBM classifier behaved like the original D3. With EADD's window sizes, D3 raised almost no false alarms. EADD's coverage of slow drift came from its long-memory reference window. ASPT changed the decisions only at $\tau = 0.5$, where it halved the false alarms.
 \end{itemize}
 
 Statistical testing supported H1a (sign test $p = 0.001$) and H2 at $\tau = 0.6$ (exact Mann--Whitney $p = 0.014$), but not H1b: D3 detected abrupt and recurring drift sooner on the synthetic streams. The ablation showed that the H2 difference is explained by D3's smaller windows rather than by the permutation test.
 
 \section{Limitations}
 
-The main limitations of this study, discussed in Section~\ref{sec:limitations}, are the following. EADD detects only covariate drift. The synthetic streams have independent features and large mean shifts, and only four real-world streams have annotated drift points. Several analyses rely on few runs or stream types. EADD tests at every check without controlling the error rate over a whole stream, and its runtime is 25 to 55 times that of D3. Finally, the TreeSHAP feature ranking was not evaluated.
+The main limitations of this study, discussed in Section~\ref{sec:limitations}, are the following. EADD detects only covariate drift. The synthetic streams have independent features and large mean shifts, and only four real-world streams have annotated drift points. Several analyses rely on few runs or stream types. EADD tests at every check without controlling the error rate over a whole stream, ASPT's stopping rules raise the Type~I error of each test slightly above $\alpha$, and EADD's runtime is about 24 to 60 times that of D3. Finally, the TreeSHAP feature ranking was not evaluated.
 
 \section{Recommendations for Application}
 
@@ -1320,9 +1267,9 @@ The results lead to the following recommendations for practitioners who deploy d
 
 \textbf{Choose the Threshold Deliberately:} With windows of 500 and 200 samples, an AUC threshold of 0.7 gave no false alarms on the stable streams, and a permutation test added nothing at that threshold. A lower threshold detects drift sooner but needs a significance test, such as ASPT, to limit false alarms, and even then some false alarms remain on autocorrelated data.
 
-\textbf{Use ASPT to Make Significance Testing Affordable:} When a permutation test is used, the adaptive sequential stopping rule reduces its cost by about 90\% for clear decisions, making permutation-based calibration practical for moderate-frequency monitoring.
+\textbf{Use Sequential Stopping to Make Significance Testing Affordable:} When a permutation test is used, a sequential stopping rule reduces its cost by about 90\% for clear decisions, making permutation-based calibration practical for moderate-frequency monitoring. If the test must keep its nominal level exactly, a sequential p-value with exact level \citep{BesagClifford1991} should be used instead of ASPT's rules.
 
-\textbf{Budget for Computation:} EADD's LightGBM classifier with 5-fold cross-validation every 50 samples made it 25 to 55 times slower than D3 in our experiments. Monitoring less often, training fewer trees or running the monitor asynchronously from the primary model can reduce this cost.
+\textbf{Budget for Computation:} EADD's LightGBM classifier with 5-fold cross-validation every 50 samples made it about 24 to 60 times slower than D3 in our experiments. Monitoring less often, training fewer trees or running the monitor asynchronously from the primary model can reduce this cost.
 
 \textbf{Treat the Feature Ranking as a Lead:} The TreeSHAP ranking points to the features that separate the two windows, which can direct engineers to upstream data sources before a full retraining. Because its accuracy has not been evaluated and SHAP is correlational \citep{CausalDrift2025}, it should be treated as a lead for investigation rather than as a diagnosis. In regulated sectors, where ``black box'' model adaptations may violate transparency requirements \citep{GoodmanFlaxman2017}, the ranking can also document which features changed before each drift-triggered update.
 
@@ -1350,4 +1297,4 @@ Based on the experimental findings and the rapidly evolving literature, future r
 
 \section{Concluding Remarks}
 
-This thesis proposed EADD, an integrated framework that combines established methods: the classifier two-sample test \citep{LopezPazOquab2017}, reservoir sampling \citep{Vitter1985}, sequential Monte Carlo testing \citep{Gandy2009} and TreeSHAP \citep{Lundberg2017, LundbergInteraction2020}. In a single unsupervised streaming pipeline, these components report whether the discriminator can separate recent data from the reference data, whether the separation is statistically significant, and which features drive it. EADD was the only detector in the evaluation to achieve complete synthetic drift-type coverage (4/4) with zero false alarms, and on the real-world streams it detected incremental drift sooner than D3. The ablation showed that much of this behaviour comes from the design of the reference window rather than from the classifier or the permutation test, a result that applies to discriminative drift detectors in general.
+This thesis studied adversarial validation as a technique for feature drift detection and proposed EADD, an integrated framework that combines established methods: the classifier two-sample test \citep{LopezPazOquab2017}, reservoir sampling \citep{Vitter1985}, sequential stopping of Monte Carlo tests \citep{Gandy2009} and TreeSHAP \citep{Lundberg2017, LundbergInteraction2020}. In a single unsupervised streaming pipeline, these components report whether the discriminator can separate recent data from the reference data, whether the separation is statistically significant, and which features drive it. EADD was the only detector in the evaluation to achieve complete synthetic drift-type coverage (4/4) with zero false alarms, and on the real-world streams it detected incremental drift sooner than D3. The ablation showed that much of this behaviour comes from the design of the reference window rather than from the classifier or the permutation test, a result that applies to discriminative drift detectors in general.

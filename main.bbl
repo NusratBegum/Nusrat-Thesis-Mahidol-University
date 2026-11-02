@@ -1,4 +1,4 @@
-\begin{thebibliography}{74}
+\begin{thebibliography}{75}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -125,6 +125,13 @@ David Lopez-Paz and Maxime Oquab.
 \newblock In \emph{International Conference on Learning Representations
   (ICLR)}, 2017.
 \newblock URL \url{https://openreview.net/forum?id=SJkXfE5xx}.
+
+\bibitem[Pan et~al.(2020)Pan, Pham, Dorairaj, Chen, and Lee]{Pan2020}
+Jing Pan, Vincent Pham, Mohan Dorairaj, Huigang Chen, and Jeong-Yoon Lee.
+\newblock Adversarial validation approach to concept drift problem in user
+  targeting automation systems at {Uber}.
+\newblock In \emph{Proceedings of the AdKDD Workshop at KDD}, 2020.
+\newblock arXiv:2004.03045.
 
 \bibitem[G{\"o}z{\"u}a{\c c}{\i}k et~al.(2019)G{\"o}z{\"u}a{\c c}{\i}k,
   B{\"u}y{\"u}k{\c c}ak{\i}r, Bonab, and Can]{Gozuacik2019}
@@ -327,13 +334,6 @@ Gregory Ditzler and Robi Polikar.
 \newblock In \emph{IEEE Symposium on Computational Intelligence in Dynamic and
   Uncertain Environments (CIDUE)}, pages 41--48, 2011.
 \newblock \doi{10.1109/CIDUE.2011.5948491}.
-
-\bibitem[Pan et~al.(2020)Pan, Pham, Dorairaj, Chen, and Lee]{Pan2020}
-Jing Pan, Vincent Pham, Mohan Dorairaj, Huigang Chen, and Jeong-Yoon Lee.
-\newblock Adversarial validation approach to concept drift problem in user
-  targeting automation systems at {Uber}.
-\newblock In \emph{Proceedings of the AdKDD Workshop at KDD}, 2020.
-\newblock arXiv:2004.03045.
 
 \bibitem[Qian et~al.(2021)Qian, Wang, Ma, Peng, Gao, and Song]{Qian2021}
 Hongyi Qian, Baohui Wang, Ping Ma, Lei Peng, Songfeng Gao, and You Song.
@@ -562,6 +562,12 @@ Phillip~I. Good.
 \newblock \emph{Permutation, Parametric, and Bootstrap Tests of Hypotheses}.
 \newblock Springer, 3rd edition, 2005.
 \newblock \doi{10.1007/b138696}.
+
+\bibitem[Besag and Clifford(1991)]{BesagClifford1991}
+Julian Besag and Peter Clifford.
+\newblock Sequential {Monte Carlo} p-values.
+\newblock \emph{Biometrika}, 78\penalty0 (2):\penalty0 301--304, 1991.
+\newblock \doi{10.1093/biomet/78.2.301}.
 
 \bibitem[Goodman and Flaxman(2017)]{GoodmanFlaxman2017}
 Bryce Goodman and Seth Flaxman.
