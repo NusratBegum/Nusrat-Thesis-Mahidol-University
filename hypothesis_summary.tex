@@ -1,0 +1,104 @@
+% Hypotheses and evidence on A4, requested by the advisor on 28 Oct 2026.
+% Compile separately (Overleaf: Menu -> Main document -> hypothesis_summary.tex).
+% The table rows are the same files as in Chapter 4 of the thesis.
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=1.6cm]{geometry}
+\usepackage{booktabs,amsmath,amssymb,multirow,graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{times}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\pagestyle{empty}
+% primitive \input, which is expandable, so that \hline can follow it in a tabular
+\makeatletter\newcommand{\inputrows}[1]{\@@input #1 }\makeatother
+
+\begin{document}
+
+{\large\textbf{EADD thesis: hypotheses and evidence}}\hfill Nusrat Begum, \today
+
+\textbf{Setup.} Four INSECTS streams with annotated drift points (10 drift points), five seeds, so 20 runs per detector. No synthetic data. EADD and D3 use the same LightGBM classifier and the same windows ($N_{ref} = 500$, $N_{cur} = 200$, $\tau = 0.7$); only D3 with LightGBM (D3-LightGBM) is used. The six benchmark detectors of Lukats et al.\ (2024) (BNDM, CSDDM, IBDD, OCDD, SPLL, UDetect) were rerun with 500 observed samples; no published numbers were copied. A detection matches a drift point if it occurs within 500 samples after it. \textbf{MTD} averages the delay over all drift points and counts a missed one as 500 (Lukats et al.\ average only over found drifts, which favours a detector that finds one drift quickly and misses the rest). Tests: one-sided Mann--Whitney U (MW) on the 20 runs, with the paired Wilcoxon signed-rank test (W) as a check; $\alpha = 0.05$.
+
+\textbf{H1. EADD detects the annotated drifts more completely (H1a, recall) and sooner (H1b, MTD) than D3.}
+
+\begin{center}\small\setlength{\tabcolsep}{3pt}
+\begin{tabular}{l|cc|cc|cc|cc|cc}
+\hline
+ & \multicolumn{2}{c|}{\textbf{Abrupt}} & \multicolumn{2}{c|}{\textbf{Gradual}} & \multicolumn{2}{c|}{\textbf{Incr.-abrupt}} & \multicolumn{2}{c|}{\textbf{Incr.-reoc.}} & \multicolumn{2}{c}{\textbf{Mean}} \\
+\textbf{Detector} & Rec. & MTD & Rec. & MTD & Rec. & MTD & Rec. & MTD & Rec. & MTD \\
+\hline
+\inputrows{tables/h1_rows.tex}
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Test:} recall 0.50 vs.\ 0.65, MW $p = 0.90$ (W $p = 0.96$); MTD 302 vs.\ 279, MW $p = 0.78$ (W $p = 0.85$). \textbf{H1 is not supported.} 16 of EADD's 21 missed drift points had an EADD detection in the 500 samples \emph{before} the annotated point; accepting those, both detectors reach recall 0.95. EADD checking every 200 samples (as D3 does): recall 0.80, MTD 204 (not significant, $p = 0.12$, $p = 0.075$).
+
+\textbf{H2. EADD raises fewer false alarms than D3.} $H_0$: $\text{FA}_{\text{EADD}} \geq \text{FA}_{\text{D3}}$, $H_1$: $\text{FA}_{\text{EADD}} < \text{FA}_{\text{D3}}$.
+
+\begin{center}\small
+\begin{tabular}{l|cccc|c|c}
+\hline
+\textbf{Detector} & \textbf{Abrupt} & \textbf{Gradual} & \textbf{Incr.-abrupt} & \textbf{Incr.-reoc.} & \textbf{Total} & \textbf{Prec.} \\
+\hline
+\inputrows{tables/h2_rows.tex}
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Test:} 8.9 vs.\ 5.6 false alarms per run, MW $p = 1.00$; the opposite direction is significant ($p < 0.001$). Precision (Prec., share of all detections that match a drift point): EADD 0.14, D3-LightGBM 0.25. \textbf{H2 is not supported.}
+
+\textbf{H3. ASPT does not degrade detection (H3a) and runs faster than a full permutation test (H3b).} ($\tau = 0.7$; Early = tests stopped before 199 permutations; Rej.\ = alarms rejected.)
+
+\begin{center}\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{l|l|ccc|ccccc}
+\hline
+\textbf{Stream} & \textbf{Variant} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{Time (s)} & \textbf{Tests} & \textbf{Perm./test} & \textbf{Early (\%)} & \textbf{Rej.\ (\%)} \\
+\hline
+\inputrows{tables/h3_rows.tex}
+\hline
+\end{tabular}
+\end{center}
+
+\textbf{Test:} identical detections in 20 of 20 runs (H3a); runtime with one run at a time 112 vs.\ 149 s (25\% less, faster in 20 of 20 runs), paired W $p < 0.001$, MW $p = 0.022$ (H3b). \textbf{H3 is supported.}
+
+\newpage
+\textbf{Threshold sensitivity} ($p$: one-sided MW that the variant raises fewer false alarms than D3-LightGBM, 5.6 per run; Time measured with nine runs sharing the machine, so comparable only within this table).
+
+\begin{center}\small\setlength{\tabcolsep}{3.5pt}
+\begin{tabular}{c|l|ccc|cccc|c}
+\hline
+$\tau$ & \textbf{Variant} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{Time (s)} & \textbf{Perm./test} & \textbf{Early (\%)} & \textbf{Rej.\ (\%)} & $p$ \\
+\hline
+\inputrows{tables/h3_threshold_rows.tex}
+\hline
+\end{tabular}
+\end{center}
+
+At $\tau \leq 0.5$ ASPT rejects most alarms and cuts false alarms by 31--81\% against no test (e.g.\ 87.8 to 16.8 at $\tau = 0.3$); at $\tau = 0.5$ it also improves recall and MTD. No threshold gives EADD fewer false alarms than D3-LightGBM.
+
+\textbf{RQ3. Unannotated streams} (reported as in Lukats et al.: prequential accuracy (\%) of a Hoeffding tree reset at every detection; ``No detector'' = never reset; three seeds).
+
+\begin{center}\small\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{l|ccccccccc|c}
+\hline
+\textbf{Detector} & \textbf{Elec.} & \textbf{Incr.} & \textbf{Lux.} & \textbf{NOAA} & \textbf{Outdoor} & \textbf{Ozone} & \textbf{Poker} & \textbf{Power} & \textbf{Rialto} & \textbf{Mean} \\
+\hline
+\inputrows{tables/e4_acc_rows.tex}
+\hline
+\end{tabular}
+
+\vspace{4pt}
+\begin{tabular}{l|ccccccccc|cc}
+\hline
+\textbf{Detections} & \textbf{Elec.} & \textbf{Incr.} & \textbf{Lux.} & \textbf{NOAA} & \textbf{Outdoor} & \textbf{Ozone} & \textbf{Poker} & \textbf{Power} & \textbf{Rialto} & \textbf{Total} & \textbf{LPD} \\
+\hline
+\inputrows{tables/e4_det_rows.tex}
+\hline
+\end{tabular}
+\end{center}
+
+EADD and D3-LightGBM: 65.4\% vs.\ 65.7\% accuracy (two-sided W $p = 0.65$), similar detections and lift-per-drift (LPD, percentage points per detection). Accuracy rewards frequent resets (IBDD), as Lukats et al.\ noted.
+
+\textbf{Conclusion.} With confounds removed, EADD does not beat D3-LightGBM on annotated real data (H1, H2 not supported); ASPT keeps the decisions of a full permutation test at lower cost (H3 supported) and is needed only at low thresholds.
+
+\end{document}

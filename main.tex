@@ -39,6 +39,8 @@
 \renewcommand*\l@figure{\@dottedtocline{0}{0em}{2.3em}}
 \renewcommand*\l@table{\@dottedtocline{0}{0em}{2.3em}}
 \renewcommand{\@dotsep}{10000}
+% primitive \input, which is expandable, so that \hline can follow it in a tabular
+\newcommand{\inputrows}[1]{\@@input #1 }
 \setlength{\@fptop}{0pt}
 \setlength{\@fpbot}{0pt plus 1fil}
 \makeatother

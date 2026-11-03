@@ -3,11 +3,11 @@
 To ensure reproducibility, the specific hyperparameters and algorithmic configurations used for the EADD framework are detailed below.
 
 \section{Adversarial Classifier (LightGBM)}
-The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration. The LightGBM version of D3 used in Experiment~4 uses the same configuration.
+The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration. D3-LightGBM, the version of D3 used in the experiments, uses the same configuration.
 
 \begin{table}[!htbp]
 \centering
-\caption{LightGBM hyperparameters}
+\caption{LightGBM hyperparameters of EADD and D3-LightGBM}
 \begin{tabular}{ll}
 \hline
 \textbf{Parameter} & \textbf{Value} \\
@@ -34,5 +34,5 @@ Verbosity & -1 \\
 \section{Uncertainty and Statistical Testing}
 \begin{itemize}
     \item \textbf{Prediction Entropy ($H_{\text{pred}}$):} Mean binary Shannon entropy of the discriminator's predicted probabilities, computed at every monitoring step.
-    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} $B_{\max} = 199$ permutations, $B_{\min} = 10$, $\alpha=0.05$; only invoked when the AUC exceeds $\tau = 0.7$.
+    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} $B_{\max} = 199$ permutations, $B_{\min} = 10$, $\alpha=0.05$; only invoked when the AUC exceeds the threshold $\tau$ (0.7 by default). The permuted AUCs use 2-fold cross-validation.
 \end{itemize}
