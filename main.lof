@@ -1,9 +1,0 @@
- \contentsline {chapter}{Figure}{\textbf {Page}}{}
-\contentsline {figure}{\numberline {2.1}{\ignorespaces No drift versus drift for a discriminative classifier}}{6}{figure.caption.19}%
-\contentsline {figure}{\numberline {2.2}{\ignorespaces Four temporal drift patterns}}{10}{figure.caption.25}%
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Conceptual framework}}{23}{figure.caption.53}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Overview of the research methodology}}{25}{figure.caption.58}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Architecture of EADD}}{28}{figure.caption.63}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Detections around the annotated drift points}}{40}{figure.caption.89}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Detections on the annotated streams}}{41}{figure.caption.90}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Recall and false alarms against the AUC threshold}}{45}{figure.caption.97}%
