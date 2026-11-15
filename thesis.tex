@@ -627,6 +627,57 @@ EADD also computes TreeSHAP interaction values \citep{LundbergInteraction2020} o
 
 After a confirmed drift, the reference window is replaced by the current window (Step~1). How the deployed model is then adapted, for example by retraining it on recent data (Section~\ref{sec:mitigation}), is outside the scope of this thesis.
 
+\subsection{Algorithm and Computational Cost}\label{sec:eadd-algorithm}
+Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Algorithm~\ref{alg:aspt} the permutation test of Step~3. They follow the implementation in the file \texttt{eadd.py} of the code repository, with the settings used in Chapter~\ref{chap:results}: $N_{ref} = 500$, $N_{cur} = 200$, a check every $m = 50$ samples, $\tau = 0.7$, $K = 5$ folds, $B_{\max} = 199$, $B_{\min} = 10$ and $\alpha = 0.05$.
+
+\begin{algorithm}[htbp]
+\caption{EADD: processing of one sample $x_t$}\label{alg:eadd}
+\begin{algorithmic}[1]
+\Require windows $W_{ref}$, $W_{cur}$; counters $n_{seen}$ (samples since the last reset) and $s$ (samples since the last check)
+\State $n_{seen} \gets n_{seen} + 1$; \quad $s \gets s + 1$
+\If{$|W_{ref}| < N_{ref}$}
+    \State append $x_t$ to $W_{ref}$; \Return no drift \Comment{fill the reference first}
+\EndIf
+\State reservoir sampling: with probability $N_{ref}/n_{seen}$, $x_t$ replaces a random sample of $W_{ref}$
+\State append $x_t$ to $W_{cur}$; if $|W_{cur}| > N_{cur}$, remove its oldest sample
+\If{$s \geq m$ and $|W_{cur}| = N_{cur}$}
+    \State $s \gets 0$
+    \State label $W_{ref}$ as 0 and $W_{cur}$ as 1; compute the out-of-fold $\text{AUC}$ of LightGBM with $K$-fold cross-validation \Comment{Step 2}
+    \State compute $H_{\text{pred}}$ from the out-of-fold predictions (Eq.~\ref{eq:hpred}) \Comment{Step 2b}
+    \If{$\text{AUC} \geq \tau$ \textbf{and} $\textsc{ASPT}(W_{ref}, W_{cur}, \text{AUC}) < \alpha$} \Comment{Step 3}
+        \State rank the features with TreeSHAP \Comment{Step 4}
+        \State $W_{ref} \gets W_{cur}$; \quad $W_{cur} \gets \emptyset$; \quad $n_{seen} \gets N_{cur}$
+        \State \Return drift
+    \EndIf
+\EndIf
+\State \Return no drift
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{ASPT: adaptive sequential permutation test}\label{alg:aspt}
+\begin{algorithmic}[1]
+\Function{ASPT}{$W_{ref}$, $W_{cur}$, $\text{AUC}_{\text{actual}}$}
+\State $c \gets 0$
+\For{$i = 1, \ldots, B_{\max}$}
+    \State shuffle the window labels; compute $\text{AUC}^{(i)}_{\text{perm}}$ with 2-fold cross-validation
+    \If{$\text{AUC}^{(i)}_{\text{perm}} \geq \text{AUC}_{\text{actual}}$} $c \gets c + 1$ \EndIf
+    \If{$B_{\min} \leq i < B_{\max}$}
+        \If{$c = 0$ \textbf{and} $1/(i+1) < \alpha$} \Return $1/(i+1)$ \Comment{early reject: drift}
+        \EndIf
+        \If{$c / i > 2\alpha$} \Return $(c+1)/(i+1)$ \Comment{early accept: no drift}
+        \EndIf
+    \EndIf
+\EndFor
+\State \Return $(c+1)/(B_{\max}+1)$
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Time cost.} Let $n = N_{ref} + N_{cur}$ be the number of samples in a C2ST, $d$ the number of features and $T$ the number of trees. LightGBM builds a feature histogram from all training samples for each tree, which costs $O(n d)$, and then finds the splits from the histograms \citep{Ke2017}, so one fit costs $O(T n d)$ up to the number of histogram bins and leaves. Adding a sample to the windows costs $O(d)$. A check trains $K$ models, which costs $O(K T n d)$; ASPT, when it runs, trains $2B$ further models on half of the data each, where $B$ is the number of permutations used ($20$ for a clear drift, $10$ for a clear non-drift and at most $B_{\max}$), so it costs $O(B T n d)$. Because a check is made only every $m$ samples, the average cost per sample without an alarm is $O(K T n d / m)$, which does not grow with the length of the stream. TreeSHAP runs only after a confirmed drift; it costs $O(T L D^2)$ per explained sample for trees with $L$ leaves and depth $D$ \citep{LundbergInteraction2020}, so $O(n T L D^2)$ for the ranking, and the interaction values on 100 samples cost about $d$ times as much per sample. D3 makes the same kind of check with logistic regression, whose fit costs $O(n d)$ per optimiser iteration; with EADD's settings the two detectors therefore differ in cost mainly by the factor $T$ and by the permutation test.
+
+\textbf{Memory.} EADD stores the two windows, $O((N_{ref} + N_{cur}) d)$ values, and at most one classifier at a time, $O(T L)$ tree nodes. Both are fixed by the settings and do not grow with the stream. With the settings above and $d = 33$ features (INSECTS), the windows hold $700 \times 33 = 23{,}100$ values.
+
 \section{Baseline Drift Detectors}
 \label{sec:baselines}
 All baselines were run in this thesis on the same streams and with the same seeds as EADD; no published results were copied.
