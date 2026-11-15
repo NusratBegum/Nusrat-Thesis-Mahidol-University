@@ -18,7 +18,7 @@ Learning Rate & 0.1 \\
 Max Depth & -1 \\
 Num Leaves & 31 \\
 Objective & Binary Classification \\
-Metric & AUC \\
+Metric & default (binary log-loss; not used, no early stopping) \\
 Verbosity & -1 \\
 \hline
 \end{tabular}
@@ -29,10 +29,11 @@ Verbosity & -1 \\
     \item \textbf{Reference Window ($W_{ref}$):} 500 samples, maintained via Reservoir Sampling \citep{Vitter1985}.
     \item \textbf{Current Window ($W_{cur}$):} 200 samples, sliding window.
     \item \textbf{Monitoring Frequency:} Every 50 samples.
+    \item \textbf{After a confirmed drift:} $W_{ref}$ is replaced by the 200 samples of $W_{cur}$ and filled up to 500 with the next 300 samples, and $W_{cur}$ is emptied and refilled, so no check is made during the next 500 samples.
 \end{itemize}
 
 \section{Uncertainty and Statistical Testing}
 \begin{itemize}
     \item \textbf{Prediction Entropy ($H_{\text{pred}}$):} Mean binary Shannon entropy of the discriminator's predicted probabilities, computed at every monitoring step.
-    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} $B_{\max} = 199$ permutations, $B_{\min} = 10$, $\alpha=0.05$; only invoked when the AUC exceeds the threshold $\tau$ (0.7 by default). The permuted AUCs use 2-fold cross-validation.
+    \item \textbf{Adaptive Sequential Permutation Test (ASPT):} $B_{\max} = 199$ permutations, $B_{\min} = 10$, $\alpha=0.05$; only invoked when the AUC reaches the threshold $\tau$ (0.7 by default). The permuted AUCs use 2-fold cross-validation.
 \end{itemize}
