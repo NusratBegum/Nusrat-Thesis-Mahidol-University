@@ -3,11 +3,11 @@
 To ensure reproducibility, the specific hyperparameters and algorithmic configurations used for the EADD framework are detailed below.
 
 \section{Adversarial Classifier (LightGBM)}
-The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the following configuration. D3-LightGBM, the version of D3 used in the experiments, uses the same configuration.
+The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the configuration in Table~\ref{tab:lgbm-params}. D3-LightGBM, the version of D3 used in the experiments, uses the same configuration.
 
 \begin{table}[!htbp]
 \centering
-\caption{LightGBM hyperparameters of EADD and D3-LightGBM}
+\caption{LightGBM hyperparameters of EADD and D3-LightGBM}\label{tab:lgbm-params}
 \begin{tabular}{ll}
 \hline
 \textbf{Parameter} & \textbf{Value} \\
@@ -15,11 +15,11 @@ The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance 
 Boosting Type & gbdt \\
 Number of Estimators & 50 \\
 Learning Rate & 0.1 \\
-Max Depth & -1 \\
+Max Depth & $-1$ \\
 Num Leaves & 31 \\
 Objective & Binary Classification \\
 Metric & default (binary log-loss; not used, no early stopping) \\
-Verbosity & -1 \\
+Verbosity & $-1$ \\
 \hline
 \end{tabular}
 \end{table}

@@ -691,7 +691,7 @@
 	      \MakeTextUppercase{#1}\par\nobreak
 	\end{center}
 	\vskip 1.3cm
-}}
+\fi}}
 
 \def\@schapter#1{
 	\if@twocolumn

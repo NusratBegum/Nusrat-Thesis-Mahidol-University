@@ -1,6 +1,6 @@
 % Main file for Thesis plan, Traditional Format (muthesis2026, PR07284).
 % PR07284 requires 6 mandatory chapters for Thesis Traditional Format.
-\PassOptionsToPackage{hypertexnames=false}{hyperref}
+\PassOptionsToPackage{hypertexnames=false,hyperfootnotes=false}{hyperref}
 \documentclass{muthesis2026}
 \thesisplan
 \usepackage[numbers]{natbib}
@@ -72,5 +72,8 @@
 \input{appendix_impl}
 
 \biography
+% \ps@headings sets \topskip to 0pt, so the extra \clearpage that tikz runs at
+% the end of the document would ship out a blank page after the Biography.
+\setlength{\topskip}{1pt}
 
 \end{document}
