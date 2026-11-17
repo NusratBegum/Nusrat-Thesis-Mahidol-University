@@ -544,6 +544,11 @@
 	\>\@sbx{\@coadvisorIIItitle \@coadvisorIII,\\
                 \@coadvisorIIIletters~(\@coadvisorIIIsubject)} \\ \\ \\
 	}%
+	% committee members: the template defines \memberI-IV but never printed them
+	\ifthenelse{\equal{\@memberI}{}}{}{\>\@sbx{\@memberI,\\ \@memberIqual} \\ \\}%
+	\ifthenelse{\equal{\@memberII}{}}{}{\>\@sbx{\@memberII,\\ \@memberIIqual} \\ \\}%
+	\ifthenelse{\equal{\@memberIII}{}}{}{\>\@sbx{\@memberIII,\\ \@memberIIIqual} \\ \\}%
+	\ifthenelse{\equal{\@memberIV}{}}{}{\>\@sbx{\@memberIV,\\ \@memberIVqual} \\ \\}%
 	\end{tabbing}
 	\vfill
 	\begin{tabbing}
