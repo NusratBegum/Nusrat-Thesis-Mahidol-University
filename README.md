@@ -6,6 +6,9 @@
 **Advisor:** Asst. Prof. Thanapon Noraset, Ph.D.  
 **Co-Advisor:** Assoc. Prof. Suppawong Tuarob, Ph.D.
 
+**Defense:** 8 December 2026, 10:00-12:00  
+**Status (17 Nov 2026):** the results chapters are being updated after the validity fixes and new benchmark in the [code repository](https://github.com/NusratBegum/unsupervised-concept-drift-detection); the abstract below describes the current draft.
+
 ---
 
 ## Abstract
