@@ -16,21 +16,21 @@
 \node[box, fill=white, text width=7.4cm] (stream) at (0,0) {Data stream $x_1, x_2, \ldots$, checked every 50 samples};
 
 \node[win, anchor=north] (cur) at ($(stream.south)+(-3.3,-0.6)$) {%
-    \textbf{Current window} $W_{cur}$\\[-1pt]
+    \textbf{Current window} $W_{\mathrm{cur}}$\\[-1pt]
     {\footnotesize the newest 200 samples}};
 \node[win, anchor=north] (ref) at ($(stream.south)+(3.3,-0.6)$) {%
-    \textbf{Reservoir reference} $W_{ref}$\\[-1pt]
-    {\footnotesize 500 samples drawn uniformly from all samples since the last alarm that have left $W_{cur}$}};
+    \textbf{Reservoir reference} $W_{\mathrm{ref}}$\\[-1pt]
+    {\footnotesize 500 samples drawn uniformly from all samples since the last alarm that have left $W_{\mathrm{cur}}$}};
 
 \node[proc, anchor=north] (c2st) at ($(stream.south |- ref.south)+(0,-0.6)$) {%
-    \textbf{C2ST}: label $W_{ref}$ as 0 and $W_{cur}$ as 1;\\
+    \textbf{C2ST}: label $W_{\mathrm{ref}}$ as 0 and $W_{\mathrm{cur}}$ as 1;\\
     LightGBM with stratified 5-fold cross-validation $\rightarrow$ out-of-fold AUC};
 
 \node[dec, below=of c2st] (d1) {$\mathrm{AUC} \geq \tau = 0.7$?};
 
 \node[proc, below=of d1] (aspt) {%
     \textbf{ASPT with the history null}: null AUCs of earlier 200-sample windows
-    of the same stream (one start every 10 samples) against $W_{ref}$, drawn one at a time (at most 199)};
+    of the same stream (one start every 10 samples) against $W_{\mathrm{ref}}$, drawn one at a time (at most 199)};
 
 \node[dec, below=of aspt] (d2) {reject $H_0$? (ASPT, $\alpha = 0.05$, Alg.~2)};
 
@@ -39,7 +39,7 @@
 \node[outbox, anchor=north] (shap) at ($(alarm.south)+(-2.3,-0.6)$) {%
     \textbf{TreeSHAP}: rank the features by mean $|$SHAP$|$};
 \node[outbox, anchor=north] (reset) at ($(alarm.south)+(2.3,-0.6)$) {%
-    \textbf{New reference}: last $W_{cur}$ plus the next 300 samples; next check 500 samples later};
+    \textbf{New reference}: last $W_{\mathrm{cur}}$ plus the next 300 samples; next check 500 samples later};
 
 \node[box, fill=white, text width=2.3cm, right=0.5cm of aspt] (none) {%
     No alarm;\\ next check in 50 samples};

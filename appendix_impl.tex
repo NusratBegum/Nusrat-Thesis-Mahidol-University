@@ -27,10 +27,10 @@ Threads & 1 (\texttt{n\_jobs=1}) \\
 
 \section{Windowing and Monitoring}
 \begin{itemize}
-    \item \textbf{Reference Window ($W_{ref}$):} 500 samples, a uniform random sample of all samples since the last alarm, maintained with reservoir sampling (Algorithm~R) \citep{Vitter1985}. A sample is offered to the reservoir only when it leaves $W_{cur}$ (\texttt{reservoir\_after\_current=True}).
-    \item \textbf{Current Window ($W_{cur}$):} the newest 200 samples.
+    \item \textbf{Reference Window ($W_{\mathrm{ref}}$):} 500 samples, a uniform random sample of all samples since the last alarm, maintained with reservoir sampling (Algorithm~R) \citep{Vitter1985}. A sample is offered to the reservoir only when it leaves $W_{\mathrm{cur}}$ (\texttt{reservoir\_after\_current=True}).
+    \item \textbf{Current Window ($W_{\mathrm{cur}}$):} the newest 200 samples.
     \item \textbf{Monitoring Frequency:} a check every 50 samples; each seed starts the stream at a random offset of 0--49 samples.
-    \item \textbf{After an alarm:} $W_{ref}$ is replaced by the 200 samples of $W_{cur}$ and filled up to 500 with the next 300 samples, and $W_{cur}$ is emptied and refilled, so the next check is made 500 samples after the alarm. The history of the permutation test restarts from the same 200 samples.
+    \item \textbf{After an alarm:} $W_{\mathrm{ref}}$ is replaced by the 200 samples of $W_{\mathrm{cur}}$ and filled up to 500 with the next 300 samples, and $W_{\mathrm{cur}}$ is emptied and refilled, so the next check is made 500 samples after the alarm. The history of the permutation test restarts from the same 200 samples.
 \end{itemize}
 
 \section{Statistical Testing and Attribution}
@@ -38,5 +38,5 @@ Threads & 1 (\texttt{n\_jobs=1}) \\
     \item \textbf{Alarm rule:} out-of-fold AUC (stratified 5-fold cross-validation) at least $\tau = 0.7$ and rejection by ASPT at $\alpha = 0.05$.
     \item \textbf{Null distribution (\texttt{null="history"}):} AUCs of earlier 200-sample windows of the same stream against the reference, one window start every 10 samples (\texttt{history\_stride=10}), from at most the newest 5,000 samples since the last alarm, drawn in random order. Each null AUC uses the same 5-fold cross-validation as the observed AUC.\\ Option: \texttt{perm\_n\_folds=None}.
     \item \textbf{Adaptive Sequential Permutation Test (ASPT):} at most 199 draws, $B_{\min} = 10$, $\alpha$ split 1/3 (\texttt{aspt\_alpha\_split=1/3}): early rejection when no draw among the first $i$ reaches the observed AUC and $1/(i+1) \leq \alpha/3$; early acceptance when more than $2\alpha$ of the draws reach it; otherwise rejection when $p \leq 2\alpha/3$.
-    \item \textbf{Feature attribution:} TreeSHAP on a LightGBM model with the settings of Table~\ref{tab:lgbm-params}, trained on $W_{ref} \cup W_{cur}$ after each alarm; features ranked by normalised mean absolute SHAP value.
+    \item \textbf{Feature attribution:} TreeSHAP on a LightGBM model with the settings of Table~\ref{tab:lgbm-params}, trained on $W_{\mathrm{ref}} \cup W_{\mathrm{cur}}$ after each alarm; features ranked by normalised mean absolute SHAP value.
 \end{itemize}

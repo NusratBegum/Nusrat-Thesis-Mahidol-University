@@ -234,19 +234,7 @@ Other recent work addresses label efficiency, explanation quality and robustness
 
 \section{Drift Mitigation and Adaptation Strategies}
 \label{sec:mitigation}
-Detecting drift is only the first step; production systems must also respond to it. Drawing on \citet{Lu2018}, \citet{Gama2014} and \citet{Krawczyk2017}, we group mitigation strategies into five categories, each with distinct trade-offs:
-
-\begin{enumerate}
-    \item \textbf{Periodic Retraining:} The model is retrained on the latest data at fixed intervals (e.g., weekly or monthly) or triggered by drift alerts. This approach is operationally simple, but fixed schedules may retrain unnecessarily or react too slowly \citep{Gama2014}.
-
-    \item \textbf{Weighted Retraining:} Old and new data are combined for retraining, but recent examples receive higher weights, so that the influence of old examples decreases gradually. This preserves long-term knowledge while prioritising current patterns \citep{Krawczyk2017}.
-
-    \item \textbf{Ensemble Methods:} A library of models (for example, one per season or data regime) is maintained, and predictions are combined via voting, stacking, or dynamic weighting. When drift is detected, poorly performing members are discarded and new ones trained on the current distribution \citep{Krawczyk2017}.
-
-    \item \textbf{Online / Incremental Learning:} The model is updated continuously as each new data point (or mini-batch) arrives, making it naturally adaptive to gradual and incremental drift. This is common in streaming applications such as fraud detection and recommendation systems \citep{Gama2014, Ditzler2015}.
-
-    \item \textbf{Human-in-the-Loop:} Uncertain or drifted samples are routed to human experts for re-labelling, which feeds into the next training iteration. Active learning frameworks that label only a budgeted fraction of samples have been combined with drift adaptation \citep{Lu2018}, which matters in domains where errors carry high cost (e.g., healthcare, autonomous driving) and labelling is expensive.
-\end{enumerate}
+Detecting drift is only the first step; production systems must also respond to it. Drawing on \citet{Lu2018}, \citet{Gama2014} and \citet{Krawczyk2017}, we group mitigation strategies into five categories. \emph{Periodic retraining} retrains the model on the latest data at fixed intervals or when a drift alert arrives; it is simple to operate, but fixed schedules may retrain unnecessarily or react too slowly \citep{Gama2014}. \emph{Weighted retraining} combines old and new data but gives recent examples higher weights, which keeps long-term knowledge while favouring current patterns \citep{Krawczyk2017}. \emph{Ensemble methods} keep several models, for example one per data regime, combine their predictions, and replace poorly performing members after a drift \citep{Krawczyk2017}. \emph{Online or incremental learning} updates the model with each new sample or mini-batch and so adapts naturally to gradual and incremental drift \citep{Gama2014, Ditzler2015}. \emph{Human-in-the-loop} adaptation sends uncertain or drifted samples to experts for labelling, often within a labelling budget \citep{Lu2018}, which matters where errors are costly and labels expensive.
 
 A feature drift detector supplies the trigger for the first, second and fifth strategies, and its feature ranking can guide which inputs to inspect before retraining.
 
@@ -270,7 +258,7 @@ Table~\ref{tab:family-comparison} summarises the method families reviewed in thi
 \raggedright Online calibrated & \raggedright MMD-Online, LSDD-Online & \raggedright Yes & \raggedright No & \raggedright Stream (ERT) & \raggedright Fixed & \raggedright No \tabularnewline
 \raggedright Batch C2ST & \raggedright C2ST, E-C2ST, ClassifierDrift & \raggedright Yes & \raggedright No & \raggedright Per test (E-C2ST: anytime) & \raggedright Fixed or user-set & \raggedright Optional \tabularnewline
 \raggedright Domain classifier monitors & \raggedright NannyML, adversarial validation & \raggedright Yes & \raggedright No & \raggedright No (AUC range) & \raggedright Fixed period & \raggedright No \tabularnewline
-\raggedright Streaming C2ST & \raggedright D3 & \raggedright Yes & \raggedright No & \raggedright No (AUC 0.7) & \raggedright Sliding & \raggedright No \tabularnewline
+\rowcolor{gray!15}\raggedright Streaming C2ST & \raggedright D3 & \raggedright Yes & \raggedright No & \raggedright No (AUC 0.7) & \raggedright Sliding & \raggedright No \tabularnewline
 \raggedright Margin and output monitors & \raggedright MD3, PUDD & \raggedright Yes & \raggedright Model & \raggedright Heuristic or test & \raggedright Varies & \raggedright No \tabularnewline
 \raggedright Clustering and density & \raggedright CSDDM, SPLL, OCDD, BNDM & \raggedright Yes & \raggedright No & \raggedright Varies & \raggedright Varies & \raggedright No \tabularnewline
 \raggedright Betting tests & \raggedright \citet{PodkopaevRamdas2023} & \raggedright Yes & \raggedright No & \raggedright Stream (anytime) & \raggedright All past data & \raggedright No \tabularnewline

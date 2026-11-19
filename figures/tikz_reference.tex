@@ -16,6 +16,8 @@
 \draw[black!60] (0,2.9) -- (8,2.9) -- (10,3.5) -- (11.6,3.5);
 \node[lbl, anchor=west] at (0,3.25) {share of samples from the new concept};
 \draw[black!30, densely dotted] (0,3.5) -- (8,3.5);
+\node[lbl, anchor=east] at (0,2.9) {0};
+\node[lbl, anchor=east] at (0,3.5) {1};
 
 % drift start and check time
 \draw[dashed, black!70] (8,-0.55) -- (8,3.7) node[above, lbl] {drift starts};
@@ -26,8 +28,8 @@
 \draw[black!40] (0,\yS) -- (11.6,\yS);
 \fill[refbox] (8.6,\yS) rectangle (9.6,\yS+0.4);
 \draw[curbox] (9.6,\yS) rectangle (10,\yS+0.4);
-\node[lbl, above] at (9.1,\yS+0.4) {$W_{ref}$};
-\node[lbl, below left=1pt and -1pt] at (10,\yS) {$W_{cur}$};
+\node[lbl, above] at (9.1,\yS+0.4) {$W_{\mathrm{ref}}$};
+\node[lbl, below left=1pt and -1pt] at (10,\yS) {$W_{\mathrm{cur}}$};
 
 % reservoir reference: a uniform sample of everything since the last alarm
 \node[lbl, anchor=east, align=right] at (-0.15,\yR+0.2) {Reservoir\\(EADD)};
@@ -39,8 +41,8 @@
     \fill[gray!60!black] (\xx,\yR+\yy) rectangle ++(0.05,0.05);
 }
 \draw[curbox] (9.6,\yR) rectangle (10,\yR+0.4);
-\node[lbl, above] at (3.9,\yR+0.4) {$W_{ref}$ (500 samples spread over the whole period)};
-\node[lbl, below left=1pt and -1pt] at (10,\yR) {$W_{cur}$};
+\node[lbl, above] at (3.9,\yR+0.4) {$W_{\mathrm{ref}}$ (500 samples spread over the whole period)};
+\node[lbl, below left=1pt and -1pt] at (10,\yR) {$W_{\mathrm{cur}}$};
 
 % axis
 \draw[arr] (0,-0.75) -- (12,-0.75) node[right, lbl] {time};
