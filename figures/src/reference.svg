@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="418pt" height="150pt" viewBox="0 0 418 150"><defs><marker id="h1E2B3A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#1E2B3A"/></marker><marker id="h56636F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#56636F"/></marker><marker id="h2F6497" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#2F6497"/></marker><marker id="hB5710B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#B5710B"/></marker><marker id="hA3302F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#A3302F"/></marker></defs><rect x="301.60" y="4.00" width="56.90" height="118.00" rx="0" fill="#F3F4F6"/>
+<polygon points="301.6,34 358.5,10 404.02,10 404.02,34" fill="#B7C0CA"/>
+<polyline points="74.00,34.00 301.60,34.00 358.50,10.00 404.02,10.00" fill="none" stroke="#1E2B3A" stroke-width="0.9" stroke-linejoin="round"/>
+<text x="71.00" y="36.50" font-family="Times New Roman" font-size="7.2" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">0</text>
+<text x="71.00" y="12.50" font-family="Times New Roman" font-size="7.2" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">1</text>
+<text x="76.00" y="29.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">share of samples from the new concept</text>
+<text x="66.00" y="58.00" font-family="Times New Roman" font-size="8.4" text-anchor="end" font-weight="bold" font-style="normal" fill="#1E2B3A">Sliding</text>
+<text x="66.00" y="68.00" font-family="Times New Roman" font-size="7.6" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">(D3)</text>
+<polyline points="74.00,68.00 404.02,68.00" fill="none" stroke="#A3ADB8" stroke-width="0.6" stroke-linejoin="round"/>
+<rect x="347.12" y="56.00" width="11.38" height="12.00" rx="0" fill="#B5710B"/>
+<text x="66.00" y="94.00" font-family="Times New Roman" font-size="8.4" text-anchor="end" font-weight="bold" font-style="normal" fill="#1E2B3A">Reservoir</text>
+<text x="66.00" y="104.00" font-family="Times New Roman" font-size="7.6" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">(EADD)</text>
+<polyline points="74.00,104.00 404.02,104.00" fill="none" stroke="#A3ADB8" stroke-width="0.6" stroke-linejoin="round"/>
+<rect x="347.12" y="92.00" width="11.38" height="12.00" rx="0" fill="#B5710B"/>
+<rect x="318.67" y="56.00" width="28.45" height="12.00" rx="0" fill="#2F6497"/>
+<text x="332.89" y="53.00" font-family="Times New Roman" font-size="8" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A"><tspan font-style="italic" fill="#2F6497">W</tspan><tspan font-size="5.4" baseline-shift="-1.6" fill="#2F6497">ref</tspan></text>
+<text x="361.50" y="65.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A"><tspan font-style="italic" fill="#B5710B">W</tspan><tspan font-size="5.4" baseline-shift="-1.6" fill="#B5710B">cur</tspan></text>
+<text x="295.60" y="64.00" font-family="Times New Roman" font-size="7.4" text-anchor="end" font-weight="normal" font-style="italic" fill="#1E2B3A">both windows partly new: hard to separate</text>
+<rect x="162.45" y="93.36" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="251.78" y="92.65" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="220.36" y="95.29" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="89.84" y="96.57" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="84.24" y="95.90" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="93.08" y="92.82" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="189.94" y="99.44" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="107.81" y="94.01" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="245.36" y="100.53" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="231.62" y="95.57" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="340.63" y="92.42" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="308.46" y="94.61" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="113.40" y="93.06" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="158.25" y="99.35" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="123.36" y="97.23" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="248.50" y="95.35" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="223.60" y="92.57" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="90.28" y="93.85" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="259.83" y="95.85" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="159.80" y="97.27" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="197.77" y="94.70" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="290.96" y="98.29" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="140.67" y="97.17" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="217.44" y="99.88" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="273.23" y="94.59" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="341.71" y="93.06" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="188.20" y="98.81" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="115.51" y="96.40" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="84.71" y="98.01" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="282.82" y="97.16" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="313.11" y="94.82" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="263.90" y="97.35" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="232.38" y="96.11" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="303.41" y="100.50" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="203.49" y="97.98" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="90.57" y="98.31" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="250.74" y="100.94" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="298.48" y="94.56" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="179.37" y="98.02" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="80.16" y="96.16" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="119.90" y="93.05" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="90.10" y="98.91" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="109.33" y="94.23" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="180.78" y="99.84" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="96.01" y="96.04" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="224.06" y="99.95" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="297.76" y="99.78" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="150.04" y="95.74" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="171.99" y="99.96" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="335.58" y="93.36" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="122.13" y="94.09" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="137.73" y="96.36" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="234.90" y="94.36" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="75.12" y="95.77" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="174.85" y="97.10" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="334.31" y="98.21" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="214.79" y="97.56" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="258.68" y="92.49" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="319.68" y="99.02" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="312.85" y="99.18" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="181.17" y="95.59" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="102.28" y="97.71" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="91.00" y="92.61" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="131.02" y="93.46" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="166.88" y="92.47" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="74.06" y="93.36" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="101.71" y="95.27" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="80.96" y="99.87" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="241.71" y="93.34" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<rect x="142.90" y="95.13" width="1.60" height="3.00" rx="0" fill="#2F6497"/>
+<text x="361.50" y="101.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A"><tspan font-style="italic" fill="#B5710B">W</tspan><tspan font-size="5.4" baseline-shift="-1.6" fill="#B5710B">cur</tspan></text>
+<text x="182.11" y="115.00" font-family="Times New Roman" font-size="7.6" text-anchor="middle" font-weight="normal" font-style="normal" fill="#2F6497"><tspan font-style="italic" fill="#2F6497">W</tspan><tspan font-size="5.4" baseline-shift="-1.6" fill="#2F6497">ref</tspan>: 500 samples spread over the period, most from before the drift</text>
+<polyline points="301.60,4.00 301.60,126.00" fill="none" stroke="#1E2B3A" stroke-width="0.6" stroke-dasharray="2,1.6" stroke-linejoin="round"/>
+<polyline points="358.50,4.00 358.50,126.00" fill="none" stroke="#1E2B3A" stroke-width="0.6" stroke-dasharray="2,1.6" stroke-linejoin="round"/>
+<text x="299.60" y="131.50" font-family="Times New Roman" font-size="7.2" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">drift starts</text>
+<text x="360.50" y="131.50" font-family="Times New Roman" font-size="7.2" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">check</text>
+<polyline points="74.00,138.00 410.02,138.00" fill="none" stroke="#1E2B3A" stroke-width="0.7" marker-end="url(#h1E2B3A)" stroke-linejoin="round"/>
+<polyline points="74.00,135.00 74.00,141.00" fill="none" stroke="#1E2B3A" stroke-width="0.7" stroke-linejoin="round"/>
+<text x="74.00" y="149.00" font-family="Times New Roman" font-size="7.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#56636F">last alarm</text>
+<polyline points="301.60,135.00 301.60,141.00" fill="none" stroke="#1E2B3A" stroke-width="0.7" stroke-linejoin="round"/>
+<text x="301.60" y="149.00" font-family="Times New Roman" font-size="7.4" text-anchor="middle" font-weight="normal" font-style="italic" fill="#56636F">d</text>
+<polyline points="358.50,135.00 358.50,141.00" fill="none" stroke="#1E2B3A" stroke-width="0.7" stroke-linejoin="round"/>
+<text x="358.50" y="149.00" font-family="Times New Roman" font-size="7.4" text-anchor="middle" font-weight="normal" font-style="italic" fill="#56636F">t</text>
+<text x="406.02" y="148.00" font-family="Times New Roman" font-size="7.4" text-anchor="end" font-weight="normal" font-style="normal" fill="#56636F">time</text></svg>

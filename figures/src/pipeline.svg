@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="418pt" height="352pt" viewBox="0 0 418 352"><defs><marker id="h1E2B3A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#1E2B3A"/></marker><marker id="h56636F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#56636F"/></marker><marker id="h2F6497" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#2F6497"/></marker><marker id="hB5710B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#B5710B"/></marker><marker id="hA3302F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#A3302F"/></marker></defs><rect x="48.00" y="2.00" width="240.00" height="20.00" rx="3" fill="#EEF1F4"/>
+<text x="168.00" y="15.50" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">Data stream <tspan font-style="italic">x</tspan><tspan font-size="5.6" baseline-shift="-1.6">1</tspan>, <tspan font-style="italic">x</tspan><tspan font-size="5.6" baseline-shift="-1.6">2</tspan>, ..., checked every 50 samples</text>
+<rect x="28.00" y="38.00" width="132.00" height="40.00" rx="2" fill="#DCE7F3" stroke="#2F6497" stroke-width="0.8"/>
+<text x="34.00" y="51.00" font-family="Times New Roman" font-size="8.6" text-anchor="start" font-weight="bold" font-style="normal" fill="#2F6497">Reservoir reference <tspan font-style="italic">W</tspan><tspan font-size="5.8" baseline-shift="-1.7">ref</tspan></text>
+<text x="34.00" y="62.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">500 samples drawn uniformly from all</text>
+<text x="34.00" y="71.03" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">samples since the last alarm</text>
+<rect x="176.00" y="38.00" width="132.00" height="40.00" rx="2" fill="#F8E8C8" stroke="#B5710B" stroke-width="0.8"/>
+<text x="182.00" y="51.00" font-family="Times New Roman" font-size="8.6" text-anchor="start" font-weight="bold" font-style="normal" fill="#B5710B">Current window <tspan font-style="italic">W</tspan><tspan font-size="5.8" baseline-shift="-1.7">cur</tspan></text>
+<text x="182.00" y="62.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">the newest 200 samples; a sample</text>
+<text x="182.00" y="71.03" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">enters the reservoir when it leaves</text>
+<polyline points="94.00,22.00 94.00,38.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="94.00,78.00 94.00,96.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="242.00,22.00 242.00,38.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="242.00,78.00 242.00,96.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<rect x="28.00" y="96.00" width="280.00" height="32.00" rx="3" fill="white" stroke="#1E2B3A" stroke-width="0.8"/>
+<text x="168.00" y="109.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A"><tspan font-weight="bold">C2ST:</tspan> label <tspan font-style="italic">W</tspan><tspan font-size="5.7" baseline-shift="-1.7">ref</tspan> as 0 and <tspan font-style="italic">W</tspan><tspan font-size="5.7" baseline-shift="-1.7">cur</tspan> as 1; LightGBM,</text>
+<text x="168.00" y="121.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">stratified 5-fold cross-validation, out-of-fold AUC</text>
+<polyline points="168.00,128.00 168.00,140.00" fill="none" stroke="#1E2B3A" stroke-width="0.8" marker-end="url(#h1E2B3A)" stroke-linejoin="round"/>
+<polygon points="168,140 232,158 168,176 104,158" fill="white" stroke="#1E2B3A" stroke-width="0.8"/>
+<text x="168.00" y="161.00" font-family="Times New Roman" font-size="8.2" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">AUC ≥ <tspan font-style="italic">τ</tspan> = 0.7?</text>
+<polyline points="168.00,176.00 168.00,192.00" fill="none" stroke="#1E2B3A" stroke-width="0.8" marker-end="url(#h1E2B3A)" stroke-linejoin="round"/>
+<text x="172.00" y="187.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">yes</text>
+<rect x="28.00" y="192.00" width="280.00" height="42.00" rx="3" fill="white" stroke="#1E2B3A" stroke-width="0.8"/>
+<text x="168.00" y="205.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A"><tspan font-weight="bold">ASPT with the history null:</tspan> AUCs of earlier 200-sample</text>
+<text x="168.00" y="216.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">windows of the stream (one start every 10 samples) against <tspan font-style="italic">W</tspan><tspan font-size="5.7" baseline-shift="-1.7">ref</tspan>,</text>
+<text x="168.00" y="227.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">drawn one at a time in random order, at most 199</text>
+<polyline points="168.00,234.00 168.00,246.00" fill="none" stroke="#1E2B3A" stroke-width="0.8" marker-end="url(#h1E2B3A)" stroke-linejoin="round"/>
+<polygon points="168,246 232,264 168,282 104,264" fill="white" stroke="#1E2B3A" stroke-width="0.8"/>
+<text x="168.00" y="267.00" font-family="Times New Roman" font-size="8.2" text-anchor="middle" font-weight="normal" font-style="normal" fill="#1E2B3A">reject <tspan font-style="italic">H</tspan><tspan font-size="5.8" baseline-shift="-1.6">0</tspan> at <tspan font-style="italic">α</tspan> = 0.05?</text>
+<polyline points="168.00,282.00 168.00,294.00" fill="none" stroke="#1E2B3A" stroke-width="0.8" marker-end="url(#h1E2B3A)" stroke-linejoin="round"/>
+<text x="172.00" y="291.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">yes</text>
+<rect x="138.00" y="294.00" width="60.00" height="15.00" rx="7.5" fill="#A3302F"/>
+<text x="168.00" y="304.60" font-family="Times New Roman" font-size="8.6" text-anchor="middle" font-weight="bold" font-style="normal" fill="white">Alarm</text>
+<rect x="28.00" y="318.00" width="132.00" height="32.00" rx="3" fill="#F6DCDA"/>
+<text x="34.00" y="329.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#A3302F">TreeSHAP ranking</text>
+<text x="34.00" y="339.50" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">features ranked by mean |SHAP| of a</text>
+<text x="34.00" y="348.53" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">model trained on all 700 samples</text>
+<rect x="176.00" y="318.00" width="132.00" height="32.00" rx="3" fill="#F6DCDA"/>
+<text x="182.00" y="329.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#A3302F">New reference</text>
+<text x="182.00" y="339.50" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">the last <tspan font-style="italic">W</tspan><tspan font-size="5.0" baseline-shift="-1.5">cur</tspan> plus the next 300 samples;</text>
+<text x="182.00" y="348.53" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">the next check comes 500 samples later</text>
+<polyline points="158.00,309.00 158.00,313.00 94.00,313.00 94.00,318.00" fill="none" stroke="#A3302F" stroke-width="0.8" marker-end="url(#hA3302F)" stroke-linejoin="round"/>
+<polyline points="178.00,309.00 178.00,313.00 242.00,313.00 242.00,318.00" fill="none" stroke="#A3302F" stroke-width="0.8" marker-end="url(#hA3302F)" stroke-linejoin="round"/>
+<rect x="306.00" y="194.00" width="92.00" height="38.00" rx="3" fill="#EEF1F4"/>
+<text x="352.00" y="209.00" font-family="Times New Roman" font-size="8.4" text-anchor="middle" font-weight="bold" font-style="normal" fill="#1E2B3A">No alarm</text>
+<text x="352.00" y="221.00" font-family="Times New Roman" font-size="7.4" text-anchor="middle" font-weight="normal" font-style="normal" fill="#56636F">next check in 50 samples</text>
+<polyline points="232.00,158.00 352.00,158.00 352.00,194.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<text x="238.00" y="155.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">no</text>
+<polyline points="232.00,264.00 352.00,264.00 352.00,232.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<text x="238.00" y="261.00" font-family="Times New Roman" font-size="7.4" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">no</text></svg>

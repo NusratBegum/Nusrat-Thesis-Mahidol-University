@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="418pt" height="196pt" viewBox="0 0 418 196"><defs><marker id="h1E2B3A" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#1E2B3A"/></marker><marker id="h56636F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#56636F"/></marker><marker id="h2F6497" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#2F6497"/></marker><marker id="hB5710B" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#B5710B"/></marker><marker id="hA3302F" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,1.2 L10,5 L0,8.8 z" fill="#A3302F"/></marker></defs><text x="1.00" y="10.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">Problem of a sliding C2ST (D3)</text>
+<text x="146.00" y="10.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">Component of EADD</text>
+<text x="292.00" y="10.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">Hypothesis</text>
+<text x="378.00" y="10.00" font-family="Times New Roman" font-size="8.4" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">Sections</text>
+<polyline points="1.00,15.00 418.00,15.00" fill="none" stroke="#1E2B3A" stroke-width="0.6" stroke-linejoin="round"/>
+<rect x="1.00" y="23.00" width="128.00" height="34.00" rx="3" fill="white" stroke="#A3ADB8" stroke-width="0.7"/>
+<text x="7.00" y="37.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">the sliding reference moves</text>
+<text x="7.00" y="46.52" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">with slow drift</text>
+<rect x="146.00" y="23.00" width="128.00" height="34.00" rx="3" fill="#EEF1F4"/>
+<text x="152.00" y="37.00" font-family="Times New Roman" font-size="8.2" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">Reservoir reference</text>
+<text x="152.00" y="48.00" font-family="Times New Roman" font-size="7.6" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">since the last alarm</text>
+<rect x="292.00" y="34.50" width="14.60" height="10.50" rx="5.25" fill="#1E2B3A"/>
+<text x="299.30" y="42.10" font-family="Times New Roman" font-size="7.2" text-anchor="middle" font-weight="bold" font-style="normal" fill="white">H1</text>
+<text x="310.60" y="43.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">slow drift</text>
+<text x="378.00" y="43.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">4.3, 5.1</text>
+<polyline points="129.00,40.00 145.50,40.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="274.00,40.00 290.50,40.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="1.00,61.50 418.00,61.50" fill="none" stroke="#DDE1E6" stroke-width="0.5" stroke-linejoin="round"/>
+<rect x="1.00" y="66.00" width="128.00" height="34.00" rx="3" fill="white" stroke="#A3ADB8" stroke-width="0.7"/>
+<text x="7.00" y="80.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">fixed AUC threshold: false</text>
+<text x="7.00" y="89.52" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">alarms on autocorrelated data</text>
+<rect x="146.00" y="66.00" width="128.00" height="34.00" rx="3" fill="#EEF1F4"/>
+<text x="152.00" y="80.00" font-family="Times New Roman" font-size="8.2" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">History-null permutation test</text>
+<text x="152.00" y="91.00" font-family="Times New Roman" font-size="7.6" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">earlier windows as the null</text>
+<rect x="292.00" y="77.50" width="14.60" height="10.50" rx="5.25" fill="#1E2B3A"/>
+<text x="299.30" y="85.10" font-family="Times New Roman" font-size="7.2" text-anchor="middle" font-weight="bold" font-style="normal" fill="white">H2</text>
+<text x="310.60" y="86.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">false alarms</text>
+<text x="378.00" y="86.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">4.4, 5.2</text>
+<polyline points="129.00,83.00 145.50,83.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="274.00,83.00 290.50,83.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="1.00,104.50 418.00,104.50" fill="none" stroke="#DDE1E6" stroke-width="0.5" stroke-linejoin="round"/>
+<rect x="1.00" y="109.00" width="128.00" height="34.00" rx="3" fill="white" stroke="#A3ADB8" stroke-width="0.7"/>
+<text x="7.00" y="123.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">a full permutation test</text>
+<text x="7.00" y="132.52" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">costs many model fits</text>
+<rect x="146.00" y="109.00" width="128.00" height="34.00" rx="3" fill="#EEF1F4"/>
+<text x="152.00" y="123.00" font-family="Times New Roman" font-size="8.2" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">ASPT</text>
+<text x="152.00" y="134.00" font-family="Times New Roman" font-size="7.6" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">stops when the result is clear</text>
+<rect x="292.00" y="120.50" width="14.60" height="10.50" rx="5.25" fill="#1E2B3A"/>
+<text x="299.30" y="128.10" font-family="Times New Roman" font-size="7.2" text-anchor="middle" font-weight="bold" font-style="normal" fill="white">H3</text>
+<text x="310.60" y="129.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">cost</text>
+<text x="378.00" y="129.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">4.5, 5.3</text>
+<polyline points="129.00,126.00 145.50,126.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="274.00,126.00 290.50,126.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="1.00,147.50 418.00,147.50" fill="none" stroke="#DDE1E6" stroke-width="0.5" stroke-linejoin="round"/>
+<rect x="1.00" y="152.00" width="128.00" height="34.00" rx="3" fill="white" stroke="#A3ADB8" stroke-width="0.7"/>
+<text x="7.00" y="166.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">no information on which</text>
+<text x="7.00" y="175.52" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">features drifted</text>
+<rect x="146.00" y="152.00" width="128.00" height="34.00" rx="3" fill="#EEF1F4"/>
+<text x="152.00" y="166.00" font-family="Times New Roman" font-size="8.2" text-anchor="start" font-weight="bold" font-style="normal" fill="#1E2B3A">TreeSHAP ranking</text>
+<text x="152.00" y="177.00" font-family="Times New Roman" font-size="7.6" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">at every alarm</text>
+<rect x="292.00" y="163.50" width="14.60" height="10.50" rx="5.25" fill="#1E2B3A"/>
+<text x="299.30" y="171.10" font-family="Times New Roman" font-size="7.2" text-anchor="middle" font-weight="bold" font-style="normal" fill="white">H4</text>
+<text x="310.60" y="172.00" font-family="Times New Roman" font-size="8" text-anchor="start" font-weight="normal" font-style="normal" fill="#1E2B3A">attribution</text>
+<text x="378.00" y="172.00" font-family="Times New Roman" font-size="7.8" text-anchor="start" font-weight="normal" font-style="normal" fill="#56636F">4.6, 5.4</text>
+<polyline points="129.00,169.00 145.50,169.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/>
+<polyline points="274.00,169.00 290.50,169.00" fill="none" stroke="#56636F" stroke-width="0.8" marker-end="url(#h56636F)" stroke-linejoin="round"/></svg>

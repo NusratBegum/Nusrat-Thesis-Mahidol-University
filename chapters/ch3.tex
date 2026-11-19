@@ -1,11 +1,11 @@
 \chapter{Research Methodology} \label{chap:methodology}
 
-This chapter describes the method and its evaluation as they were run in the final registered test. Section~\ref{sec:problem} states the problem, Section~\ref{sec:c2st} the classifier two-sample test on which the method rests, and Section~\ref{sec:eadd} the Explainable Adversarial Drift Detector (EADD) with its algorithm and cost. Section~\ref{sec:fixes} lists four flaws found in an earlier version of the detector, how each was fixed and how each fix was checked. Sections~\ref{sec:baselines} to~\ref{sec:datasets} describe the baselines, the identical setup under which all detectors were compared, and the data. Sections~\ref{sec:metrics} and~\ref{sec:stats} give the metrics and the statistical analysis, Section~\ref{sec:design} the pre-registration and the order of the experiments, and Section~\ref{sec:implementation} the implementation. Figure~\ref{fig:overview} summarises the research process and EADD at one check.
+This chapter describes the method and its evaluation as they were run in the final registered test. Section~\ref{sec:problem} states the problem, Section~\ref{sec:c2st} the classifier two-sample test on which the method rests, and Section~\ref{sec:eadd} the Explainable Adversarial Drift Detector (EADD) with its algorithm and cost. Section~\ref{sec:fixes} lists four flaws found in an earlier version of the detector, how each was fixed and how each fix was checked. Sections~\ref{sec:baselines} to~\ref{sec:datasets} describe the baselines, the identical setup under which all detectors were compared, and the data. Sections~\ref{sec:metrics} and~\ref{sec:stats} give the metrics and the statistical analysis, Section~\ref{sec:design} the pre-registration and the order of the experiments, and Section~\ref{sec:implementation} the implementation. Figure~\ref{fig:overview} summarises EADD at one check and its evaluation.
 
 \begin{figure}[!htb]
     \centering
-    \resizebox{\linewidth}{!}{\input{figures/tikz_overview}}
-    \caption[Overview of the research methodology]{Overview of the research methodology. Top: the steps of the study and the sections that describe them. Bottom: EADD at one check in abstract form; Figure~\ref{fig:pipeline} gives the details.}
+    \includegraphics[width=\linewidth]{figures/diag_overview.pdf}
+    \caption[Overview of the research methodology]{Overview of the research methodology. Top: EADD at one check in four steps, with the hypothesis that tests each component; Figure~\ref{fig:pipeline} gives the details. Bottom: the evaluation and the sections that describe it. In this and the following diagrams, blue marks the reference window, amber the current window and red an alarm.}
     \label{fig:overview}
 \end{figure}
 
@@ -40,7 +40,7 @@ EADD is a C2ST on a data stream with four components: a LightGBM discriminator \
 
 \begin{figure}[!htbp]
     \centering
-    \input{figures/tikz_pipeline}
+    \includegraphics[width=\linewidth]{figures/diag_pipeline.pdf}
     \caption[EADD at one check]{EADD at one check. The current window and the reservoir reference are separated by a LightGBM classifier with 5-fold cross-validation. If the out-of-fold AUC reaches $\tau = 0.7$, ASPT compares it with the AUCs of earlier windows of the same stream. An alarm is followed by a TreeSHAP ranking of the features and a new reference.}
     \label{fig:pipeline}
 \end{figure}
@@ -57,7 +57,7 @@ A sample is offered to the reservoir only when it leaves the current window, tha
 
 \begin{figure}[!htbp]
     \centering
-    \input{figures/tikz_reference}
+    \includegraphics[width=\linewidth]{figures/diag_reference.pdf}
     \caption[Sliding and reservoir references]{Sliding reference (D3) and reservoir reference (EADD) at a check at time $t$, 1,000 samples after a gradual drift starts at $d$. The sliding reference holds the 500 samples just before the current window, which already come partly from the new concept. The reservoir holds 500 samples drawn uniformly from all samples since the last alarm, most of them from before the drift.}
     \label{fig:reference}
 \end{figure}
@@ -82,7 +82,7 @@ which counts the observed AUC as one of the draws and is never zero \citep{Phips
 
 \begin{figure}[!htb]
     \centering
-    \resizebox{\linewidth}{!}{\input{figures/tikz_history_null}}
+    \includegraphics[width=\linewidth]{figures/diag_history_null.pdf}
     \caption[The history null]{The history null. Earlier 200-sample windows of the stream since the last alarm, one starting every 10 samples and all ending before $W_{\mathrm{cur}}$, are each compared with the reference by the same C2ST as $W_{\mathrm{cur}}$; their AUCs form the null distribution of the observed AUC.}
     \label{fig:history-null}
 \end{figure}
@@ -364,8 +364,8 @@ Each test's hypotheses, data, seeds and decision rule were committed to the git 
 
 \begin{figure}[!htb]
     \centering
-    \resizebox{\linewidth}{!}{\input{figures/tikz_timeline}}
-    \caption[Sequence of experiments]{Sequence of experiments. Each stage after the initial runs was registered before its runs and used new seeds; the notes under the arrows give what each stage changed.}
+    \includegraphics[width=\linewidth]{figures/diag_timeline.pdf}
+    \caption[Sequence of experiments]{Sequence of experiments. Each stage after the initial runs was registered before its runs and used new seeds; the notes between the stages give what each stage changed.}
     \label{fig:timeline}
 \end{figure}
 

@@ -21,8 +21,6 @@
 \captionsetup{font={stretch=1.5}}
 \usepackage[flushleft]{threeparttable}
 
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, backgrounds, fit}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
 
@@ -78,8 +76,8 @@
 \input{appendix_impl}
 
 \biography
-% \ps@headings sets \topskip to 0pt, so the extra \clearpage that tikz runs at
-% the end of the document would ship out a blank page after the Biography.
+% \ps@headings sets \topskip to 0pt, so the \clearpage at the end of the document
+% would ship out a blank page after the Biography.
 \setlength{\topskip}{1pt}
 
 \end{document}
