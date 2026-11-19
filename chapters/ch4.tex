@@ -106,6 +106,8 @@ H1c: abrupt MTD not worse ($+50$) & 7 & 115 & 122 & 0.023 & 127 & 0.016 \\
 
 H2 is measured on streams without drift, where every alarm is false. Table~\ref{tab:h2} gives the false alarms per 10,000 samples. On the six autocorrelated AR(1) streams ($\rho$ from 0.8 to 0.97), EADD raised 5.59 false alarms per 10,000 samples, D3-LightGBM 19.5 and D3 18.5. EADD raised fewer than D3-LightGBM on all six streams, about 3.5 times fewer (one-sided Wilcoxon, Holm $p = 0.023$ against D3-LightGBM, the primary comparison; Holm $p = 0.016$ against D3, the secondary comparison). The results support H2. D3-LightGBM's 19.5 is close to the most it can raise: after an alarm it needs a new 500-sample reference before the next check, so it alarmed at almost every opportunity on these streams. The result therefore shows that the history-null test removes most of these alarms, not that the two detectors were close. On the 8 other no-drift streams (synthetic, shuffled real, AR 0.5 and AR 0.9), EADD raised 0.75 false alarms per 10,000 samples against 2.44 and 2.41; all of EADD's and almost all of the baselines' false alarms there came from the AR 0.9 stream, and none of the three detectors raised a false alarm on the synthetic and shuffled real streams. Figure~\ref{fig:final-fa} shows both groups.
 
+\paragraph{Source of the effect (addendum 7b).} Two further EADD variants were run on the six autocorrelated streams (seeds 3000--3004), each with one component changed. With the reservoir reference but the usual label-shuffle null, EADD raised 19.5 false alarms per 10,000 samples on every stream, the same as D3-LightGBM. With a sliding reference, as in D3, but the history null, it raised 4.15, close to EADD's 5.65 on the same seeds; it was lower than the label-shuffle variant on all six streams (one-sided Wilcoxon, $p = 0.016$, the smallest value possible with six streams). The reduction in false alarms therefore comes from the history null, not from the reservoir reference.
+
 \begin{table}[!htbp]
 \centering
 \caption[Final test: false alarms on streams without drift]{Final test: false alarms per 10,000 samples on the streams without drift (mean over 10 seeds). The registered H2 test is on the six autocorrelated streams.}
@@ -222,6 +224,8 @@ In the confirmatory test, H3a had been registered under a stricter rule: identic
 \label{sec:exp4}
 
 H4 concerns TreeSHAP attribution \citep{LundbergInteraction2020} in a classifier-based drift detector: at the first detection of each drift point, the features ranked highest should be the features that truly drift. It was measured with EADD's runs on the 21 drift streams of the final test, where the drifting features are known. Precision@$k$ ($k$ = the number of drifting features) was 0.75, against a chance level $k/d$ of 0.31 (one-sided Wilcoxon over streams, $p < 0.001$), and the top-ranked feature was a drifting feature in 98.4\% of the detections. The results support H4. Precision was close to 1.00 on the three synthetic streams and lowest on Rialto (0.45 to 0.48, chance 0.30). Without PokerHand and Rialto, whose shifted features include features that are constant before the drift (which makes those drifts easy to detect), precision@$k$ was 0.80 against 0.32 (15 streams). The confirmatory test gave the same result (0.75 against 0.31, top-1 99\%; 0.81 against 0.32 without PokerHand and Rialto). Figure~\ref{fig:h4} shows every stream.
+
+\paragraph{Comparison with univariate rankings (addendum 7a).} At the same detections (the rerun reproduced all 210 runs exactly), the features were also ranked by two univariate statistics computed from the same two windows: the two-sample Kolmogorov--Smirnov (KS) statistic and the absolute standardised mean difference (SMD). The KS ranking reached a precision@$k$ of 0.97 and the SMD ranking 0.89, against 0.75 for TreeSHAP; TreeSHAP was higher on only 1 and 4 of the 21 streams (two-sided Wilcoxon, Holm $p < 0.001$ and $p = 0.010$). In these streams every drift moves the marginal distribution of single features, which a per-feature statistic measures directly. A drift that changes only the dependence between features, where the classifier's attribution could have an advantage, was not part of the test.
 
 \begin{figure}[!htbp]
     \centering
@@ -363,6 +367,10 @@ H2: fewer false alarms than D3 (autocorrelated, no drift) & W, Holm & 5.59 vs 19
 H3a: ASPT equivalent to the full test & TOST, 4 margins & all equivalent, $p \leq 0.008$ & Supported \\
 H3b: fewer permutations per test & W & 52 vs 163, $p < 0.001$ & Supported \\
 H4: TreeSHAP ranks drifting features above chance & W & precision@k 0.75 vs 0.31, $p < 0.001$ & Supported \\
+\hline
+\multicolumn{4}{l}{\textit{Secondary checks (addendum 7)}} \\
+H2 source: history null vs label-shuffle null & W & 4.15 vs 19.5, $p = 0.016$ & History null \\
+H4 vs univariate rankings & W, Holm & 0.75 vs 0.97 (KS), 0.89 (SMD) & Univariate better \\
 \hline
 \end{tabular}
 \end{table}

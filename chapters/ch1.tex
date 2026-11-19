@@ -89,7 +89,7 @@ This thesis makes the following contributions:
     \item Evidence that a reservoir reference finds slow feature drift that a sliding reference misses (recall 1.00 vs.\ 0.53 for D3-LightGBM), and that on abrupt drift it is not slower than a sliding reference by more than the registered margin of 50 samples.
     \item Evidence that the history null keeps false alarms low on autocorrelated streams (about 3.5 times fewer than D3-LightGBM), and a measured account of the test's validity.
     \item Evidence that ASPT keeps the same detection quality with about a third of the permutations.
-    \item An empirical check, on data streams with known drifting features, that TreeSHAP attribution in a classifier-based drift detector identifies the drifting features (measured with EADD: the top-ranked feature drifted in 98\% of detections).
+    \item An empirical check, on data streams with known drifting features, that TreeSHAP attribution in a classifier-based drift detector identifies the drifting features (measured with EADD: the top-ranked feature drifted in 98\% of detections), and a comparison with univariate rankings, which were more accurate on these streams.
     \item A registered, reproducible evaluation, with the code, the raw runs and the analysis plans publicly available.
 \end{enumerate}
 

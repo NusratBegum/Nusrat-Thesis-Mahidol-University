@@ -10,7 +10,7 @@ This thesis studied adversarial validation, the classifier two-sample test (C2ST
 
 \textbf{H3 (Sequential permutation test).} \textit{\hypHthree} ASPT gave detection results equivalent to those of the full permutation test (recall 1.00 against 1.00, MTD 333.7 against 333.5, false alarms 0.98 against 0.96 per drift stream) with 52 instead of 163 permutations per test, and it reduced the runtime of an INSECTS run by 54\% with identical detections in 20 of 20 run pairs. H3 is supported.
 
-\textbf{H4 (Feature attribution).} \textit{\hypHfour} Measured with EADD on the 21 drift streams, precision@$k$ was 0.75 against 0.31 by chance, with the top-ranked feature drifting in 98.4\% of detections ($p < 0.001$). H4 is supported. The property concerns TreeSHAP attribution in a classifier-based drift detector, not EADD alone (Section~\ref{sec:disc-h4}).
+\textbf{H4 (Feature attribution).} \textit{\hypHfour} Measured with EADD on the 21 drift streams, precision@$k$ was 0.75 against 0.31 by chance, with the top-ranked feature drifting in 98.4\% of detections ($p < 0.001$). H4 is supported. A per-feature KS ranking from the same windows named the drifting features more accurately (0.97), so TreeSHAP attribution is above chance but not the most accurate ranking for these marginal drifts. The property concerns TreeSHAP attribution in a classifier-based drift detector, not EADD alone (Section~\ref{sec:disc-h4}).
 
 \section{Contributions}
 
