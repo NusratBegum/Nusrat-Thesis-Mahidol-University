@@ -4,7 +4,7 @@ This thesis studied adversarial validation, the classifier two-sample test (C2ST
 
 \section{Answers to the Hypotheses}
 
-\textbf{H1 (Detection of slow drift).} \textit{\hypHone} On the 14 slow-drift streams of the final test, EADD had a recall of 1.00 against 0.526 for D3-LightGBM (Holm $p = 0.015$) and an MTD of 443 against 879 samples (Holm $p = 0.023$). On abrupt drift its MTD was 115 against 122 samples, within the registered margin (Holm $p = 0.023$). The revised H1 is supported, and the gain comes from the reservoir reference, which keeps the old distribution in view while a slow drift accumulates.
+\textbf{H1 (Detection of slow drift).} \textit{\hypHone} On the 14 slow-drift streams of the final test, EADD had a recall of 1.00 against 0.53 for D3-LightGBM (Holm $p = 0.015$) and an MTD of 443 against 879 samples (Holm $p = 0.023$). On abrupt drift its MTD was 115 against 122 samples, within the registered margin (Holm $p = 0.023$). The revised H1 is supported, and the gain comes from the reservoir reference, which keeps the old distribution in view while a slow drift accumulates.
 
 \textbf{H2 (False alarms).} \textit{\hypHtwo} On the six autocorrelated streams without drift, EADD raised 5.59 false alarms per 10,000 samples against 19.5 for D3-LightGBM and 18.5 for D3, fewer on all six streams (Holm $p = 0.023$ against D3-LightGBM, the primary comparison, and 0.016 against D3), and on the other no-drift streams 0.75 against 2.44. H2 is supported. The history null builds the stream's own variation into the null distribution, which kept the rejection rate of single no-drift tests between 3.8\% and 6.9\% at a nominal 5\%; it controls the error of each test, not the number of false alarms over a whole stream.
 
