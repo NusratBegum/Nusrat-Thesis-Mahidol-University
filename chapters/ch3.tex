@@ -284,7 +284,7 @@ Ozone & \citep{Souza2020} & 2,534 & 72 & U \\
 \end{tabular}
 \end{table}
 
-The final test uses 35 streams: 21 drift streams (7 abrupt, 7 gradual and 7 incremental, each one synthetic and six injected), 8 no-drift streams (SynthStable, AR(1) with $\rho = 0.5$ and $0.9$, and five shuffled real streams) and the 6 autocorrelated streams.
+The final test uses 34 streams: 21 drift streams (7 abrupt, 7 gradual and 7 incremental, each one synthetic and six injected), 8 no-drift streams (SynthStable, AR(1) with $\rho = 0.5$ and $0.9$, and five shuffled real streams) and the 6 autocorrelated streams. The AR(1) stream with $\rho = 0.9$ belongs to both no-drift groups.
 
 \section{Evaluation Metrics}
 \label{sec:metrics}
@@ -359,8 +359,8 @@ Each test's hypotheses, data, seeds and decision rule were committed to the git 
 Initial thesis runs & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
 Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
 Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
-Final test (18 Nov 2026) & 35 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\
-Newer detectors (addenda 6--6b) & the same 35 streams; MMD-Online, LSDD-Online, CVM-Online & 3000--3002 & secondary comparison \\
+Final test (18 Nov 2026) & 34 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\
+Newer detectors (addenda 6--6b) & the same 34 streams; MMD-Online, LSDD-Online, CVM-Online & 3000--3002 & secondary comparison \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -104,7 +104,7 @@ H1c: abrupt MTD not worse ($+50$) & 7 & 115 & 122 & 0.023 & 127 & 0.016 \\
 \section{H2: False Alarms}
 \label{sec:exp2}
 
-H2 is measured on streams without drift, where every alarm is false. Table~\ref{tab:h2} gives the false alarms per 10,000 samples. On the six autocorrelated AR(1) streams ($\rho$ from 0.8 to 0.97), EADD raised 5.59 false alarms per 10,000 samples, D3-LightGBM 19.5 and D3 18.5. EADD raised fewer than D3-LightGBM on 6 of the 6 streams, about 3.5 times fewer (one-sided Wilcoxon, Holm $p = 0.023$ against D3-LightGBM, the primary comparison; Holm $p = 0.016$ against D3, the secondary comparison). The results support H2. On the 8 other no-drift streams (synthetic, shuffled real, AR 0.5 and AR 0.9), EADD raised 0.75 false alarms per 10,000 samples against 2.44 and 2.41; all of EADD's and almost all of the baselines' false alarms there came from the AR 0.9 stream, and none of the three detectors raised a false alarm on the synthetic and shuffled real streams. Figure~\ref{fig:final-fa} shows both groups.
+H2 is measured on streams without drift, where every alarm is false. Table~\ref{tab:h2} gives the false alarms per 10,000 samples. On the six autocorrelated AR(1) streams ($\rho$ from 0.8 to 0.97), EADD raised 5.59 false alarms per 10,000 samples, D3-LightGBM 19.5 and D3 18.5. EADD raised fewer than D3-LightGBM on 6 of the 6 streams, about 3.5 times fewer (one-sided Wilcoxon, Holm $p = 0.023$ against D3-LightGBM, the primary comparison; Holm $p = 0.016$ against D3, the secondary comparison). The results support H2. D3-LightGBM's 19.5 is close to the most it can raise: after an alarm it needs a new 500-sample reference before the next check, so it alarmed at almost every opportunity on these streams. The result therefore shows that the history-null test removes most of these alarms, not that the two detectors were close. On the 8 other no-drift streams (synthetic, shuffled real, AR 0.5 and AR 0.9), EADD raised 0.75 false alarms per 10,000 samples against 2.44 and 2.41; all of EADD's and almost all of the baselines' false alarms there came from the AR 0.9 stream, and none of the three detectors raised a false alarm on the synthetic and shuffled real streams. Figure~\ref{fig:final-fa} shows both groups.
 
 \begin{table}[!htbp]
 \centering
@@ -214,7 +214,7 @@ H3b: fewer permutations per test & 22 & & 51.9 & 162.6 & $<$0.001 \\
     \label{fig:aspt}
 \end{figure}
 
-Wall-clock time was measured separately, with one run at a time on the four annotated INSECTS streams (5 seeds, 20 run pairs). EADD with ASPT spent 210 seconds per run in the detector against 453 seconds with the full test, 54\% less, and was faster in 20 of 20 runs (one-sided paired Wilcoxon $p < 0.001$); the two gave identical detections in 20 of 20 runs. Over these runs ASPT used 18,408 permutations for 312 tests (59 per test) against 62,088 (199 per test). EADD without any test took 116 seconds per run, so most of the remaining time is spent training the classifier at every check.
+Wall-clock time was measured separately, with one run at a time on the four annotated INSECTS streams (5 seeds, 20 run pairs), with the corrected options but the label-shuffle null instead of the history null, which explains the 199 draws of every full test. EADD with ASPT spent 210 seconds per run in the detector against 453 seconds with the full test, 54\% less, and was faster in 20 of 20 runs (one-sided paired Wilcoxon $p < 0.001$); the two gave identical detections in 20 of 20 runs. Over these runs ASPT used 18,408 permutations for 312 tests (59 per test) against 62,088 (199 per test). EADD without any test took 116 seconds per run, so most of the remaining time is spent training the classifier at every check.
 
 In the confirmatory test, H3a had been registered under a stricter rule: identical detections in at least 95\% of the 290 run pairs. The two tests gave identical detections in 81\% of the pairs with the same recall, MTD and false alarms, so H3a was not supported under that rule; the final test registered the equivalence formulation above, which measures the detection quality directly.
 
@@ -281,6 +281,29 @@ MMD-Online & 2.93 & 2.57 & 4.24 \\
 D3-LightGBM & 3.50 & 3.52 & 2.21 \\
 D3 & 3.60 & 4.10 & 1.76 \\
 \hline
+\end{tabular}
+\end{table}
+
+\section{Annotated Real Streams (INSECTS)}
+\label{sec:insects}
+
+The four INSECTS streams \citep{Souza2020} are the only real streams with documented drift points. They were used in the benchmark (seeds 42--442) and not in the registered tests, so these results are exploratory. Table~\ref{tab:insects} compares EADD with the history null and D3-LightGBM and D3, all checking every 50 samples. EADD was not better on these streams. On abrupt drift the three detectors were close; on gradual drift none detected a drift point within the tolerance of 500 samples; on the two incremental streams EADD found fewer drift points (0.80 and 0.60 against 1.00) and raised more alarms counted as false.
+
+\begin{table}[!htbp]
+\centering
+\caption[Benchmark: annotated INSECTS streams]{Benchmark (seeds 42--442): recall, MTD (samples) and alarms counted as false (FA) per stream on the four annotated INSECTS streams, all detectors checking every 50 samples. EADD = EADD with the history null (stride 10).}
+\label{tab:insects}
+\small
+\begin{tabular}{lccccccccc}
+\toprule
+ & \multicolumn{3}{c}{\textbf{EADD}} & \multicolumn{3}{c}{\textbf{D3-LightGBM}} & \multicolumn{3}{c}{\textbf{D3}} \\
+\textbf{Stream} & Rec. & MTD & FA & Rec. & MTD & FA & Rec. & MTD & FA \\
+\midrule
+Abrupt & 0.84 & 180 & 6.0 & 0.80 & 172 & 6.0 & 0.80 & 180 & 6.0 \\
+Gradual & 0.00 & 500 & 6.0 & 0.00 & 500 & 5.4 & 0.00 & 500 & 5.0 \\
+Incremental-abrupt & 0.80 & 212 & 18.8 & 1.00 & 95 & 13.4 & 1.00 & 99 & 10.4 \\
+Incremental-reoccurring & 0.60 & 309 & 20.2 & 1.00 & 246 & 14.2 & 1.00 & 272 & 13.4 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
