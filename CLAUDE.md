@@ -14,17 +14,17 @@ Overleaf sync: the Overleaf project (git bridge, branch `main`) has its own hist
 export PATH=/Library/TeX/texbin:$PATH
 pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
 grep -c "Overfull\|undefined\|^!" main.log        # must be 0
-pdflatex hypothesis_summary.tex                   # the two-page A4 summary, compiled separately
+make && make check                                # the same, via the Makefile
 ```
 
-`latexmk` is not installed locally. `main.pdf` and `hypothesis_summary.pdf` are committed; rebuild both before committing text changes.
+`latexmk` is not installed locally. `main.pdf` is committed; rebuild it before committing text changes.
 
 ## Structure
 
 - `main.tex` loads the class `muthesis2026.cls` (Mahidol template, FGS announcement PR07284) and inputs `preamble.tex` (names, committee, keywords), `abstract.tex`, `thesis.tex` (which inputs `chapters/ch1.tex` to `ch6.tex`, one file per chapter since 19 Nov 2026) and `appendix_impl.tex`. It also patches three template problems (lists of tables/figures, REFERENCES in the contents, `\inputrows`); keep those patches. Pseudocode uses `algorithm` + `algpseudocode`.
-- Chapter 4 reports the final registered test of the code repo (`experiments/results_final/`); its tables are typed by hand from those CSV files and its figures are the vector PDFs made by `make_final_figures.py` (copied into `figures/`). Every number must match `docs/status/THESIS_FACTS_2026-11-19.md` in the workspace and the result files. The old `tables/*.tex` rows (first draft, INSECTS only) are no longer used in the chapters; `hypothesis_summary.tex` still uses them and is out of date.
-- `figures/detection_*.pdf` and `threshold_sensitivity.pdf` come from `make_hypothesis_figures.py` in the code repo.
-- Numbers quoted in prose are typed by hand. After regenerating tables, check every number in the abstract, Ch 1 contributions, Ch 4-6 and `hypothesis_summary.tex` against the tables.
+- Chapter 4 reports the final registered test of the code repo (`experiments/results_final/`); its tables are typed by hand from those CSV files and its figures are the vector PDFs made by `make_final_figures.py` (copied into `figures/`). Every number must match `docs/status/THESIS_FACTS_2026-11-19.md` in the workspace and the result files.
+- `figures/tikz_*.tex` are the method diagrams (TikZ, vector); `figures/figure-1.png` and `temporal_drift_patterns.pdf` are the Chapter 2 concept figures.
+- Numbers quoted in prose are typed by hand. After regenerating tables, check every number in the abstract, Ch 1 contributions and Ch 4-6 against the result files.
 
 ## Writing rules (from the advisor)
 

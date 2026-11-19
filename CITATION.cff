@@ -1,0 +1,13 @@
+cff-version: 1.2.0
+message: "If you use this thesis, please cite it as below."
+type: thesis
+title: "Feature Drift Detection Techniques via Adversarial Validation"
+authors:
+  - family-names: Begum
+    given-names: Nusrat
+    affiliation: "Faculty of Information and Communication Technology, Mahidol University"
+year: 2026
+institution:
+  name: "Mahidol University"
+repository-code: "https://github.com/NusratBegum/unsupervised-concept-drift-detection"
+license: CC-BY-NC-ND-4.0
