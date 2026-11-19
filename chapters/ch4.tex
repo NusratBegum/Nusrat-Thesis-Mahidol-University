@@ -233,7 +233,7 @@ H4 concerns TreeSHAP attribution \citep{LundbergInteraction2020} in a classifier
 \section{Comparison with Newer Online Detectors}
 \label{sec:newer}
 
-EADD was also compared with MMD-Online and LSDD-Online \citep{CobbSequential2022} from Alibi Detect \citep{AlibiDetect}, two unsupervised multivariate online detectors calibrated to an expected run time of 2,500 samples without drift (window 50, 25,000 bootstrap draws, a new 500-sample reference after each alarm). Their recalibration after every alarm is slow, so this comparison was registered on seeds 3000--3002 only, and EADD, D3-LightGBM and D3 are shown as their means over the same three seeds. CVM-Online from the same library was registered as well but could not be calibrated with the registered 25,000 bootstrap draws on 69 of its 105 runs, and its rerun with 100,000 draws had not finished, so it is not included.
+EADD was also compared with MMD-Online and LSDD-Online \citep{CobbSequential2022} from Alibi Detect \citep{AlibiDetect}, two unsupervised multivariate online detectors calibrated to an expected run time of 2,500 samples without drift (window 50, 25,000 bootstrap draws, a new 500-sample reference after each alarm). Their recalibration after every alarm is slow, so this comparison was registered on seeds 3000--3002 only, and EADD, D3-LightGBM and D3 are shown as their means over the same three seeds. A third registered detector of the same library, CVM-Online, needed a rerun with more bootstrap draws and is not reported in this version.
 
 Table~\ref{tab:newer} shows a trade-off between delay and false alarms. LSDD-Online detected every slow drift point and had the lowest MTD (365 samples on slow and 66 on abrupt drift), but it raised 7.67 false alarms per slow-drift stream and 6.24 per abrupt stream, against 1.52 and 0 for EADD. MMD-Online had a recall of 0.94 on slow and 0.84 on abrupt drift with a similar number of false alarms. On the streams without drift both online detectors raised about 6.8 false alarms per 10,000 samples against 0.75 for EADD, and on the autocorrelated streams about 19 against 5.89. Figure~\ref{fig:newer} plots MTD against false alarms.
 
@@ -257,7 +257,7 @@ D3 & 0.43 & 1058 & 1.26 & 1.00 & 129 & 0.00 & 2.40 & 18.61 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/fig_newer_detectors.pdf}
     \caption[Newer online detectors: MTD against false alarms]{Newer online detectors (seeds 3000--3002): MTD against false alarms per stream on slow and abrupt drift; the legend gives each detector's recall.}

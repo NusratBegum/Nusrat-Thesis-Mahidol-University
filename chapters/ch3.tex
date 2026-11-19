@@ -1,6 +1,13 @@
 \chapter{Research Methodology} \label{chap:methodology}
 
-This chapter describes the method and its evaluation as they were run in the final registered test. Section~\ref{sec:problem} states the problem, Section~\ref{sec:c2st} the classifier two-sample test on which the method rests, and Section~\ref{sec:eadd} the Explainable Adversarial Drift Detector (EADD) with its algorithm and cost. Section~\ref{sec:fixes} lists four flaws found in an earlier version of the detector, how each was fixed and how each fix was checked. Sections~\ref{sec:baselines} to~\ref{sec:datasets} describe the baselines, the identical setup under which all detectors were compared, and the data. Sections~\ref{sec:metrics} and~\ref{sec:stats} give the metrics and the statistical analysis, Section~\ref{sec:design} the pre-registration and the order of the experiments, and Section~\ref{sec:implementation} the implementation.
+This chapter describes the method and its evaluation as they were run in the final registered test. Section~\ref{sec:problem} states the problem, Section~\ref{sec:c2st} the classifier two-sample test on which the method rests, and Section~\ref{sec:eadd} the Explainable Adversarial Drift Detector (EADD) with its algorithm and cost. Section~\ref{sec:fixes} lists four flaws found in an earlier version of the detector, how each was fixed and how each fix was checked. Sections~\ref{sec:baselines} to~\ref{sec:datasets} describe the baselines, the identical setup under which all detectors were compared, and the data. Sections~\ref{sec:metrics} and~\ref{sec:stats} give the metrics and the statistical analysis, Section~\ref{sec:design} the pre-registration and the order of the experiments, and Section~\ref{sec:implementation} the implementation. Figure~\ref{fig:overview} summarises the research process and EADD at one check.
+
+\begin{figure}[!htb]
+    \centering
+    \resizebox{\linewidth}{!}{\input{figures/tikz_overview}}
+    \caption[Overview of the research methodology]{Overview of the research methodology. Top: the steps of the study and the sections that describe them. Bottom: EADD at one check in abstract form; Figure~\ref{fig:pipeline} gives the details.}
+    \label{fig:overview}
+\end{figure}
 
 \section{Problem Formulation}
 \label{sec:problem}
@@ -71,7 +78,15 @@ EADD therefore builds its null distribution from the stream's own history. It ke
 p = \frac{c + 1}{B + 1},
 \label{eq:pvalue}
 \end{equation}
-which counts the observed AUC as one of the draws and is never zero \citep{PhipsonSmyth2010}. In the steady state the history holds 4,800 samples before the current window and gives 461 windows, of which 199 are drawn; at the first test after an alarm it gives 31. Because the null windows overlap and share the reference, they are not exactly exchangeable with the current window, so the validity of the test is measured directly (Section~\ref{sec:fixes}).
+which counts the observed AUC as one of the draws and is never zero \citep{PhipsonSmyth2010}. In the steady state the history holds 4,800 samples before the current window and gives 461 windows, of which 199 are drawn; at the first test after an alarm it gives 31. Because the null windows overlap and share the reference, they are not exactly exchangeable with the current window, so the validity of the test is measured directly (Section~\ref{sec:fixes}). Figure~\ref{fig:history-null} illustrates the construction.
+
+\begin{figure}[!htb]
+    \centering
+    \resizebox{\linewidth}{!}{\input{figures/tikz_history_null}}
+    \caption[The history null]{The history null. Earlier 200-sample windows of the stream since the last alarm, one starting every 10 samples and all ending before $W_{\mathrm{cur}}$, are each compared with the reference by the same C2ST as $W_{\mathrm{cur}}$; their AUCs form the null distribution of the observed AUC.}
+    \label{fig:history-null}
+\end{figure}
+
 
 \subsection{Adaptive Sequential Permutation Test (ASPT)}
 \label{sec:aspt}
@@ -149,21 +164,21 @@ Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Alg
 
 \section{Four Validity Fixes and Their Checks}
 \label{sec:fixes}
-An independent review of the earlier version of EADD, which produced the initial thesis runs (Experiment 1, Section~\ref{sec:design}), found four flaws that could make its alarm decision invalid. Each flaw was fixed by an option of \texttt{detectors/eadd.py}, and each fix is covered by a unit test. With the old defaults, the code still reproduces all 16 results of the original thesis runs, so the earlier and the corrected detector can be compared on the same code. Table~\ref{tab:fixes} lists the flaws, the fixes and how each was checked.
+A code review of the earlier version of EADD, which produced the initial thesis runs (Experiment 1, Section~\ref{sec:design}), found four flaws that could make its alarm decision invalid. Each flaw was fixed by an option of \texttt{detectors/eadd.py}, and each fix is covered by a unit test. With the old defaults, the code still reproduces all 16 results of the original thesis runs, so the earlier and the corrected detector can be compared on the same code. Table~\ref{tab:fixes} lists the flaws, the fixes and how each was checked.
 
 \begin{table}[!htbp]
 \centering
 \small
 \caption[Validity fixes of EADD]{The four flaws of the earlier EADD, the fix of each (with its option in \texttt{detectors/eadd.py}) and its check.}
 \label{tab:fixes}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}p{3.9cm}p{4.1cm}p{4.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{4.6cm}}
 \toprule
  & \textbf{Flaw} & \textbf{Fix (option)} & \textbf{Check} \\
 \midrule
-1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window (\texttt{reservoir\_after\_current=True}). & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
-2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation (\texttt{perm\_n\_folds=None}). & Unit test: the null AUCs use the folds of the observed AUC. \\
-3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision (\texttt{aspt\_alpha\_split=1/3}). & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
-4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream (\texttt{null="history"}, \texttt{history\_stride=10}). & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
+1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window (\texttt{reservoir\_\allowbreak{}after\_\allowbreak{}current=True}). & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
+2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation (\texttt{perm\_\allowbreak{}n\_\allowbreak{}folds=None}). & Unit test: the null AUCs use the folds of the observed AUC. \\
+3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision (\texttt{aspt\_\allowbreak{}alpha\_\allowbreak{}split=1/3}). & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
+4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream (\texttt{null="history"}, \texttt{history\_\allowbreak{}stride=10}). & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -182,7 +197,7 @@ All baselines were run in this thesis on the same streams, seeds and random star
 
 \textbf{D3-LightGBM} is D3 with EADD's LightGBM classifier and settings. It differs from EADD only in the reference and the test, so the comparison between the two isolates these components, and it is the primary comparator for H1 and H2.
 
-\textbf{MMD-Online and LSDD-Online} \citep{CobbSequential2022} are sequential multivariate change detectors based on the maximum mean discrepancy \citep{Gretton2012} and on the least-squares density difference. Their thresholds are set by simulation so that, without drift, the expected run time (ERT) until a false alarm has a chosen value, with a constant false-alarm rate at every step. \textbf{CVM-Online} applies the Cram\'{e}r--von Mises statistic to each feature in the change-point framework of \citet{RossAdams2012}. All three were taken from Alibi Detect 0.13.0 \citep{AlibiDetect}. The first 500 samples after a start or an alarm are the reference; each detector is calibrated on them for an ERT of 2,500 samples, with a window of 50 and 25,000 bootstrap draws, and restarts with the next 500 samples after an alarm. With 25,000 draws the per-feature thresholds of CVM-Online could not be set on 69 of its 105 runs; a rerun with 100,000 draws had not finished when this thesis was written. They ran with the PyTorch CPU backend on one thread, in a separate environment (Python 3.12, NumPy 1.26), because Alibi Detect does not install beside EADD's pinned packages. The ERT sets their false-alarm rate, so their false alarms are read together with their delays. Only detectors that completed all their runs enter the analysis.
+\textbf{MMD-Online and LSDD-Online} \citep{CobbSequential2022} are sequential multivariate change detectors based on the maximum mean discrepancy \citep{Gretton2012} and on the least-squares density difference. Their thresholds are set by simulation so that, without drift, the expected run time (ERT) until a false alarm has a chosen value, with a constant false-alarm rate at every step. Both were taken from Alibi Detect 0.13.0 \citep{AlibiDetect}. The first 500 samples after a start or an alarm are the reference; each detector is calibrated on them for an ERT of 2,500 samples, with a window of 50 and 25,000 bootstrap draws, and restarts with the next 500 samples after an alarm. They ran with the PyTorch CPU backend on one thread, in a separate environment (Python 3.12, NumPy 1.26), because Alibi Detect does not install beside EADD's pinned packages. The ERT sets their false-alarm rate, so their false alarms are read together with their delays.
 
 \textbf{Detectors from the \citet{Lukats2024} benchmark} were used in the benchmark experiment and in the descriptive comparison of the confirmatory test: six fully unsupervised detectors, each with 500 samples to match EADD's reference and otherwise with one fixed setting from the hyperparameter grid of the benchmark implementation, the same for every stream:
 \begin{itemize}
@@ -229,7 +244,7 @@ Feature ranking & TreeSHAP & none & none \\
 \label{sec:datasets}
 All drift in the data is feature drift, a change of $P(X)$, and the detectors see only the features. Table~\ref{tab:streams} lists the stream groups and Table~\ref{tab:real-streams} the real-world streams they are built from.
 
-\textbf{Synthetic streams} (\texttt{synthetic\_streams.py}) have 20,000 samples of 10 independent standard Gaussian features. In SynthAbrupt, SynthGradual, SynthIncremental and SynthRecurring, three of the ten features shift by one standard deviation at each of the drift points 5,000, 10,000 and 15,000 (the recurring stream returns to the old mean at every second point); SynthStable has no drift. Each seed draws a new stream.
+\textbf{Synthetic streams} (\nolinkurl{synthetic_streams.py}) have 20,000 samples of 10 independent standard Gaussian features. In SynthAbrupt, SynthGradual, SynthIncremental and SynthRecurring, three of the ten features shift by one standard deviation at each of the drift points 5,000, 10,000 and 15,000 (the recurring stream returns to the old mean at every second point); SynthStable has no drift. Each seed draws a new stream.
 
 \textbf{Injected streams} take a real stream, shuffle its rows, which removes any drift of its own, and inject known drifts at 5,000, 10,000 and 15,000: 30\% of the features (at least one) move by one standard deviation of their first 5,000 values, abruptly, gradually or incrementally. Six real bases are used. Each seed draws a new shuffle and a new set of drifting features, which are recorded and serve as the ground truth for H4.
 
@@ -345,7 +360,15 @@ When several detectors are compared, as with the newer online detectors, the Fri
 \section{Pre-registration and Sequence of Experiments}
 \label{sec:design}
 \label{sec:proposal-changes}
-Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\texttt{experiments/results\_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds.
+Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\nolinkurl{experiments/results_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds. Figure~\ref{fig:timeline} shows the sequence.
+
+\begin{figure}[!htb]
+    \centering
+    \resizebox{\linewidth}{!}{\input{figures/tikz_timeline}}
+    \caption[Sequence of experiments]{Sequence of experiments. Each stage after the initial runs was registered before its runs and used new seeds; the notes under the arrows give what each stage changed.}
+    \label{fig:timeline}
+\end{figure}
+
 
 \begin{table}[!htbp]
 \centering
@@ -360,13 +383,15 @@ Initial thesis runs & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats d
 Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
 Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
 Final test (18 Nov 2026) & 34 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\
-Newer detectors (addenda 6--6b) & the same 34 streams; MMD-Online, LSDD-Online, CVM-Online & 3000--3002 & secondary comparison \\
+Newer detectors (addenda 6--6a) & the same 34 streams; MMD-Online, LSDD-Online & 3000--3002 & secondary comparison \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The thesis proposal planned a C2ST with logistic regression or a random forest, a permutation test with 200 permutations and an alarm at $\text{AUC} \geq 0.7$ and $p < 0.05$, compared with PSI, the KS test, DDM and ADWIN. The thesis keeps the proposal's title and goal, but compares EADD with unsupervised multivariate detectors that take the same input, because DDM needs labels and PSI, the KS test and ADWIN monitor one variable at a time. H1 was revised after the benchmark from all drift to slow drift, with the advisor's approval, and H4 was added; both were then tested on new seeds, first in the confirmatory test and again in the final test, whose results Chapter~\ref{chap:results} reports.
+The thesis proposal planned a C2ST with logistic regression or a random forest, a permutation test with 200 permutations and an alarm at $\text{AUC} \geq 0.7$ and $p < 0.05$, compared with PSI, the KS test, DDM and ADWIN. The thesis keeps the proposal's title and goal, but compares EADD with unsupervised multivariate detectors that take the same input, because DDM needs labels and PSI, the KS test and ADWIN monitor one variable at a time. H1 was revised after the benchmark from all drift to slow drift, and H4 was added; both were then tested on new seeds, first in the confirmatory test and again in the final test, whose results Chapter~\ref{chap:results} reports.
 
 \section{Implementation}
 \label{sec:implementation}
-All detectors except the online ones were run in Python 3.13 with LightGBM 4.7.0, scikit-learn 1.9.1, NumPy 2.5.4 and river 0.26.1; the versions of all packages are pinned in \texttt{requirements-lock.txt}. The baseline detectors of \citet{Lukats2024} and the dataset loaders come from the open-source implementation of their benchmark, whose unit tests were kept; EADD (\texttt{detectors/eadd.py}), D3-LightGBM (\texttt{detectors/d3\_lightgbm.py}), the synthetic and injected streams (\texttt{synthetic\_streams.py}) and the scripts of each experiment were added. The permutation test of EADD draws its random numbers from its own generator, so EADD with ASPT and EADD with the full test keep the same reservoir and give the same detections whenever their test decisions agree. The experiments were run with fixed seeds, at most ten processes in parallel; the code, the raw runs, the registered plans and the analysis scripts (\texttt{experiment\_final.py}, \texttt{analyze\_final.py}) are in the project repository\footnote{\url{https://github.com/NusratBegum/unsupervised-concept-drift-detection}}.
+All detectors except the online ones were run in Python 3.13 with LightGBM 4.7.0, scikit-learn 1.9.1, NumPy 2.5.4 and river 0.26.1; the versions of all packages are pinned in \texttt{requirements-lock.txt}. The baseline detectors of \citet{Lukats2024} and the dataset loaders come from the open-source implementation of their benchmark, whose unit tests were kept; EADD (\texttt{detectors/eadd.py}), D3-LightGBM (\nolinkurl{detectors/d3_lightgbm.py}), the synthetic and injected streams (\nolinkurl{synthetic_streams.py}) and the scripts of each experiment were added. The permutation test of EADD draws its random numbers from its own generator, so EADD with ASPT and EADD with the full test keep the same reservoir and give the same detections whenever their test decisions agree. The experiments were run with fixed seeds, at most ten processes in parallel; the code, the raw runs, the registered plans and the analysis scripts (\nolinkurl{experiment_final.py}, \nolinkurl{analyze_final.py}) are in the project repository\footnote{\url{https://github.com/NusratBegum/unsupervised-concept-drift-detection}}.
+
+\textbf{Use of AI tools.} Generative AI assistants (Claude, Anthropic) were used in this work to review the code, to recompute reported numbers from the raw run files, to check the text against the result files, and to edit the language of the thesis. The reviews in Sections~\ref{sec:fixes} and~\ref{sec:disc-validity} were carried out with these assistants. The research questions, the design of the method and the experiments, and the conclusions are the author's, and every change suggested by an assistant was checked by the author against the code and the results before it was used.

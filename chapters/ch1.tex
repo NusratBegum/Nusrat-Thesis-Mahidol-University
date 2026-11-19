@@ -33,7 +33,15 @@ The thesis proposal set the goal of investigating adversarial validation as a fe
 
 \section{Research Hypotheses}
 \label{sec:intro-hypotheses}
-The four hypotheses below are stated in their final form; Chapter~\ref{chap:methodology} gives the tests and decision rules, which were registered before the final runs. H1 was revised from all drift to slow drift after the benchmark, and H4 was added. The registered tests of H2 and of the detection part of H3 were re-specified after their first registered versions failed in the confirmatory test (Sections~\ref{sec:exp2} and~\ref{sec:exp3}); each new version was registered and then run on new seeds.
+The four hypotheses below are stated in their final form; Chapter~\ref{chap:methodology} gives the tests and decision rules, which were registered before the final runs. H1 was revised from all drift to slow drift after the benchmark, and H4 was added. The registered tests of H2 and of the detection part of H3 were re-specified after their first registered versions failed in the confirmatory test (Sections~\ref{sec:exp2} and~\ref{sec:exp3}); each new version was registered and then run on new seeds. Figure~\ref{fig:roadmap} relates the hypotheses to the problems they address and to the sections that answer them.
+
+\begin{figure}[!htb]
+    \centering
+    \resizebox{\linewidth}{!}{\input{figures/tikz_roadmap}}
+    \caption[Thesis roadmap]{Thesis roadmap: the problem of D3 that each component of EADD addresses, the hypothesis that tests it, and the sections that answer it.}
+    \label{fig:roadmap}
+\end{figure}
+
 
 % The hypothesis statements are defined once here and reused verbatim in Chapters 4 and 6.
 \newcommand{\hypHone}{On streams with slow feature drift (gradual or incremental), EADD detects more drift points (H1a, higher recall) and detects them sooner (H1b, lower mean time to detection) than a sliding-reference C2ST with the same classifier (D3-LightGBM). On abrupt drift, its mean time to detection is at most 50 samples higher than that of D3-LightGBM (H1c, non-inferiority).}
@@ -49,7 +57,7 @@ The four hypotheses below are stated in their final form; Chapter~\ref{chap:meth
 In H2, D3 is tested in two forms: D3-LightGBM, which uses EADD's classifier, is the primary comparison, and the original D3 with logistic regression is the secondary one. H4 concerns attribution in classifier-based detectors in general; it is measured with EADD's LightGBM classifier.
 
 \section{Scope of the Study}
-This thesis studies unsupervised detection of feature drift, that is, changes in $P(X)$, in tabular data streams with numerical features. Labels are never used for detection, so changes in $P(y \mid X)$ that leave $P(X)$ unchanged are outside the scope. The drift patterns studied are abrupt, gradual, incremental and recurring. The main evaluation uses 35 streams: 21 drift streams (seven each with abrupt, gradual and incremental drift, built from one synthetic generator and six real datasets into which drift was injected in known features), eight streams without drift and six autocorrelated streams without drift. Four real INSECTS streams with documented drift points \citep{Souza2020} and nine unannotated real streams from the benchmark of \citet{Lukats2024} are used in the wider benchmark. Feature attribution is scored only on synthetic and injected streams, where the drifting features are known. Drift adaptation, such as retraining the deployed model, is used only to score the unannotated streams and is not studied in itself.
+This thesis studies unsupervised detection of feature drift, that is, changes in $P(X)$, in tabular data streams with numerical features. Labels are never used for detection, so changes in $P(y \mid X)$ that leave $P(X)$ unchanged are outside the scope. The drift patterns studied are abrupt, gradual, incremental and recurring. The main evaluation uses 34 distinct streams: 21 drift streams (seven each with abrupt, gradual and incremental drift, built from one synthetic generator and six real datasets into which drift was injected in known features), eight streams without drift and six autocorrelated streams without drift (the AR(1) stream with $\rho = 0.9$ belongs to both groups without drift). Four real INSECTS streams with documented drift points \citep{Souza2020} and nine unannotated real streams from the benchmark of \citet{Lukats2024} are used in the wider benchmark. Feature attribution is scored only on synthetic and injected streams, where the drifting features are known. Drift adaptation, such as retraining the deployed model, is used only to score the unannotated streams and is not studied in itself.
 
 \section{Assumptions}
 The study relies on the following assumptions:

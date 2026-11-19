@@ -1,0 +1,31 @@
+% Overview of the research methodology (Chapter 3 opening figure).
+% Top row: the research process; bottom row: EADD at one check, in abstract form.
+\begin{tikzpicture}[
+    font=\small,
+    rstep/.style={rectangle, draw=black!65, fill=gray!10, rounded corners=2pt,
+                 align=center, text width=2.6cm, minimum height=2.0cm, inner sep=3pt},
+    eb/.style={rectangle, draw=black!65, fill=white, rounded corners=2pt,
+               align=center, text width=2.6cm, minimum height=1.4cm, inner sep=3pt},
+    arr/.style={-{Stealth[scale=0.9]}, semithick, black!70},
+    hd/.style={font=\footnotesize\bfseries, text=black!75, anchor=west}
+]
+% ---- research process
+\node[hd] at (-1.5,1.75) {Research process (Sections 3.1--3.11)};
+\node[rstep] (p1) at (0,0)    {\textbf{Problem}\\[1pt]{\footnotesize feature drift, no labels; H1--H4}};
+\node[rstep] (p2) at (3.1,0) {\textbf{Method}\\[1pt]{\footnotesize EADD: reservoir, C2ST, history-null ASPT, TreeSHAP}};
+\node[rstep] (p3) at (6.2,0)  {\textbf{Setup}\\[1pt]{\footnotesize D3, D3-LightGBM; same windows, classifier, checks}};
+\node[rstep] (p4) at (9.3,0) {\textbf{Data}\\[1pt]{\footnotesize 34 streams: drift, no drift, auto\-correlated}};
+\node[rstep] (p5) at (12.4,0)   {\textbf{Registered tests}\\[1pt]{\footnotesize benchmark $\rightarrow$ confirmatory $\rightarrow$ final}};
+\foreach \a/\b in {p1/p2,p2/p3,p3/p4,p4/p5} \draw[arr] (\a) -- (\b);
+
+% ---- EADD at one check
+\node[hd] at (-1.5,-1.75) {EADD at one check (Section 3.3)};
+\node[eb] (e1) at (0,-3.2)    {Stream\\{\footnotesize every 50 samples}};
+\node[eb] (e2) at (3.1,-3.2) {Two windows\\{\footnotesize $W_{\mathrm{ref}}$: reservoir;\\$W_{\mathrm{cur}}$: newest 200}};
+\node[eb] (e3) at (6.2,-3.2)  {C2ST\\{\footnotesize LightGBM AUC $\geq 0.7$?}};
+\node[eb] (e4) at (9.3,-3.2) {Test\\{\footnotesize history null, ASPT}};
+\node[eb, fill=gray!25] (e5) at (12.4,-3.2) {\textbf{Alarm}\\{\footnotesize + TreeSHAP feature ranking}};
+\foreach \a/\b in {e1/e2,e2/e3,e3/e4,e4/e5} \draw[arr] (\a) -- (\b);
+\draw[arr, dashed] (e5.south) -- ++(0,-0.45) -| node[pos=0.25, below, font=\footnotesize, text=black!70] {new reference after an alarm} (e2.south);
+
+\end{tikzpicture}

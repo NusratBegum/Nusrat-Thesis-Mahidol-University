@@ -1,0 +1,19 @@
+% Sequence of experiments (Section 3.10): each stage registered before its runs,
+% each on new seeds; what each stage changed.
+\begin{tikzpicture}[
+    font=\small,
+    st/.style={rectangle, draw=black!65, fill=white, rounded corners=2pt, align=center,
+               text width=2.55cm, minimum height=2.3cm, inner sep=3pt},
+    arr/.style={-{Stealth[scale=0.9]}, semithick, black!70},
+    note/.style={font=\scriptsize, text=black!70, align=center, text width=2.4cm}
+]
+\node[st] (a) at (0,0)    {\textbf{Initial runs}\\[1pt]{\footnotesize earlier EADD; 4 INSECTS + 9 unannotated\\seeds 42--442}};
+\node[st] (b) at (3.3,0)  {\textbf{Benchmark}\\[1pt]{\footnotesize 12 detectors; flaws fixed; exploratory\\seeds 42--442}};
+\node[st] (c) at (6.6,0)  {\textbf{Confirmatory}\\[1pt]{\footnotesize revised H1--H4, registered\\seeds 1000--1009}};
+\node[st, fill=gray!20] (d) at (9.9,0) {\textbf{Final test}\\[1pt]{\footnotesize same schedule for all; registered\\seeds 3000--3009}};
+\node[st] (e) at (13.2,0) {\textbf{Secondary}\\[1pt]{\footnotesize online detectors and three checks\\subsets of 3000--3009}};
+\draw[arr] (a) -- node[note, below=1.25cm] {four flaws found} (b);
+\draw[arr] (b) -- node[note, below=1.25cm] {H1 revised to slow drift} (c);
+\draw[arr] (c) -- node[note, below=1.25cm] {H2, H3a re-specified} (d);
+\draw[arr] (d) -- (e);
+\end{tikzpicture}
