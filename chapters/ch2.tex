@@ -4,12 +4,12 @@
 \section{Overview}
 Drift detection addresses the problem that the statistical properties of data change over time in a way that affects the validity of a machine learning model \citep{Lu2018, Gama2014}. According to \citet{Bayram2022}, when users, environments, or the relationships between labels and features change, model accuracy can diminish. \citet{Gama2014} and \citet{Sculley2015} emphasise that drift detection identifies such changes early, so that practitioners can adapt, retrain, or update the model. Figure~\ref{fig:feature-drift} illustrates the idea behind the discriminative detectors studied in this thesis: when the reference and current distributions overlap, a classifier cannot tell their samples apart, and when the distribution shifts, it can.
 
-This chapter is organised by groups of methods rather than by individual papers. After a short history (Section~\ref{sec:lit-history}) and the definitions of drift (Section~\ref{sec:lit-types}), it compares supervised and unsupervised detectors (Section~\ref{sec:lit-classification}), statistical and distance-based detectors including online calibrated ones (Section~\ref{sec:lit-statistical}), and classifier-based detectors built on the classifier two-sample test (C2ST) (Section~\ref{sec:lit-c2st}). It then reviews three design questions that every window-based detector must answer: how the reference window is maintained (Section~\ref{sec:lit-reference}), how a detection is turned into a statistical decision (Section~\ref{sec:lit-testing}), and whether that decision remains valid when samples are autocorrelated (Section~\ref{sec:lit-autocorr}). The remaining sections cover drift explanation and localisation, evaluation practice, recent detectors designed for other settings, and adaptation strategies, and the chapter ends with a comparison of the method families and the research gap that motivates this thesis.
+This chapter is organised by groups of methods rather than by individual papers. After a short history (Section~\ref{sec:lit-history}) and the definitions of drift (Section~\ref{sec:lit-types}), it compares supervised and unsupervised detectors (Section~\ref{sec:lit-classification}), statistical and distance-based detectors including online calibrated ones (Section~\ref{sec:lit-statistical}), and classifier-based detectors built on the classifier two-sample test (C2ST) (Section~\ref{sec:lit-c2st}), and other unsupervised families (Section~\ref{sec:lit-other-unsup}). It then reviews three design questions that every window-based detector must answer: how the reference window is maintained (Section~\ref{sec:lit-reference}), how a detection is turned into a statistical decision (Section~\ref{sec:lit-testing}), and whether that decision remains valid when samples are autocorrelated (Section~\ref{sec:lit-autocorr}). The remaining sections cover drift explanation and localisation, evaluation practice, recent detectors designed for other settings, and adaptation strategies, and the chapter ends with a comparison of the method families and the research gap that motivates this thesis.
 
 \begin{figure}[!htpb]
     \centering
-    \includegraphics[width=.95\textwidth,keepaspectratio]{figures/figure-1.png}
-    \caption[No drift versus drift for a discriminative classifier]{Comparison of no drift versus drift scenarios. Left: When distributions overlap, the discriminative classifier cannot distinguish data sources (AUC $\approx$ 0.5). Right: When drift occurs, distributions shift and the classifier can distinguish sources (AUC $\gg$ 0.5).}
+    \includegraphics[width=\textwidth]{figures/fig_c2st_concept.pdf}
+    \caption[No drift versus drift as a classifier sees it]{No drift versus drift as a classifier sees it. Left: the reference and current windows come from the same distribution, so a classifier cannot tell their samples apart (AUC $\approx$ 0.5). Right: the current window has shifted, so the classifier separates them (AUC $\gg$ 0.5).}
     \label{fig:feature-drift}
 \end{figure}
 
@@ -21,7 +21,7 @@ The study of distribution drift has developed from statistical process control t
 \centering
 \caption[Historical evolution of drift detection research]{Historical evolution of drift detection research.}
 \label{tab:timeline}
-\begin{tabular}{p{3.4cm}p{10.4cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{10.4cm}}
 \hline
 \textbf{Era} & \textbf{Key Developments} \\
 \hline
@@ -72,8 +72,8 @@ The patterns place different demands on a detector: abrupt drift requires a rapi
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/temporal_drift_patterns.pdf}
-    \caption[Four temporal drift patterns]{The four temporal drift patterns, illustrated for one feature of a synthetic stream. Grey points are individual samples, the black line is a rolling mean over 100 samples, and dashed lines mark the drift points.}
+    \includegraphics[width=\textwidth]{figures/fig_drift_patterns.pdf}
+    \caption[Four temporal drift patterns]{The four drift patterns of the synthetic streams used in this thesis, shown for one drifting feature (seed 0). Grey points are every tenth sample, the green line is a moving mean over 200 samples, dashed lines mark the drift points at 5,000, 10,000 and 15,000, and shaded bands mark the 1,000 samples over which gradual and incremental drift unfold.}
     \label{fig:temporal-patterns}
 \end{figure}
 
@@ -84,17 +84,17 @@ Table~\ref{tab:drift-taxonomy} consolidates the drift classification used throug
 \centering
 \caption[Taxonomy of drift types referenced in this thesis]{Taxonomy of drift types referenced in this thesis.}
 \label{tab:drift-taxonomy}
-\begin{tabular}{p{2.5cm}p{3cm}p{7.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{7.2cm}}
 \hline
 \textbf{Category} & \textbf{Type} & \textbf{Description} \\
 \hline
-\multirow{3}{*}{\parbox{2.5cm}{By Cause \\ \citep{Lu2018, Gama2014}}}
-  & Feature (Virtual) Drift & Change in the input distribution $P(X)$, with or without a change in the relationship to the target. \\
+\multirow{3}{*}{\parbox{2.5cm}{By Nature of Change \\ \citep{Lu2018, Gama2014}}}
+  & Feature Drift (Covariate Shift) & Change in the input distribution $P(X)$; virtual drift when $P(y \mid X)$ stays the same. \\
   & Real Concept Drift & Change in the conditional $P(y \mid X)$, invalidating learned decision boundaries. \\
   & Prior Probability Drift & Change in the label distribution $P(y)$ while $P(X \mid y)$ is stable. \\
 \hline
 \multirow{4}{*}{\parbox{2.5cm}{By Pattern \\ \citep{Gama2014, Zliobaite2010}}}
-  & Sudden (Abrupt) & Rapid, discrete shift between two distinct distributions. \\
+  & Abrupt (Sudden) & Rapid, discrete shift between two distinct distributions. \\
   & Gradual & Old concept progressively replaced by a new one over an extended period. \\
   & Incremental & Small, continuous changes accumulating into a significant shift. \\
   & Recurring (Seasonal) & Previously observed distributions reappearing, periodically or irregularly. \\
@@ -133,15 +133,15 @@ Table~\ref{tab:method-comparison} compares two widely used univariate methods wi
 \centering
 \caption[Comparison of drift detection approaches]{Comparison of two univariate drift detection approaches with the discriminative approach.}
 \label{tab:method-comparison}
-\begin{tabular}{p{2.7cm}p{3.5cm}p{3.5cm}p{3cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3cm}}
 \hline
 \textbf{Method} & \textbf{Approach} & \textbf{Strengths} & \textbf{Limitations} \\
 \hline
-\textbf{PSI (Population Stability Index)} & Compares binned distributions of single features; by a rule of thumb, PSI $> 0.25$ indicates significant drift \citep{Yurdakul2018} & Simple, interpretable, widely used in credit risk & Univariate only; requires binning; misses feature correlations \\
+\textbf{PSI (Population Stability Index)} & Compares binned distributions of single features; by a rule of thumb, PSI~$>$~0.25 indicates significant drift \citep{Yurdakul2018} & Simple, interpretable, widely used in credit risk & Univariate only; requires binning; misses feature correlations \\
 \hline
 \textbf{KS Test (Kolmogorov--Smirnov)} & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
 \hline
-\textbf{Discriminative Classification} & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; no built-in feature attribution \\
+\textbf{Discriminative Classification} & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; a raw AUC has no calibrated threshold; attribution needs an extra step (e.g.\ SHAP)\\
 \hline
 \end{tabular}
 \end{table}
@@ -157,12 +157,13 @@ The classifier two-sample test (C2ST), formalised by \citet{LopezPazOquab2017}, 
 In industry practice the same idea is called adversarial validation or a domain classifier. \citet{Pan2020} used it at Uber for the MaLTA user targeting system, training a classifier to detect mismatch between training and deployment data and removing the most drifting features before training the targeting model, and \citet{Qian2021} applied it to dataset shift in credit scoring. Open-source monitoring libraries offer it for batches of data. NannyML's domain classifier trains LightGBM to separate a reference period from each chunk of production data and raises an alert when the cross-validated AUC leaves a fixed range \citep{NannyML}. Alibi Detect's ClassifierDrift trains a classifier, optionally with stratified cross-validation, and applies a KS test to its out-of-fold probabilities, or a binomial test to the binarised predictions, for reference and test instances; its reference can stay fixed or be updated to the last $N$ instances or by reservoir sampling \citep{AlibiDetect}. The same library offers SpotTheDiffDrift, a constrained classifier whose learned test locations show how the features of the new data differ from the reference \citep{AlibiDetect}. These tools compare batches that the user chooses; NannyML decides by an AUC range alone, whereas Alibi Detect attaches a statistical test.
 
 \subsection{Streaming Classifier-Based Detectors}
-D3 applies the domain classifier to data streams: it trains a logistic regression classifier to separate a sliding reference window from the newest samples and signals drift when the AUC exceeds a fixed threshold of 0.7 \citep{Gozuacik2019}. It is one of the three detectors recommended by a recent benchmark of unsupervised detectors, where it achieved the best mean time ratio \citep{Lukats2024}. D3 applies no significance test, so its threshold has no statistical calibration, and it discards the trained classifier after computing the AUC, so it reports that drift occurred but not which features caused it. Margin density methods such as Margin Density Drift Detection (MD3) instead track the proportion of samples that fall close to the decision boundary of a classifier, and they set their threshold heuristically, as $\theta$ standard deviations from a reference estimated by cross-validation \citep{Sethi2017}.
+D3 applies the domain classifier to data streams: it trains a logistic regression classifier to separate a sliding reference window from the newest samples and signals drift when the AUC exceeds a fixed threshold of 0.7 \citep{Gozuacik2019}. It is one of the detectors that a recent benchmark of unsupervised detectors recommends, depending on the evaluation metric \citep{Lukats2024}. D3 applies no significance test, so its threshold has no statistical calibration, and it discards the trained classifier after computing the AUC, so it reports that drift occurred but not which features caused it. Margin density methods such as Margin Density Drift Detection (MD3) instead track the proportion of samples that fall close to the decision boundary of a classifier, and they set their threshold heuristically, as $\theta$ standard deviations from a reference estimated by cross-validation \citep{Sethi2017}.
 
 Compared with the statistical tests of Section~\ref{sec:lit-statistical}, the classifier-based group tests all features jointly with one model and can capture non-linear changes and changes in feature interactions that marginal tests miss \citep{LopezPazOquab2017}, and a tree ensemble needs no kernel choice. Its costs are that a classifier must be trained at every check, that the results depend on the classifier and its hyperparameters, and that a raw AUC has no statistical meaning unless a test is added. Within the group, the batch tests (C2ST, E-C2ST, ClassifierDrift) supply the test but not the stream design, and the streaming detector D3 supplies the stream design but not the test.
 
 \section{Other Unsupervised Detector Families}
 \label{sec:lit-other-unsup}
+Two further groups of unsupervised detectors work either on learned representations or model outputs, or on clusters and densities of the raw features; both are less suited to the tabular streams studied here.
 
 \subsection{Representation-Based and Output-Based Detectors}
 Representation-based methods monitor learned representations rather than raw features \citep{Rabanser2019}, or learn a feature representation for the two-sample test itself \citep{Liu2020}. They apply two-sample tests such as MMD or per-dimension KS tests to low-dimensional representations, such as autoencoder latents or the softmax outputs of a trained classifier \citep{Rabanser2019}, or they borrow ideas from domain adaptation, such as matching the distributions of learned multi-layer features with MMD \citep{Long2016}. These methods suit high-dimensional data such as images, where simple kernels on raw inputs have little power \citep{Liu2020}, but they require a representation model and are less relevant for the tabular streams studied here.
@@ -259,7 +260,7 @@ Table~\ref{tab:family-comparison} summarises the method families reviewed in thi
 \label{tab:family-comparison}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{2.6cm}p{2.6cm}p{1.3cm}p{1.3cm}p{2.0cm}p{1.6cm}p{1.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{1.6cm}}
 \hline
 \raggedright \textbf{Family} & \raggedright \textbf{Examples} & \raggedright \textbf{Multi\-variate} & \raggedright \textbf{Needs\newline labels} & \raggedright \textbf{Statistical test} & \raggedright \textbf{Reference} & \raggedright \textbf{Explains features} \tabularnewline
 \hline

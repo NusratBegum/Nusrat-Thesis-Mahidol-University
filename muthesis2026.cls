@@ -858,6 +858,7 @@
 \newcommand{\listofabbreviations}[1]{
 \if@draftmode\else
 	\chapter*{LIST OF ABBREVIATIONS}
+	\renewcommand{\@althead}{\hspace{0.25\textwidth}LIST OF ABBREVIATIONS~(cont.)\hfil}% running head of its later pages
 	\thispagestyle{myheadings}
 	\markright{\footnotesize\hfil\thepage}
 	\addcontentsline{toc}{chapter}{LIST OF ABBREVIATIONS}

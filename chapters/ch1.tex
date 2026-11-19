@@ -33,7 +33,7 @@ The thesis proposal set the goal of investigating adversarial validation as a fe
 
 \section{Research Hypotheses}
 \label{sec:intro-hypotheses}
-The four hypotheses below are stated in their final form; Chapter~\ref{chap:methodology} gives the tests and decision rules, which were registered before the final runs. H1 was revised after the earlier experiments from all drift to slow drift, with the advisor's approval, and H4 was added.
+The four hypotheses below are stated in their final form; Chapter~\ref{chap:methodology} gives the tests and decision rules, which were registered before the final runs. H1 was revised from all drift to slow drift after the earlier experiments, before the confirmatory and final tests were registered, and H4 was added.
 
 % The hypothesis statements are defined once here and reused verbatim in Chapters 4 and 6.
 \newcommand{\hypHone}{On streams with slow feature drift (gradual or incremental), EADD detects more drift points (H1a, higher recall) and detects them sooner (H1b, lower mean time to detection) than a sliding-reference C2ST with the same classifier (D3-LightGBM). On abrupt drift, its mean time to detection is at most 50 samples higher than that of D3-LightGBM (H1c, non-inferiority).}
@@ -46,7 +46,7 @@ The four hypotheses below are stated in their final form; Chapter~\ref{chap:meth
     \item[H3 (Sequential permutation test):] \hypHthree
     \item[H4 (Feature attribution):] \hypHfour
 \end{description}
-In H2, D3 is tested in two forms: D3-LightGBM, which uses EADD's classifier, is the primary comparison, and the original D3 with logistic regression is the secondary one. H4 concerns attribution in classifier-based detectors in general; it is measured with EADD's discriminator.
+In H2, D3 is tested in two forms: D3-LightGBM, which uses EADD's classifier, is the primary comparison, and the original D3 with logistic regression is the secondary one. H4 concerns attribution in classifier-based detectors in general; it is measured with EADD's LightGBM classifier.
 
 \section{Scope of the Study}
 This thesis studies unsupervised detection of feature drift, that is, changes in $P(X)$, in tabular data streams with numerical features. Labels are never used for detection, so changes in $P(y \mid X)$ that leave $P(X)$ unchanged are outside the scope. The drift patterns studied are abrupt, gradual, incremental and recurring. The main evaluation uses 35 streams: 21 drift streams (seven each with abrupt, gradual and incremental drift, built from one synthetic generator and six real datasets into which drift was injected in known features), eight streams without drift and six autocorrelated streams without drift. Four real INSECTS streams with documented drift points \citep{Souza2020} and nine unannotated real streams from the benchmark of \citet{Lukats2024} are used in the wider benchmark. Feature attribution is scored only on synthetic and injected streams, where the drifting features are known. Drift adaptation, such as retraining the deployed model, is used only to score the unannotated streams and is not studied in itself.
@@ -84,6 +84,8 @@ This thesis makes the following contributions:
     \item An empirical check, on data streams with known drifting features, that TreeSHAP attribution in a classifier-based drift detector names the drifting features (measured with EADD: the top-ranked feature drifted in 98\% of detections).
     \item A registered, reproducible evaluation, with the code, the raw runs and the analysis plans public.
 \end{enumerate}
+
+An earlier version of EADD was published at JCSSE 2026 \citep{Begum2026JCSSE}; this thesis corrects that version's method and evaluation, as described in Chapter~\ref{chap:methodology}.
 
 \section{Organisation of the Thesis}
 Chapter~\ref{chap:literature} reviews drift types, unsupervised drift detectors grouped by approach, permutation and sequential tests, and feature attribution for drift. Chapter~\ref{chap:methodology} describes EADD, the baseline detectors, the data streams, the metrics and the registered experimental design. Chapter~\ref{chap:results} reports the results by hypothesis. Chapter~\ref{chap:discussion} interprets them and states the limitations of the study, and Chapter~\ref{chap:conclusion} concludes and recommends further work.
