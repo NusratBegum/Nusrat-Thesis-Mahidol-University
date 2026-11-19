@@ -1,0 +1,372 @@
+\chapter{Research Methodology} \label{chap:methodology}
+
+This chapter describes the method and its evaluation as they were run in the final registered test. Section~\ref{sec:problem} states the problem, Section~\ref{sec:c2st} the classifier two-sample test on which the method rests, and Section~\ref{sec:eadd} the Explainable Adversarial Drift Detector (EADD) with its algorithm and cost. Section~\ref{sec:fixes} lists four flaws found in an earlier version of the detector, how each was fixed and how each fix was checked. Sections~\ref{sec:baselines} to~\ref{sec:datasets} describe the baselines, the identical setup under which all detectors were compared, and the data. Sections~\ref{sec:metrics} and~\ref{sec:stats} give the metrics and the statistical analysis, Section~\ref{sec:design} the pre-registration and the order of the experiments, and Section~\ref{sec:implementation} the implementation.
+
+\section{Problem Formulation}
+\label{sec:problem}
+Let $x_1, x_2, \ldots$ with $x_t \in \mathbb{R}^d$ be a stream of feature vectors. Labels, if they exist, are never given to the detector. This thesis studies feature drift, a change in the marginal distribution $P(X)$ of the features \citep{Gama2014, Webb2016}, which can happen with or without a change in $P(Y \mid X)$. At a check at time $t$ a detector compares two sets of samples:
+\begin{itemize}
+    \item a reference window $W_{ref}$ of $N_{ref} = 500$ samples, which represents the distribution $P_{ref}(X)$ since the last alarm, and
+    \item a current window $W_{cur}$ of the $N_{cur} = 200$ newest samples, drawn from the current distribution $P_{cur}(X)$.
+\end{itemize}
+The detector tests
+\begin{equation}
+H_0: P_{ref}(X) = P_{cur}(X) \quad \text{versus} \quad H_1: P_{ref}(X) \neq P_{cur}(X)
+\label{eq:drift-test}
+\end{equation}
+and outputs a decision $d_t \in \{0, 1\}$, where $d_t = 1$ is an alarm. A drift point is the sample at which a change of $P(X)$ starts. The change can be abrupt (the new distribution holds from the drift point on), gradual (samples come from the old or the new distribution, and the share of new samples rises over a transition period), incremental (the distribution moves continuously from the old to the new one over a transition period) or recurring (an earlier distribution returns) \citep{Gama2014}. In this thesis the transition period of gradual and incremental drift lasts 1,000 samples. Gradual and incremental drift are called slow drift below.
+
+\section{The Classifier Two-Sample Test}
+\label{sec:c2st}
+A classifier two-sample test (C2ST) \citep{LopezPazOquab2017} turns the test~\eqref{eq:drift-test} into a classification problem: if a classifier can tell from the features alone whether a sample belongs to $W_{ref}$ or to $W_{cur}$, the two distributions differ. The same idea is called adversarial validation in machine learning practice \citep{Pan2020}, and D3 \citep{Gozuacik2019} applies it to data streams. The samples of $W_{ref}$ are labelled 0 and those of $W_{cur}$ are labelled 1, a classifier $f$ is trained on the $n = N_{ref} + N_{cur} = 700$ labelled samples with stratified $K$-fold cross-validation, and each sample receives an out-of-fold score $\hat{p}_i = f(x_i)$ from the model that did not see it. The test statistic is the area under the ROC curve (AUC) of these scores,
+\begin{equation}
+\mathrm{AUC} = \frac{1}{N_{ref} N_{cur}} \sum_{i \in W_{cur}} \sum_{j \in W_{ref}} \left( \mathbb{1}[\hat{p}_i > \hat{p}_j] + \tfrac{1}{2}\,\mathbb{1}[\hat{p}_i = \hat{p}_j] \right),
+\label{eq:auc}
+\end{equation}
+the probability that a random current sample scores higher than a random reference sample. Under $H_0$ the labels carry no information about the features, and the AUC is close to 0.5. The more the two distributions differ, the closer the AUC moves to 1.
+
+D3 raises an alarm when the AUC reaches a fixed threshold $\tau = 0.7$ \citep{Gozuacik2019}. The threshold does not control how often the detector raises an alarm without drift: whether an AUC of 0.7 is unusual depends on the window sizes, the classifier and the dependence between samples. EADD keeps the threshold as a first screen and adds a permutation test (Section~\ref{sec:history-null}). The word ``adversarial'' in EADD's name refers to this C2ST setting, in which a classifier is trained to separate two data sources, and not to adversarial attacks.
+
+\section{The EADD Detector}
+\label{sec:eadd}
+EADD is a C2ST on a data stream with four components: a LightGBM discriminator, a reservoir reference, a permutation test whose null distribution comes from the stream's own history, run as an adaptive sequential permutation test (ASPT), and a TreeSHAP ranking of the features after each alarm. Figure~\ref{fig:pipeline} shows the steps of one check. The detector checks the stream every 50 samples. An alarm is raised when the AUC is at least $\tau = 0.7$ and the permutation test rejects $H_0$ at $\alpha = 0.05$.
+
+\begin{figure}[!htbp]
+    \centering
+    \input{figures/tikz_pipeline}
+    \caption[EADD at one check]{EADD at one check. The current window and the reservoir reference are separated by a LightGBM classifier with 5-fold cross-validation. If the out-of-fold AUC reaches $\tau = 0.7$, ASPT compares it with the AUCs of earlier windows of the same stream. An alarm is followed by a TreeSHAP ranking of the features and a new reference.}
+    \label{fig:pipeline}
+\end{figure}
+
+\subsection{LightGBM Discriminator}
+\label{sec:eadd-classifier}
+EADD uses LightGBM \citep{Ke2017}, a gradient-boosted decision tree ensemble, with 50 trees, a learning rate of 0.1, at most 31 leaves per tree, no depth limit and one thread (Appendix~\ref{app:implementation}). D3 uses logistic regression, which separates the windows only with a linear boundary in the features. Trees can also separate windows that differ in the spread of a feature, in a range of its values or in the relation between features. The observed AUC is computed with stratified 5-fold cross-validation, and every null AUC of the permutation test is computed in the same way (Section~\ref{sec:fixes}).
+
+\subsection{Reservoir Reference}
+\label{sec:reservoir}
+D3 uses a sliding reference: the 500 samples just before the current window. During slow drift this reference moves with the drift, so at each check the two windows differ only by the small change that happened between them. EADD keeps a reservoir instead: a uniform random sample of all samples seen since the last alarm, maintained with Algorithm~R of \citet{Vitter1985}. The $k$-th sample since the last alarm enters the reservoir with probability $N_{ref}/k$ and then replaces a uniformly chosen sample of it, so that every sample seen so far is in the reservoir with the same probability. Figure~\ref{fig:reference} contrasts the two references during a gradual drift.
+
+A sample is offered to the reservoir only when it leaves the current window, that is, 200 samples after it arrived, so no sample is in both windows at once (Section~\ref{sec:fixes}). After an alarm the 200 samples of the last current window start the new reference, which is filled up to 500 with the next 300 samples; the current window then fills again, so the next check takes place 500 samples after the alarm.
+
+\begin{figure}[!htbp]
+    \centering
+    \input{figures/tikz_reference}
+    \caption[Sliding and reservoir references]{Sliding reference (D3) and reservoir reference (EADD) at a check at time $t$, 1,000 samples after a gradual drift starts at $d$. The sliding reference holds the 500 samples just before the current window, which already come partly from the new concept. The reservoir holds 500 samples drawn uniformly from all samples since the last alarm, most of them from before the drift.}
+    \label{fig:reference}
+\end{figure}
+
+\subsection{Permutation Test with the History Null}
+\label{sec:history-null}
+A permutation test \citep{Good2005} compares the observed statistic with its values under rearrangements of the data that leave its distribution unchanged under $H_0$. The usual C2ST permutation test shuffles the window labels: each shuffle assigns 200 random samples of $W_{ref} \cup W_{cur}$ to the current window, and the AUC is computed again. This is valid only if the samples are exchangeable under $H_0$, that is, if their joint distribution does not change when they are reordered.
+
+Samples of a stream are often autocorrelated: consecutive samples are more alike than samples far apart, even when the distribution does not change. The current window consists of 200 consecutive samples, while a shuffled ``current window'' consists of 200 samples spread over the whole data. Consider one feature that follows a stationary AR(1) process with unit variance and lag-1 autocorrelation $\rho$. The variance of the mean of $n$ consecutive samples is, for large $n$,
+\begin{equation}
+\operatorname{Var}(\bar{x}_n) \approx \frac{1}{n}\,\frac{1+\rho}{1-\rho},
+\label{eq:ar1-var}
+\end{equation}
+compared with $1/n$ for independent samples. With $n = 200$ and $\rho = 0.9$ the standard deviation of the window mean is about $\sqrt{19/200} \approx 0.31$ instead of about 0.07: the current window behaves like about 10 independent samples instead of 200. Its mean therefore lies far from the reference mean much more often than the mean of a shuffled window does, and a classifier separates it easily. The shuffled null misses this variation, and the test rejects $H_0$ without drift. In a check of the earlier version of EADD, the shuffling test rejected all no-drift tests on an AR(1) stream with $\rho = 0.9$.
+
+EADD therefore builds its null distribution from the stream's own history. It keeps the samples seen since the last alarm (at most the newest 5,000) and forms earlier windows of 200 consecutive samples from the part before the current window, with one window starting every 10 samples. Each null draw takes one such window, removes its samples from the reference if they are there, and computes the AUC of that window against the reservoir with the same 5-fold cross-validation as the observed AUC. The windows are drawn in random order, at most 199 of them. An earlier window has the same length and the same autocorrelation as the current window, and it comes from the same distribution if there was no drift, so its AUC is a draw from the null distribution that includes the stream's normal variation. With $c$ the number of null AUCs that reach the observed AUC after $B$ draws, the p-value is
+\begin{equation}
+p = \frac{c + 1}{B + 1},
+\label{eq:pvalue}
+\end{equation}
+which counts the observed AUC as one of the draws and is never zero \citep{PhipsonSmyth2010}. In the steady state the history holds 4,800 samples before the current window and gives 461 windows, of which 199 are drawn; at the first test after an alarm it gives 31. Because the null windows overlap and share the reference, they are not exactly exchangeable with the current window, so the validity of the test is measured directly (Section~\ref{sec:fixes}).
+
+\subsection{Adaptive Sequential Permutation Test (ASPT)}
+\label{sec:aspt}
+Each null draw trains five LightGBM models, so a full test with 199 draws trains 995 models. Most tests are clear long before that: if the observed AUC lies far in the tail, no null AUC reaches it, and if it lies in the bulk, many do. ASPT draws the null AUCs one at a time and stops early when the outcome is clear, in the spirit of the sequential Monte Carlo tests of \citet{BesagClifford1991} and \citet{Gandy2009}. It splits the significance level $\alpha$ into $\alpha/3$ for an early rejection and $2\alpha/3$ for the final decision:
+\begin{itemize}
+    \item \textbf{Early reject.} If none of the first $i$ draws reaches the observed AUC and $1/(i+1) \leq \alpha/3$, the test stops and rejects $H_0$. At $\alpha = 0.05$ this happens first at $i = 59$.
+    \item \textbf{Early accept.} If more than a share $2\alpha$ of the first $i \geq 10$ draws reach the observed AUC, $c_i/i > 2\alpha$, the test stops and does not reject.
+    \item \textbf{Final decision.} Otherwise the test runs to $B$ draws, where $B$ is 199 or the number of earlier windows if that is smaller, and rejects if $p \leq 2\alpha/3$ (Equation~\ref{eq:pvalue}).
+\end{itemize}
+If the draws are exchangeable with the observed AUC under $H_0$, the probability that none of the first $i$ draws reaches it is $1/(i+1)$, so the early rejection has probability at most $\alpha/3$. The final rejection has probability at most $2\alpha/3$, and the early acceptance can only lower the rejection rate. By the union bound the test has level $\alpha$. In a simulation with exchangeable statistics the rejection rate was 0.031 at $\alpha = 0.05$; the earlier stopping rule, which used the full $\alpha$ for both decisions, rejected 0.059 (Section~\ref{sec:fixes}). Because $1/32 \approx 0.031 \leq 2\alpha/3$, the test can reject from the first check after an alarm.
+
+\subsection{TreeSHAP Feature Attribution}
+\label{sec:treeshap}
+After an alarm EADD reports which features separate the two windows. D3 discards its classifier after computing the AUC, although the classifier has learned which features differ between the windows; following \citet{Maggio2021}, EADD explains it with SHAP values \citep{Lundberg2017}. A LightGBM model with the same settings is trained on all 700 samples of $W_{ref} \cup W_{cur}$, and TreeSHAP \citep{LundbergInteraction2020} computes the exact Shapley values \citep{Shapley1953} $\phi_{ij}$ of every feature $j$ for every sample $i$. The importance of feature $j$ is its mean absolute SHAP value, normalised to sum to one,
+\begin{equation}
+s_j = \frac{\frac{1}{n}\sum_{i=1}^{n} |\phi_{ij}|}{\sum_{k=1}^{d} \frac{1}{n}\sum_{i=1}^{n} |\phi_{ik}|},
+\label{eq:shap-importance}
+\end{equation}
+and the features are ranked by $s_j$. Whether this ranking names the features that truly drifted is tested as H4 (Section~\ref{sec:stats}). The implementation also records the prediction entropy of the out-of-fold scores and TreeSHAP interaction values on 100 samples; they are diagnostic output, are not used in the alarm decision and are not evaluated in this thesis.
+
+\subsection{Algorithm and Computational Cost}\label{sec:eadd-algorithm}
+Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Algorithm~\ref{alg:aspt} the test of Section~\ref{sec:aspt}. They follow the file \texttt{detectors/eadd.py} of the code repository with the settings of the final test: $N_{ref} = 500$, $N_{cur} = 200$, a check every $m = 50$ samples, $\tau = 0.7$, $K = 5$ folds, history stride 10, at most $B_{\max} = 199$ draws, $B_{\min} = 10$ and $\alpha = 0.05$.
+
+\begin{algorithm}[htbp]
+\caption{EADD: processing of one sample $x_t$}\label{alg:eadd}
+\begin{algorithmic}[1]
+\Require windows $W_{ref}$, $W_{cur}$; history $\mathcal{H}$ (at most 5,000 samples); counters $k$ (samples since the last alarm) and $s$ (samples since the last check)
+\State $k \gets k + 1$; \quad $s \gets s + 1$; \quad append $x_t$ to $\mathcal{H}$
+\If{$|W_{ref}| < N_{ref}$}
+    \State append $x_t$ to $W_{ref}$; \Return no alarm \Comment{fill the reference first}
+\EndIf
+\State append $x_t$ to $W_{cur}$
+\If{$|W_{cur}| > N_{cur}$}
+    \State remove the oldest sample $x_o$ of $W_{cur}$ \Comment{it arrived as the $(k - N_{cur})$-th sample}
+    \State with probability $N_{ref}/(k - N_{cur})$, $x_o$ replaces a random sample of $W_{ref}$ \Comment{reservoir}
+\EndIf
+\If{$s \geq m$ and $|W_{cur}| = N_{cur}$}
+    \State $s \gets 0$
+    \State label $W_{ref}$ as 0 and $W_{cur}$ as 1; $\text{AUC} \gets$ out-of-fold AUC of LightGBM with $K$ folds
+    \If{$\text{AUC} \geq \tau$ \textbf{and} $\textsc{ASPT}(W_{ref}, W_{cur}, \mathcal{H}, \text{AUC})$ rejects $H_0$}
+        \State rank the features with TreeSHAP (Equation~\ref{eq:shap-importance})
+        \State $W_{ref} \gets W_{cur}$; \quad $\mathcal{H} \gets W_{cur}$; \quad $W_{cur} \gets \emptyset$; \quad $k \gets N_{cur}$
+        \State \Return alarm \Comment{$W_{ref}$ is refilled to $N_{ref}$ by lines 2--3}
+    \EndIf
+\EndIf
+\State \Return no alarm
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{ASPT with the history null}\label{alg:aspt}
+\begin{algorithmic}[1]
+\Function{ASPT}{$W_{ref}$, $W_{cur}$, $\mathcal{H}$, $\text{AUC}_{obs}$}
+\State $\mathcal{S} \gets$ starts $0, 10, 20, \ldots$ of the 200-sample windows in $\mathcal{H}$ before $W_{cur}$, in random order
+\State $B \gets \min(B_{\max}, |\mathcal{S}|)$; \quad $c \gets 0$
+\For{$i = 1, \ldots, B$}
+    \State $V \gets$ the window starting at $\mathcal{S}_i$; \quad $R \gets W_{ref} \setminus V$
+    \State $\text{AUC}^{(i)} \gets$ out-of-fold AUC of $R$ (label 0) against $V$ (label 1), with $K$ folds
+    \If{$\text{AUC}^{(i)} \geq \text{AUC}_{obs}$} $c \gets c + 1$ \EndIf
+    \If{$B_{\min} \leq i < B$}
+        \If{$c = 0$ \textbf{and} $1/(i+1) \leq \alpha/3$} \Return reject \Comment{early reject}
+        \EndIf
+        \If{$c / i > 2\alpha$} \Return do not reject \Comment{early accept}
+        \EndIf
+    \EndIf
+\EndFor
+\State \textbf{if} $(c+1)/(B+1) \leq 2\alpha/3$ \textbf{then} \Return reject \textbf{else} \Return do not reject
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Time cost.} Let $n = N_{ref} + N_{cur}$ be the number of samples in a C2ST, $d$ the number of features and $T$ the number of trees. LightGBM builds a histogram of every feature over the training samples for each tree, which costs $O(nd)$, and finds the splits from the histograms \citep{Ke2017}, so one fit costs $O(Tnd)$ up to the number of bins and leaves. Adding a sample to the windows and the history costs $O(d)$. A check trains $K$ models, $O(KTnd)$. When the AUC reaches $\tau$, ASPT trains $K$ further models for each of its $B$ draws, $O(BKTnd)$, with $B$ between 10 and 199; in the final test it used 52 draws per test on average, against 163 for the full test (Chapter~\ref{chap:results}). The full test averages fewer than 199 draws because the history null cannot draw more null windows than there are earlier windows: right after an alarm only 31 are available (Section~\ref{sec:history-null}), and the number grows as the stream continues. Because a check is made only every $m$ samples, the average cost per sample without an alarm is $O(KTnd/m)$, which does not grow with the length of the stream. TreeSHAP runs only after an alarm; it costs $O(TLD^2)$ per explained sample for trees with $L$ leaves and depth $D$ \citep{LundbergInteraction2020}, so $O(nTLD^2)$ for the ranking. D3 makes the same kind of check with logistic regression, whose fit costs $O(nd)$ per optimiser iteration and which has no test; D3-LightGBM costs the same per check as EADD without its test.
+
+\textbf{Memory.} EADD stores the two windows, $O((N_{ref} + N_{cur})d)$ values, the history of at most 5,000 samples, $O(5{,}000\,d)$, and one classifier at a time, $O(TL)$ tree nodes. All are fixed by the settings and do not grow with the stream. With $d = 33$ features (INSECTS) the windows hold $700 \times 33 = 23{,}100$ values and the history at most $165{,}000$.
+
+\section{Four Validity Fixes and Their Checks}
+\label{sec:fixes}
+An independent review of the earlier version of EADD, which produced the thesis runs of the first draft, found four flaws that could make its alarm decision invalid. Each flaw was fixed by an option of \texttt{detectors/eadd.py}, and each fix is covered by a unit test. With the old defaults, the code still reproduces all 16 results of the original thesis runs, so the earlier and the corrected detector can be compared on the same code. Table~\ref{tab:fixes} lists the flaws, the fixes and how each was checked.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Validity fixes of EADD]{The four flaws of the earlier EADD, the fix of each (with its option in \texttt{detectors/eadd.py}) and its check.}
+\label{tab:fixes}
+\begin{tabular}{p{0.4cm}p{3.9cm}p{4.1cm}p{4.6cm}}
+\toprule
+ & \textbf{Flaw} & \textbf{Fix (option)} & \textbf{Check} \\
+\midrule
+1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window (\texttt{reservoir\_after\_current=True}). & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
+2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation (\texttt{perm\_n\_folds=None}). & Unit test: the null AUCs use the folds of the observed AUC. \\
+3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision (\texttt{aspt\_alpha\_split=1/3}). & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
+4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream (\texttt{null="history"}, \texttt{history\_stride=10}). & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Before the history null was adopted, a block permutation test was tried, which swaps blocks of 20 consecutive samples instead of single samples. It still rejected 68\% of no-drift tests at $\rho = 0.9$, because a block of the reference spans a much longer period than a block of the current window, so swapped blocks are not exchangeable.
+
+The validity of the corrected test is measured directly. For each of five no-drift sources (independent Gaussian features, shuffled Electricity, shuffled PokerHand, AR(1) with $\rho = 0.3$ and with $\rho = 0.5$) and two states (the steady state with a 5,000-sample history, and the first test after an alarm, with 31 earlier windows), 1,000 independent tests are run with new random draws, and the share of tests with $p \leq 0.05$ is reported with a one-sided 95\% Clopper--Pearson upper bound \citep{ClopperPearson1934}. The share with $p \leq 2\alpha/3$, the rule at which EADD raises an alarm, is reported as well.
+
+Two further checks concern the pipeline as a whole. First, EADD's own code is run with the reservoir and the test switched off (a sliding reference and the AUC threshold only) and compared with D3-LightGBM, to confirm that differences between the detectors come from the components and not from the implementation. Second, the components are switched on one at a time in the benchmark, which shows which component causes each difference. Both results are reported in Section~\ref{sec:res-setup}.
+
+\section{Baseline Detectors}
+\label{sec:baselines}
+All baselines were run in this thesis on the same streams, seeds and random starts as EADD; no published results were copied.
+
+\textbf{D3} \citep{Gozuacik2019} is the C2ST with logistic regression (\texttt{liblinear} solver), a sliding reference and an alarm at $\text{AUC} \geq 0.7$, without a significance test. In the final test it uses EADD's windows, cross-validation and check interval (Section~\ref{sec:setup}). In the benchmark it was also run with its authors' settings (windows of 100 and 10 samples, a check every 11 samples).
+
+\textbf{D3-LightGBM} is D3 with EADD's LightGBM classifier and settings. It differs from EADD only in the reference and the test, so the comparison between the two isolates these components, and it is the primary comparator for H1 and H2.
+
+\textbf{MMD-Online and LSDD-Online} \citep{CobbSequential2022} are sequential multivariate change detectors based on the maximum mean discrepancy \citep{Gretton2012} and on the least-squares density difference. Their thresholds are set by simulation so that, without drift, the expected run time (ERT) until a false alarm has a chosen value, with a constant false-alarm rate at every step. \textbf{CVM-Online} applies the Cram\'{e}r--von Mises statistic to each feature in the change-point framework of \citet{RossAdams2012}. All three were taken from Alibi Detect 0.13.0 \citep{AlibiDetect}. The first 500 samples after a start or an alarm are the reference; each detector is calibrated on them for an ERT of 2,500 samples, with a window of 50 and 25,000 bootstrap draws, and restarts with the next 500 samples after an alarm. With 25,000 draws the per-feature thresholds of CVM-Online could not be set on 69 of its 105 runs; a rerun with 100,000 draws had not finished when this thesis was written. They ran with the PyTorch CPU backend on one thread, in a separate environment (Python 3.12, NumPy 1.26), because Alibi Detect does not install beside EADD's pinned packages. The ERT sets their false-alarm rate, so their false alarms are read together with their delays. Only detectors that completed all their runs enter the analysis.
+
+\textbf{Detectors from the \citet{Lukats2024} benchmark} were used in the benchmark experiment and in the descriptive comparison of the confirmatory test: six fully unsupervised detectors, each with 500 samples to match EADD's reference and otherwise with one fixed setting from the hyperparameter grid of the benchmark implementation, the same for every stream:
+\begin{itemize}
+    \item \textbf{BNDM} \citep{BNDM2020}: compares each feature in the two halves of a window of $2 \times 500$ samples with a P\'{o}lya tree test (tree depth 3, constant 1.0, threshold 0.5).
+    \item \textbf{CSDDM} \citep{CSDDM2021}: reduces the data with PCA, clusters it with K-Means and tests the clusters for change (2 clusters, confidence 0.01, feature proportion 0.1).
+    \item \textbf{IBDD} \citep{IBDD2021}: converts windows of the stream into images and compares them (20 permutations, update interval 50, one consecutive deviation).
+    \item \textbf{OCDD} \citep{OCDD2021}: fits a one-class SVM to the reference and signals drift when too many new samples fall outside it (threshold 0.3, RBF kernel, $\nu = 0.5$).
+    \item \textbf{SPLL} \citep{SPLL2013}: fits a semi-parametric density model to the reference and tests the log-likelihood of new data (2 clusters, threshold 0.05).
+    \item \textbf{UDetect} \citep{Bashir2017}: applies Shewhart control charts to a dispersion summary of windows of the stream (25 training windows of 500 samples).
+\end{itemize}
+For BNDM the test of all features was computed at once instead of feature by feature, which made it fast enough for 33 features; a unit test confirms that its statistics are identical to those of the original implementation.
+
+\textbf{EADD with the full test} draws all available null windows, at most 199, with the same null and the same $\alpha$ rule as ASPT. It is used for H3.
+
+\section{Identical Setup}
+\label{sec:setup}
+In the first draft EADD checked the stream every 50 samples and D3-LightGBM about every 200, with different cross-validation, so part of a difference in delay came from the schedule. In the final test the three detectors share every setting except the components under study (Table~\ref{tab:setup}). They read the same stream object with the same seed and are scored by the same code. Every detector checks every 50 samples: D3 discards the sample that triggers a check, so it drops 49 samples after a check without drift (\texttt{step=49}). Each seed starts the stream at a random offset between 0 and 49 samples, the same for all detectors, so that the checks fall at different positions relative to the drift points across seeds.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Settings of EADD, D3-LightGBM and D3 in the final test]{Settings of EADD, D3-LightGBM and D3 in the final test. Rows marked as the same are identical for all three detectors.}
+\label{tab:setup}
+\begin{tabular}{p{2.8cm}p{3.9cm}p{3.3cm}p{3.0cm}}
+\toprule
+\textbf{Setting} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{D3} \\
+\midrule
+Reference window & 500, reservoir since the last alarm & 500, sliding (just before $W_{cur}$) & as D3-LightGBM \\
+Current window & \multicolumn{3}{p{10.9cm}}{the newest 200 samples (same)} \\
+Classifier & LightGBM: 50 trees, learning rate 0.1, 31 leaves, one thread & as EADD & logistic regression \\
+Cross-validation & \multicolumn{3}{p{10.9cm}}{stratified 5-fold, out-of-fold AUC (same)} \\
+Alarm threshold & \multicolumn{3}{p{10.9cm}}{$\text{AUC} \geq \tau = 0.7$ (same)} \\
+Significance test & ASPT, history null (stride 10), $\alpha = 0.05$ & none & none \\
+Check interval & \multicolumn{3}{p{10.9cm}}{every 50 samples (same; D3 with \texttt{step=49})} \\
+Start of each seed & \multicolumn{3}{p{10.9cm}}{random offset of 0--49 samples, the same for all detectors} \\
+After an alarm & \multicolumn{3}{p{10.9cm}}{last current window starts the new reference; next check 500 samples later (same)} \\
+Feature ranking & TreeSHAP & none & none \\
+Seeds & \multicolumn{3}{p{10.9cm}}{3000--3009, same stream objects and scoring code} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data}
+\label{sec:datasets}
+All drift in the data is feature drift, a change of $P(X)$, and the detectors see only the features. Table~\ref{tab:streams} lists the stream groups and Table~\ref{tab:real-streams} the real-world streams they are built from.
+
+\textbf{Synthetic streams} (\texttt{synthetic\_streams.py}) have 20,000 samples of 10 independent standard Gaussian features. In SynthAbrupt, SynthGradual, SynthIncremental and SynthRecurring, three of the ten features shift by one standard deviation at each of the drift points 5,000, 10,000 and 15,000 (the recurring stream returns to the old mean at every second point); SynthStable has no drift. Each seed draws a new stream.
+
+\textbf{Injected streams} take a real stream, shuffle its rows, which removes any drift of its own, and inject known drifts at 5,000, 10,000 and 15,000: 30\% of the features (at least one) move by one standard deviation of their first 5,000 values, abruptly, gradually or incrementally. Six real bases are used. Each seed draws a new shuffle and a new set of drifting features, which are recorded and serve as the ground truth for H4.
+
+\textbf{INSECTS streams} \citep{Souza2020} are real sensor streams in which the temperature of the environment was changed at documented points: abrupt (5 drift points), gradual (1), incremental-abrupt (2) and incremental-reoccurring (2), all in their balanced versions. \citet{Lukats2024} note that only the abrupt stream has stationary periods between its drift points; in the others the data keep changing slowly between the documented points.
+
+\textbf{No-drift streams} are SynthStable, shuffled real streams (real marginal distributions, no drift and no autocorrelation) and stationary AR(1) streams with 10 features of unit variance; every alarm on them is false. The \textbf{autocorrelated} group consists of AR(1) streams with $\rho \in \{0.8, 0.85, 0.9, 0.93, 0.95, 0.97\}$, used for H2.
+
+\textbf{Unannotated real streams} have no documented drift points and were used only in the benchmark. Following \citet{Lukats2024}, they are scored through a classifier that is reset at every alarm (Section~\ref{sec:metrics}).
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Stream groups]{Stream groups. Samples $\times$ features; drift points at 5k, 10k and 15k mean samples 5,000, 10,000 and 15,000. Use: T = thesis runs of the first draft, B = benchmark, C = confirmatory test, F = final test.}
+\label{tab:streams}
+\begin{tabular}{p{2.3cm}p{3.6cm}p{2.2cm}p{2.1cm}p{1.2cm}p{0.8cm}}
+\toprule
+\textbf{Group} & \textbf{Streams} & \textbf{Size} & \textbf{Drift points} & \textbf{Known} & \textbf{Use} \\
+\midrule
+Synthetic & SynthAbrupt, SynthGradual, SynthIncremental; SynthRecurring (B only) & $20{,}000 \times 10$ & 5k, 10k, 15k; 3 features & yes & B, C, F \\
+Injected & abrupt, gradual, incremental drift on 6 shuffled real bases (B: abrupt and incremental only) & $20{,}000 \times 2$--$33$ (NOAA: 18,159) & 5k, 10k, 15k; 30\% of features & yes & B, C, F \\
+INSECTS & abrupt, gradual, incremental-abrupt, incremental-reoccurring & $24{,}150$--$79{,}986 \times 33$ & documented (5, 1, 2, 2) & yes & T, B \\
+No drift & SynthStable; shuffled Electricity, NOAAWeather, Powersupply, PokerHand, Rialto; AR(1) $\rho = 0.5, 0.9$ (B: also AR 0.99, shuffled INSECTS abrupt, OutdoorObjects) & up to $20{,}000 \times 2$--$33$ & none & yes (no drift) & B, C, F \\
+Autocorrelated & AR(1), $\rho$ = 0.8, 0.85, 0.9, 0.93, 0.95, 0.97 & $20{,}000 \times 10$ & none & yes (no drift) & F \\
+Unannotated & 9 real streams (Table~\ref{tab:real-streams}) & $1{,}900$--$100{,}000 \times 2$--$72$ & unknown & no & T, B \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Real-world streams]{Real-world streams and their roles: I = base of injected streams, S = shuffled no-drift stream, A = annotated drift points, U = unannotated stream.}
+\label{tab:real-streams}
+\begin{tabular}{p{5.8cm}lrrl}
+\toprule
+\textbf{Stream} & \textbf{Source} & \textbf{Samples} & \textbf{Features} & \textbf{Role} \\
+\midrule
+Electricity & \citep{Harries1999} & 45,312 & 8 & I, S, U \\
+NOAAWeather & \citep{Lukats2024} & 18,159 & 8 & I, S, U \\
+PokerHand (first 100,000 of 829,201) & \citep{Lukats2024} & 100,000 & 10 & I, S, U \\
+Powersupply & \citep{Lukats2024} & 29,928 & 2 & I, S, U \\
+RialtoBridgeTimelapse & \citep{Lukats2024} & 82,250 & 27 & I, S, U \\
+INSECTS Incremental Balanced & \citep{Souza2020} & 57,018 & 33 & I, U \\
+INSECTS Abrupt Balanced & \citep{Souza2020} & 52,848 & 33 & A, S \\
+INSECTS Gradual Balanced & \citep{Souza2020} & 24,150 & 33 & A \\
+INSECTS Incremental-Abrupt Balanced & \citep{Souza2020} & 79,986 & 33 & A \\
+INSECTS Incremental-Reoccurring Balanced & \citep{Souza2020} & 79,986 & 33 & A \\
+OutdoorObjects & \citep{Lukats2024} & 4,000 & 21 & S, U \\
+Luxembourg & \citep{Souza2020} & 1,900 & 31 & U \\
+Ozone & \citep{Souza2020} & 2,534 & 72 & U \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The final test uses 35 streams: 21 drift streams (7 abrupt, 7 gradual and 7 incremental, each one synthetic and six injected), 8 no-drift streams (SynthStable, AR(1) with $\rho = 0.5$ and $0.9$, and five shuffled real streams) and the 6 autocorrelated streams.
+
+\section{Evaluation Metrics}
+\label{sec:metrics}
+
+\textbf{Streams with drift points.} A detection at sample $a$ matches a drift point $p$ if $p \leq a \leq p + T$, where the tolerance $T$ is 500 samples for abrupt and recurring drift and for the INSECTS streams, and 1,500 samples for synthetic and injected gradual and incremental drift, whose change lasts 1,000 samples. Each drift point takes the first detection that matches it. For each run, one stream processed with one seed, the metrics are:
+\begin{itemize}
+    \item \textbf{Recall:} the share of drift points that are matched. Higher is better.
+    \item \textbf{Mean time to detection (MTD):} the mean delay $a - p$ over all drift points, where a missed drift point counts as $T$. Lower is better.
+    \item \textbf{Delay when detected:} the mean delay over the matched drift points only.
+    \item \textbf{False alarms (FA):} the number of detections that match no drift point. Lower is better.
+\end{itemize}
+\citet{Lukats2024} compute the delay only over the drift points a detector found, so a detector that finds one drift quickly and misses the others can look faster than one that finds them all. Counting a miss as the full tolerance keeps the MTD comparable between detectors that find different drift points; the delay when detected is reported beside it.
+
+\textbf{Streams without drift.} Every detection is a false alarm, and the false alarms are reported per 10,000 samples, so that streams of different lengths are comparable.
+
+\textbf{Feature attribution (H4).} At the first detection of each drift point on the synthetic and injected streams, where the drifting features are known, the TreeSHAP ranking is compared with the set of the $k$ drifting features: precision@$k$ is the share of the $k$ top-ranked features that drift, chance is $k/d$, and the top-1 rate is the share of detections whose top-ranked feature drifts.
+
+\textbf{Cost (H3).} The number of null draws per test is recorded for ASPT and for the full test; it does not depend on the machine. The wall-clock time inside the detector is measured separately on the INSECTS streams with one run at a time, for 20 pairs of runs.
+
+\textbf{Unannotated streams.} Following \citet{Lukats2024}, a Hoeffding tree is evaluated prequentially, each sample being used first for prediction and then for training, and it is replaced by a new tree at every detection. The metrics are its accuracy, the number of detections, and the lift-per-drift (LPD) of \citet{Anderson2018},
+\begin{equation}
+\text{LPD} = \frac{\text{Acc}_{\text{reset}} - \text{Acc}_{\text{base}}}{\text{number of detections}},
+\label{eq:lpd}
+\end{equation}
+where $\text{Acc}_{\text{base}}$ is the accuracy of a tree trained only on the first 1,000 samples. A run without detections has LPD = 0.
+
+\section{Statistical Analysis}
+\label{sec:stats}
+\label{sec:hypotheses}
+The unit of analysis is a stream: each metric is first averaged over the seeds of a stream, and the tests compare these stream means. On a real stream the seeds change only the random parts of the detectors and the start offset, so counting each seed as a separate observation would treat repeated runs on the same data as independent (pseudo-replication).
+
+Two detectors are compared with the one-sided Wilcoxon signed-rank test \citep{Wilcoxon1945} over the paired stream means; streams with no difference are dropped, as the test prescribes. The hypotheses H1 to H4 are stated in Section~\ref{sec:intro-hypotheses}, and Table~\ref{tab:test-plan} gives the test and the decision rule of each, as registered. H1a, H1b, H1c and H2 form one family, and their p-values are adjusted with the Holm procedure \citep{Holm1979} at $\alpha = 0.05$. H1c is a non-inferiority test with a margin of 50 samples, one check interval: the one-sided Wilcoxon test of $\text{MTD}_{\text{EADD}} - \text{MTD}_{\text{D3-LightGBM}} - 50 < 0$. H3a is an equivalence test by two one-sided tests (TOST) \citep{Schuirmann1987}: for each metric, two one-sided Wilcoxon tests at 0.05 check that the difference lies above the lower and below the upper margin, and H3a holds if all four metrics are equivalent (an intersection-union test, which needs no correction). The same tests against D3 are reported as secondary results.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Registered tests of the final test]{Registered tests of the final test (seeds 3000--3009). The primary comparator is D3-LightGBM; all tests are over stream means.}
+\label{tab:test-plan}
+\begin{tabular}{p{1.0cm}p{3.8cm}p{3.5cm}p{4.7cm}}
+\toprule
+\textbf{Test} & \textbf{Data} & \textbf{Metric} & \textbf{Test and decision} \\
+\midrule
+H1a & 14 slow-drift streams & recall & one-sided Wilcoxon, EADD higher; Holm \\
+H1b & 14 slow-drift streams & MTD (miss = 1,500) & one-sided Wilcoxon, EADD lower; Holm \\
+H1c & 7 abrupt streams & MTD & non-inferiority, margin 50 samples; Holm \\
+H2 & 6 autocorrelated streams & false alarms per 10k & one-sided Wilcoxon, EADD lower than D3-LightGBM (D3 secondary); Holm \\
+H3a & 21 drift and 8 no-drift streams & recall, MTD, FA per stream, FA per 10k & TOST, margins 0.05, 50, 0.5 and 1.0; all four equivalent \\
+H3b & the 22 of these streams on which tests ran & draws per test & one-sided Wilcoxon, ASPT lower \\
+H4 & 21 drift streams & precision@$k$ minus $k/d$ & one-sided Wilcoxon, above chance \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+H1 is supported if H1a, H1b and H1c are all significant after the Holm adjustment, and H2 if its test is significant. H3 is supported if H3a and H3b hold, and H4 if its test is significant at 0.05.
+
+When several detectors are compared, as with the newer online detectors, the Friedman test \citep{Friedman1937} is applied to the ranks of the detectors on each stream, and the mean ranks are compared with the Nemenyi critical difference \citep{Demsar2006}: two detectors whose mean ranks differ by more than the critical difference perform differently. The pairwise registered comparisons of EADD with the online detectors (the H1a, H1b, H1c and H2 tests) are Holm-adjusted together, eight tests for the two detectors with complete runs. The false-rejection rates of the validity check (Section~\ref{sec:fixes}) are descriptive and are reported with one-sided 95\% Clopper--Pearson upper bounds \citep{ClopperPearson1934}.
+
+\section{Pre-registration and Sequence of Experiments}
+\label{sec:design}
+\label{sec:proposal-changes}
+Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\texttt{experiments/results\_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds.
+
+\begin{table}[!htbp]
+\centering
+\small
+\caption[Sequence of experiments]{Sequence of experiments. Every later experiment uses new seeds and was registered before its runs.}
+\label{tab:experiments}
+\begin{tabular}{p{2.5cm}p{4.8cm}p{2.2cm}p{3.5cm}}
+\toprule
+\textbf{Experiment} & \textbf{Streams and detectors} & \textbf{Seeds} & \textbf{Role} \\
+\midrule
+Thesis runs (first draft) & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
+Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
+Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
+Final test (18 Nov 2026) & 35 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\
+Newer detectors (addenda 6--6b) & the same 35 streams; MMD-Online, LSDD-Online, CVM-Online & 3000--3002 & secondary comparison \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The thesis proposal planned a C2ST with logistic regression or a random forest, a permutation test with 200 permutations and an alarm at $\text{AUC} \geq 0.7$ and $p < 0.05$, compared with PSI, the KS test, DDM and ADWIN. The thesis keeps the proposal's title and goal, but compares EADD with unsupervised multivariate detectors that take the same input, because DDM needs labels and PSI, the KS test and ADWIN monitor one variable at a time. H1 was revised after the benchmark from all drift to slow drift, with the advisor's approval, and H4 was added; both were then tested on new seeds, first in the confirmatory test and again in the final test, whose results Chapter~\ref{chap:results} reports.
+
+\section{Implementation}
+\label{sec:implementation}
+All detectors except the online ones were run in Python 3.13 with LightGBM 4.7.0, scikit-learn 1.9.1, NumPy 2.5.4 and river 0.26.1; the versions of all packages are pinned in \texttt{requirements-lock.txt}. The baseline detectors of \citet{Lukats2024} and the dataset loaders come from the open-source implementation of their benchmark, whose unit tests were kept; EADD (\texttt{detectors/eadd.py}), D3-LightGBM (\texttt{detectors/d3\_lightgbm.py}), the synthetic and injected streams (\texttt{synthetic\_streams.py}) and the scripts of each experiment were added. The permutation test of EADD draws its random numbers from its own generator, so EADD with ASPT and EADD with the full test keep the same reservoir and give the same detections whenever their test decisions agree. The experiments were run with fixed seeds, at most ten processes in parallel; the code, the raw runs, the registered plans and the analysis scripts (\texttt{experiment\_final.py}, \texttt{analyze\_final.py}) are in the project repository\footnote{\url{https://github.com/NusratBegum/unsupervised-concept-drift-detection}}.

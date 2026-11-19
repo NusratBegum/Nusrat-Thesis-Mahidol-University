@@ -1,0 +1,39 @@
+\chapter{Conclusion and Recommendations} \label{chap:conclusion}
+
+This thesis studied adversarial validation, the classifier two-sample test (C2ST) \citep{LopezPazOquab2017}, as a technique for unsupervised feature drift detection on data streams. It proposed EADD, which extends the discriminative detector D3 \citep{Gozuacik2019} with a reservoir reference window \citep{Vitter1985}, a permutation test whose null comes from the stream's own history, an adaptive sequential permutation test (ASPT) and a TreeSHAP feature ranking \citep{Lundberg2017}. The detector was compared with D3 and with D3-LightGBM, which uses EADD's classifier and therefore isolates EADD's reference and test, in a registered test on fresh seeds with identical settings for all detectors.
+
+\section{Answers to the Hypotheses}
+
+\textbf{H1 (Detection of slow drift).} \textit{\hypHone} On the 14 slow-drift streams of the final test, EADD had a recall of 1.00 against 0.526 for D3-LightGBM (Holm $p = 0.015$) and an MTD of 443 against 879 samples (Holm $p = 0.023$). On abrupt drift its MTD was 115 against 122 samples, within the registered margin (Holm $p = 0.023$). The revised H1 is supported, and the gain comes from the reservoir reference, which keeps the old distribution in view while a slow drift accumulates.
+
+\textbf{H2 (False alarms).} \textit{\hypHtwo} On the six autocorrelated streams without drift, EADD raised 5.59 false alarms per 10,000 samples against 19.5 for D3-LightGBM and 18.5 for D3, fewer on all six streams (Holm $p = 0.023$ against D3-LightGBM, the primary comparison, and 0.016 against D3), and on the other no-drift streams 0.75 against 2.44. H2 is supported. The history null builds the stream's own variation into the null distribution, which kept the rejection rate of single no-drift tests between 3.8\% and 6.9\% at a nominal 5\%; it controls the error of each test, not the number of false alarms over a whole stream.
+
+\textbf{H3 (Sequential permutation test).} \textit{\hypHthree} ASPT gave detection results equivalent to those of the full permutation test (recall 1.00 against 1.00, MTD 333.7 against 333.5, false alarms 0.98 against 0.96 per drift stream) with 52 instead of 163 permutations per test, and it reduced the runtime of an INSECTS run by 54\% with identical detections in 20 of 20 run pairs. H3 is supported.
+
+\textbf{H4 (Feature attribution).} \textit{\hypHfour} Measured with EADD on the 21 drift streams, precision@$k$ was 0.75 against 0.31 by chance, with the top-ranked feature drifting in 98.4\% of detections ($p < 0.001$). H4 is supported. The property concerns TreeSHAP attribution in a classifier-based drift detector; whether its size is the same with other discriminators, such as the logistic regression of D3, was not measured.
+
+\section{Contributions}
+
+The thesis makes modest contributions to unsupervised drift detection. It proposes a corrected C2ST drift detector for streams that combines a reservoir reference, a history-null permutation test, ASPT and TreeSHAP attribution, with four flaws of the earlier version found and fixed. It provides evidence that a reservoir reference finds slow feature drift that a sliding reference misses (recall 1.00 against 0.53) at no loss on abrupt drift, that the history null keeps false alarms low on autocorrelated streams (about 3.5 times fewer than D3-LightGBM), together with a measured account of the test's validity, and that ASPT keeps detection quality at a third of the permutations. It establishes empirically, for a classifier-based detector on data streams with known drifting features, that TreeSHAP attribution names the drifting features, extending the batch-data evidence of \citet{Maggio2021}. Finally, it provides a registered and reproducible evaluation whose code, raw runs and plans are public.
+
+\section{Recommendations for Practitioners}
+
+EADD is most useful where drift is expected to be slow, such as sensors that degrade or populations that shift over weeks, because a sliding reference tends to absorb such drift before it is detected. It is also suited to streams with strong autocorrelation, where detectors without a test or with a shuffling test raise many false alarms, and to settings where the team needs to know which features changed before deciding whether to retrain a model. Where drift is mostly abrupt, D3-LightGBM is equally accurate, simpler and cheaper, and where a quick detection matters more than false alarms, online detectors such as LSDD-Online \citep{CobbSequential2022} detect sooner at the cost of several times as many false alarms.
+
+The settings used in this thesis are a reasonable starting point: a reference of 500 and a current window of 200 samples, an AUC threshold of 0.7, a permutation test at $\alpha = 0.05$ run as ASPT, a check every 50 samples and a history null with one window every 10 samples. The corrected options of the implementation (\texttt{reservoir\_after\_current=True}, \texttt{perm\_n\_folds=None}, \texttt{aspt\_alpha\_split=1/3} and \texttt{null="history"}) should be used. Because the test controls the error of each check rather than of the whole stream, the expected number of false alarms grows with the length of the stream, and the check interval should be chosen with that in mind. The feature ranking should be treated as a lead for investigation rather than as a causal diagnosis \citep{CausalDrift2025}.
+
+\section{Future Work}
+
+The limitations in Section~\ref{sec:limitations} point to the following directions:
+
+\begin{itemize}
+    \item \textbf{Stream-wide error control:} replacing the per-check permutation test with a betting-based sequential two-sample test \citep{PodkopaevRamdas2023} or e-values for the C2ST \citep{EC2ST2024}, which bound the probability of any false alarm along the stream and could also address the test's behaviour right after an alarm.
+    \item \textbf{Real and virtual drift:} combining the detector with methods that separate changes that affect the decision boundary from those that do not \citep{GaussianSplit2024, HDPD2024}, once delayed labels are available.
+    \item \textbf{Adaptive threshold:} choosing the AUC threshold from the stream's own history, as the history null already does for the test, instead of a fixed 0.7.
+    \item \textbf{More real annotated streams:} evaluating on real streams with documented drift points and changed features, which would test both the detector and its attribution beyond injected drift, following the evaluation practice of \citet{CerqueiraKDD2026}.
+    \item \textbf{A larger comparison with online detectors:} running MMD-Online, LSDD-Online and related detectors on more seeds and at several calibrations, so that the trade-off between detection speed and false alarms can be tested rather than described.
+\end{itemize}
+
+\section{Concluding Remarks}
+
+The main finding of this thesis is that the parts added to a classifier two-sample drift detector matter in specific situations: a reservoir reference for slow drift, a history null for autocorrelated streams, and sequential stopping for cost, while on abrupt drift a well-configured sliding-reference detector remains as good. These conclusions rest on a comparison in which the detectors shared every setting and the tests were registered before their runs, and that kind of evaluation is what allowed the earlier, weaker results to be corrected and the present ones to be stated with more confidence.

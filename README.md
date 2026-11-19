@@ -7,41 +7,17 @@
 **Co-Advisor:** Assoc. Prof. Suppawong Tuarob, Ph.D.
 
 **Defense:** 8 December 2026, 10:00-12:00  
-**Status (17 Nov 2026):** the results chapters are being updated after the validity fixes and new benchmark in the [code repository](https://github.com/NusratBegum/unsupervised-concept-drift-detection); the abstract below describes the current draft.
+**Status (19 Nov 2026):** full draft rewritten around the final registered test and submitted to the advisor; advisor review on 23 Nov 2026.
 
 ---
 
 ## Abstract
 
-This thesis studies adversarial validation (the classifier two-sample test) as a technique for unsupervised feature drift detection and proposes **Enhanced Adversarial Drift Detection (EADD)**, which extends D3 (Gözüaçık et al., 2019) with:
+This thesis studies adversarial validation, the classifier two-sample test (C2ST), for unsupervised feature drift detection in data streams and proposes the **Explainable Adversarial Drift Detector (EADD)**: a LightGBM C2ST with a reservoir-sampled reference window, a permutation test whose null distribution comes from earlier windows of the same stream, an adaptive sequential permutation test (ASPT) that stops early when the evidence is clear, and a TreeSHAP ranking of the features behind each alarm.
 
-1. A **LightGBM classifier two-sample test** with a **reservoir-sampled reference window**
-2. **Prediction entropy monitoring** ($H_{pred}$)
-3. An **adaptive sequential permutation test (ASPT)** that stops the permutation test early when the evidence is clear
-4. A **TreeSHAP ranking** of the features behind each confirmed drift
+EADD is compared with D3 and with D3 using the same LightGBM classifier (D3-LightGBM) in an identical setup (windows 500/200, AUC threshold 0.7, 5-fold cross-validation, a check every 50 samples), on 35 synthetic, injected-drift real and no-drift streams, with every test registered before its runs and run on fresh seeds. In the final test, EADD finds every slow (gradual or incremental) drift point where D3-LightGBM finds about half (recall 1.00 vs 0.53) and is not slower on abrupt drift (H1); it raises about 3.5 times fewer false alarms on autocorrelated streams without drift (H2); ASPT gives the same recall, delay and false alarms as the full permutation test with a third of the permutations (H3); and TreeSHAP attribution names the drifting feature in 98% of detections (H4). Newer online detectors (MMD-Online, LSDD-Online) detect faster but raise about five times more false alarms.
 
-EADD is compared with D3 using the same LightGBM classifier and windows (D3-LightGBM) and with six detectors of the Lukats et al. (2024) benchmark on thirteen real-world streams. On the four annotated INSECTS streams, EADD did not outperform D3-LightGBM (recall 0.50 vs. 0.65, MTD 302 vs. 279, false alarms 8.9 vs. 5.6 per run), so H1 and H2 are not supported. ASPT gave the same detections as a full permutation test with less runtime (H3 supported).
-
----
-
-## Contributions
-
-| Contribution | Description |
-|--------------|-------------|
-| **EADD framework** | Integrates a C2ST, a reservoir-sampled reference window, $H_{pred}$, ASPT and a TreeSHAP ranking |
-| **ASPT** | Sequential stopping rule for the C2ST permutation test; same decisions as the full test at lower cost |
-| **Evaluation** | D3-LightGBM and six unsupervised baselines on 13 real-world streams, with significance tests per hypothesis |
-
----
-
-## Methodology Overview
-
-```
-Input stream -> Step 1: reservoir-sampled W_ref, sliding W_cur
-             -> Step 2: LightGBM C2ST (AUC, H_pred)
-             -> AUC > tau ? -> Step 3: ASPT (p < alpha ?)
-             -> Step 4: TreeSHAP feature ranking -> drift report
-```
+Code, raw runs and the registered plans: [unsupervised-concept-drift-detection](https://github.com/NusratBegum/unsupervised-concept-drift-detection).
 
 ---
 
@@ -50,7 +26,7 @@ Input stream -> Step 1: reservoir-sampled W_ref, sliding W_cur
 | File | Description |
 |------|-------------|
 | `main.tex` | Main LaTeX document (Thesis plan, Traditional Format) |
-| `thesis.tex` | Thesis content (Chapters 1-6, as required by PR07284) |
+| `thesis.tex`, `chapters/ch1.tex`-`ch6.tex` | Thesis content: `thesis.tex` inputs one file per chapter (Chapters 1-6, as required by PR07284) |
 | `abstract.tex` | English abstract |
 | `acknowledgements.tex` | Acknowledgements |
 | `abbreviations.tex` | List of abbreviations |
