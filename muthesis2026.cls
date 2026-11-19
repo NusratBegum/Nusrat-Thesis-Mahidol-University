@@ -694,7 +694,7 @@
         \linespacing{1.6}
         \MakeTextUppercase\@chapapp\space \thechapter \\
 	      \MakeTextUppercase{#1}\par\nobreak
-	\end{center}
+	\end{center}\@endpefalse
 	\vskip 1.3cm
 \fi}}
 

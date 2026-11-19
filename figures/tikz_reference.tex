@@ -27,7 +27,7 @@
 \fill[refbox] (8.6,\yS) rectangle (9.6,\yS+0.4);
 \draw[curbox] (9.6,\yS) rectangle (10,\yS+0.4);
 \node[lbl, above] at (9.1,\yS+0.4) {$W_{ref}$};
-\node[lbl, below] at (9.8,\yS) {$W_{cur}$};
+\node[lbl, below left=1pt and -1pt] at (10,\yS) {$W_{cur}$};
 
 % reservoir reference: a uniform sample of everything since the last alarm
 \node[lbl, anchor=east, align=right] at (-0.15,\yR+0.2) {Reservoir\\(EADD)};
@@ -40,7 +40,7 @@
 }
 \draw[curbox] (9.6,\yR) rectangle (10,\yR+0.4);
 \node[lbl, above] at (3.9,\yR+0.4) {$W_{ref}$ (500 samples spread over the whole period)};
-\node[lbl, below] at (9.8,\yR) {$W_{cur}$};
+\node[lbl, below left=1pt and -1pt] at (10,\yR) {$W_{cur}$};
 
 % axis
 \draw[arr] (0,-0.75) -- (12,-0.75) node[right, lbl] {time};

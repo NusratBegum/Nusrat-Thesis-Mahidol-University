@@ -22,7 +22,7 @@ Table~\ref{tab:components} switches EADD's parts on one at a time. The reservoir
 \label{tab:components}
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{l|cc|ccc}
+\begin{tabular}{lccccc}
 \hline
  & \multicolumn{2}{c|}{\textbf{Recall}} & \multicolumn{3}{c}{\textbf{All 20 streams}} \\
 \textbf{Detector} & \textbf{Gradual} & \textbf{Incr.} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} \\
@@ -42,7 +42,7 @@ EADD, parts off & 0.00 & 0.88 & 0.84 & 299 & 3.72 \\
 \section{H1: Recall and Detection Delay on Slow Drift}
 \label{sec:exp1}
 
-Table~\ref{tab:h1} reports the final test by drift pattern. On gradual drift, EADD detected every drift point (recall 1.00), while D3-LightGBM detected 0.20 and D3 0.28, and its MTD was 582 samples against 1,373 and 1,297. On incremental drift, EADD again reached a recall of 1.00 against 0.85 and 0.68, with an MTD of 304 against 385 and 720 samples. On abrupt drift all three detectors found almost every drift point (D3: 0.995), and EADD's MTD of 115 samples was close to D3-LightGBM's 122. When D3-LightGBM did detect an incremental drift it was faster than EADD (193 against 304 samples delay when detected); its higher MTD on incremental drift (385 against 304) comes from the drift points it missed, which count as the full tolerance. No false alarm was raised on the abrupt streams; on the slow-drift streams EADD raised 1.47 false alarms per stream, D3-LightGBM 2.41 and D3 1.41.
+Table~\ref{tab:h1} reports the final test by drift pattern. On gradual drift, EADD detected every drift point (recall 1.00), while D3-LightGBM detected 0.20 and D3 0.28, and its MTD was 582 samples against 1,373 and 1,297. On incremental drift, EADD again reached a recall of 1.00 against 0.85 and 0.68, with an MTD of 304 against 385 and 720 samples. On abrupt drift all three detectors found almost every drift point (D3 missed one drift point in one run), and EADD's MTD of 115 samples was close to D3-LightGBM's 122. When D3-LightGBM did detect an incremental drift it was faster than EADD (193 against 304 samples delay when detected); its higher MTD on incremental drift (385 against 304) comes from the drift points it missed, which count as the full tolerance. No false alarm was raised on the abrupt streams; on the slow-drift streams EADD raised 1.47 false alarms per stream, D3-LightGBM 2.41 and D3 1.41.
 
 \begin{table}[!htbp]
 \centering
@@ -50,7 +50,7 @@ Table~\ref{tab:h1} reports the final test by drift pattern. On gradual drift, EA
 \label{tab:h1}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{l|l|cccc}
+\begin{tabular}{llcccc}
 \hline
 \textbf{Pattern} & \textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{Delay} & \textbf{FA} \\
 \hline
@@ -81,7 +81,7 @@ Table~\ref{tab:h1-tests} gives the registered tests. All three parts of H1 hold 
 \label{tab:h1-tests}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{l|c|c|cc|cc}
+\begin{tabular}{lcccccc}
 \hline
 \textbf{Test} & \textbf{$n$} & \textbf{EADD} & \textbf{D3-LGBM} & \textbf{Holm $p$} & \textbf{D3} & \textbf{Holm $p$} \\
 \hline
@@ -111,7 +111,7 @@ H2 is measured on streams without drift, where every alarm is false. Table~\ref{
 \caption[Final test: false alarms on streams without drift]{Final test: false alarms per 10,000 samples on the streams without drift (mean over 10 seeds). The registered H2 test is on the six autocorrelated streams.}
 \label{tab:h2}
 \small
-\begin{tabular}{l|ccc}
+\begin{tabular}{lccc}
 \hline
 \textbf{Stream} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{D3} \\
 \hline
@@ -133,7 +133,7 @@ Mean, other no-drift streams (8) & 0.75 & 2.44 & 2.41 \\
 \caption[Final test: registered test of H2]{Final test: registered one-sided Wilcoxon signed-rank test of H2 over the six autocorrelated streams without drift (false alarms per 10,000 samples). Holm $p$ is corrected within the family of Table~\ref{tab:h1-tests}.}
 \label{tab:h2-tests}
 \small
-\begin{tabular}{l|c|c|cc|cc}
+\begin{tabular}{lcccccc}
 \hline
 \textbf{Test} & \textbf{Streams} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{Holm $p$} & \textbf{D3} & \textbf{Holm $p$} \\
 \hline
@@ -155,10 +155,10 @@ H2: fewer false alarms & 6 & 5.59 & 19.50 & 0.023 & 18.53 & 0.016 \\
 
 \begin{table}[!htbp]
 \centering
-\caption[Final test: rejection rates of the test without drift]{Final test (descriptive): share of 1,000 no-drift tests per condition with $p \leq 0.05$, its one-sided 95\% Clopper--Pearson upper bound, and the share with $p \leq 0.033$ (EADD's alarm rule). Steady = a long history of earlier windows; After alarm = the first test after an alarm.}
+\caption[Final test: rejection rates of the test without drift]{Final test (descriptive): share of 1,000 no-drift tests per condition with $p \leq 0.05$, its one-sided 95\% Clopper--Pearson upper bound, and the share with $p \leq 0.033$ (EADD's alarm rule). Steady = a long history of earlier windows; After alarm = the first test after an alarm; then only 31 null draws exist, so $p$ takes steps of 1/32 and the two thresholds reject the same tests.}
 \label{tab:validity}
 \small
-\begin{tabular}{l|l|ccc}
+\begin{tabular}{llccc}
 \hline
 \textbf{Data} & \textbf{State} & \textbf{$p \leq 0.05$} & \textbf{Upper bound} & \textbf{$p \leq 0.033$} \\
 \hline
@@ -194,7 +194,7 @@ H3 was tested as equivalence (TOST, two one-sided Wilcoxon tests) between EADD w
 \label{tab:h3}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{l|c|c|cc|c}
+\begin{tabular}{lccccc}
 \hline
 \textbf{Test} & \textbf{Streams} & \textbf{Margin} & \textbf{ASPT} & \textbf{Full test} & \textbf{$p$} \\
 \hline
@@ -243,7 +243,7 @@ Table~\ref{tab:newer} shows a trade-off between delay and false alarms. LSDD-Onl
 \label{tab:newer}
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{l|ccc|ccc|cc}
+\begin{tabular}{lcccccccc}
 \hline
  & \multicolumn{3}{c|}{\textbf{Slow drift}} & \multicolumn{3}{c|}{\textbf{Abrupt drift}} & \multicolumn{2}{c}{\textbf{FA per 10k}} \\
 \textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{No drift} & \textbf{AR} \\
@@ -260,7 +260,7 @@ D3 & 0.43 & 1058 & 1.26 & 1.00 & 129 & 0.00 & 2.40 & 18.61 \\
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/fig_newer_detectors.pdf}
-    \caption[Newer online detectors: MTD against false alarms]{Newer online detectors (seeds 3000--3002): MTD against false alarms per stream on slow and abrupt drift; the marker size grows with recall.}
+    \caption[Newer online detectors: MTD against false alarms]{Newer online detectors (seeds 3000--3002): MTD against false alarms per stream on slow and abrupt drift; the legend gives each detector's recall.}
     \label{fig:newer}
 \end{figure}
 
@@ -271,7 +271,7 @@ Table~\ref{tab:friedman} gives the Friedman mean ranks over the 21 drift streams
 \caption[Friedman mean ranks with the newer detectors]{Friedman mean ranks over the 21 drift streams (seeds 3000--3002; 1 = best). Nemenyi critical difference 1.33.}
 \label{tab:friedman}
 \small
-\begin{tabular}{l|ccc}
+\begin{tabular}{lccc}
 \hline
 \textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{False alarms} \\
 \hline
@@ -291,11 +291,11 @@ On the nine unannotated real streams of the benchmark, following \citet{Lukats20
 
 \begin{table}[!htbp]
 \centering
-\caption[Benchmark: classifier accuracy on the unannotated streams]{Benchmark (seeds 42, 142, 242): prequential accuracy (\%) of a Hoeffding tree retrained at every detection on the nine unannotated streams, their mean, and the total number of detections (Det.) over the nine streams (mean over seeds).}
+\caption[Benchmark: classifier accuracy on the unannotated streams]{Benchmark (seeds 42, 142, 242): prequential accuracy (\%) of a Hoeffding tree retrained at every detection on the nine unannotated streams, their mean, and the total number of detections (Det.) over the nine streams (mean over seeds). Columns: Electricity, INSECTS Incremental, Luxembourg, NOAAWeather, OutdoorObjects, Ozone, PokerHand, Powersupply, RialtoBridgeTimelapse.}
 \label{tab:e4-acc}
 \footnotesize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{l|ccccccccc|cc}
+\begin{tabular}{lccccccccccc}
 \hline
 \textbf{Detector} & \textbf{Elec.} & \textbf{Incr.} & \textbf{Lux.} & \textbf{NOAA} & \textbf{Outdoor} & \textbf{Ozone} & \textbf{Poker} & \textbf{Power} & \textbf{Rialto} & \textbf{Mean} & \textbf{Det.} \\
 \hline
@@ -329,7 +329,7 @@ Table~\ref{tab:tests} summarises their registered tests in the final test. All f
 \label{tab:tests}
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{p{5.2cm}|p{2.6cm}|p{3.4cm}|l}
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}l}
 \hline
 \textbf{Hypothesis} & \textbf{Test} & \textbf{Result} & \textbf{Verdict} \\
 \hline

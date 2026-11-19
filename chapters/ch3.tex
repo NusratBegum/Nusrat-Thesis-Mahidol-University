@@ -106,11 +106,11 @@ Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Alg
 \State append $x_t$ to $W_{cur}$
 \If{$|W_{cur}| > N_{cur}$}
     \State remove the oldest sample $x_o$ of $W_{cur}$ \Comment{it arrived as the $(k - N_{cur})$-th sample}
-    \State with probability $N_{ref}/(k - N_{cur})$, $x_o$ replaces a random sample of $W_{ref}$ \Comment{reservoir}
+    \State $x_o$ replaces a random sample of $W_{ref}$ with probability $N_{ref}/(k - N_{cur})$
 \EndIf
 \If{$s \geq m$ and $|W_{cur}| = N_{cur}$}
     \State $s \gets 0$
-    \State label $W_{ref}$ as 0 and $W_{cur}$ as 1; $\text{AUC} \gets$ out-of-fold AUC of LightGBM with $K$ folds
+    \State label $W_{ref}$ as 0 and $W_{cur}$ as 1; $\text{AUC} \gets$ out-of-fold AUC of LightGBM ($K$ folds)
     \If{$\text{AUC} \geq \tau$ \textbf{and} $\textsc{ASPT}(W_{ref}, W_{cur}, \mathcal{H}, \text{AUC})$ rejects $H_0$}
         \State rank the features with TreeSHAP (Equation~\ref{eq:shap-importance})
         \State $W_{ref} \gets W_{cur}$; \quad $\mathcal{H} \gets W_{cur}$; \quad $W_{cur} \gets \emptyset$; \quad $k \gets N_{cur}$
@@ -125,7 +125,7 @@ Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Alg
 \caption{ASPT with the history null}\label{alg:aspt}
 \begin{algorithmic}[1]
 \Function{ASPT}{$W_{ref}$, $W_{cur}$, $\mathcal{H}$, $\text{AUC}_{obs}$}
-\State $\mathcal{S} \gets$ starts $0, 10, 20, \ldots$ of the 200-sample windows in $\mathcal{H}$ before $W_{cur}$, in random order
+\State $\mathcal{S} \gets$ starts $0, 10, 20, \ldots$ of the 200-sample windows in $\mathcal{H}$ before $W_{cur}$, shuffled
 \State $B \gets \min(B_{\max}, |\mathcal{S}|)$; \quad $c \gets 0$
 \For{$i = 1, \ldots, B$}
     \State $V \gets$ the window starting at $\mathcal{S}_i$; \quad $R \gets W_{ref} \setminus V$
@@ -149,14 +149,14 @@ Algorithm~\ref{alg:eadd} gives the steps EADD takes for each new sample, and Alg
 
 \section{Four Validity Fixes and Their Checks}
 \label{sec:fixes}
-An independent review of the earlier version of EADD, which produced the thesis runs of the first draft, found four flaws that could make its alarm decision invalid. Each flaw was fixed by an option of \texttt{detectors/eadd.py}, and each fix is covered by a unit test. With the old defaults, the code still reproduces all 16 results of the original thesis runs, so the earlier and the corrected detector can be compared on the same code. Table~\ref{tab:fixes} lists the flaws, the fixes and how each was checked.
+An independent review of the earlier version of EADD, which produced the initial thesis runs (Experiment 1, Section~\ref{sec:design}), found four flaws that could make its alarm decision invalid. Each flaw was fixed by an option of \texttt{detectors/eadd.py}, and each fix is covered by a unit test. With the old defaults, the code still reproduces all 16 results of the original thesis runs, so the earlier and the corrected detector can be compared on the same code. Table~\ref{tab:fixes} lists the flaws, the fixes and how each was checked.
 
 \begin{table}[!htbp]
 \centering
 \small
 \caption[Validity fixes of EADD]{The four flaws of the earlier EADD, the fix of each (with its option in \texttt{detectors/eadd.py}) and its check.}
 \label{tab:fixes}
-\begin{tabular}{p{0.4cm}p{3.9cm}p{4.1cm}p{4.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}p{3.9cm}p{4.1cm}p{4.6cm}}
 \toprule
  & \textbf{Flaw} & \textbf{Fix (option)} & \textbf{Check} \\
 \midrule
@@ -199,14 +199,14 @@ For BNDM the test of all features was computed at once instead of feature by fea
 
 \section{Identical Setup}
 \label{sec:setup}
-In the first draft EADD checked the stream every 50 samples and D3-LightGBM about every 200, with different cross-validation, so part of a difference in delay came from the schedule. In the final test the three detectors share every setting except the components under study (Table~\ref{tab:setup}). They read the same stream object with the same seed and are scored by the same code. Every detector checks every 50 samples: D3 discards the sample that triggers a check, so it drops 49 samples after a check without drift (\texttt{step=49}). Each seed starts the stream at a random offset between 0 and 49 samples, the same for all detectors, so that the checks fall at different positions relative to the drift points across seeds.
+In the initial thesis runs EADD checked the stream every 50 samples and D3-LightGBM about every 200, with different cross-validation, so part of a difference in delay came from the schedule. In the final test the three detectors share every setting except the components under study (Table~\ref{tab:setup}). They read the same stream object with the same seed and are scored by the same code. Every detector checks every 50 samples: D3 discards the sample that triggers a check, so it drops 49 samples after a check without drift (\texttt{step=49}). Each seed starts the stream at a random offset between 0 and 49 samples, the same for all detectors, so that the checks fall at different positions relative to the drift points across seeds.
 
 \begin{table}[!htbp]
 \centering
 \small
 \caption[Settings of EADD, D3-LightGBM and D3 in the final test]{Settings of EADD, D3-LightGBM and D3 in the final test. Rows marked as the same are identical for all three detectors.}
 \label{tab:setup}
-\begin{tabular}{p{2.8cm}p{3.9cm}p{3.3cm}p{3.0cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.8cm}p{3.9cm}p{3.3cm}p{3.0cm}}
 \toprule
 \textbf{Setting} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{D3} \\
 \midrule
@@ -242,9 +242,9 @@ All drift in the data is feature drift, a change of $P(X)$, and the detectors se
 \begin{table}[!htbp]
 \centering
 \small
-\caption[Stream groups]{Stream groups. Samples $\times$ features; drift points at 5k, 10k and 15k mean samples 5,000, 10,000 and 15,000. Use: T = thesis runs of the first draft, B = benchmark, C = confirmatory test, F = final test.}
+\caption[Stream groups]{Stream groups. Samples $\times$ features; drift points at 5k, 10k and 15k mean samples 5,000, 10,000 and 15,000. Use: T = initial thesis runs, B = benchmark, C = confirmatory test, F = final test.}
 \label{tab:streams}
-\begin{tabular}{p{2.3cm}p{3.6cm}p{2.2cm}p{2.1cm}p{1.2cm}p{0.8cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}p{3.6cm}p{2.2cm}p{2.1cm}p{1.2cm}p{0.8cm}}
 \toprule
 \textbf{Group} & \textbf{Streams} & \textbf{Size} & \textbf{Drift points} & \textbf{Known} & \textbf{Use} \\
 \midrule
@@ -263,7 +263,7 @@ Unannotated & 9 real streams (Table~\ref{tab:real-streams}) & $1{,}900$--$100{,}
 \small
 \caption[Real-world streams]{Real-world streams and their roles: I = base of injected streams, S = shuffled no-drift stream, A = annotated drift points, U = unannotated stream.}
 \label{tab:real-streams}
-\begin{tabular}{p{5.8cm}lrrl}
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.8cm}lrrl}
 \toprule
 \textbf{Stream} & \textbf{Source} & \textbf{Samples} & \textbf{Features} & \textbf{Role} \\
 \midrule
@@ -323,7 +323,7 @@ Two detectors are compared with the one-sided Wilcoxon signed-rank test \citep{W
 \small
 \caption[Registered tests of the final test]{Registered tests of the final test (seeds 3000--3009). The primary comparator is D3-LightGBM; all tests are over stream means.}
 \label{tab:test-plan}
-\begin{tabular}{p{1.0cm}p{3.8cm}p{3.5cm}p{4.7cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}p{3.8cm}p{3.5cm}p{4.7cm}}
 \toprule
 \textbf{Test} & \textbf{Data} & \textbf{Metric} & \textbf{Test and decision} \\
 \midrule
@@ -352,11 +352,11 @@ Each test's hypotheses, data, seeds and decision rule were committed to the git 
 \small
 \caption[Sequence of experiments]{Sequence of experiments. Every later experiment uses new seeds and was registered before its runs.}
 \label{tab:experiments}
-\begin{tabular}{p{2.5cm}p{4.8cm}p{2.2cm}p{3.5cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}p{4.8cm}p{2.2cm}p{3.5cm}}
 \toprule
 \textbf{Experiment} & \textbf{Streams and detectors} & \textbf{Seeds} & \textbf{Role} \\
 \midrule
-Thesis runs (first draft) & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
+Initial thesis runs & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
 Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
 Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
 Final test (18 Nov 2026) & 35 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\

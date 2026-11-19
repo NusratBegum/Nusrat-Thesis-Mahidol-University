@@ -3,7 +3,7 @@
 To ensure reproducibility, the specific hyperparameters and algorithmic configurations used for the EADD framework are detailed below.
 
 \section{Adversarial Classifier (LightGBM)}
-The adversarial classifier utilises LightGBM \citep{Ke2017}, a high-performance gradient boosting framework, with the configuration in Table~\ref{tab:lgbm-params}. D3-LightGBM, the version of D3 used in the experiments, uses the same configuration.
+The adversarial classifier uses LightGBM \citep{Ke2017} with the configuration in Table~\ref{tab:lgbm-params}. D3-LightGBM, the version of D3 used in the experiments, uses the same configuration.
 
 \begin{table}[!htbp]
 \centering
@@ -20,6 +20,7 @@ Num Leaves & 31 \\
 Objective & Binary Classification \\
 Metric & default (binary log-loss; not used, no early stopping) \\
 Verbosity & $-1$ \\
+Threads & 1 (\texttt{n\_jobs=1}) \\
 \hline
 \end{tabular}
 \end{table}
@@ -35,7 +36,7 @@ Verbosity & $-1$ \\
 \section{Statistical Testing and Attribution}
 \begin{itemize}
     \item \textbf{Alarm rule:} out-of-fold AUC (stratified 5-fold cross-validation) at least $\tau = 0.7$ and rejection by ASPT at $\alpha = 0.05$.
-    \item \textbf{Null distribution (\texttt{null="history"}):} AUCs of earlier 200-sample windows of the same stream against the reference, one window start every 10 samples (\texttt{history\_stride=10}), from at most the newest 5,000 samples since the last alarm, drawn in random order. Each null AUC uses the same 5-fold cross-validation as the observed AUC (\texttt{perm\_n\_folds=None}).
+    \item \textbf{Null distribution (\texttt{null="history"}):} AUCs of earlier 200-sample windows of the same stream against the reference, one window start every 10 samples (\texttt{history\_stride=10}), from at most the newest 5,000 samples since the last alarm, drawn in random order. Each null AUC uses the same 5-fold cross-validation as the observed AUC.\\ Option: \texttt{perm\_n\_folds=None}.
     \item \textbf{Adaptive Sequential Permutation Test (ASPT):} at most 199 draws, $B_{\min} = 10$, $\alpha$ split 1/3 (\texttt{aspt\_alpha\_split=1/3}): early rejection when no draw among the first $i$ reaches the observed AUC and $1/(i+1) \leq \alpha/3$; early acceptance when more than $2\alpha$ of the draws reach it; otherwise rejection when $p \leq 2\alpha/3$.
     \item \textbf{Feature attribution:} TreeSHAP on a LightGBM model with the settings of Table~\ref{tab:lgbm-params}, trained on $W_{ref} \cup W_{cur}$ after each alarm; features ranked by normalised mean absolute SHAP value.
 \end{itemize}

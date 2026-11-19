@@ -32,7 +32,7 @@
     \textbf{ASPT with the history null}: null AUCs of earlier 200-sample windows
     of the same stream (one start every 10 samples) against $W_{ref}$, drawn one at a time (at most 199)};
 
-\node[dec, below=of aspt] (d2) {reject $H_0$ at $\alpha = 0.05$?};
+\node[dec, below=of aspt] (d2) {reject $H_0$? (ASPT, $\alpha = 0.05$, Alg.~2)};
 
 \node[box, fill=white, below=of d2, text width=2.2cm] (alarm) {\textbf{Alarm}};
 
@@ -55,5 +55,5 @@
 \draw[arr] (alarm.south) ++(-0.4,0) -- ++(0,-0.3) -| (shap.north);
 \draw[arr] (alarm.south) ++(0.4,0) -- ++(0,-0.3) -| (reset.north);
 \draw[arr] (d1.east) -- node[lbl, above] {no} (d1.east -| none.north) -- (none.north);
-\draw[arr] (d2.east) -- node[lbl, below] {no} (d2.east -| none.south) -- (none.south);
+\draw[arr] (d2.east) -- node[lbl, above] {no} (d2.east -| none.south) -- (none.south);
 \end{tikzpicture}
