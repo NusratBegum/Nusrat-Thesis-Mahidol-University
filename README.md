@@ -4,7 +4,7 @@
 
 **Author:** Nusrat Begum  
 **Advisor:** Asst. Prof. Thanapon Noraset, Ph.D.  
-**Co-Advisor:** Assoc. Prof. Suppawong Tuarob, Ph.D.
+**Co-Advisors:** Asst. Prof. Akara Supratak, Ph.D.; Asst. Prof. Siripen Pongpaichet, Ph.D.
 
 **Defense:** 8 December 2026, 10:00-12:00  
 **Status (19 Nov 2026):** full draft rewritten around the final registered test and submitted to the advisor; advisor review on 23 Nov 2026.
