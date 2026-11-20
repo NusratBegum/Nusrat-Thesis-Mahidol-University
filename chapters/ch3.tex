@@ -11,12 +11,7 @@ This chapter describes the method and its evaluation as they were run in the fin
 
 \section{Problem Formulation}
 \label{sec:problem}
-Let $x_1, x_2, \ldots$ with $x_t \in \mathbb{R}^d$ be a stream of feature vectors. Labels, if they exist, are never given to the detector. This thesis studies feature drift, a change in the marginal distribution $P(X)$ of the features \citep{Gama2014, Webb2016}, which can happen with or without a change in $P(Y \mid X)$. At a check at time $t$ a detector compares two sets of samples:
-\begin{itemize}
-    \item a reference window $W_{\mathrm{ref}}$ of $N_{\mathrm{ref}} = 500$ samples, which represents the distribution $P_{\mathrm{ref}}(X)$ since the last alarm, and
-    \item a current window $W_{\mathrm{cur}}$ of the $N_{\mathrm{cur}} = 200$ newest samples, drawn from the current distribution $P_{\mathrm{cur}}(X)$.
-\end{itemize}
-The detector tests
+Let $x_1, x_2, \ldots$ with $x_t \in \mathbb{R}^d$ be a stream of feature vectors. Labels, if they exist, are never given to the detector. This thesis studies feature drift, a change in the marginal distribution $P(X)$ of the features \citep{Gama2014, Webb2016}, which can happen with or without a change in $P(Y \mid X)$. At a check at time $t$ a detector compares two sets of samples: a reference window $W_{\mathrm{ref}}$ of $N_{\mathrm{ref}} = 500$ samples, which represents the distribution $P_{\mathrm{ref}}(X)$ since the last alarm, and a current window $W_{\mathrm{cur}}$ of the $N_{\mathrm{cur}} = 200$ newest samples, drawn from the current distribution $P_{\mathrm{cur}}(X)$. The detector tests
 \begin{equation}
 H_0: P_{\mathrm{ref}}(X) = P_{\mathrm{cur}}(X) \quad \text{versus} \quad H_1: P_{\mathrm{ref}}(X) \neq P_{\mathrm{cur}}(X)
 \label{eq:drift-test}
@@ -202,15 +197,32 @@ All baselines were run in this thesis on the same streams, seeds and random star
 
 \textbf{MMD-Online and LSDD-Online} \citep{CobbSequential2022} are sequential multivariate change detectors based on the maximum mean discrepancy \citep{Gretton2012} and on the least-squares density difference \citep{Sugiyama2013LSDD}. Their thresholds are set by simulation so that, without drift, the expected run time (ERT) until a false alarm has a chosen value, with a constant false-alarm rate at every step. Both were taken from Alibi Detect 0.13.0 \citep{AlibiDetect}. The first 500 samples after a start or an alarm are the reference; each detector is calibrated on them for an ERT of 2,500 samples, with a window of 50 and 25,000 bootstrap draws, and restarts with the next 500 samples after an alarm. They ran with the PyTorch CPU backend on one thread, in a separate environment (Python 3.12, NumPy 1.26), because Alibi Detect does not install beside EADD's pinned packages. The ERT sets their false-alarm rate, so their false alarms should be read together with their delays.
 
-\textbf{Detectors from the \citet{Lukats2024} benchmark} were used in the benchmark experiment and in the descriptive comparison of the confirmatory test: six fully unsupervised detectors, each with 500 samples to match EADD's reference and otherwise with one fixed setting from the hyperparameter grid of the benchmark implementation, the same for every stream:
-\begin{itemize}
-    \item \textbf{BNDM} \citep{BNDM2020}: compares each feature in the two halves of a window of $2 \times 500$ samples with a P\'{o}lya tree test (tree depth 3, constant 1.0, threshold 0.5).
-    \item \textbf{CSDDM} \citep{CSDDM2021}: reduces the data with PCA, clusters it with K-Means and tests the clusters for change (2 clusters, confidence 0.01, feature proportion 0.1).
-    \item \textbf{IBDD} \citep{IBDD2021}: converts windows of the stream into images and compares them (20 permutations, update interval 50, one consecutive deviation).
-    \item \textbf{OCDD} \citep{OCDD2021}: fits a one-class SVM to the reference and signals drift when too many new samples fall outside it (threshold 0.3, RBF kernel, $\nu = 0.5$).
-    \item \textbf{SPLL} \citep{SPLL2013}: fits a semi-parametric density model to the reference and tests the log-likelihood of new data (2 clusters, threshold 0.05).
-    \item \textbf{UDetect} \citep{Bashir2017}: applies Shewhart control charts to a dispersion summary of windows of the stream (25 training windows of 500 samples).
-\end{itemize}
+\textbf{Detectors from the \citet{Lukats2024} benchmark} were used in the benchmark experiment and in the descriptive comparison of the confirmatory test: six fully unsupervised detectors, each with 500 samples to match EADD's reference and otherwise with one fixed setting from the hyperparameter grid of the benchmark implementation, the same for every stream (Table~\ref{tab:lukats}).
+
+\begin{table}[!htbp]
+\centering
+\caption[Detectors from the benchmark of Lukats et al.]{Detectors from the benchmark of \citet{Lukats2024} and the setting used for each.}
+\label{tab:lukats}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{6.4cm}>{\raggedright\arraybackslash}p{4.8cm}}
+\toprule
+Detector & Method & Setting \\
+\midrule
+BNDM \citep{BNDM2020} & compares each feature in the two halves of a window of $2 \times 500$ samples with a P\'{o}lya tree test & tree depth 3, constant 1.0, threshold 0.5 \\
+\addlinespace
+CSDDM \citep{CSDDM2021} & reduces the data with PCA, clusters it with K-Means and tests the clusters for change & 2 clusters, confidence 0.01, feature proportion 0.1 \\
+\addlinespace
+IBDD \citep{IBDD2021} & converts windows of the stream into images and compares them & 20 permutations, update interval 50, one consecutive deviation \\
+\addlinespace
+OCDD \citep{OCDD2021} & fits a one-class SVM to the reference and signals drift when too many new samples fall outside it & threshold 0.3, RBF kernel, $\nu = 0.5$ \\
+\addlinespace
+SPLL \citep{SPLL2013} & fits a semi-parametric density model to the reference and tests the log-likelihood of new data & 2 clusters, threshold 0.05 \\
+\addlinespace
+UDetect \citep{Bashir2017} & applies Shewhart control charts to a dispersion summary of windows of the stream & 25 training windows of 500 samples \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 For BNDM, the test was computed for all features at once instead of feature by feature, which made it fast enough for 33 features; a unit test confirms that its statistics are identical to those of the original implementation.
 
 \textbf{EADD with the full test} draws all available null windows, at most 199, with the same null and the same $\alpha$ rule as ASPT. It is used for H3.
@@ -323,13 +335,7 @@ The final test uses 34 streams: 21 drift streams (7 abrupt, 7 gradual and 7 incr
 \section{Evaluation Metrics}
 \label{sec:metrics}
 
-\textbf{Streams with drift points.} A detection at sample $a$ matches a drift point $p$ if $p \leq a \leq p + T$, where the tolerance $T$ is 500 samples for abrupt and recurring drift and for the INSECTS streams, and 1,500 samples for synthetic and injected gradual and incremental drift, whose change lasts 1,000 samples. Each drift point takes the first detection that matches it. For each run (one stream processed with one seed), the metrics are:
-\begin{itemize}
-    \item \textbf{Recall:} the share of drift points that are matched. Higher is better.
-    \item \textbf{Mean time to detection (MTD):} the mean delay $a - p$ over all drift points, where a missed drift point counts as $T$. Lower is better.
-    \item \textbf{Delay when detected:} the mean delay over the matched drift points only.
-    \item \textbf{False alarms (FA):} the number of detections that match no drift point. Lower is better.
-\end{itemize}
+\textbf{Streams with drift points.} A detection at sample $a$ matches a drift point $p$ if $p \leq a \leq p + T$, where the tolerance $T$ is 500 samples for abrupt and recurring drift and for the INSECTS streams, and 1,500 samples for synthetic and injected gradual and incremental drift, whose change lasts 1,000 samples. Each drift point takes the first detection that matches it. For each run (one stream processed with one seed), four metrics are computed. Recall is the share of drift points that are matched; higher is better. The mean time to detection (MTD) is the mean delay $a - p$ over all drift points, where a missed drift point counts as $T$; lower is better. The delay when detected is the mean delay over the matched drift points only. False alarms (FA) are the detections that match no drift point; fewer is better.
 \citet{Lukats2024} compute the delay only over the drift points a detector found, so a detector that finds one drift quickly and misses the others can look faster than one that finds them all. Counting a miss as the full tolerance keeps the MTD comparable between detectors that find different drift points; the delay when detected is reported beside it.
 
 \textbf{Streams without drift.} Every detection is a false alarm, and the false alarms are reported per 10,000 samples, so that streams of different lengths are comparable.

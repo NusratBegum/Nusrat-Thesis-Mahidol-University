@@ -24,15 +24,11 @@ The settings used in this thesis are a reasonable starting point: a reference of
 
 \section{Future Work}
 
-The limitations in Section~\ref{sec:limitations} point to the following directions:
+The study has four limitations, discussed in Section~\ref{sec:limitations}: the history-null test is close to its nominal level but not exactly at it; EADD's advantage is limited to slow drift; fresh seeds are new draws from the same generators and datasets rather than new data sources; and the feature attribution can be scored only where the drifting features are known. They point to five directions for further work.
 
-\begin{itemize}
-    \item \textbf{Stream-wide error control:} replacing the per-check permutation test with a betting-based sequential two-sample test \citep{PodkopaevRamdas2023} or e-values for the C2ST \citep{EC2ST2024}, which bound the probability of any false alarm along the stream and could also address the test's behaviour right after an alarm.
-    \item \textbf{Real and virtual drift:} combining the detector with methods that separate changes that affect the decision boundary from those that do not \citep{GaussianSplit2024, HDPD2024}, once delayed labels are available.
-    \item \textbf{Adaptive threshold:} choosing the AUC threshold from the stream's own history, as the history null already does for the test, instead of a fixed 0.7.
-    \item \textbf{More real annotated streams:} evaluating on real streams with documented drift points and changed features, which would test both the detector and its attribution beyond injected drift, following the evaluation practice of \citet{CerqueiraKDD2026}.
-    \item \textbf{A larger comparison with online detectors:} running MMD-Online, LSDD-Online and related detectors on more seeds and at several calibrations, so that the trade-off between detection speed and false alarms can be tested rather than described.
-\end{itemize}
+First, the per-check permutation test could be replaced by a betting-based sequential two-sample test \citep{PodkopaevRamdas2023} or by e-values for the C2ST \citep{EC2ST2024}, which bound the probability of any false alarm along the stream and could also address the behaviour of the test right after an alarm. Second, the detector could be combined with methods that separate changes that affect the decision boundary from those that do not \citep{GaussianSplit2024, HDPD2024}, once delayed labels are available. Third, the AUC threshold could be chosen from the stream's own history, as the history null already does for the test, instead of being fixed at 0.7.
+
+Fourth, an evaluation on real streams with documented drift points and changed features would test both the detector and its attribution beyond injected drift, following the evaluation practice of \citet{CerqueiraKDD2026}. Fifth, running MMD-Online, LSDD-Online and related detectors on more seeds and at several calibrations would allow the trade-off between detection speed and false alarms to be tested rather than described.
 
 \section{Concluding Remarks}
 
