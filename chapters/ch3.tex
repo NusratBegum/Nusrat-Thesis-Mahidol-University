@@ -5,7 +5,7 @@ This chapter describes the method and its evaluation as they were run in the fin
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/diag_overview.pdf}
-    \caption[Overview of the research methodology]{Overview of the research methodology. Top: EADD at one check in four steps, with the hypothesis that tests each component; Figure~\ref{fig:pipeline} gives the details. Bottom: the evaluation and the sections that describe it. In this and the following diagrams, blue marks the reference window, amber the current window and red an alarm.}
+    \caption[Overview of the research methodology]{Overview of the research methodology. Top: EADD at one check, with the hypothesis that tests each component; Figure~\ref{fig:pipeline} gives the details. Bottom: the evaluation. In this and the following diagrams, the reference window is drawn in blue with a dashed border, the current window in solid green and an alarm in amber with a dotted border.}
     \label{fig:overview}
 \end{figure}
 
@@ -168,16 +168,19 @@ A code review of the earlier version of EADD, which produced the initial thesis 
 
 \begin{table}[!htbp]
 \centering
-\small
 \caption[Validity fixes of EADD]{The four flaws of the earlier EADD, the fix of each (with its option in \texttt{detectors/eadd.py}) and its check.}
 \label{tab:fixes}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{4.6cm}}
 \toprule
- & \textbf{Flaw} & \textbf{Fix (option)} & \textbf{Check} \\
+ & Flaw & Fix (option) & Check \\
 \midrule
 1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window (\texttt{reservoir\_\allowbreak{}after\_\allowbreak{}current=True}). & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
+\addlinespace
 2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation (\texttt{perm\_\allowbreak{}n\_\allowbreak{}folds=None}). & Unit test: the null AUCs use the folds of the observed AUC. \\
+\addlinespace
 3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision (\texttt{aspt\_\allowbreak{}alpha\_\allowbreak{}split=1/3}). & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
+\addlinespace
 4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream (\texttt{null="history"}, \texttt{history\_\allowbreak{}stride=10}). & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
 \bottomrule
 \end{tabular}
@@ -218,24 +221,34 @@ In the initial thesis runs EADD checked the stream every 50 samples and D3-Light
 
 \begin{table}[!htbp]
 \centering
-\small
-\caption[Settings of EADD, D3-LightGBM and D3 in the final test]{Settings of EADD, D3-LightGBM and D3 in the final test. Shaded rows are identical for all three detectors.}
+\caption[Settings of EADD, D3-LightGBM and D3 in the final test]{Settings of EADD, D3-LightGBM and D3 in the final test. An entry that spans the three detector columns is the same for all three.}
 \label{tab:setup}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.8cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{3.0cm}}
 \toprule
-\textbf{Setting} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{D3} \\
+Setting & EADD & D3-LightGBM & D3 \\
 \midrule
 Reference window & 500, reservoir since the last alarm & 500, sliding (just before $W_{\mathrm{cur}}$) & as D3-LightGBM \\
-\rowcolor{gray!12}Current window & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{the newest 200 samples} \\
+\addlinespace
+Current window & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{the newest 200 samples} \\
+\addlinespace
 Classifier & LightGBM: 50 trees, learning rate 0.1, 31 leaves, one thread & as EADD & logistic regression \\
-\rowcolor{gray!12}Cross-validation & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{stratified 5-fold, out-of-fold AUC} \\
-\rowcolor{gray!12}Alarm threshold & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{$\text{AUC} \geq \tau = 0.7$} \\
+\addlinespace
+Cross-validation & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{stratified 5-fold, out-of-fold AUC} \\
+\addlinespace
+Alarm threshold & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{$\text{AUC} \geq \tau = 0.7$} \\
+\addlinespace
 Significance test & ASPT, history null (stride 10), $\alpha = 0.05$ & none & none \\
-\rowcolor{gray!12}Check interval & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{every 50 samples (D3 with \texttt{step=49})} \\
-\rowcolor{gray!12}Start of each seed & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{random offset of 0--49 samples, the same for all detectors} \\
-\rowcolor{gray!12}After an alarm & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{last current window starts the new reference; next check 500 samples later} \\
+\addlinespace
+Check interval & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{every 50 samples (D3 with \texttt{step=49})} \\
+\addlinespace
+Start of each seed & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{random offset of 0--49 samples, the same for all detectors} \\
+\addlinespace
+After an alarm & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{last current window starts the new reference;\newline next check 500 samples later} \\
+\addlinespace
 Feature ranking & TreeSHAP & none & none \\
-\rowcolor{gray!12}Seeds & \multicolumn{3}{>{\raggedright\arraybackslash}p{10.9cm}}{3000--3009, same stream objects and scoring code} \\
+\addlinespace
+Seeds & \multicolumn{3}{>{\centering\arraybackslash}p{\dimexpr10.2cm+4\tabcolsep\relax}}{3000--3009, same stream objects and scoring code} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -256,31 +269,37 @@ All drift in the data is feature drift, a change of $P(X)$, and the detectors se
 
 \begin{table}[!htbp]
 \centering
-\small
 \caption[Stream groups]{Stream groups. Samples $\times$ features; drift points at 5k, 10k and 15k mean samples 5,000, 10,000 and 15,000. Use: T = initial thesis runs, B = benchmark, C = confirmatory test, F = final test.}
 \label{tab:streams}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}p{3.6cm}p{2.2cm}p{2.1cm}p{1.2cm}p{0.8cm}}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.35cm}>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{1.45cm}>{\raggedright\arraybackslash}p{1.15cm}}
 \toprule
-\textbf{Group} & \textbf{Streams} & \textbf{Size} & \textbf{Drift points} & \textbf{Known} & \textbf{Use} \\
+Group & Streams & Size & Drift points & Known & Use \\
 \midrule
-Synthetic & SynthAbrupt, SynthGradual, SynthIncremental; SynthRecurring (B only) & $20{,}000 \times 10$ & 5k, 10k, 15k; 3 features & yes & B, C, F \\
-Injected & abrupt, gradual, incremental drift on 6 shuffled real bases (B: abrupt and incremental only) & $20{,}000 \times 2$--$33$ (NOAA: 18,159) & 5k, 10k, 15k; 30\% of features & yes & B, C, F \\
-INSECTS & abrupt, gradual, incremental-abrupt, incremental-reoccurring & $24{,}150$--$79{,}986 \times 33$ & documented (5, 1, 2, 2) & yes & T, B \\
-No drift & SynthStable; shuffled Electricity, NOAAWeather, Powersupply, PokerHand, Rialto; AR(1) $\rho = 0.5, 0.9$ (B: also AR 0.99, shuffled INSECTS abrupt, OutdoorObjects) & up to $20{,}000 \times 2$--$33$ & none & yes (no drift) & B, C, F \\
-Autocorrelated & AR(1), $\rho$ = 0.8, 0.85, 0.9, 0.93, 0.95, 0.97 & $20{,}000 \times 10$ & none & yes (no drift) & F \\
-Unannotated & 9 real streams (Table~\ref{tab:real-streams}) & $1{,}900$--$100{,}000 \times 2$--$72$ & unknown & no & T, B \\
+Synthetic & SynthAbrupt, SynthGradual, SynthIncremental; SynthRecurring (B only) & \mbox{$20{,}000 \times 10$} & 5k, 10k, 15k; 3 features & yes & \mbox{B, C, F} \\
+\addlinespace
+Injected & abrupt, gradual, incremental drift on 6 shuffled real bases (B: abrupt and incremental only) & \mbox{$20{,}000 \times 2$--$33$} \mbox{(NOAA: 18,159)} & 5k, 10k, 15k; 30\% of features & yes & \mbox{B, C, F} \\
+\addlinespace
+INSECTS & abrupt, gradual, incremental-abrupt, incremental-reoccurring & \mbox{$24{,}150$--$79{,}986$} \mbox{$\times\mskip\medmuskip 33$} & documented \mbox{(5, 1, 2, 2)} & yes & \mbox{T, B} \\
+\addlinespace
+No drift & SynthStable; shuffled Electricity, NOAAWeather, Powersupply, PokerHand, Rialto; AR(1) $\rho = 0.5, 0.9$ (B: also AR 0.99, shuffled INSECTS abrupt, OutdoorObjects) & up to \mbox{$20{,}000 \times 2$--$33$} & none & yes \mbox{(no drift)} & \mbox{B, C, F} \\
+\addlinespace
+Autocorrelated & AR(1), $\rho = 0.8$, 0.85, 0.9, 0.93, 0.95, 0.97 & \mbox{$20{,}000 \times 10$} & none & yes \mbox{(no drift)} & F \\
+\addlinespace
+Unannotated & 9 real streams (Table~\ref{tab:real-streams}) & \mbox{$1{,}900$--$100{,}000$} \mbox{$\times\mskip\medmuskip 2$--$72$} & unknown & no & \mbox{T, B} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \begin{table}[!htbp]
 \centering
-\small
 \caption[Real-world streams]{Real-world streams and their roles: I = base of injected streams, S = shuffled no-drift stream, A = annotated drift points, U = unannotated stream.}
 \label{tab:real-streams}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{5.8cm}lrrl}
 \toprule
-\textbf{Stream} & \textbf{Source} & \textbf{Samples} & \textbf{Features} & \textbf{Role} \\
+Stream & Source & Samples & Features & Role \\
 \midrule
 Electricity & \citep{Harries1999} & 45,312 & 8 & I, S, U \\
 NOAAWeather & \citep{Lukats2024} & 18,159 & 8 & I, S, U \\
@@ -335,19 +354,25 @@ Two detectors are compared with the one-sided Wilcoxon signed-rank test \citep{W
 
 \begin{table}[!htbp]
 \centering
-\small
 \caption[Registered tests of the final test]{Registered tests of the final test (seeds 3000--3009). The primary comparator is D3-LightGBM; all tests are over stream means.}
 \label{tab:test-plan}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}p{3.8cm}p{3.5cm}p{4.7cm}}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{3.8cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{4.7cm}}
 \toprule
-\textbf{Test} & \textbf{Data} & \textbf{Metric} & \textbf{Test and decision} \\
+Test & Data & Metric & Test and decision \\
 \midrule
 H1a & 14 slow-drift streams & recall & one-sided Wilcoxon, EADD higher; Holm \\
+\addlinespace
 H1b & 14 slow-drift streams & MTD (miss = 1,500) & one-sided Wilcoxon, EADD lower; Holm \\
+\addlinespace
 H1c & 7 abrupt streams & MTD & non-inferiority, margin 50 samples; Holm \\
+\addlinespace
 H2 & 6 autocorrelated streams & false alarms per 10k & one-sided Wilcoxon, EADD lower than D3-LightGBM (D3 secondary); Holm \\
+\addlinespace
 H3a & 21 drift and 8 no-drift streams & recall, MTD, FA per stream, FA per 10k & TOST, margins 0.05, 50, 0.5 and 1.0; all four equivalent \\
+\addlinespace
 H3b & the 22 of these streams on which tests ran & draws per test & one-sided Wilcoxon, ASPT lower \\
+\addlinespace
 H4 & 21 drift streams & precision@$k$ minus $k/d$ & one-sided Wilcoxon, above chance \\
 \bottomrule
 \end{tabular}
@@ -360,7 +385,7 @@ When several detectors are compared, as with the newer online detectors, the Fri
 \section{Pre-registration and Sequence of Experiments}
 \label{sec:design}
 \label{sec:proposal-changes}
-Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\nolinkurl{experiments/results_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds. Figure~\ref{fig:timeline} shows the sequence. After the final test, three secondary checks were registered (addendum 7) and run on the same seeds: univariate feature rankings (KS statistic and standardised mean difference) computed at EADD's alarms beside TreeSHAP, two EADD variants that separate the effect of the reservoir from that of the history null on the autocorrelated streams, and the wall-clock time of ASPT with the history null. The first two are reported in Chapter~\ref{chap:results}; the timing check was still running when this version was prepared. None of them changes the decisions on H1 to H4.
+Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\nolinkurl{experiments/results_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds. Figure~\ref{fig:timeline} shows the sequence. After the final test, three secondary checks were registered (addendum 7) and run on the same seeds: univariate feature rankings (KS statistic and standardised mean difference) computed at EADD's alarms beside TreeSHAP, two EADD variants that separate the effect of the reservoir from that of the history null on the autocorrelated streams, and the wall-clock time of ASPT with the history null. All three are reported in Chapter~\ref{chap:results}. None of them changes the decisions on H1 to H4.
 
 \begin{figure}[!htb]
     \centering
@@ -372,17 +397,21 @@ Each test's hypotheses, data, seeds and decision rule were committed to the git 
 
 \begin{table}[!htbp]
 \centering
-\small
 \caption[Sequence of experiments]{Sequence of experiments. Every later experiment uses new seeds and was registered before its runs.}
 \label{tab:experiments}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}p{4.8cm}p{2.2cm}p{3.5cm}}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{4.8cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.5cm}}
 \toprule
-\textbf{Experiment} & \textbf{Streams and detectors} & \textbf{Seeds} & \textbf{Role} \\
+Experiment & Streams and detectors & Seeds & Role \\
 \midrule
 Initial thesis runs & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
+\addlinespace
 Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
+\addlinespace
 Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
+\addlinespace
 Final test (18 Nov 2026) & 34 streams (Section~\ref{sec:datasets}); EADD, EADD with the full test, D3-LightGBM, D3; 1,340 stream runs and 10,000 single tests & 3000--3009; single tests 3000--3999 & main result, all four hypotheses \\
+\addlinespace
 Newer detectors (addenda 6--6a) & the same 34 streams; MMD-Online, LSDD-Online & 3000--3002 & secondary comparison \\
 \bottomrule
 \end{tabular}

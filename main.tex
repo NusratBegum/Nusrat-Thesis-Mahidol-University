@@ -26,6 +26,8 @@
 
 \usepackage{booktabs}
 \usepackage{array}
+\usepackage{dcolumn}
+\usepackage{etoolbox}
 \usepackage{colortbl}
 \usepackage{multirow}
 \usepackage{microtype}
@@ -47,7 +49,23 @@
 \setlength{\@fpbot}{0pt plus 1fil}
 \setlength{\@fpsep}{14pt}
 \setlength{\emergencystretch}{3em}
+% Table numbers: d{x.y} is a column aligned on the decimal point (x digits
+% before it, y after); \best{x.y}{value} sets one cell of it in bold and \hd
+% centres a header over it. dcolumn typesets numbers in math mode, so the digits
+% and the point are taken from the Times text font, as in the rest of the table.
+\DeclareSymbolFont{tabdigits}{OT1}{ptm}{m}{n}
+\SetSymbolFont{tabdigits}{bold}{OT1}{ptm}{b}{n}
+\def\tab@digit#1{\mathcode`#1=\numexpr\symtabdigits*"100+`#1\relax}
+\def\tab@digits{\tab@digit0\tab@digit1\tab@digit2\tab@digit3\tab@digit4%
+  \tab@digit5\tab@digit6\tab@digit7\tab@digit8\tab@digit9\tab@digit.}
+\newcolumntype{d}[1]{>{\tab@digits\DC@{.}{.}{#1}}c<{\DC@end}}
+\newcolumntype{B}[1]{>{\boldmath\tab@digits\DC@{.}{.}{#1}}c<{\DC@end}}
+% Every table float takes its digits (and the thousands comma) from Times as
+% well, in all cells and in the caption.
+\AtBeginEnvironment{table}{\tab@digits\mathcode`\,=\numexpr"6000+\symtabdigits*"100+`\,\relax}
 \makeatother
+\newcommand{\best}[2]{\multicolumn{1}{B{#1}}{#2}}
+\newcommand{\hd}[1]{\multicolumn{1}{c}{#1}}
 
 % Title of the approved thesis proposal (advisor, 12 Oct 2026), so no title-change form is needed.
 \title{Feature Drift Detection Techniques via Adversarial Validation}

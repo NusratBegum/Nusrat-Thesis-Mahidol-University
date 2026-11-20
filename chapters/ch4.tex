@@ -18,24 +18,25 @@ Table~\ref{tab:components} switches EADD's parts on one at a time. The gain come
 
 \begin{table}[!htbp]
 \centering
-\caption[Benchmark: the parts of EADD switched on one at a time]{Benchmark (seeds 42--442, 20 drift streams): recall on the gradual and incremental streams, and recall, MTD (samples) and false alarms (FA) per stream over all 20 drift streams, with EADD's parts switched on one at a time. ``Parts off'' is EADD's own code with a sliding reference and no test.}
+\caption[Benchmark: the parts of EADD switched on one at a time]{Benchmark (seeds 42--442, 20 drift streams): recall on the gradual and incremental streams, and recall, MTD (samples) and false alarms (FA) per stream over all 20 drift streams, with EADD's parts switched on one at a time. ``Parts off'' is EADD's own code with a sliding reference and no test. Best values in bold.}
 \label{tab:components}
 \small
 \setlength{\tabcolsep}{4pt}
-\begin{tabular}{lccccc}
-\hline
- & \multicolumn{2}{c|}{\textbf{Recall}} & \multicolumn{3}{c}{\textbf{All 20 streams}} \\
-\textbf{Detector} & \textbf{Gradual} & \textbf{Incr.} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} \\
-\hline
-D3 (logistic regression) & 0.00 & 0.72 & 0.78 & 415 & 2.87 \\
+\begin{tabular}{ld{1.2}d{1.2}d{1.2}d{3.0}d{1.2}}
+\toprule
+ & \multicolumn{2}{c}{Recall} & \multicolumn{3}{c}{All 20 streams} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-6}
+Detector & \hd{Gradual} & \hd{Incr.} & \hd{Recall} & \hd{MTD} & \hd{FA} \\
+\midrule
+D3 (logistic regression) & 0.00 & 0.72 & 0.78 & 415 & \best{1.2}{2.87} \\
 D3-LightGBM & 0.00 & 0.88 & 0.84 & 302 & 3.69 \\
-\hline
+\midrule
 EADD, parts off & 0.00 & 0.88 & 0.84 & 299 & 3.72 \\
 \quad + ASPT & 0.00 & 0.88 & 0.84 & 299 & 3.72 \\
-\quad + reservoir & 0.50 & 1.00 & 0.94 & 230 & 4.44 \\
-\quad + reservoir + ASPT & 0.50 & 1.00 & 0.94 & 230 & 4.44 \\
-\quad + reservoir + ASPT + history null (EADD) & 0.50 & 0.98 & 0.91 & 251 & 3.39 \\
-\hline
+\quad + reservoir & \best{1.2}{0.50} & \best{1.2}{1.00} & \best{1.2}{0.94} & \best{3.0}{230} & 4.44 \\
+\quad + reservoir + ASPT & \best{1.2}{0.50} & \best{1.2}{1.00} & \best{1.2}{0.94} & \best{3.0}{230} & 4.44 \\
+\quad + reservoir + ASPT + history null (EADD) & \best{1.2}{0.50} & 0.98 & 0.91 & 251 & 3.39 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -46,30 +47,30 @@ Table~\ref{tab:h1} reports the final test by drift pattern. On gradual drift, EA
 
 \begin{table}[!htbp]
 \centering
-\caption[Final test: recall, MTD and delay by drift pattern]{Final test (seeds 3000--3009): recall, mean time to detection (MTD, samples; a miss counts as the tolerance $T$) and mean delay of the detected drift points (samples) on the 7 streams of each drift pattern (one synthetic and six injected), and false alarms (FA) per stream. Slow = the 14 gradual and incremental streams.}
+\caption[Final test: recall, MTD and delay by drift pattern]{Final test (seeds 3000--3009): recall, mean time to detection (MTD, samples; a miss counts as the tolerance $T$) and mean delay of the detected drift points (samples) on the 7 streams of each drift pattern (one synthetic and six injected), and false alarms (FA) per stream. Slow = the 14 gradual and incremental streams. Best recall, MTD and FA per pattern in bold; none where all three are equal.}
 \label{tab:h1}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{llcccc}
-\hline
-\textbf{Pattern} & \textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{Delay} & \textbf{FA} \\
-\hline
-Gradual & EADD & 1.00 & 582 & 582 & 0.60 \\
- & D3-LightGBM & 0.20 & 1373 & 852 & 0.00 \\
- & D3 & 0.28 & 1297 & 780 & 0.00 \\
-\hline
-Incremental & EADD & 1.00 & 304 & 304 & 2.34 \\
+\begin{tabular}{lld{1.2}d{4.0}d{3.0}d{1.2}}
+\toprule
+Pattern & Detector & \hd{Recall} & \hd{MTD} & \hd{Delay} & \hd{FA} \\
+\midrule
+Gradual & EADD & \best{1.2}{1.00} & \best{4.0}{582} & 582 & 0.60 \\
+ & D3-LightGBM & 0.20 & 1373 & 852 & \best{1.2}{0.00} \\
+ & D3 & 0.28 & 1297 & 780 & \best{1.2}{0.00} \\
+\midrule
+Incremental & EADD & \best{1.2}{1.00} & \best{4.0}{304} & 304 & \best{1.2}{2.34} \\
  & D3-LightGBM & 0.85 & 385 & 193 & 4.81 \\
  & D3 & 0.68 & 720 & 467 & 2.81 \\
-\hline
-Slow (14 streams) & EADD & 1.00 & 443 & 443 & 1.47 \\
+\midrule
+Slow (14 streams) & EADD & \best{1.2}{1.00} & \best{4.0}{443} & 443 & 1.47 \\
  & D3-LightGBM & 0.53 & 879 & 522 & 2.41 \\
- & D3 & 0.48 & 1008 & 598 & 1.41 \\
-\hline
-Abrupt & EADD & 1.00 & 115 & 115 & 0.00 \\
+ & D3 & 0.48 & 1008 & 598 & \best{1.2}{1.41} \\
+\midrule
+Abrupt & EADD & 1.00 & \best{4.0}{115} & 115 & 0.00 \\
  & D3-LightGBM & 1.00 & 122 & 122 & 0.00 \\
  & D3 & 1.00 & 127 & 125 & 0.00 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -81,14 +82,14 @@ Table~\ref{tab:h1-tests} gives the registered tests. All three parts of H1 hold 
 \label{tab:h1-tests}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lcccccc}
-\hline
-\textbf{Test} & \textbf{$n$} & \textbf{EADD} & \textbf{D3-LGBM} & \textbf{Holm $p$} & \textbf{D3} & \textbf{Holm $p$} \\
-\hline
+\begin{tabular}{ld{2.0}rrd{1.3}rd{2.3}}
+\toprule
+Test & \hd{$n$} & EADD & D3-LGBM & \hd{Holm $p$} & D3 & \hd{Holm $p$} \\
+\midrule
 H1a: slow-drift recall higher & 14 & 1.00 & 0.53 & 0.015 & 0.48 & 0.005 \\
-H1b: slow-drift MTD lower & 14 & 443 & 879 & 0.023 & 1008 & $<$0.001 \\
+H1b: slow-drift MTD lower & 14 & 443 & 879 & 0.023 & 1008 & {<}0.001 \\
 H1c: abrupt MTD not worse ($+50$) & 7 & 115 & 122 & 0.023 & 127 & 0.016 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -110,23 +111,23 @@ H2 is measured on streams without drift, where every alarm is false. Table~\ref{
 
 \begin{table}[!htbp]
 \centering
-\caption[Final test: false alarms on streams without drift]{Final test: false alarms per 10,000 samples on the streams without drift (mean over 10 seeds). The registered H2 test is on the six autocorrelated streams.}
+\caption[Final test: false alarms on streams without drift]{Final test: false alarms per 10,000 samples on the streams without drift (mean over 10 seeds). The registered H2 test is on the six autocorrelated streams. Fewest false alarms per row in bold.}
 \label{tab:h2}
 \small
-\begin{tabular}{lccc}
-\hline
-\textbf{Stream} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{D3} \\
-\hline
-AR 0.80 & 5.00 & 19.50 & 15.35 \\
-AR 0.85 & 4.50 & 19.50 & 18.15 \\
-AR 0.90 & 6.00 & 19.50 & 19.25 \\
-AR 0.93 & 5.60 & 19.50 & 19.45 \\
-AR 0.95 & 6.30 & 19.50 & 19.50 \\
-AR 0.97 & 6.15 & 19.50 & 19.50 \\
-\hline
-Mean, autocorrelated (6) & 5.59 & 19.50 & 18.53 \\
-Mean, other no-drift streams (8) & 0.75 & 2.44 & 2.41 \\
-\hline
+\begin{tabular}{ld{1.2}d{2.2}d{2.2}}
+\toprule
+Stream & \hd{EADD} & \hd{D3-LightGBM} & \hd{D3} \\
+\midrule
+AR 0.80 & \best{1.2}{5.00} & 19.50 & 15.35 \\
+AR 0.85 & \best{1.2}{4.50} & 19.50 & 18.15 \\
+AR 0.90 & \best{1.2}{6.00} & 19.50 & 19.25 \\
+AR 0.93 & \best{1.2}{5.60} & 19.50 & 19.45 \\
+AR 0.95 & \best{1.2}{6.30} & 19.50 & 19.50 \\
+AR 0.97 & \best{1.2}{6.15} & 19.50 & 19.50 \\
+\midrule
+Mean, autocorrelated (6) & \best{1.2}{5.59} & 19.50 & 18.53 \\
+Mean, other no-drift streams (8) & \best{1.2}{0.75} & 2.44 & 2.41 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -135,12 +136,12 @@ Mean, other no-drift streams (8) & 0.75 & 2.44 & 2.41 \\
 \caption[Final test: registered test of H2]{Final test: registered one-sided Wilcoxon signed-rank test of H2 over the six autocorrelated streams without drift (false alarms per 10,000 samples). Holm $p$ is corrected within the family of Table~\ref{tab:h1-tests}.}
 \label{tab:h2-tests}
 \small
-\begin{tabular}{lcccccc}
-\hline
-\textbf{Test} & \textbf{Streams} & \textbf{EADD} & \textbf{D3-LightGBM} & \textbf{Holm $p$} & \textbf{D3} & \textbf{Holm $p$} \\
-\hline
+\begin{tabular}{ld{1.0}d{1.2}d{2.2}d{1.3}d{2.2}d{1.3}}
+\toprule
+Test & \hd{Streams} & \hd{EADD} & \hd{D3-LightGBM} & \hd{Holm $p$} & \hd{D3} & \hd{Holm $p$} \\
+\midrule
 H2: fewer false alarms & 6 & 5.59 & 19.50 & 0.023 & 18.53 & 0.016 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -160,21 +161,25 @@ H2: fewer false alarms & 6 & 5.59 & 19.50 & 0.023 & 18.53 & 0.016 \\
 \caption[Final test: rejection rates of the test without drift]{Final test (descriptive): share of 1,000 no-drift tests per condition with $p \leq 0.05$, its one-sided 95\% Clopper--Pearson upper bound, and the share with $p \leq 0.033$ (EADD's alarm rule). Steady = a long history of earlier windows; After alarm = the first test after an alarm; then only 31 null draws exist, so $p$ takes steps of 1/32 and the two thresholds reject the same tests.}
 \label{tab:validity}
 \small
-\begin{tabular}{llccc}
-\hline
-\textbf{Data} & \textbf{State} & \textbf{$p \leq 0.05$} & \textbf{Upper bound} & \textbf{$p \leq 0.033$} \\
-\hline
+\begin{tabular}{lld{1.3}d{1.3}d{1.3}}
+\toprule
+Data & State & \hd{$p \leq 0.05$} & \hd{Upper bound} & \hd{$p \leq 0.033$} \\
+\midrule
 Gaussian, independent & Steady & 0.051 & 0.064 & 0.036 \\
  & After alarm & 0.057 & 0.071 & 0.057 \\
+\addlinespace
 Shuffled Electricity & Steady & 0.055 & 0.068 & 0.035 \\
  & After alarm & 0.069 & 0.084 & 0.069 \\
+\addlinespace
 Shuffled PokerHand & Steady & 0.055 & 0.068 & 0.029 \\
  & After alarm & 0.048 & 0.061 & 0.048 \\
+\addlinespace
 AR 0.3 & Steady & 0.065 & 0.079 & 0.035 \\
  & After alarm & 0.038 & 0.050 & 0.038 \\
+\addlinespace
 AR 0.5 & Steady & 0.066 & 0.080 & 0.042 \\
  & After alarm & 0.056 & 0.070 & 0.056 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -196,27 +201,29 @@ H3 was tested as equivalence (TOST, two one-sided Wilcoxon tests) between EADD w
 \label{tab:h3}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{lccccc}
-\hline
-\textbf{Test} & \textbf{Streams} & \textbf{Margin} & \textbf{ASPT} & \textbf{Full test} & \textbf{$p$} \\
-\hline
-H3a: recall equivalent & 21 & 0.05 & 1.00 & 1.00 & $<$0.001 \\
-H3a: MTD equivalent & 21 & 50 & 333.7 & 333.5 & $<$0.001 \\
-H3a: FA per stream equivalent & 21 & 0.5 & 0.98 & 0.96 & $<$0.001 \\
+\begin{tabular}{ld{2.0}d{2.2}d{3.2}d{3.2}d{2.3}}
+\toprule
+Test & \hd{Streams} & \hd{Margin} & \hd{ASPT} & \hd{Full test} & \hd{$p$} \\
+\midrule
+H3a: recall equivalent & 21 & 0.05 & 1.00 & 1.00 & {<}0.001 \\
+H3a: MTD equivalent & 21 & 50 & 333.7 & 333.5 & {<}0.001 \\
+H3a: FA per stream equivalent & 21 & 0.5 & 0.98 & 0.96 & {<}0.001 \\
 H3a: FA per 10k (no drift) equivalent & 8 & 1.0 & 0.75 & 0.63 & 0.008 \\
-H3b: fewer permutations per test & 22 & & 51.9 & 162.6 & $<$0.001 \\
-\hline
+H3b: fewer permutations per test & 22 & & 51.9 & 162.6 & {<}0.001 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=\linewidth]{figures/fig_aspt_equivalence.pdf}
-    \caption[Final test: ASPT against the full test]{Final test: MTD and false alarms per drift stream of EADD with ASPT against the full permutation test (dashed line: equal values), and the mean number of permutations per test.}
+    \caption[Final test: ASPT against the full test]{Final test: MTD and false alarms per drift stream of EADD with ASPT against the full permutation test (dotted line: equal values), and the mean number of permutations per test.}
     \label{fig:aspt}
 \end{figure}
 
 Wall-clock time was measured separately, with one run at a time on the four annotated INSECTS streams (5 seeds, 20 run pairs), with the corrected options but the label-shuffle null instead of the history null, which explains the 199 draws of every full test. EADD with ASPT spent 210 seconds per run in the detector against 453 seconds with the full test, 54\% less, and was faster in 20 of 20 runs (one-sided paired Wilcoxon $p < 0.001$); the two gave identical detections in 20 of 20 runs. Over these runs ASPT used 18,408 permutations for 312 tests (59 per test) against 62,088 (199 per test). EADD without any test took 116 seconds per run, so most of the remaining time is spent training the classifier at every check.
+
+\paragraph{Wall-clock time with the history null (addendum 7c).} The same comparison was repeated with the history null of the final test on the four INSECTS streams with seeds 42 and 142 (8 run pairs, in alternating order). EADD with ASPT spent 322 seconds per run in the detector against 569 seconds with the full test, 43\% less, and was faster in 8 of 8 runs (one-sided paired Wilcoxon $p = 0.004$). ASPT used 83 permutations per test against 168; the full test averages fewer than 199 because after an alarm the history holds fewer earlier windows. The detections were identical in 3 of the 8 runs: when the two tests decide one check differently, the reference after it differs as well, so the later detections of the run can differ. Detection quality is compared by the registered H3a test above. The runs were made on a laptop that was also used for short document builds during the measurement; the alternating order spreads this load over both tests.
 
 In the confirmatory test, H3a had been registered under a stricter rule: identical detections in at least 95\% of the 290 run pairs. The two tests gave identical detections in 81\% of the pairs and the same recall, MTD and false alarms, so H3a was not supported under that rule; the final test registered the equivalence formulation above, which measures the detection quality directly.
 
@@ -243,21 +250,22 @@ Table~\ref{tab:newer} shows a trade-off between delay and false alarms. LSDD-Onl
 
 \begin{table}[!htbp]
 \centering
-\caption[Comparison with newer online detectors]{Newer online detectors (seeds 3000--3002): recall, MTD (samples) and false alarms (FA) per stream on the 14 slow-drift and 7 abrupt streams, and false alarms per 10,000 samples on the 8 no-drift and 6 autocorrelated streams.}
+\caption[Comparison with newer online detectors]{Newer online detectors (seeds 3000--3002): recall, MTD (samples) and false alarms (FA) per stream on the 14 slow-drift and 7 abrupt streams, and false alarms per 10,000 samples on the 8 no-drift and 6 autocorrelated streams. Best values in bold.}
 \label{tab:newer}
 \small
 \setlength{\tabcolsep}{3pt}
-\begin{tabular}{lcccccccc}
-\hline
- & \multicolumn{3}{c|}{\textbf{Slow drift}} & \multicolumn{3}{c|}{\textbf{Abrupt drift}} & \multicolumn{2}{c}{\textbf{FA per 10k}} \\
-\textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{Recall} & \textbf{MTD} & \textbf{FA} & \textbf{No drift} & \textbf{AR} \\
-\hline
-EADD & 1.00 & 443 & 1.52 & 1.00 & 114 & 0.00 & 0.75 & 5.89 \\
-LSDD-Online & 1.00 & 365 & 7.67 & 0.97 & 66 & 6.24 & 6.82 & 19.06 \\
+\begin{tabular}{ld{1.2}d{4.0}d{1.2}d{1.2}d{3.0}d{1.2}d{1.2}d{2.2}}
+\toprule
+ & \multicolumn{3}{c}{Slow drift} & \multicolumn{3}{c}{Abrupt drift} & \multicolumn{2}{c}{FA per 10k} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-9}
+Detector & \hd{Recall} & \hd{MTD} & \hd{FA} & \hd{Recall} & \hd{MTD} & \hd{FA} & \hd{No drift} & \hd{AR} \\
+\midrule
+EADD & \best{1.2}{1.00} & 443 & 1.52 & \best{1.2}{1.00} & 114 & \best{1.2}{0.00} & \best{1.2}{0.75} & \best{2.2}{5.89} \\
+LSDD-Online & \best{1.2}{1.00} & \best{4.0}{365} & 7.67 & 0.97 & \best{3.0}{66} & 6.24 & 6.82 & 19.06 \\
 MMD-Online & 0.94 & 463 & 6.88 & 0.84 & 133 & 5.57 & 6.84 & 19.22 \\
-D3-LightGBM & 0.52 & 894 & 2.38 & 1.00 & 124 & 0.00 & 2.44 & 19.50 \\
-D3 & 0.43 & 1058 & 1.26 & 1.00 & 129 & 0.00 & 2.40 & 18.61 \\
-\hline
+D3-LightGBM & 0.52 & 894 & 2.38 & \best{1.2}{1.00} & 124 & \best{1.2}{0.00} & 2.44 & 19.50 \\
+D3 & 0.43 & 1058 & \best{1.2}{1.26} & \best{1.2}{1.00} & 129 & \best{1.2}{0.00} & 2.40 & 18.61 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -272,19 +280,19 @@ Table~\ref{tab:friedman} gives the Friedman mean ranks over the 21 drift streams
 
 \begin{table}[!htbp]
 \centering
-\caption[Friedman mean ranks with the newer detectors]{Friedman mean ranks over the 21 drift streams (seeds 3000--3002; 1 = best). Nemenyi critical difference 1.33.}
+\caption[Friedman mean ranks with the newer detectors]{Friedman mean ranks over the 21 drift streams (seeds 3000--3002; 1 = best). Nemenyi critical difference 1.33. Best ranks in bold.}
 \label{tab:friedman}
 \small
-\begin{tabular}{lccc}
-\hline
-\textbf{Detector} & \textbf{Recall} & \textbf{MTD} & \textbf{False alarms} \\
-\hline
-EADD & 2.38 & 2.71 & 2.19 \\
-LSDD-Online & 2.60 & 2.10 & 4.60 \\
+\begin{tabular}{ld{1.2}d{1.2}d{1.2}}
+\toprule
+Detector & \hd{Recall} & \hd{MTD} & \hd{False alarms} \\
+\midrule
+EADD & \best{1.2}{2.38} & 2.71 & 2.19 \\
+LSDD-Online & 2.60 & \best{1.2}{2.10} & 4.60 \\
 MMD-Online & 2.93 & 2.57 & 4.24 \\
 D3-LightGBM & 3.50 & 3.52 & 2.21 \\
-D3 & 3.60 & 4.10 & 1.76 \\
-\hline
+D3 & 3.60 & 4.10 & \best{1.2}{1.76} \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -295,18 +303,19 @@ The four INSECTS streams \citep{Souza2020} are the only real streams with docume
 
 \begin{table}[!htbp]
 \centering
-\caption[Benchmark: annotated INSECTS streams]{Benchmark (seeds 42--442): recall, MTD (samples) and alarms counted as false (FA) per stream on the four annotated INSECTS streams, all detectors checking every 50 samples. EADD = EADD with the history null (stride 10).}
+\caption[Benchmark: annotated INSECTS streams]{Benchmark (seeds 42--442): recall, MTD (samples) and alarms counted as false (FA) per stream on the four annotated INSECTS streams, all detectors checking every 50 samples. EADD = EADD with the history null (stride 10). Best value of each measure per stream in bold; none where all three are equal.}
 \label{tab:insects}
 \small
-\begin{tabular}{lccccccccc}
+\begin{tabular}{ld{1.2}d{3.0}d{2.1}d{1.2}d{3.0}d{2.1}d{1.2}d{3.0}d{2.1}}
 \toprule
- & \multicolumn{3}{c}{\textbf{EADD}} & \multicolumn{3}{c}{\textbf{D3-LightGBM}} & \multicolumn{3}{c}{\textbf{D3}} \\
-\textbf{Stream} & Rec. & MTD & FA & Rec. & MTD & FA & Rec. & MTD & FA \\
+ & \multicolumn{3}{c}{EADD} & \multicolumn{3}{c}{D3-LightGBM} & \multicolumn{3}{c}{D3} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+Stream & \hd{Rec.} & \hd{MTD} & \hd{FA} & \hd{Rec.} & \hd{MTD} & \hd{FA} & \hd{Rec.} & \hd{MTD} & \hd{FA} \\
 \midrule
-Abrupt & 0.84 & 180 & 6.0 & 0.80 & 172 & 6.0 & 0.80 & 180 & 6.0 \\
-Gradual & 0.00 & 500 & 6.0 & 0.00 & 500 & 5.4 & 0.00 & 500 & 5.0 \\
-Incremental-abrupt & 0.80 & 212 & 18.8 & 1.00 & 95 & 13.4 & 1.00 & 99 & 10.4 \\
-Incremental-reoccurring & 0.60 & 309 & 20.2 & 1.00 & 246 & 14.2 & 1.00 & 272 & 13.4 \\
+Abrupt & \best{1.2}{0.84} & 180 & 6.0 & 0.80 & \best{3.0}{172} & 6.0 & 0.80 & 180 & 6.0 \\
+Gradual & 0.00 & 500 & 6.0 & 0.00 & 500 & 5.4 & 0.00 & 500 & \best{2.1}{5.0} \\
+Incremental-abrupt & 0.80 & 212 & 18.8 & \best{1.2}{1.00} & \best{3.0}{95} & 13.4 & \best{1.2}{1.00} & 99 & \best{2.1}{10.4} \\
+Incremental-reoccurring & 0.60 & 309 & 20.2 & \best{1.2}{1.00} & \best{3.0}{246} & 14.2 & \best{1.2}{1.00} & 272 & \best{2.1}{13.4} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -322,10 +331,10 @@ On the nine unannotated real streams of the benchmark, following \citet{Lukats20
 \label{tab:e4-acc}
 \footnotesize
 \setlength{\tabcolsep}{2.5pt}
-\begin{tabular}{lccccccccccc}
-\hline
-\textbf{Detector} & \textbf{Elec.} & \textbf{Incr.} & \textbf{Lux.} & \textbf{NOAA} & \textbf{Outdoor} & \textbf{Ozone} & \textbf{Poker} & \textbf{Power} & \textbf{Rialto} & \textbf{Mean} & \textbf{Det.} \\
-\hline
+\begin{tabular}{l*{10}{d{2.1}}d{4.0}}
+\toprule
+Detector & \hd{Elec.} & \hd{Incr.} & \hd{Lux.} & \hd{NOAA} & \hd{Outdoor} & \hd{Ozone} & \hd{Poker} & \hd{Power} & \hd{Rialto} & \hd{Mean} & \hd{Det.} \\
+\midrule
 EADD & 80.2 & 52.0 & 97.2 & 69.8 & 59.8 & 93.7 & 67.0 & 14.3 & 51.3 & 65.0 & 216 \\
 D3-LightGBM & 82.3 & 50.3 & 90.0 & 70.4 & 71.0 & 93.6 & 70.7 & 16.4 & 55.4 & 66.7 & 524 \\
 D3 & 82.3 & 50.3 & 95.8 & 70.0 & 68.7 & 93.6 & 69.8 & 16.4 & 54.3 & 66.8 & 499 \\
@@ -335,7 +344,7 @@ IBDD & 82.9 & 51.9 & 90.0 & 69.1 & 78.0 & 93.6 & 77.0 & 21.1 & 51.5 & 68.3 & 941
 OCDD & 82.5 & 53.7 & 93.2 & 70.7 & 65.5 & 93.7 & 69.3 & 16.7 & 53.9 & 66.6 & 657 \\
 SPLL & 82.0 & 50.9 & 95.7 & 71.4 & 66.1 & 93.7 & 68.3 & 15.4 & 54.6 & 66.5 & 396 \\
 UDetect & 79.9 & 50.9 & 97.6 & 73.5 & 59.6 & 93.7 & 65.2 & 16.2 & 31.1 & 63.1 & 0 \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -357,20 +366,29 @@ Table~\ref{tab:tests} summarises their registered tests in the final test. All f
 \small
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{>{\raggedright\arraybackslash}p{5.2cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.4cm}l}
-\hline
-\textbf{Hypothesis} & \textbf{Test} & \textbf{Result} & \textbf{Verdict} \\
-\hline
+\toprule
+Hypothesis & Test & Result & Verdict \\
+\midrule
 H1a: higher slow-drift recall than D3-LightGBM & W, Holm & 1.00 vs 0.53, $p = 0.015$ & Supported \\
+\addlinespace
 H1b: lower slow-drift MTD than D3-LightGBM & W, Holm & 443 vs 879, $p = 0.023$ & Supported \\
+\addlinespace
 H1c: abrupt MTD at most 50 samples higher & W non-inferiority, Holm & 115 vs 122, $p = 0.023$ & Supported \\
+\addlinespace
 H2: fewer false alarms than D3 (autocorrelated, no drift) & W, Holm & 5.59 vs 19.5 (D3-LightGBM), $p = 0.023$; vs 18.5 (D3), $p = 0.016$ & Supported \\
+\addlinespace
 H3a: ASPT equivalent to the full test & TOST, 4 margins & all equivalent, $p \leq 0.008$ & Supported \\
+\addlinespace
 H3b: fewer permutations per test & W & 52 vs 163, $p < 0.001$ & Supported \\
+\addlinespace
 H4: TreeSHAP ranks drifting features above chance & W & precision@k 0.75 vs 0.31, $p < 0.001$ & Supported \\
-\hline
+\midrule
 \multicolumn{4}{l}{\textit{Secondary checks (addendum 7)}} \\
 H2 source: history null vs label-shuffle null & W & 4.15 vs 19.5, $p = 0.016$ & History null \\
+\addlinespace
 H4 vs univariate rankings & W, Holm & 0.75 vs 0.97 (KS), 0.89 (SMD) & Univariate better \\
-\hline
+\addlinespace
+H3 wall-clock time, history null & W & 322 vs 569 s per run, $p = 0.004$ & ASPT faster \\
+\bottomrule
 \end{tabular}
 \end{table}

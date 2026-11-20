@@ -8,10 +8,11 @@ The adversarial classifier uses LightGBM \citep{Ke2017} with the configuration i
 \begin{table}[!htbp]
 \centering
 \caption{LightGBM hyperparameters of EADD and D3-LightGBM}\label{tab:lgbm-params}
+\small
 \begin{tabular}{ll}
-\hline
-\textbf{Parameter} & \textbf{Value} \\
-\hline
+\toprule
+Parameter & Value \\
+\midrule
 Boosting Type & gbdt \\
 Number of Estimators & 50 \\
 Learning Rate & 0.1 \\
@@ -21,7 +22,7 @@ Objective & Binary Classification \\
 Metric & default (binary log-loss; not used, no early stopping) \\
 Verbosity & $-1$ \\
 Threads & 1 (\texttt{n\_jobs=1}) \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 

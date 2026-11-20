@@ -9,7 +9,7 @@ This chapter is organised by groups of methods rather than by individual papers.
 \begin{figure}[!htpb]
     \centering
     \includegraphics[width=\textwidth]{figures/fig_c2st_concept.pdf}
-    \caption[No drift versus drift as a classifier sees it]{No drift versus drift as a classifier sees it. Left: the reference and current windows come from the same distribution, so a classifier cannot tell their samples apart (AUC $\approx$ 0.5). Right: the current window has shifted, so the classifier separates them (AUC $\gg$ 0.5).}
+    \caption[No drift versus drift as a classifier sees it]{No drift versus drift as a classifier sees it. (a) The reference and current windows come from the same distribution, so a classifier cannot tell their samples apart (AUC $\approx$ 0.5). (b) The current window has shifted, so the classifier separates them (AUC $\gg$ 0.5); the arrow marks the shift of the mean.}
     \label{fig:feature-drift}
 \end{figure}
 
@@ -21,20 +21,21 @@ The study of distribution drift has developed from statistical process control t
 \centering
 \caption[Historical evolution of drift detection research]{Historical evolution of drift detection research.}
 \label{tab:timeline}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{10.4cm}}
-\hline
-\textbf{Era} & \textbf{Key Developments} \\
-\hline
+\toprule
+Era & Key Developments \\
+\midrule
 Early Foundations (1950s--1980s) & Statistical process control and sequential analysis laid the groundwork. \citet{Page1954} introduced the cumulative-sum (CUSUM) change-point test, which remains foundational for sequential change detection. Reservoir sampling \citep{Vitter1985} enabled a uniform random sample of a stream of unknown length to be kept in fixed memory. \\
-\hline
+\addlinespace
 Identification Era (1996--2004) & The term ``concept drift'', already in use since the 1980s, received an influential early treatment \citep{WidmerKubat1996}. \citet{Gama2004} introduced the Drift Detection Method (DDM), which raises warning and drift alerts when the error rate exceeds its minimum by thresholds derived from the binomial distribution, establishing the supervised error-monitoring paradigm. \\
-\hline
+\addlinespace
 Windowing \& Statistical Tests (2007--2016) & \citet{BifetGavalda2007} proposed ADWIN (Adaptive Windowing), which detects change without a fixed window size by testing dynamically adjusted sub-windows. Non-parametric two-sample tests such as the Kolmogorov--Smirnov (KS) test and the Maximum Mean Discrepancy (MMD) became standard for comparing reference and current distributions \citep{Rabanser2019, Gretton2012}, and density-difference tests were adapted to change detection \citep{Bu2017, Bu2018}. \\
-\hline
+\addlinespace
 Deep Learning \& High Dimensionality (2017--2023) & Detection moved toward learned representations \citep{Rabanser2019} and two-sample tests on deep-kernel features \citep{Liu2020}. \citet{LopezPazOquab2017} formalised the classifier two-sample test (C2ST), and \citet{Gozuacik2019} applied the same idea to streams in D3. Online detectors with calibrated false detection rates \citep{CobbSequential2022} and sequential two-sample tests by betting \citep{PodkopaevRamdas2023} brought stream-level error control to multivariate tests. \\
-\hline
+\addlinespace
 Attribution and Evaluation Era (2024--2026) & Attention moved toward interpretable and statistically rigorous detection: TRIPODD \citep{TRIPODD2024} tests feature interactions; E-C2ST \citep{EC2ST2024} gives anytime-valid C2STs via e-values; HDPD \citep{HDPD2024} decomposes performance gaps into $P(X)$ and $P(y \mid X)$ components. Cloud monitoring services compare the feature attributions of production predictions with a training baseline \citep{TalySato2021, AWSSageMaker2025}. Benchmarks of unsupervised detectors on real streams \citep{Lukats2024} and protocols that inject drift into real data \citep{CerqueiraKDD2026} changed how detectors are evaluated. \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -84,21 +85,27 @@ Table~\ref{tab:drift-taxonomy} consolidates the drift classification used throug
 \centering
 \caption[Taxonomy of drift types referenced in this thesis]{Taxonomy of drift types referenced in this thesis.}
 \label{tab:drift-taxonomy}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{7.2cm}}
-\hline
-\textbf{Category} & \textbf{Type} & \textbf{Description} \\
-\hline
-\multirow{3}{*}{\parbox{2.5cm}{By Nature of Change \\ \citep{Lu2018, Gama2014}}}
+\toprule
+Category & Type & Description \\
+\midrule
+\multirow[t]{3}{*}{\parbox[t]{2.5cm}{\raggedright By Nature of Change \\ \citep{Lu2018, Gama2014}}}
   & Feature Drift (Covariate Shift) & Change in the input distribution $P(X)$; virtual drift when $P(y \mid X)$ stays the same. \\
+  \addlinespace
   & Real Concept Drift & Change in the conditional $P(y \mid X)$, invalidating learned decision boundaries. \\
+  \addlinespace
   & Prior Probability Drift & Change in the label distribution $P(y)$ while $P(X \mid y)$ is stable. \\
-\hline
-\multirow{4}{*}{\parbox{2.5cm}{By Pattern \\ \citep{Gama2014, Zliobaite2010}}}
+\midrule
+\multirow[t]{4}{*}{\parbox[t]{2.5cm}{\raggedright By Pattern \\ \citep{Gama2014, Zliobaite2010}}}
   & Abrupt (Sudden) & Rapid, discrete shift between two distinct distributions. \\
+  \addlinespace
   & Gradual & Old concept progressively replaced by a new one over an extended period. \\
+  \addlinespace
   & Incremental & Small, continuous changes accumulating into a significant shift. \\
+  \addlinespace
   & Recurring (Seasonal) & Previously observed distributions reappearing, periodically or irregularly. \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -133,16 +140,17 @@ Table~\ref{tab:method-comparison} compares two widely used univariate methods wi
 \centering
 \caption[Comparison of drift detection approaches]{Comparison of two univariate drift detection approaches with the discriminative approach.}
 \label{tab:method-comparison}
+\small
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3cm}}
-\hline
-\textbf{Method} & \textbf{Approach} & \textbf{Strengths} & \textbf{Limitations} \\
-\hline
-\textbf{PSI (Population Stability Index)} & Compares binned distributions of single features; by a rule of thumb, PSI~$>$~0.25 indicates significant drift \citep{Yurdakul2018} & Simple, interpretable, common in credit scoring \citep{Yurdakul2018} & Univariate only; requires binning; misses feature correlations \\
-\hline
-\textbf{KS Test (Kolmogorov--Smirnov)} & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
-\hline
-\textbf{Discriminative Classification} & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; a raw AUC has no calibrated threshold; attribution needs an extra step (e.g.\ SHAP)\\
-\hline
+\toprule
+Method & Approach & Strengths & Limitations \\
+\midrule
+PSI (Population Stability Index) & Compares binned distributions of single features; by a rule of thumb, PSI~$>$~0.25 indicates significant drift \citep{Yurdakul2018} & Simple, interpretable, common in credit scoring \citep{Yurdakul2018} & Univariate only; requires binning; misses feature correlations \\
+\addlinespace
+KS Test (Kolmogorov--Smirnov) & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
+\addlinespace
+Discriminative Classification & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; a raw AUC has no calibrated threshold; attribution needs an extra step (e.g.\ SHAP)\\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -249,22 +257,33 @@ Table~\ref{tab:family-comparison} summarises the method families reviewed in thi
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.6cm}>{\raggedright\arraybackslash}p{1.6cm}}
-\hline
-\raggedright \textbf{Family} & \raggedright \textbf{Examples} & \raggedright \textbf{Multi\-variate} & \raggedright \textbf{Needs\newline labels} & \raggedright \textbf{Statistical test} & \raggedright \textbf{Reference} & \raggedright \textbf{Explains features} \tabularnewline
-\hline
+\toprule
+\raggedright Family & \raggedright Examples & \raggedright Multi\-variate & \raggedright Needs\newline labels & \raggedright Statistical test & \raggedright Reference & \raggedright Explains features \tabularnewline
+\midrule
 \raggedright Error-rate monitors & \raggedright DDM, EDDM, HDDM, Page--Hinkley & \raggedright n/a & \raggedright Yes & \raggedright Yes (bounds) & \raggedright Since reset & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Univariate tests & \raggedright KS, KSWIN, PSI & \raggedright No & \raggedright No & \raggedright Per test (PSI: no) & \raggedright Sliding or fixed & \raggedright Per feature \tabularnewline
+\addlinespace
 \raggedright Kernel and density tests & \raggedright MMD, LSDD & \raggedright Yes & \raggedright No & \raggedright Per test & \raggedright Fixed batch & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Online calibrated & \raggedright MMD-Online, LSDD-Online & \raggedright Yes & \raggedright No & \raggedright Stream (ERT) & \raggedright Fixed & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Batch C2ST & \raggedright C2ST, E-C2ST, ClassifierDrift & \raggedright Yes & \raggedright No & \raggedright Per test (E-C2ST: anytime) & \raggedright Fixed or user-set & \raggedright Optional \tabularnewline
+\addlinespace
 \raggedright Domain classifier monitors & \raggedright NannyML, adversarial validation & \raggedright Yes & \raggedright No & \raggedright No (AUC range) & \raggedright Fixed period & \raggedright No \tabularnewline
-\rowcolor{gray!15}\raggedright Streaming C2ST & \raggedright D3 & \raggedright Yes & \raggedright No & \raggedright No (AUC 0.7) & \raggedright Sliding & \raggedright No \tabularnewline
+\addlinespace
+\raggedright Streaming C2ST & \raggedright D3 & \raggedright Yes & \raggedright No & \raggedright No (AUC 0.7) & \raggedright Sliding & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Margin and output monitors & \raggedright MD3, PUDD & \raggedright Yes & \raggedright Model & \raggedright Heuristic or test & \raggedright Varies & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Clustering and density & \raggedright CSDDM, SPLL, OCDD, BNDM & \raggedright Yes & \raggedright No & \raggedright Varies & \raggedright Varies & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Betting tests & \raggedright \citet{PodkopaevRamdas2023} & \raggedright Yes & \raggedright No & \raggedright Stream (anytime) & \raggedright All past data & \raggedright No \tabularnewline
+\addlinespace
 \raggedright Attribution monitors & \raggedright Explanation shift, Clarify & \raggedright Yes & \raggedright Model & \raggedright Varies & \raggedright Training baseline & \raggedright Yes \tabularnewline
+\addlinespace
 \raggedright Feature localisation & \raggedright \citet{Kulinski2020}, TRIPODD & \raggedright Yes & \raggedright Varies & \raggedright Yes & \raggedright Batch & \raggedright Yes \tabularnewline
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
