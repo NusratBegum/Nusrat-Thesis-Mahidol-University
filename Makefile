@@ -2,7 +2,7 @@
 TEX = pdflatex -interaction=nonstopmode -halt-on-error
 export PATH := /Library/TeX/texbin:$(PATH)
 
-main.pdf: main.tex preamble.tex thesis.tex chapters/*.tex abstract.tex abbreviations.tex appendix_impl.tex references.bib muthesis2026.cls figures/*
+main.pdf: main.tex preamble.tex thesis.tex chapters/*.tex abstract.tex acknowledgements.tex abbreviations.tex appendix_impl.tex references.bib muthesis2026.cls figures/*
 	$(TEX) main.tex >/dev/null
 	bibtex main >/dev/null
 	$(TEX) main.tex >/dev/null
