@@ -229,10 +229,10 @@ def pipeline():
 
 # ---------------------------------------------------------------- Figure 3.3
 def reference():
-    d = Drawing(156)
+    d = Drawing(146)
     X = lambda s: 78 + s * 0.0552  # samples since the last alarm -> pt (5,800 samples)
     dr, t, end = 4000, 5000, 5800
-    d.rect(X(dr), 4, X(t) - X(dr), 122, "#F2F2F2", None, r=0)
+    d.rect(X(dr), 4, X(t) - X(dr), 118, "#F2F2F2", None, r=0)
     top, bot = 10, 34
     d.e.append(f'<polygon points="{X(dr)},{bot} {X(t)},{top} {X(end)},{top} {X(end)},{bot}" fill="{LIGHT}"/>')
     d.line([(X(0), bot), (X(dr), bot), (X(t), top), (X(end), top)], TEXT, 1.2, head=False)
@@ -255,12 +255,12 @@ def reference():
         d.rect(X(s), y - 6 + r.random() * 8, 1.4, 3.6, BLUE, None, r=0)
     d.text(X(1800), y + 20, Wr(8.5, BLUE) + ": uniform sample since the last alarm", 8, "middle", fill=BLUE)
     for s in (dr, t):
-        d.line([(X(s), 4), (X(s), 130)], TEXT, 0.8, "2,1.6", head=False)
-    d.line([(X(0), 142), (X(end) + 8, 142)], TEXT)
+        d.line([(X(s), 4), (X(s), 128.5)], TEXT, 0.8, "2,1.6", head=False)
+    d.line([(X(0), 132), (X(end) + 8, 132)], TEXT)
     for s, lab in ((0, "last alarm"), (dr, "d"), (t, "t")):
-        d.line([(X(s), 139), (X(s), 145)], TEXT, head=False)
-        d.text(X(s), 154, lab, 8, "middle", style="italic" if len(lab) == 1 else "normal", fill=NEUT)
-    d.text(X(end) + 8, 154, "time", 8, "end", fill=NEUT)
+        d.line([(X(s), 129), (X(s), 135)], TEXT, head=False)
+        d.text(X(s), 144, lab, 8, "middle", style="italic" if len(lab) == 1 else "normal", fill=NEUT)
+    d.text(X(end) + 8, 144, "time", 8, "end", fill=NEUT)
     d.save("reference")
 
 
@@ -335,13 +335,13 @@ def roadmap():
 
 # ---------------------------------------------------------------- Figure 3.5
 def timeline():
-    d = Drawing(96)
+    d = Drawing(108)
     stages = [("Initial runs", ["earlier EADD on", "13 real streams"], "seeds 42 to 442"),
               ("Benchmark", ["12 detectors;", "flaws fixed"], "seeds 42 to 442"),
               ("Confirmatory", ["revised H1 to H4,", "registered"], "seeds 1000 to 1009"),
               ("Final test", ["same schedule for", "all, registered"], "seeds 3000 to 3009"),
               ("Secondary", ["newer detectors,", "three checks"], "subsets of 3000 to 3009")]
-    notes = ["four flaws identified", "H1 restricted to slow drift", "H2, H3a re-specified"]
+    notes = [["four flaws", "identified"], ["H1 restricted", "to slow drift"], ["H2, H3a", "re-specified"]]
     xs = [40 + i * 82 for i in range(5)]
     ly = 56
     d.line([(xs[0], ly), (xs[-1], ly)], NEUT, B, head=False)
@@ -352,7 +352,7 @@ def timeline():
         d.circle(x, ly, 4.5 if final else 3.4, GREEN if final else "white", GREEN if final else NEUT, B)
         d.text(x, ly + 16, seeds, 8, "middle", fill=NEUT)
     for i, n in enumerate(notes):
-        d.text((xs[i] + xs[i + 1]) / 2, ly + 30, n, 8, "middle", style="italic")
+        d.lines((xs[i] + xs[i + 1]) / 2, ly + 30, n, 8, anchor="middle", style="italic")
         d.line([((xs[i] + xs[i + 1]) / 2, ly + 21), ((xs[i] + xs[i + 1]) / 2, ly + 2)], LIGHT, 0.5, head=False)
     d.save("timeline")
 

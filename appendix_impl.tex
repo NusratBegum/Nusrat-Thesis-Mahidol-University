@@ -7,18 +7,18 @@ The adversarial classifier uses LightGBM \citep{Ke2017} with the configuration i
 
 \begin{table}[!htbp]
 \centering
-\caption{LightGBM hyperparameters of EADD and D3-LightGBM}\label{tab:lgbm-params}
+\caption{LightGBM hyperparameters of EADD and D3-LightGBM.}\label{tab:lgbm-params}
 \small
 \begin{tabular}{ll}
 \toprule
 Parameter & Value \\
 \midrule
-Boosting Type & gbdt \\
-Number of Estimators & 50 \\
-Learning Rate & 0.1 \\
-Max Depth & $-1$ \\
-Num Leaves & 31 \\
-Objective & Binary Classification \\
+Boosting type & gbdt \\
+Number of trees & 50 \\
+Learning rate & 0.1 \\
+Maximum depth & $-1$ (no limit) \\
+Maximum leaves per tree & 31 \\
+Objective & binary classification \\
 Metric & default (binary log-loss; not used, no early stopping) \\
 Verbosity & $-1$ \\
 Threads & 1 (\texttt{n\_jobs=1}) \\

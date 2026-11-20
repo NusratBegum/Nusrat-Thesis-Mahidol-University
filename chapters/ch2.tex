@@ -26,15 +26,15 @@ The study of distribution drift has developed from statistical process control t
 \toprule
 Era & Key Developments \\
 \midrule
-Early Foundations (1950s--1980s) & Statistical process control and sequential analysis laid the groundwork. \citet{Page1954} introduced the cumulative-sum (CUSUM) change-point test, which remains foundational for sequential change detection. Reservoir sampling \citep{Vitter1985} enabled a uniform random sample of a stream of unknown length to be kept in fixed memory. \\
+Early foundations (1950s--1980s) & Statistical process control and sequential analysis laid the groundwork. \citet{Page1954} introduced the cumulative-sum (CUSUM) change-point test, which remains foundational for sequential change detection. Reservoir sampling \citep{Vitter1985} enabled a uniform random sample of a stream of unknown length to be kept in fixed memory. \\
 \addlinespace
-Identification Era (1996--2004) & The term ``concept drift'', already in use since the 1980s, received an influential early treatment \citep{WidmerKubat1996}. \citet{Gama2004} introduced the Drift Detection Method (DDM), which raises warning and drift alerts when the error rate exceeds its minimum by thresholds derived from the binomial distribution, establishing the supervised error-monitoring paradigm. \\
+Identification era (1996--2004) & The term ``concept drift'', already in use since the 1980s, received an influential early treatment \citep{WidmerKubat1996}. \citet{Gama2004} introduced the Drift Detection Method (DDM), which raises warning and drift alerts when the error rate exceeds its minimum by thresholds derived from the binomial distribution, establishing the supervised error-monitoring paradigm. \\
 \addlinespace
-Windowing \& Statistical Tests (2007--2016) & \citet{BifetGavalda2007} proposed ADWIN (Adaptive Windowing), which detects change without a fixed window size by testing dynamically adjusted sub-windows. Non-parametric two-sample tests such as the Kolmogorov--Smirnov (KS) test and the Maximum Mean Discrepancy (MMD) became standard for comparing reference and current distributions \citep{Rabanser2019, Gretton2012}, and density-difference tests were adapted to change detection \citep{Bu2017, Bu2018}. \\
+Windowing and statistical tests (2007--2016) & \citet{BifetGavalda2007} proposed ADWIN (Adaptive Windowing), which detects change without a fixed window size by testing dynamically adjusted sub-windows. Non-parametric two-sample tests such as the Kolmogorov--Smirnov (KS) test and the Maximum Mean Discrepancy (MMD) became standard for comparing reference and current distributions \citep{Rabanser2019, Gretton2012}, and density-difference tests were adapted to change detection \citep{Bu2017, Bu2018}. \\
 \addlinespace
-Deep Learning \& High Dimensionality (2017--2023) & Detection moved toward learned representations \citep{Rabanser2019} and two-sample tests on deep-kernel features \citep{Liu2020}. \citet{LopezPazOquab2017} formalised the classifier two-sample test (C2ST), and \citet{Gozuacik2019} applied the same idea to streams in D3. Online detectors with calibrated false detection rates \citep{CobbSequential2022} and sequential two-sample tests by betting \citep{PodkopaevRamdas2023} brought stream-level error control to multivariate tests. \\
+Deep learning and high dimensionality (2017--2023) & Detection moved toward learned representations \citep{Rabanser2019} and two-sample tests on deep-kernel features \citep{Liu2020}. \citet{LopezPazOquab2017} formalised the classifier two-sample test (C2ST), and \citet{Gozuacik2019} applied the same idea to streams in D3. Online detectors with calibrated false detection rates \citep{CobbSequential2022} and sequential two-sample tests by betting \citep{PodkopaevRamdas2023} brought stream-level error control to multivariate tests. \\
 \addlinespace
-Attribution and Evaluation Era (2024--2026) & Attention moved toward interpretable and statistically rigorous detection: TRIPODD \citep{TRIPODD2024} tests feature interactions; E-C2ST \citep{EC2ST2024} gives anytime-valid C2STs via e-values; HDPD \citep{HDPD2024} decomposes performance gaps into $P(X)$ and $P(y \mid X)$ components. Cloud monitoring services compare the feature attributions of production predictions with a training baseline \citep{TalySato2021, AWSSageMaker2025}. Benchmarks of unsupervised detectors on real streams \citep{Lukats2024} and protocols that inject drift into real data \citep{CerqueiraKDD2026} changed how detectors are evaluated. \\
+Attribution and evaluation era (2024--2026) & Attention moved toward interpretable and statistically rigorous detection: TRIPODD \citep{TRIPODD2024} tests feature interactions; E-C2ST \citep{EC2ST2024} gives anytime-valid C2STs via e-values; HDPD \citep{HDPD2024} decomposes performance gaps into $P(X)$ and $P(y \mid X)$ components. Cloud monitoring services compare the feature attributions of production predictions with a training baseline \citep{TalySato2021, AWSSageMaker2025}. Benchmarks of unsupervised detectors on real streams \citep{Lukats2024} and protocols that inject drift into real data \citep{CerqueiraKDD2026} changed how detectors are evaluated. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -90,21 +90,21 @@ Table~\ref{tab:drift-taxonomy} consolidates the drift classification used throug
 \toprule
 Category & Type & Description \\
 \midrule
-\multirow[t]{3}{*}{\parbox[t]{2.5cm}{\raggedright By Nature of Change \\ \citep{Lu2018, Gama2014}}}
-  & Feature Drift (Covariate Shift) & Change in the input distribution $P(X)$; virtual drift when $P(y \mid X)$ stays the same. \\
+\multirow[t]{3}{*}{\parbox[t]{2.5cm}{\raggedright By nature of change \\ \citep{Lu2018, Gama2014}}}
+  & Feature drift (covariate shift) & Change in the input distribution $P(X)$; virtual drift when $P(y \mid X)$ stays the same. \\
   \addlinespace
-  & Real Concept Drift & Change in the conditional $P(y \mid X)$, invalidating learned decision boundaries. \\
+  & Real concept drift & Change in the conditional $P(y \mid X)$, invalidating learned decision boundaries. \\
   \addlinespace
-  & Prior Probability Drift & Change in the label distribution $P(y)$ while $P(X \mid y)$ is stable. \\
+  & Prior probability drift & Change in the label distribution $P(y)$ while $P(X \mid y)$ is stable. \\
 \midrule
-\multirow[t]{4}{*}{\parbox[t]{2.5cm}{\raggedright By Pattern \\ \citep{Gama2014, Zliobaite2010}}}
-  & Abrupt (Sudden) & Rapid, discrete shift between two distinct distributions. \\
+\multirow[t]{4}{*}{\parbox[t]{2.5cm}{\raggedright By pattern \\ \citep{Gama2014, Zliobaite2010}}}
+  & Abrupt (sudden) & Rapid, discrete shift between two distinct distributions. \\
   \addlinespace
   & Gradual & Old concept progressively replaced by a new one over an extended period. \\
   \addlinespace
   & Incremental & Small, continuous changes accumulating into a significant shift. \\
   \addlinespace
-  & Recurring (Seasonal) & Previously observed distributions reappearing, periodically or irregularly. \\
+  & Recurring (seasonal) & Previously observed distributions reappearing, periodically or irregularly. \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -141,15 +141,15 @@ Table~\ref{tab:method-comparison} compares two widely used univariate methods wi
 \caption[Comparison of drift detection approaches]{Comparison of two univariate drift detection approaches with the discriminative approach.}
 \label{tab:method-comparison}
 \small
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.7cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}p{3cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.6cm}}
 \toprule
 Method & Approach & Strengths & Limitations \\
 \midrule
 PSI (Population Stability Index) & Compares binned distributions of single features; by a rule of thumb, PSI~$>$~0.25 indicates significant drift \citep{Yurdakul2018} & Simple, interpretable, common in credit scoring \citep{Yurdakul2018} & Univariate only; requires binning; misses feature correlations \\
 \addlinespace
-KS Test (Kolmogorov--Smirnov) & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
+KS test (Kolmogorov--Smirnov) & Non-parametric test comparing cumulative distributions per feature & No distributional assumptions; exact p-values & Univariate only; multiple testing problem with many features \\
 \addlinespace
-Discriminative Classification & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; a raw AUC has no calibrated threshold; attribution needs an extra step (e.g.\ SHAP)\\
+Discriminative classification & Trains classifier to distinguish old vs.\ new data; uses AUC as drift signal & Multivariate; captures feature interactions; single unified test & Requires classifier training; a raw AUC has no calibrated threshold; attribution needs an extra step (e.g.\ SHAP)\\
 \bottomrule
 \end{tabular}
 \end{table}

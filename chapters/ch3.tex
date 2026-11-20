@@ -171,17 +171,17 @@ A code review of the earlier version of EADD, which produced the initial thesis 
 \caption[Validity fixes of EADD]{The four flaws of the earlier EADD, the fix of each (with its option in \texttt{detectors/eadd.py}) and its check.}
 \label{tab:fixes}
 \small
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}p{4.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.4cm}>{\raggedright\arraybackslash}p{3.4cm}>{\raggedright\arraybackslash}p{5.8cm}>{\raggedright\arraybackslash}p{3.2cm}}
 \toprule
- & Flaw & Fix (option) & Check \\
+ & Flaw & Fix and option & Check \\
 \midrule
-1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window (\texttt{reservoir\_\allowbreak{}after\_\allowbreak{}current=True}). & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
+1 & A sample offered to the reservoir on arrival could be in the reference and the current window at once, with both labels; this pushes the AUC below 0.5 without drift. & A sample enters the reservoir only when it leaves the current window.\newline\mbox{\footnotesize\texttt{reservoir\_after\_current=True}} & Unit tests: the windows stay disjoint and the reservoir stays a uniform sample. \\
 \addlinespace
-2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation (\texttt{perm\_\allowbreak{}n\_\allowbreak{}folds=None}). & Unit test: the null AUCs use the folds of the observed AUC. \\
+2 & Null AUCs used 2-fold cross-validation, the observed AUC 5-fold, so the null did not describe the observed statistic. & Null and observed AUCs use the same 5-fold cross-validation.\newline\mbox{\footnotesize\texttt{perm\_n\_folds=None}} & Unit test: the null AUCs use the folds of the observed AUC. \\
 \addlinespace
-3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision (\texttt{aspt\_\allowbreak{}alpha\_\allowbreak{}split=1/3}). & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
+3 & ASPT's stopping rules used the full $\alpha$ for the early and the final decision; simulated Type~I error 0.059 at $\alpha = 0.05$. & $\alpha/3$ for the early rejection, $2\alpha/3$ for the final decision.\newline\mbox{\footnotesize\texttt{aspt\_alpha\_split=1/3}} & Unit test: early rejection needs 59 draws. Simulation with exchangeable statistics: Type~I error 0.031. \\
 \addlinespace
-4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream (\texttt{null="history"}, \texttt{history\_\allowbreak{}stride=10}). & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
+4 & Label shuffling assumes exchangeable samples; on autocorrelated data it rejected 100\% of no-drift tests at AR(1) $\rho = 0.9$. & History null from earlier windows of the same stream.\newline{\footnotesize\texttt{null="history"}}\newline\mbox{\footnotesize\texttt{history\_stride=10}} & Unit tests of the null; false-rejection rate of 1,000 no-drift tests in each of 10 conditions (below). \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -277,7 +277,7 @@ All drift in the data is feature drift, a change of $P(X)$, and the detectors se
 \toprule
 Group & Streams & Size & Drift points & Known & Use \\
 \midrule
-Synthetic & SynthAbrupt, SynthGradual, SynthIncremental; SynthRecurring (B only) & \mbox{$20{,}000 \times 10$} & 5k, 10k, 15k; 3 features & yes & \mbox{B, C, F} \\
+Synthetic & SynthAbrupt, SynthGradual, SynthIncremental; SynthRecurring \mbox{(B only)} & \mbox{$20{,}000 \times 10$} & 5k, 10k, 15k; 3 features & yes & \mbox{B, C, F} \\
 \addlinespace
 Injected & abrupt, gradual, incremental drift on 6 shuffled real bases (B: abrupt and incremental only) & \mbox{$20{,}000 \times 2$--$33$} \mbox{(NOAA: 18,159)} & 5k, 10k, 15k; 30\% of features & yes & \mbox{B, C, F} \\
 \addlinespace
