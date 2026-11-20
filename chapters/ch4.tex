@@ -244,9 +244,9 @@ H4 concerns TreeSHAP attribution \citep{LundbergInteraction2020} in a classifier
 \section{Comparison with Newer Online Detectors}
 \label{sec:newer}
 
-EADD was also compared with MMD-Online and LSDD-Online \citep{CobbSequential2022} from Alibi Detect \citep{AlibiDetect}, two unsupervised multivariate online detectors calibrated to an expected run time of 2,500 samples without drift (window 50, 25,000 bootstrap draws, a new 500-sample reference after each alarm). Their recalibration after every alarm is slow, so this comparison was registered on seeds 3000--3002 only, and EADD, D3-LightGBM and D3 are shown as their means over the same three seeds. A third registered detector of the same library, CVM-Online, needed a rerun with more bootstrap draws and is not reported in this version.
+EADD was also compared with MMD-Online, LSDD-Online \citep{CobbSequential2022} and CVM-Online \citep{RossAdams2012} from Alibi Detect \citep{AlibiDetect}, three unsupervised online detectors calibrated to an expected run time of 2,500 samples without drift (window 50, 25,000 bootstrap draws for MMD-Online and LSDD-Online and 100,000 for CVM-Online, a new 500-sample reference after each alarm). Their recalibration after every alarm is slow, so this comparison was registered on seeds 3000--3002 only, and EADD, D3-LightGBM and D3 are shown as their means over the same three seeds. CVM-Online was rerun with 100,000 draws as registered in addendum 6b, because with 25,000 its per-feature thresholds could not be estimated on streams with many features.
 
-Table~\ref{tab:newer} shows a trade-off between delay and false alarms. LSDD-Online detected every slow drift point and had the lowest MTD (365 samples on slow and 66 on abrupt drift), but it raised 7.67 false alarms per slow-drift stream and 6.24 per abrupt stream, against 1.52 and 0 for EADD. MMD-Online had a recall of 0.94 on slow and 0.84 on abrupt drift with a similar number of false alarms. On the streams without drift both online detectors raised about 6.8 false alarms per 10,000 samples against 0.75 for EADD, and on the autocorrelated streams about 19 against 5.89. Figure~\ref{fig:newer} plots MTD against false alarms.
+Table~\ref{tab:newer} shows a trade-off between delay and false alarms. The online detectors detected slow drift sooner than EADD: CVM-Online had a recall of 1.00 and the lowest MTD on slow drift (224 samples), and LSDD-Online had a recall of 1.00, an MTD of 365 samples on slow drift and the lowest MTD on abrupt drift (66). They raised many more false alarms: 9.88 (CVM-Online) and 7.67 (LSDD-Online) per slow-drift stream and 7.67 and 6.24 per abrupt stream, against 1.52 and 0 for EADD. MMD-Online had a recall of 0.94 on slow and 0.84 on abrupt drift with a similar number of false alarms. On the streams without drift the online detectors raised 6.82 to 7.13 false alarms per 10,000 samples against 0.75 for EADD, and on the autocorrelated streams 18.0 to 19.2 against 5.89. Figure~\ref{fig:newer} plots MTD against false alarms.
 
 \begin{table}[!htbp]
 \centering
@@ -261,7 +261,8 @@ Table~\ref{tab:newer} shows a trade-off between delay and false alarms. LSDD-Onl
 Detector & \hd{Recall} & \hd{MTD} & \hd{FA} & \hd{Recall} & \hd{MTD} & \hd{FA} & \hd{No drift} & \hd{AR} \\
 \midrule
 EADD & \best{1.2}{1.00} & 443 & 1.52 & \best{1.2}{1.00} & 114 & \best{1.2}{0.00} & \best{1.2}{0.75} & \best{2.2}{5.89} \\
-LSDD-Online & \best{1.2}{1.00} & \best{4.0}{365} & 7.67 & 0.97 & \best{3.0}{66} & 6.24 & 6.82 & 19.06 \\
+CVM-Online & \best{1.2}{1.00} & \best{4.0}{224} & 9.88 & 0.97 & 78 & 7.67 & 7.13 & 18.00 \\
+LSDD-Online & \best{1.2}{1.00} & 365 & 7.67 & 0.97 & \best{3.0}{66} & 6.24 & 6.82 & 19.06 \\
 MMD-Online & 0.94 & 463 & 6.88 & 0.84 & 133 & 5.57 & 6.84 & 19.22 \\
 D3-LightGBM & 0.52 & 894 & 2.38 & \best{1.2}{1.00} & 124 & \best{1.2}{0.00} & 2.44 & 19.50 \\
 D3 & 0.43 & 1058 & \best{1.2}{1.26} & \best{1.2}{1.00} & 129 & \best{1.2}{0.00} & 2.40 & 18.61 \\
@@ -272,26 +273,27 @@ D3 & 0.43 & 1058 & \best{1.2}{1.26} & \best{1.2}{1.00} & 129 & \best{1.2}{0.00} 
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/fig_newer_detectors.pdf}
-    \caption[Newer online detectors: MTD against false alarms]{Newer online detectors (seeds 3000--3002): MTD against false alarms per stream on slow and abrupt drift; the legend gives each detector's recall.}
+    \caption[Newer online detectors: MTD against false alarms]{Newer online detectors (seeds 3000--3002): MTD against false alarms per stream on slow and abrupt drift; Table~\ref{tab:newer} gives the recall.}
     \label{fig:newer}
 \end{figure}
 
-Table~\ref{tab:friedman} gives the Friedman mean ranks over the 21 drift streams (1 = best; Friedman $p \leq 0.001$ for each metric; Nemenyi critical difference 1.33). EADD had the best mean rank for recall, although no recall difference exceeded the critical difference. LSDD-Online had the best rank for MTD; LSDD-Online and EADD were better than D3 by more than the critical difference, and LSDD-Online was also better than D3-LightGBM. For false alarms, EADD's rank (2.19) was better than both online detectors (4.24 and 4.60) by more than the critical difference. The registered pairwise tests of EADD against each online detector (the H1 and H2 tests, Holm over 8 tests) were not significant: with 3 seeds the tests were underpowered, and the smallest Holm $p$ was 0.125 (H2, raw $p = 0.016$ against both).
+Table~\ref{tab:friedman} gives the Friedman mean ranks over the 21 drift streams (1 = best; Friedman $p \leq 0.001$ for each metric; Nemenyi critical difference 1.65). EADD had the best mean rank for recall, although no recall difference exceeded the critical difference. CVM-Online had the best rank for MTD and was better than EADD, D3-LightGBM and D3 by more than the critical difference; LSDD-Online and MMD-Online were better than D3, and LSDD-Online also than D3-LightGBM. For false alarms, EADD's rank (2.19) was better than that of each online detector (4.57 to 5.14) by more than the critical difference. The registered pairwise tests of EADD against each online detector (the H1 and H2 tests, Holm over 12 tests) were not significant: with 3 seeds the tests were underpowered, and the smallest Holm $p$ was 0.19 (H2, raw $p = 0.016$ against each online detector).
 
 \begin{table}[!htbp]
 \centering
-\caption[Friedman mean ranks with the newer detectors]{Friedman mean ranks over the 21 drift streams (seeds 3000--3002; 1 = best). Nemenyi critical difference 1.33. Best ranks in bold.}
+\caption[Friedman mean ranks with the newer detectors]{Friedman mean ranks over the 21 drift streams (seeds 3000--3002; 1 = best). Nemenyi critical difference 1.65. Best ranks in bold.}
 \label{tab:friedman}
 \small
 \begin{tabular}{ld{1.2}d{1.2}d{1.2}}
 \toprule
 Detector & \hd{Recall} & \hd{MTD} & \hd{False alarms} \\
 \midrule
-EADD & \best{1.2}{2.38} & 2.71 & 2.19 \\
-LSDD-Online & 2.60 & \best{1.2}{2.10} & 4.60 \\
-MMD-Online & 2.93 & 2.57 & 4.24 \\
-D3-LightGBM & 3.50 & 3.52 & 2.21 \\
-D3 & 3.60 & 4.10 & \best{1.2}{1.76} \\
+EADD & \best{1.2}{2.83} & 3.67 & 2.19 \\
+CVM-Online & 3.10 & \best{1.2}{1.90} & 5.14 \\
+LSDD-Online & 3.10 & 2.76 & 5.02 \\
+MMD-Online & 3.52 & 3.24 & 4.57 \\
+D3-LightGBM & 4.17 & 4.43 & 2.26 \\
+D3 & 4.29 & 5.00 & \best{1.2}{1.81} \\
 \bottomrule
 \end{tabular}
 \end{table}
