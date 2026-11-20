@@ -5,14 +5,14 @@ This chapter reports the results in the order of the hypotheses. The main result
 \section{Overview of the Experiments}
 \label{sec:res-overview}
 
-The evaluation ran in three stages, each on new random seeds (Section~\ref{sec:design}). The \emph{benchmark} (seeds 42--442) compared 12 detectors on 20 drift streams, 9 streams without drift and 9 unannotated real streams (1,584 runs and 396 runs with matched check intervals). It was exploratory: it showed where EADD differs from D3-LightGBM and led to the revised H1. The \emph{confirmatory test} (seeds 1000--1009) tested the revised hypotheses on the 21 drift streams and 8 no-drift streams of Section~\ref{sec:datasets}, with robustness checks for the check schedule (R1) and for constant features (R2). The \emph{final test} (seeds 3000--3009) repeated H1 to H4 once more with every detector on the same check schedule; it has 1,340 stream runs and 10,000 single permutation tests. A comparison with two newer online detectors (seeds 3000--3002) completes the chapter.
+The evaluation ran in three stages, each on new random seeds (Section~\ref{sec:design}). The \emph{benchmark} (seeds 42--442) compared 12 detectors on 20 drift streams, 9 streams without drift and 9 unannotated real streams (1,584 runs in the main batch, 396 with matched check intervals and 579 for the history-null and part-by-part variants). It was exploratory: it showed where EADD differs from D3-LightGBM and led to the revised H1. The \emph{confirmatory test} (seeds 1000--1009) tested the revised hypotheses on the 21 drift streams and 8 no-drift streams of Section~\ref{sec:datasets}, with robustness checks for the check schedule (R1) and for constant features (R2). The \emph{final test} (seeds 3000--3009) repeated H1 to H4 once more with every detector on the same check schedule; it has 1,340 stream runs and 10,000 single permutation tests. A comparison with three newer online detectors (seeds 3000--3002) completes the chapter.
 
-Every test was registered before its runs: the hypotheses, data, seeds and decision rule were committed to the public code repository (\texttt{PREREGISTRATION.md}, addenda 0 to 6b) before any result was computed. Analyses formed after seeing the data are marked as exploratory. The unit of analysis is a stream (the mean over its seeds), and the tests are one-sided Wilcoxon signed-rank tests over streams with Holm correction within the registered family (Section~\ref{sec:stats}).
+Every test was registered before its runs: the hypotheses, data, seeds and decision rule were committed to the public code repository (\texttt{PREREGISTRATION.md}, addenda 0 to 7) before any result was computed. Analyses formed after seeing the data are marked as exploratory. The unit of analysis is a stream (the mean over its seeds), and the tests are one-sided Wilcoxon signed-rank tests over streams with Holm correction within the registered family (Section~\ref{sec:stats}).
 
 \section{Same-Setup Check and the Parts of EADD}
 \label{sec:res-setup}
 
-EADD and D3-LightGBM differ only in the reference window and the permutation test; the classifier, window sizes (500 and 200), threshold ($\tau = 0.7$), 5-fold cross-validation, LightGBM settings, stream objects, seeds and scoring code are identical, and in the final test every detector checks every 50 samples from the same random start (Section~\ref{sec:baselines}). To verify this, EADD's own code was run with its parts switched off (sliding reference, threshold only). On the 20 benchmark drift streams it reproduced D3-LightGBM: recall 0.84 against 0.84 and MTD 299 against 302 samples. Any difference between the two detectors in this chapter therefore comes from EADD's reference and test, not from the setup.
+EADD and D3-LightGBM differ only in the reference window and the permutation test; the classifier, window sizes (500 and 200), threshold ($\tau = 0.7$), 5-fold cross-validation, LightGBM settings, stream objects, seeds and scoring code are identical, and in the final test every detector checks every 50 samples from the same random start (Section~\ref{sec:setup}). To verify this, EADD's own code was run with its parts switched off (sliding reference, threshold only). On the 20 benchmark drift streams it reproduced D3-LightGBM: recall 0.84 against 0.84 and MTD 299 against 302 samples. Any difference between the two detectors in this chapter therefore comes from EADD's reference and test, not from the setup.
 
 Table~\ref{tab:components} switches EADD's parts on one at a time. The gain comes from the reservoir reference: it raised the gradual recall from 0.00 to 0.50 and the incremental recall from 0.88 to 1.00, and lowered the MTD from 299 to 230 samples. ASPT changed almost no detection at $\tau = 0.7$ (identical results on 19 of 20 streams, and the same mean recall, MTD and false alarms). The classifier matters on slow drift: with the same sliding reference, LightGBM raised the incremental recall from 0.72 (D3, logistic regression) to 0.88. The history null (last row) lowered the false alarms on the drift streams from 4.44 to 3.39 per stream at a small cost in MTD. These differences were not significant on 20 streams (Holm $p \geq 0.51$ for recall), which is why the revised H1 was tested again in two registered tests on new seeds.
 
@@ -100,7 +100,7 @@ H1c: abrupt MTD not worse ($+50$) & 7 & 115 & 122 & 0.023 & 127 & 0.016 \\
     \label{fig:final-recall-mtd}
 \end{figure}
 
-\paragraph{Replication.} The confirmatory test (seeds 1000--1009, the same 21 drift streams) gave the same result: recall 1.00 against 0.50 (Holm $p = 0.023$), MTD 442 against 890 samples (Holm $p = 0.049$) and abrupt MTD 108 against 119 samples (Holm $p = 0.023$). In that test D3 and D3-LightGBM checked every 51 samples and every seed started at sample 0, so each detector met each drift point at the same phase of its schedule. Robustness check R1 repeated it with every detector checking every 50 samples from a random start, as in the final test, and H1 still held (recall 1.00 against 0.50, Holm $p = 0.017$; MTD 443 against 889, Holm $p = 0.025$; abrupt MTD 115 against 116, Holm $p = 0.017$). Check R2 removed PokerHand and Rialto, on which some shifted features are constant before the drift, which makes those drifts easy to detect: on the 15 remaining streams H1a held (1.00 against 0.45, Holm $p = 0.047$), while H1b (470 against 956) and H1c (112 against 124) had raw $p$ of 0.042 and 0.031 and Holm $p$ of 0.063, just above 0.05, with 10 and 5 streams respectively.
+\paragraph{Replication.} The confirmatory test (seeds 1000--1009, the same 21 drift streams) gave the same result: recall 1.00 against 0.50 (Holm $p = 0.023$), MTD 442 against 890 samples (Holm $p = 0.049$) and abrupt MTD 108 against 119 samples (Holm $p = 0.023$). In that test D3 and D3-LightGBM checked every 51 samples and every seed started at sample 0, so each detector met each drift point at the same phase of its schedule. Robustness check R1 repeated it with every detector checking every 50 samples from a random start, as in the final test, and H1 still held (recall 1.00 against 0.50, Holm $p = 0.017$; MTD 443 against 889, Holm $p = 0.025$; abrupt MTD 115 against 116, Holm $p = 0.017$). Check R2 removed PokerHand and Rialto, on which some shifted features are constant before the drift, which makes those drifts easy to detect: on the 15 remaining drift streams, H1a held on their 10 slow-drift streams (1.00 against 0.45, Holm $p = 0.047$), while H1b (470 against 956, 10 streams) and H1c (112 against 124, 5 streams) had raw $p$ of 0.042 and 0.031 and Holm $p$ of 0.063, just above 0.05.
 
 \section{H2: False Alarms}
 \label{sec:exp2}
@@ -178,7 +178,7 @@ AR 0.3 & Steady & 0.065 & 0.079 & 0.035 \\
  & After alarm & 0.038 & 0.050 & 0.038 \\
 \addlinespace
 AR 0.5 & Steady & 0.066 & 0.080 & 0.042 \\
- & After alarm & 0.056 & 0.070 & 0.056 \\
+ & After alarm & 0.056 & 0.069 & 0.056 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -388,7 +388,7 @@ H4: TreeSHAP ranks drifting features above chance & W & precision@k 0.75 vs 0.31
 \multicolumn{4}{l}{\textit{Secondary checks (addendum 7)}} \\
 H2 source: history null vs label-shuffle null & W & 4.15 vs 19.5, $p = 0.016$ & History null \\
 \addlinespace
-H4 vs univariate rankings & W, Holm & 0.75 vs 0.97 (KS), 0.89 (SMD) & Univariate better \\
+H4 vs univariate rankings & two-sided W, Holm & 0.75 vs 0.97 (KS), $p < 0.001$; vs 0.89 (SMD), $p = 0.010$ & Univariate better \\
 \addlinespace
 H3 wall-clock time, history null & W & 322 vs 569 s per run, $p = 0.004$ & ASPT faster \\
 \bottomrule

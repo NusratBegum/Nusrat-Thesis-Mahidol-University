@@ -295,7 +295,7 @@ Injected & abrupt, gradual, incremental drift on 6 shuffled real bases (B: abrup
 \addlinespace
 INSECTS & abrupt, gradual, incremental-abrupt, incremental-reoccurring & \mbox{$24{,}150$--$79{,}986$} \mbox{$\times\mskip\medmuskip 33$} & documented \mbox{(5, 1, 2, 2)} & yes & \mbox{T, B} \\
 \addlinespace
-No drift & SynthStable; shuffled Electricity, NOAAWeather, Powersupply, PokerHand, Rialto; AR(1) $\rho = 0.5, 0.9$ (B: also AR 0.99, shuffled INSECTS abrupt, OutdoorObjects) & up to \mbox{$20{,}000 \times 2$--$33$} & none & yes \mbox{(no drift)} & \mbox{B, C, F} \\
+No drift & SynthStable; shuffled Electricity, NOAAWeather, Powersupply, PokerHand, Rialto; AR(1) $\rho = 0.5, 0.9$ (B: AR 0.99, shuffled INSECTS abrupt and OutdoorObjects instead of shuffled PokerHand and Rialto) & up to \mbox{$20{,}000 \times 2$--$33$} & none & yes \mbox{(no drift)} & \mbox{B, C, F} \\
 \addlinespace
 Autocorrelated & AR(1), $\rho = 0.8$, 0.85, 0.9, 0.93, 0.95, 0.97 & \mbox{$20{,}000 \times 10$} & none & yes \mbox{(no drift)} & F \\
 \addlinespace
@@ -377,7 +377,7 @@ H2 & 6 autocorrelated streams & false alarms per 10k & one-sided Wilcoxon, EADD 
 \addlinespace
 H3a & 21 drift and 8 no-drift streams & recall, MTD, FA per stream, FA per 10k & TOST, margins 0.05, 50, 0.5 and 1.0; all four equivalent \\
 \addlinespace
-H3b & the 22 of these streams on which tests ran & draws per test & one-sided Wilcoxon, ASPT lower \\
+H3b & registered over these 29 streams; the 22 on which tests ran & draws per test & one-sided Wilcoxon, ASPT lower \\
 \addlinespace
 H4 & 21 drift streams & precision@$k$ minus $k/d$ & one-sided Wilcoxon, above chance \\
 \bottomrule
@@ -391,7 +391,7 @@ When several detectors are compared, as with the newer online detectors, the Fri
 \section{Pre-registration and Sequence of Experiments}
 \label{sec:design}
 \label{sec:proposal-changes}
-Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\nolinkurl{experiments/results_confirm/PREREGISTRATION.md}, with addenda 0 to 6b), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds. Figure~\ref{fig:timeline} shows the sequence. After the final test, three secondary checks were registered (addendum 7) and run on the same seeds: univariate feature rankings (KS statistic and standardised mean difference) computed at EADD's alarms beside TreeSHAP, two EADD variants that separate the effect of the reservoir from that of the history null on the autocorrelated streams, and the wall-clock time of ASPT with the history null. All three are reported in Chapter~\ref{chap:results}. None of them changes the decisions on H1 to H4.
+Each test's hypotheses, data, seeds and decision rule were committed to the git history of the code repository before its runs started (\nolinkurl{experiments/results_confirm/PREREGISTRATION.md}, with addenda 0 to 7), and each test used seeds not used before. Any analysis added after a run started is reported as exploratory. The experiments followed one another as in Table~\ref{tab:experiments}: each one raised the questions that the next one tested on new seeds. Figure~\ref{fig:timeline} shows the sequence. After the final test, three secondary checks were registered (addendum 7) and run on the same seeds: univariate feature rankings (KS statistic and standardised mean difference) computed at EADD's alarms beside TreeSHAP, two EADD variants that separate the effect of the reservoir from that of the history null on the autocorrelated streams, and the wall-clock time of ASPT with the history null. All three are reported in Chapter~\ref{chap:results}. None of them changes the decisions on H1 to H4.
 
 \begin{figure}[!htb]
     \centering
@@ -412,7 +412,7 @@ Experiment & Streams and detectors & Seeds & Role \\
 \midrule
 Initial thesis runs & 4 INSECTS streams; earlier EADD, D3-LightGBM, six Lukats detectors; 9 unannotated streams & 42--442 (5); unannotated 42--242 (3) & original hypotheses; the flaws of Section~\ref{sec:fixes} were found afterwards \\
 \addlinespace
-Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs and 396 runs with matched check intervals & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
+Benchmark (16--17 Nov 2026) & 20 drift, 9 no-drift and 9 unannotated streams; EADD versions, D3 versions, six Lukats detectors; 1,584 runs in the main batch, 396 with matched check intervals and 579 for the history-null and part-by-part variants & 42--442 (5); unannotated 3 & exploratory: source of the revised H1; component analysis \\
 \addlinespace
 Confirmatory test (17 Nov 2026) & 21 drift and 8 no-drift streams; EADD, D3-LightGBM, D3; robustness checks with identical schedules & 1000--1009; H2 addendum 2000--2009 & first test of the revised hypotheses \\
 \addlinespace

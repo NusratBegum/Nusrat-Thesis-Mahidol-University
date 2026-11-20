@@ -85,12 +85,13 @@ The study relies on the following assumptions:
     \item[Reference window and current window:] the baseline sample $W_{\mathrm{ref}}$ and the most recent sample $W_{\mathrm{cur}}$ that a drift detector compares. A sliding reference holds the samples just before $W_{\mathrm{cur}}$; a reservoir reference holds a uniform random sample of all data since the last alarm.
     \item[AUC:] the area under the receiver operating characteristic curve of the classifier that separates the two windows; 0.5 means that the windows cannot be separated.
     \item[Permutation test:] a test that compares the observed AUC with a null distribution of AUCs. In EADD the null AUCs come from earlier windows of the same stream (the history null).
-    \item[Recall:] the share of drift points that are matched by a detection within a tolerance $T$ after them, with $T = 500$ samples for abrupt and recurring drift and $T = 1{,}500$ for gradual and incremental drift.
+    \item[Recall:] the share of drift points that are matched by a detection within a tolerance $T$ after them, with $T = 500$ samples for abrupt and recurring drift and $T = 1{,}500$ for gradual and incremental drift on the synthetic and injected streams ($T = 500$ on all INSECTS streams).
     \item[Mean time to detection (MTD):] the mean number of samples between a drift point and its first matching detection, where a missed drift point counts as $T$.
     \item[False alarm:] a detection that is not matched to a drift point. On streams without drift every detection is a false alarm, and false alarms are reported per 10{,}000 samples.
 \end{description}
 
 \section{Research Contributions}
+\label{sec:intro-contributions}
 This thesis makes the following contributions:
 
 \begin{enumerate}
