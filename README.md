@@ -1,4 +1,4 @@
-# Feature Drift Detection Techniques via Adversarial Validation
+# Enhanced Adversarial Drift Detection for MLOps Feature Monitoring
 
 **Master's Thesis**, Faculty of Information and Communication Technology, Mahidol University
 
@@ -75,7 +75,7 @@ Feature Drift Detection, Adversarial Validation, Classifier Two-Sample Test, Per
 ```bibtex
 @mastersthesis{Begum2026,
   author  = {Nusrat Begum},
-  title   = {Feature Drift Detection Techniques via Adversarial Validation},
+  title   = {Enhanced Adversarial Drift Detection for {MLOps} Feature Monitoring},
   school  = {Mahidol University},
   year    = {2026},
   type    = {Master's Thesis}

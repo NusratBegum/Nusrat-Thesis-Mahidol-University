@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this thesis, please cite it as below."
 type: thesis
-title: "Feature Drift Detection Techniques via Adversarial Validation"
+title: "Enhanced Adversarial Drift Detection for MLOps Feature Monitoring"
 authors:
   - family-names: Begum
     given-names: Nusrat
